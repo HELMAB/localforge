@@ -1,0 +1,62 @@
+{
+  "name": "dev-tools-app",
+  "version": "1.0.0",
+  "description": "Desktop application for managing development projects with Laravel, Vue, Nuxt, React, WordPress support",
+  "main": "src/main/main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "NODE_ENV=development electron .",
+    "build:css": "npx tailwindcss -i ./src/renderer/styles.css -o ./src/renderer/output.css --watch",
+    "build": "electron-builder",
+    "build:linux": "electron-builder --linux",
+    "build:win": "electron-builder --win",
+    "build:mac": "electron-builder --mac"
+  },
+  "keywords": [
+    "electron",
+    "development",
+    "laravel",
+    "vue",
+    "react",
+    "nuxt",
+    "wordpress",
+    "nginx"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "autoprefixer": "^10.4.22",
+    "electron": "^28.0.0",
+    "electron-builder": "^26.0.12",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.17"
+  },
+  "dependencies": {
+    "sudo-prompt": "^9.2.1"
+  },
+  "build": {
+    "appId": "com.devtools.app",
+    "productName": "Dev Tools Manager",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "src/**/*",
+      "node_modules/**/*",
+      "package.json"
+    ],
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "category": "Development"
+    },
+    "win": {
+      "target": "nsis"
+    },
+    "mac": {
+      "target": "dmg"
+    }
+  }
+}

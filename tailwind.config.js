@@ -1,0 +1,14 @@
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: [
+    "./src/renderer/**/*.{html,js}",
+  ],
+  theme: {
+    extend: {
+      fontFamily: {
+        sans: ['Kantumruy Pro', 'sans-serif'],
+      },
+    },
+  },
+  plugins: [],
+}

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dev Tools - Development Project Manager</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="output.css">
+</head>
+<body class="bg-gray-100">
+    <div id="app" class="container mx-auto p-6">
+        <!-- Header -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <div class="flex justify-between items-center">
+                <h1 class="text-3xl font-bold text-gray-800" id="app-title">កម្មវិធីគ្រប់គ្រងគម្រោង</h1>
+                <button onclick="toggleLanguage()" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+                    <span id="lang-toggle">EN</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Requirements Check -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <h2 class="text-xl font-semibold mb-4" id="req-title">ពិនិត្យតម្រូវការប្រព័ន្ធ</h2>
+            <div id="requirements" class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <!-- Requirements will be loaded here -->
+            </div>
+            <button onclick="checkRequirements()" class="mt-4 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">
+                <span id="check-btn">ពិនិត្យឡើងវិញ</span>
+            </button>
+        </div>
+
+        <!-- Tabs -->
+        <div class="bg-white rounded-lg shadow-md mb-6">
+            <div class="flex border-b">
+                <button onclick="showTab('create')" class="tab-btn px-6 py-3 font-semibold border-b-2 border-blue-500 text-blue-500" data-tab="create">
+                    <span class="tab-text-create">បង្កើតគម្រោង</span>
+                </button>
+                <button onclick="showTab('nginx')" class="tab-btn px-6 py-3 font-semibold text-gray-500 hover:text-blue-500" data-tab="nginx">
+                    <span class="tab-text-nginx">កំណត់រចនាសម្ព័ន្ធ Nginx</span>
+                </button>
+                <button onclick="showTab('ssl')" class="tab-btn px-6 py-3 font-semibold text-gray-500 hover:text-blue-500" data-tab="ssl">
+                    <span class="tab-text-ssl">បង្កើត SSL</span>
+                </button>
+            </div>
+
+            <!-- Create Project Tab -->
+            <div id="tab-create" class="tab-content p-6">
+                <h2 class="text-2xl font-bold mb-6" id="create-title">បង្កើតគម្រោងថ្មី</h2>
+                
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium mb-2" id="project-type-label">ប្រភេទគម្រោង</label>
+                        <select id="project-type" onchange="handleProjectTypeChange()" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="laravel">Laravel</option>
+                            <option value="vue">Vue.js</option>
+                            <option value="nuxt">Nuxt.js</option>
+                            <option value="react">React</option>
+                            <option value="wordpress">WordPress</option>
+                        </select>
+                    </div>
+
+                    <!-- Laravel Options -->
+                    <div id="laravel-options" class="space-y-4">
+                        <div class="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                            <p class="text-sm text-blue-800">
+                                <strong id="laravel-info-title">Laravel Project</strong><br>
+                                <span id="laravel-info">Select PHP version and starter kit. Breeze provides simple authentication, Jetstream includes teams and advanced features.</span>
+                            </p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2" id="php-version-label">កំណែ PHP</label>
+                            <select id="php-version" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="8.3">PHP 8.3</option>
+                                <option value="8.2" selected>PHP 8.2</option>
+                                <option value="8.1">PHP 8.1</option>
+                                <option value="8.0">PHP 8.0</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2" id="laravel-starter-label">Laravel Starter Kit</label>
+                            <select id="laravel-starter" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="none">គ្មាន (Laravel ធម្មតា)</option>
+                                <option value="breeze">Laravel Breeze (Blade)</option>
+                                <option value="jetstream">Laravel Jetstream (Livewire)</option>
+                                <option value="breeze-vue">Breeze + Vue.js</option>
+                                <option value="breeze-react">Breeze + React</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- WordPress Options -->
+                    <div id="wordpress-options" class="space-y-4 hidden">
+                        <div class="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                            <p class="text-sm text-blue-800">
+                                <strong id="wp-info-title">WordPress Project</strong><br>
+                                <span id="wp-info">Downloads the latest WordPress version. You'll need to configure the database after creation.</span>
+                            </p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2" id="wp-php-version-label">កំណែ PHP</label>
+                            <select id="wp-php-version" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="8.3">PHP 8.3</option>
+                                <option value="8.2" selected>PHP 8.2</option>
+                                <option value="8.1">PHP 8.1</option>
+                                <option value="8.0">PHP 8.0</option>
+                                <option value="7.4">PHP 7.4</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Vue/Nuxt/React Options -->
+                    <div id="node-options" class="space-y-4 hidden">
+                        <div class="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                            <p class="text-sm text-blue-800">
+                                <strong id="node-info-title">Node.js Project</strong><br>
+                                <span id="node-info">Select Node.js version. LTS versions are recommended for production. NVM required for version switching.</span>
+                            </p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2" id="node-version-label">កំណែ Node.js</label>
+                            <select id="node-version" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="20">Node.js 20 LTS (Recommended)</option>
+                                <option value="18" selected>Node.js 18 LTS</option>
+                                <option value="16">Node.js 16</option>
+                                <option value="">Current Node Version</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium mb-2" id="project-name-label">ឈ្មោះគម្រោង</label>
+                        <input type="text" id="project-name" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="my-project">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium mb-2" id="project-path-label">ទីតាំងគម្រោង</label>
+                        <div class="flex gap-2">
+                            <input type="text" id="project-path" class="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" readonly>
+                            <button onclick="selectDirectory('project-path')" class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600">
+                                <span id="browse-btn">រកមើល</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button onclick="createProject()" class="w-full px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 font-semibold">
+                        <span id="create-btn">បង្កើតគម្រោង</span>
+                    </button>
+
+                    <div id="create-status" class="mt-4 hidden p-4 rounded-lg"></div>
+                </div>
+            </div>
+
+            <!-- Nginx Configuration Tab -->
+            <div id="tab-nginx" class="tab-content p-6 hidden">
+                <h2 class="text-2xl font-bold mb-6" id="nginx-title">កំណត់រចនាសម្ព័ន្ធ Nginx Virtual Host</h2>
+                
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium mb-2" id="domain-label">ឈ្មោះដែន</label>
+                        <input type="text" id="nginx-domain" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="example.local">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium mb-2" id="nginx-path-label">ផ្លូវគម្រោង</label>
+                        <div class="flex gap-2">
+                            <input type="text" id="nginx-project-path" class="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" readonly>
+                            <button onclick="selectDirectory('nginx-project-path')" class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600">
+                                <span id="browse-btn-2">រកមើល</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium mb-2" id="nginx-php-version-label">កំណែ PHP-FPM</label>
+                        <select id="nginx-php-version" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="">Auto-detect (ស្វ័យប្រវត្តិ)</option>
+                            <option value="8.3">PHP 8.3-FPM</option>
+                            <option value="8.2">PHP 8.2-FPM</option>
+                            <option value="8.1">PHP 8.1-FPM</option>
+                            <option value="8.0">PHP 8.0-FPM</option>
+                            <option value="7.4">PHP 7.4-FPM</option>
+                        </select>
+                        <p class="text-xs text-gray-500 mt-1" id="nginx-php-hint">Auto-detect នឹងស្វែងរក PHP-FPM socket ដែលមាននៅក្នុងប្រព័ន្ធ</p>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium mb-2" id="port-label">ច្រកទំនាក់ទំនង</label>
+                        <input type="number" id="nginx-port" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" value="80">
+                    </div>
+
+                    <button onclick="configureNginx()" class="w-full px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 font-semibold">
+                        <span id="configure-btn">កំណត់រចនាសម្ព័ន្ធ</span>
+                    </button>
+
+                    <div id="nginx-status" class="mt-4 hidden p-4 rounded-lg"></div>
+                </div>
+            </div>
+
+            <!-- SSL Certificate Tab -->
+            <div id="tab-ssl" class="tab-content p-6 hidden">
+                <h2 class="text-2xl font-bold mb-6" id="ssl-title">បង្កើតវិញ្ញាបនប័ត្រ SSL</h2>
+                
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium mb-2" id="ssl-domain-label">ឈ្មោះដែន</label>
+                        <input type="text" id="ssl-domain" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="example.local">
+                    </div>
+
+                    <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                        <p class="text-sm text-yellow-800" id="ssl-note">
+                            សម្គាល់: សូមប្រាកដថាបានតម្លើង mkcert រួចហើយ។ វិញ្ញាបនប័ត្រនឹងត្រូវបានបង្កើតក្នុងថតផ្ទះរបស់អ្នក។
+                        </p>
+                    </div>
+
+                    <button onclick="generateSSL()" class="w-full px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 font-semibold">
+                        <span id="generate-btn">បង្កើតវិញ្ញាបនប័ត្រ</span>
+                    </button>
+
+                    <div id="ssl-status" class="mt-4 hidden p-4 rounded-lg"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="text-center text-gray-600 text-sm">
+            <p id="footer">កម្មវិធីគ្រប់គ្រងការអភិវឌ្ឍន៍ | Built with Electron & Tailwind CSS</p>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
