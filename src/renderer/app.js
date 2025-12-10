@@ -275,14 +275,14 @@ function showManageSection(section) {
 
   sections.forEach(sec => sec.classList.add('hidden'));
   menuBtns.forEach(btn => {
-    btn.classList.remove('bg-blue-500', 'text-white');
-    btn.classList.add('hover:bg-gray-100', 'text-gray-700');
+    btn.classList.remove('bg-blue-500', 'text-white', 'hover:bg-blue-600');
+    btn.classList.add('hover:bg-gray-200', 'text-gray-700');
   });
 
   document.getElementById(`manage-section-${section}`).classList.remove('hidden');
   const activeBtn = document.querySelector(`[data-section="${section}"]`);
-  activeBtn.classList.add('bg-blue-500', 'text-white');
-  activeBtn.classList.remove('hover:bg-gray-100', 'text-gray-700');
+  activeBtn.classList.add('bg-blue-500', 'text-white', 'hover:bg-blue-600');
+  activeBtn.classList.remove('hover:bg-gray-200', 'text-gray-700');
 }
 
 // Tab switching
@@ -700,17 +700,17 @@ async function setDefaultNode() {
 
 // Install Nginx
 async function installNginx() {
-  showStatus('server-status', currentLang === 'km' ? 'កំពុងដំឡើង Nginx...' : 'Installing Nginx...', 'info');
+  showStatus('nginx-status', currentLang === 'km' ? 'កំពុងដំឡើង Nginx...' : 'Installing Nginx...', 'info');
 
   try {
     const result = await ipcRenderer.invoke('install-nginx');
-    showStatus('server-status',
+    showStatus('nginx-status',
       currentLang === 'km' ? 'Nginx បានដំឡើងជោគជ័យ' : 'Nginx installed successfully',
       'success'
     );
     checkRequirements();
   } catch (error) {
-    showStatus('server-status',
+    showStatus('nginx-status',
       currentLang === 'km' ? `កំហុស: ${error.message}` : `Error: ${error.message}`,
       'error'
     );
@@ -719,17 +719,17 @@ async function installNginx() {
 
 // Install Composer
 async function installComposer() {
-  showStatus('server-status', currentLang === 'km' ? 'កំពុងដំឡើង Composer...' : 'Installing Composer...', 'info');
+  showStatus('composer-status', currentLang === 'km' ? 'កំពុងដំឡើង Composer...' : 'Installing Composer...', 'info');
 
   try {
     const result = await ipcRenderer.invoke('install-composer');
-    showStatus('server-status',
+    showStatus('composer-status',
       currentLang === 'km' ? 'Composer បានដំឡើងជោគជ័យ' : 'Composer installed successfully',
       'success'
     );
     checkRequirements();
   } catch (error) {
-    showStatus('server-status',
+    showStatus('composer-status',
       currentLang === 'km' ? `កំហុស: ${error.message}` : `Error: ${error.message}`,
       'error'
     );
@@ -740,16 +740,16 @@ async function installComposer() {
 async function installPostgreSQL() {
   const version = document.getElementById('postgres-version').value;
 
-  showStatus('db-status', currentLang === 'km' ? 'កំពុងដំឡើង PostgreSQL...' : 'Installing PostgreSQL...', 'info');
+  showStatus('postgresql-status', currentLang === 'km' ? 'កំពុងដំឡើង PostgreSQL...' : 'Installing PostgreSQL...', 'info');
 
   try {
     const result = await ipcRenderer.invoke('install-postgresql', { version: version || null });
-    showStatus('db-status',
+    showStatus('postgresql-status',
       currentLang === 'km' ? 'PostgreSQL បានដំឡើងជោគជ័យ' : 'PostgreSQL installed successfully',
       'success'
     );
   } catch (error) {
-    showStatus('db-status',
+    showStatus('postgresql-status',
       currentLang === 'km' ? `កំហុស: ${error.message}` : `Error: ${error.message}`,
       'error'
     );
@@ -758,16 +758,16 @@ async function installPostgreSQL() {
 
 // Install MySQL
 async function installMySQL() {
-  showStatus('db-status', currentLang === 'km' ? 'កំពុងដំឡើង MySQL...' : 'Installing MySQL...', 'info');
+  showStatus('mysql-status', currentLang === 'km' ? 'កំពុងដំឡើង MySQL...' : 'Installing MySQL...', 'info');
 
   try {
     const result = await ipcRenderer.invoke('install-mysql');
-    showStatus('db-status',
+    showStatus('mysql-status',
       currentLang === 'km' ? 'MySQL បានដំឡើងជោគជ័យ' : 'MySQL installed successfully',
       'success'
     );
   } catch (error) {
-    showStatus('db-status',
+    showStatus('mysql-status',
       currentLang === 'km' ? `កំហុស: ${error.message}` : `Error: ${error.message}`,
       'error'
     );

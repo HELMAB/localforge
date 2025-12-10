@@ -227,52 +227,58 @@
             </div>
 
             <!-- Manage Tools Tab -->
-            <div id="tab-manage" class="tab-content hidden">
-                <div class="flex" style="height: calc(100vh - 280px);">
+            <div id="tab-manage" class="tab-content hidden p-6">
+                <div class="mb-4">
+                    <h2 class="text-2xl font-bold mb-2" id="manage-title">គ្រប់គ្រងឧបករណ៍អភិវឌ្ឍន៍</h2>
+                    <p class="text-sm text-yellow-700 bg-yellow-50 border border-yellow-200 rounded px-3 py-2" id="manage-note">
+                        សម្គាល់: ការដំឡើងប្រើប្រាស់ sudo privilege។
+                    </p>
+                </div>
+                <div class="flex bg-white rounded-lg shadow-sm border border-gray-200">
                     <!-- Sidebar -->
-                    <div class="bg-gray-50 border-r border-gray-200 py-4 px-2 flex flex-col" style="width: 150px; min-width: 150px;">
+                    <div class="bg-gray-50 border-r border-gray-200 py-4 px-3 flex flex-col rounded-l-lg" style="width: 180px; min-width: 180px;">
                         <nav class="space-y-2 flex-1 overflow-y-auto">
-                            <button onclick="showManageSection('php')" class="manage-menu-btn w-full px-3 py-3 rounded-lg bg-blue-500 text-white text-sm font-medium hover:bg-blue-600 transition-colors" data-section="php">
-                                <div class="flex flex-col items-center gap-1">
-                                    <span class="text-2xl">🐘</span>
-                                    <span id="menu-php" class="text-xs">PHP</span>
+                            <button onclick="showManageSection('php')" class="manage-menu-btn w-full px-3 py-2.5 rounded-lg bg-blue-500 text-white text-sm font-medium hover:bg-blue-600 transition-colors" data-section="php">
+                                <div class="flex items-center gap-3">
+                                    <span class="text-xl">🐘</span>
+                                    <span id="menu-php" class="text-sm">PHP</span>
                                 </div>
                             </button>
-                            <button onclick="showManageSection('composer')" class="manage-menu-btn w-full px-3 py-3 rounded-lg hover:bg-gray-200 text-gray-700 text-sm font-medium transition-colors" data-section="composer">
-                                <div class="flex flex-col items-center gap-1">
-                                    <span class="text-2xl">📦</span>
-                                    <span id="menu-composer" class="text-xs">Composer</span>
+                            <button onclick="showManageSection('composer')" class="manage-menu-btn w-full px-3 py-2.5 rounded-lg hover:bg-gray-200 text-gray-700 text-sm font-medium transition-colors" data-section="composer">
+                                <div class="flex items-center gap-3">
+                                    <span class="text-xl">📦</span>
+                                    <span id="menu-composer" class="text-sm">Composer</span>
                                 </div>
                             </button>
-                            <button onclick="showManageSection('node')" class="manage-menu-btn w-full px-3 py-3 rounded-lg hover:bg-gray-200 text-gray-700 text-sm font-medium transition-colors" data-section="node">
-                                <div class="flex flex-col items-center gap-1">
-                                    <span class="text-2xl">🟢</span>
-                                    <span id="menu-node" class="text-xs">Node.js</span>
+                            <button onclick="showManageSection('node')" class="manage-menu-btn w-full px-3 py-2.5 rounded-lg hover:bg-gray-200 text-gray-700 text-sm font-medium transition-colors" data-section="node">
+                                <div class="flex items-center gap-3">
+                                    <span class="text-xl">🟢</span>
+                                    <span id="menu-node" class="text-sm">Node.js</span>
                                 </div>
                             </button>
-                            <button onclick="showManageSection('nginx')" class="manage-menu-btn w-full px-3 py-3 rounded-lg hover:bg-gray-200 text-gray-700 text-sm font-medium transition-colors" data-section="nginx">
-                                <div class="flex flex-col items-center gap-1">
-                                    <span class="text-2xl">🌐</span>
-                                    <span id="menu-nginx" class="text-xs">Nginx</span>
+                            <button onclick="showManageSection('nginx')" class="manage-menu-btn w-full px-3 py-2.5 rounded-lg hover:bg-gray-200 text-gray-700 text-sm font-medium transition-colors" data-section="nginx">
+                                <div class="flex items-center gap-3">
+                                    <span class="text-xl">🌐</span>
+                                    <span id="menu-nginx" class="text-sm">Nginx</span>
                                 </div>
                             </button>
-                            <button onclick="showManageSection('postgresql')" class="manage-menu-btn w-full px-3 py-3 rounded-lg hover:bg-gray-200 text-gray-700 text-sm font-medium transition-colors" data-section="postgresql">
-                                <div class="flex flex-col items-center gap-1">
-                                    <span class="text-2xl">🐘</span>
-                                    <span id="menu-postgresql" class="text-xs">PostgreSQL</span>
+                            <button onclick="showManageSection('postgresql')" class="manage-menu-btn w-full px-3 py-2.5 rounded-lg hover:bg-gray-200 text-gray-700 text-sm font-medium transition-colors" data-section="postgresql">
+                                <div class="flex items-center gap-3">
+                                    <span class="text-xl">🐘</span>
+                                    <span id="menu-postgresql" class="text-sm">PostgreSQL</span>
                                 </div>
                             </button>
-                            <button onclick="showManageSection('mysql')" class="manage-menu-btn w-full px-3 py-3 rounded-lg hover:bg-gray-200 text-gray-700 text-sm font-medium transition-colors" data-section="mysql">
-                                <div class="flex flex-col items-center gap-1">
-                                    <span class="text-2xl">🐬</span>
-                                    <span id="menu-mysql" class="text-xs">MySQL</span>
+                            <button onclick="showManageSection('mysql')" class="manage-menu-btn w-full px-3 py-2.5 rounded-lg hover:bg-gray-200 text-gray-700 text-sm font-medium transition-colors" data-section="mysql">
+                                <div class="flex items-center gap-3">
+                                    <span class="text-xl">🐬</span>
+                                    <span id="menu-mysql" class="text-sm">MySQL</span>
                                 </div>
                             </button>
                         </nav>
                     </div>
 
                     <!-- Content Area -->
-                    <div class="flex-1 overflow-y-auto">
+                    <div class="flex-1 overflow-y-auto bg-gray-50">
                         <!-- PHP Section -->
                         <div id="manage-section-php" class="manage-section p-6">
                             <h3 class="text-2xl font-bold mb-6 flex items-center gap-2">
