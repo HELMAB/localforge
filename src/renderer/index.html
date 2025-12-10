@@ -44,6 +44,9 @@
                 <button onclick="showTab('ssl')" class="tab-btn px-6 py-3 font-semibold text-gray-500 hover:text-blue-500" data-tab="ssl">
                     <span class="tab-text-ssl">បង្កើត SSL</span>
                 </button>
+                <button onclick="showTab('manage')" class="tab-btn px-6 py-3 font-semibold text-gray-500 hover:text-blue-500" data-tab="manage">
+                    <span class="tab-text-manage">គ្រប់គ្រងឧបករណ៍</span>
+                </button>
             </div>
 
             <!-- Create Project Tab -->
@@ -202,7 +205,7 @@
             <!-- SSL Certificate Tab -->
             <div id="tab-ssl" class="tab-content p-6 hidden">
                 <h2 class="text-2xl font-bold mb-6" id="ssl-title">បង្កើតវិញ្ញាបនប័ត្រ SSL</h2>
-                
+
                 <div class="space-y-4">
                     <div>
                         <label class="block text-sm font-medium mb-2" id="ssl-domain-label">ឈ្មោះដែន</label>
@@ -220,6 +223,271 @@
                     </button>
 
                     <div id="ssl-status" class="mt-4 hidden p-4 rounded-lg"></div>
+                </div>
+            </div>
+
+            <!-- Manage Tools Tab -->
+            <div id="tab-manage" class="tab-content hidden">
+                <div class="flex" style="height: calc(100vh - 280px);">
+                    <!-- Sidebar -->
+                    <div class="bg-gray-50 border-r border-gray-200 py-4 px-2 flex flex-col" style="width: 150px; min-width: 150px;">
+                        <nav class="space-y-2 flex-1 overflow-y-auto">
+                            <button onclick="showManageSection('php')" class="manage-menu-btn w-full px-3 py-3 rounded-lg bg-blue-500 text-white text-sm font-medium hover:bg-blue-600 transition-colors" data-section="php">
+                                <div class="flex flex-col items-center gap-1">
+                                    <span class="text-2xl">🐘</span>
+                                    <span id="menu-php" class="text-xs">PHP</span>
+                                </div>
+                            </button>
+                            <button onclick="showManageSection('composer')" class="manage-menu-btn w-full px-3 py-3 rounded-lg hover:bg-gray-200 text-gray-700 text-sm font-medium transition-colors" data-section="composer">
+                                <div class="flex flex-col items-center gap-1">
+                                    <span class="text-2xl">📦</span>
+                                    <span id="menu-composer" class="text-xs">Composer</span>
+                                </div>
+                            </button>
+                            <button onclick="showManageSection('node')" class="manage-menu-btn w-full px-3 py-3 rounded-lg hover:bg-gray-200 text-gray-700 text-sm font-medium transition-colors" data-section="node">
+                                <div class="flex flex-col items-center gap-1">
+                                    <span class="text-2xl">🟢</span>
+                                    <span id="menu-node" class="text-xs">Node.js</span>
+                                </div>
+                            </button>
+                            <button onclick="showManageSection('nginx')" class="manage-menu-btn w-full px-3 py-3 rounded-lg hover:bg-gray-200 text-gray-700 text-sm font-medium transition-colors" data-section="nginx">
+                                <div class="flex flex-col items-center gap-1">
+                                    <span class="text-2xl">🌐</span>
+                                    <span id="menu-nginx" class="text-xs">Nginx</span>
+                                </div>
+                            </button>
+                            <button onclick="showManageSection('postgresql')" class="manage-menu-btn w-full px-3 py-3 rounded-lg hover:bg-gray-200 text-gray-700 text-sm font-medium transition-colors" data-section="postgresql">
+                                <div class="flex flex-col items-center gap-1">
+                                    <span class="text-2xl">🐘</span>
+                                    <span id="menu-postgresql" class="text-xs">PostgreSQL</span>
+                                </div>
+                            </button>
+                            <button onclick="showManageSection('mysql')" class="manage-menu-btn w-full px-3 py-3 rounded-lg hover:bg-gray-200 text-gray-700 text-sm font-medium transition-colors" data-section="mysql">
+                                <div class="flex flex-col items-center gap-1">
+                                    <span class="text-2xl">🐬</span>
+                                    <span id="menu-mysql" class="text-xs">MySQL</span>
+                                </div>
+                            </button>
+                        </nav>
+                    </div>
+
+                    <!-- Content Area -->
+                    <div class="flex-1 overflow-y-auto">
+                        <!-- PHP Section -->
+                        <div id="manage-section-php" class="manage-section p-6">
+                            <h3 class="text-2xl font-bold mb-6 flex items-center gap-2">
+                                <span>🐘</span>
+                                <span id="section-php-title">គ្រប់គ្រង PHP</span>
+                            </h3>
+
+                            <!-- Installed PHP Versions -->
+                            <div class="mb-6 bg-green-50 border border-green-200 rounded-lg p-4">
+                                <h4 class="font-semibold text-green-800 mb-3" id="php-installed-title">កំណែដែលបានដំឡើង</h4>
+                                <div id="php-installed-list" class="space-y-2">
+                                    <p class="text-sm text-gray-600" id="php-no-installed">កំពុងពិនិត្យ...</p>
+                                </div>
+                            </div>
+
+                            <!-- Install PHP Version -->
+                            <div class="bg-white border border-gray-200 rounded-lg p-4 mb-4">
+                                <h4 class="font-semibold text-gray-800 mb-3" id="php-install-title">ដំឡើងកំណែថ្មី</h4>
+                                <div class="space-y-3">
+                                    <div>
+                                        <label class="block text-sm font-medium mb-2" id="php-install-label">ជ្រើសរើសកំណែ PHP</label>
+                                        <select id="php-install-version" class="w-full px-3 py-2 border rounded-lg">
+                                            <option value="8.4">PHP 8.4</option>
+                                            <option value="8.3">PHP 8.3</option>
+                                            <option value="8.2">PHP 8.2</option>
+                                            <option value="8.1">PHP 8.1</option>
+                                            <option value="8.0">PHP 8.0</option>
+                                        </select>
+                                    </div>
+                                    <button onclick="installPHP()" class="px-6 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 font-medium">
+                                        <span id="php-install-btn">ដំឡើង PHP</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Install PHP Extensions -->
+                            <div class="bg-white border border-gray-200 rounded-lg p-4">
+                                <h4 class="font-semibold text-gray-800 mb-3" id="php-ext-title">ដំឡើងផ្នែកបន្ថែម</h4>
+                                <div class="space-y-3">
+                                    <div>
+                                        <label class="block text-sm font-medium mb-2" id="php-ext-version-label">កំណែ PHP</label>
+                                        <input type="text" id="php-ext-version" placeholder="8.3" class="w-full px-3 py-2 border rounded-lg">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium mb-2" id="php-ext-name-label">ឈ្មោះផ្នែកបន្ថែម</label>
+                                        <input type="text" id="php-ext-name" placeholder="mbstring, curl, xml" class="w-full px-3 py-2 border rounded-lg">
+                                    </div>
+                                    <button onclick="installPHPExtensions()" class="px-6 py-2 bg-purple-400 text-white rounded-lg hover:bg-purple-500 font-medium">
+                                        <span id="php-ext-btn">ដំឡើងផ្នែកបន្ថែម</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div id="php-status" class="mt-4 hidden p-4 rounded-lg"></div>
+                        </div>
+
+                        <!-- Composer Section -->
+                        <div id="manage-section-composer" class="manage-section p-6 hidden">
+                            <h3 class="text-2xl font-bold mb-6 flex items-center gap-2">
+                                <span>📦</span>
+                                <span id="section-composer-title">គ្រប់គ្រង Composer</span>
+                            </h3>
+
+                            <!-- Installed Composer -->
+                            <div class="mb-6 bg-green-50 border border-green-200 rounded-lg p-4">
+                                <h4 class="font-semibold text-green-800 mb-3" id="composer-installed-title">ស្ថានភាពដំឡើង</h4>
+                                <div id="composer-installed-info">
+                                    <p class="text-sm text-gray-600">កំពុងពិនិត្យ...</p>
+                                </div>
+                            </div>
+
+                            <!-- Install Composer -->
+                            <div class="bg-white border border-gray-200 rounded-lg p-4">
+                                <h4 class="font-semibold text-gray-800 mb-3" id="composer-install-title">ដំឡើង Composer</h4>
+                                <p class="text-sm text-gray-600 mb-3" id="composer-install-desc">Composer គឺជាកម្មវិធីគ្រប់គ្រង dependency សម្រាប់ PHP</p>
+                                <button onclick="installComposer()" id="composer-install-btn-main" class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 font-medium">
+                                    <span id="composer-install-btn">ដំឡើង Composer</span>
+                                </button>
+                            </div>
+
+                            <div id="composer-status" class="mt-4 hidden p-4 rounded-lg"></div>
+                        </div>
+
+                        <!-- Node.js Section -->
+                        <div id="manage-section-node" class="manage-section p-6 hidden">
+                            <h3 class="text-2xl font-bold mb-6 flex items-center gap-2">
+                                <span>🟢</span>
+                                <span id="section-node-title">គ្រប់គ្រង Node.js</span>
+                            </h3>
+
+                            <!-- Installed Node Versions -->
+                            <div class="mb-6 bg-green-50 border border-green-200 rounded-lg p-4">
+                                <h4 class="font-semibold text-green-800 mb-3" id="node-installed-title">កំណែដែលបានដំឡើង</h4>
+                                <div id="node-installed-list" class="space-y-2">
+                                    <p class="text-sm text-gray-600">កំពុងពិនិត្យ...</p>
+                                </div>
+                            </div>
+
+                            <!-- Install Node Version -->
+                            <div class="bg-white border border-gray-200 rounded-lg p-4 mb-4">
+                                <h4 class="font-semibold text-gray-800 mb-3" id="node-install-title">ដំឡើងកំណែថ្មី</h4>
+                                <div class="space-y-3">
+                                    <div>
+                                        <label class="block text-sm font-medium mb-2" id="node-install-label">កំណែ Node.js</label>
+                                        <input type="text" id="node-install-version" placeholder="20.10.0, lts, or latest" class="w-full px-3 py-2 border rounded-lg">
+                                    </div>
+                                    <button onclick="installNode()" class="px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 font-medium">
+                                        <span id="node-install-btn">ដំឡើង Node.js</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Set Default Node -->
+                            <div class="bg-white border border-gray-200 rounded-lg p-4">
+                                <h4 class="font-semibold text-gray-800 mb-3" id="node-default-title">កំណត់កំណែលំនាំដើម</h4>
+                                <div class="space-y-3">
+                                    <div>
+                                        <label class="block text-sm font-medium mb-2" id="node-default-label">កំណែ</label>
+                                        <input type="text" id="node-default-version" placeholder="20, lts" class="w-full px-3 py-2 border rounded-lg">
+                                    </div>
+                                    <button onclick="setDefaultNode()" class="px-6 py-2 bg-green-400 text-white rounded-lg hover:bg-green-500 font-medium">
+                                        <span id="node-default-btn">កំណត់លំនាំដើម</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div id="node-status" class="mt-4 hidden p-4 rounded-lg"></div>
+                        </div>
+
+                        <!-- Nginx Section -->
+                        <div id="manage-section-nginx" class="manage-section p-6 hidden">
+                            <h3 class="text-2xl font-bold mb-6 flex items-center gap-2">
+                                <span>🌐</span>
+                                <span id="section-nginx-title">គ្រប់គ្រង Nginx</span>
+                            </h3>
+
+                            <!-- Installed Nginx -->
+                            <div class="mb-6 bg-green-50 border border-green-200 rounded-lg p-4">
+                                <h4 class="font-semibold text-green-800 mb-3" id="nginx-installed-title">ស្ថានភាពដំឡើង</h4>
+                                <div id="nginx-installed-info">
+                                    <p class="text-sm text-gray-600">កំពុងពិនិត្យ...</p>
+                                </div>
+                            </div>
+
+                            <!-- Install Nginx -->
+                            <div class="bg-white border border-gray-200 rounded-lg p-4">
+                                <h4 class="font-semibold text-gray-800 mb-3" id="nginx-install-title">ដំឡើង Nginx</h4>
+                                <p class="text-sm text-gray-600 mb-3" id="nginx-install-desc">Nginx គឺជា Web Server ដែលមានល្បឿនលឿន</p>
+                                <button onclick="installNginx()" id="nginx-install-btn-main" class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 font-medium">
+                                    <span id="nginx-install-btn">ដំឡើង Nginx</span>
+                                </button>
+                            </div>
+
+                            <div id="nginx-status" class="mt-4 hidden p-4 rounded-lg"></div>
+                        </div>
+
+                        <!-- PostgreSQL Section -->
+                        <div id="manage-section-postgresql" class="manage-section p-6 hidden">
+                            <h3 class="text-2xl font-bold mb-6 flex items-center gap-2">
+                                <span>🐘</span>
+                                <span id="section-postgresql-title">គ្រប់គ្រង PostgreSQL</span>
+                            </h3>
+
+                            <!-- Installed PostgreSQL -->
+                            <div class="mb-6 bg-green-50 border border-green-200 rounded-lg p-4">
+                                <h4 class="font-semibold text-green-800 mb-3" id="postgresql-installed-title">ស្ថានភាពដំឡើង</h4>
+                                <div id="postgresql-installed-info">
+                                    <p class="text-sm text-gray-600">កំពុងពិនិត្យ...</p>
+                                </div>
+                            </div>
+
+                            <!-- Install PostgreSQL -->
+                            <div class="bg-white border border-gray-200 rounded-lg p-4">
+                                <h4 class="font-semibold text-gray-800 mb-3" id="postgresql-install-title">ដំឡើង PostgreSQL</h4>
+                                <div class="space-y-3">
+                                    <div>
+                                        <label class="block text-sm font-medium mb-2" id="postgres-label">កំណែ (ទុកទទេសម្រាប់ចុងក្រោយ)</label>
+                                        <input type="text" id="postgres-version" placeholder="16" class="w-full px-3 py-2 border rounded-lg">
+                                    </div>
+                                    <button onclick="installPostgreSQL()" id="postgresql-install-btn-main" class="px-6 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 font-medium">
+                                        <span id="postgres-btn">ដំឡើង PostgreSQL</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div id="postgresql-status" class="mt-4 hidden p-4 rounded-lg"></div>
+                        </div>
+
+                        <!-- MySQL Section -->
+                        <div id="manage-section-mysql" class="manage-section p-6 hidden">
+                            <h3 class="text-2xl font-bold mb-6 flex items-center gap-2">
+                                <span>🐬</span>
+                                <span id="section-mysql-title">គ្រប់គ្រង MySQL</span>
+                            </h3>
+
+                            <!-- Installed MySQL -->
+                            <div class="mb-6 bg-green-50 border border-green-200 rounded-lg p-4">
+                                <h4 class="font-semibold text-green-800 mb-3" id="mysql-installed-title">ស្ថានភាពដំឡើង</h4>
+                                <div id="mysql-installed-info">
+                                    <p class="text-sm text-gray-600">កំពុងពិនិត្យ...</p>
+                                </div>
+                            </div>
+
+                            <!-- Install MySQL -->
+                            <div class="bg-white border border-gray-200 rounded-lg p-4">
+                                <h4 class="font-semibold text-gray-800 mb-3" id="mysql-install-title">ដំឡើង MySQL</h4>
+                                <p class="text-sm text-gray-600 mb-3" id="mysql-install-desc">MySQL គឺជាប្រព័ន្ធគ្រប់គ្រងមូលដ្ឋានទិន្នន័យ</p>
+                                <button onclick="installMySQL()" id="mysql-install-btn-main" class="px-6 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 font-medium">
+                                    <span id="mysql-btn">ដំឡើង MySQL</span>
+                                </button>
+                            </div>
+
+                            <div id="mysql-status" class="mt-4 hidden p-4 rounded-lg"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

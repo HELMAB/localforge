@@ -247,3 +247,330 @@ ipcMain.handle('check-requirements', async () => {
     });
   });
 });
+
+// Helper function to detect Linux distribution
+function detectDistro() {
+  return new Promise((resolve) => {
+    exec('cat /etc/os-release', (error, stdout) => {
+      if (error) {
+        resolve('unknown');
+        return;
+      }
+
+      const lines = stdout.toLowerCase();
+      if (lines.includes('ubuntu') || lines.includes('debian')) {
+        resolve('debian');
+      } else if (lines.includes('fedora') || lines.includes('rhel') || lines.includes('centos')) {
+        resolve('redhat');
+      } else if (lines.includes('arch')) {
+        resolve('arch');
+      } else {
+        resolve('unknown');
+      }
+    });
+  });
+}
+
+// Helper function to execute commands with sudo
+function execSudo(command) {
+  return new Promise((resolve, reject) => {
+    const options = {
+      name: 'Dev Tools Manager',
+    };
+
+    sudo.exec(command, options, (error, stdout, stderr) => {
+      if (error) {
+        reject(new Error(stderr || error.message));
+      } else {
+        resolve({ success: true, stdout, stderr });
+      }
+    });
+  });
+}
+
+// Install PHP Version
+ipcMain.handle('install-php', async (event, { version }) => {
+  const distro = await detectDistro();
+
+  let command = '';
+
+  if (distro === 'debian') {
+    command = `add-apt-repository -y ppa:ondrej/php && apt-get update && apt-get install -y php${version} php${version}-cli php${version}-fpm php${version}-common php${version}-mbstring php${version}-xml php${version}-curl php${version}-zip`;
+  } else if (distro === 'redhat') {
+    command = `dnf install -y php${version} php${version}-cli php${version}-fpm php${version}-common php${version}-mbstring php${version}-xml`;
+  } else if (distro === 'arch') {
+    command = `pacman -S --noconfirm php`;
+  } else {
+    throw new Error('Unsupported distribution. Please install PHP manually.');
+  }
+
+  return execSudo(command);
+});
+
+// Install PHP Extensions
+ipcMain.handle('install-php-extensions', async (event, { version, extensions }) => {
+  const distro = await detectDistro();
+  const extList = extensions.split(',').map(e => e.trim()).filter(e => e);
+
+  let packages = [];
+
+  if (distro === 'debian') {
+    packages = extList.map(ext => `php${version}-${ext}`);
+    const command = `apt-get install -y ${packages.join(' ')}`;
+    return execSudo(command);
+  } else if (distro === 'redhat') {
+    packages = extList.map(ext => `php${version}-${ext}`);
+    const command = `dnf install -y ${packages.join(' ')}`;
+    return execSudo(command);
+  } else if (distro === 'arch') {
+    packages = extList.map(ext => `php-${ext}`);
+    const command = `pacman -S --noconfirm ${packages.join(' ')}`;
+    return execSudo(command);
+  } else {
+    throw new Error('Unsupported distribution');
+  }
+});
+
+// Install Node.js Version
+ipcMain.handle('install-node', async (event, { version }) => {
+  return new Promise((resolve, reject) => {
+    const command = `export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" && nvm install ${version}`;
+
+    exec(command, { maxBuffer: 1024 * 1024 * 10 }, (error, stdout, stderr) => {
+      if (error) {
+        reject(new Error(stderr || error.message));
+      } else {
+        resolve({ success: true, stdout });
+      }
+    });
+  });
+});
+
+// Set Default Node.js Version
+ipcMain.handle('set-default-node', async (event, { version }) => {
+  return new Promise((resolve, reject) => {
+    const command = `export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" && nvm alias default ${version} && nvm use ${version}`;
+
+    exec(command, { maxBuffer: 1024 * 1024 * 10 }, (error, stdout, stderr) => {
+      if (error) {
+        reject(new Error(stderr || error.message));
+      } else {
+        resolve({ success: true, stdout });
+      }
+    });
+  });
+});
+
+// Install Nginx
+ipcMain.handle('install-nginx', async () => {
+  const distro = await detectDistro();
+
+  let command = '';
+
+  if (distro === 'debian') {
+    command = 'apt-get update && apt-get install -y nginx && systemctl enable nginx && systemctl start nginx';
+  } else if (distro === 'redhat') {
+    command = 'dnf install -y nginx && systemctl enable nginx && systemctl start nginx';
+  } else if (distro === 'arch') {
+    command = 'pacman -S --noconfirm nginx && systemctl enable nginx && systemctl start nginx';
+  } else {
+    throw new Error('Unsupported distribution');
+  }
+
+  return execSudo(command);
+});
+
+// Install Composer
+ipcMain.handle('install-composer', async () => {
+  return new Promise((resolve, reject) => {
+    const command = 'curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer && chmod +x /usr/local/bin/composer';
+
+    const options = {
+      name: 'Dev Tools Manager',
+    };
+
+    sudo.exec(command, options, (error, stdout, stderr) => {
+      if (error) {
+        reject(new Error(stderr || error.message));
+      } else {
+        resolve({ success: true });
+      }
+    });
+  });
+});
+
+// Install PostgreSQL
+ipcMain.handle('install-postgresql', async (event, { version }) => {
+  const distro = await detectDistro();
+
+  let command = '';
+
+  if (distro === 'debian') {
+    if (version) {
+      command = `apt-get update && apt-get install -y postgresql-${version} postgresql-client-${version} && systemctl enable postgresql && systemctl start postgresql`;
+    } else {
+      command = 'apt-get update && apt-get install -y postgresql postgresql-contrib && systemctl enable postgresql && systemctl start postgresql';
+    }
+  } else if (distro === 'redhat') {
+    if (version) {
+      command = `dnf install -y postgresql${version}-server postgresql${version} && postgresql-setup --initdb && systemctl enable postgresql && systemctl start postgresql`;
+    } else {
+      command = 'dnf install -y postgresql-server postgresql && postgresql-setup --initdb && systemctl enable postgresql && systemctl start postgresql';
+    }
+  } else if (distro === 'arch') {
+    command = 'pacman -S --noconfirm postgresql && su - postgres -c "initdb -D /var/lib/postgres/data" && systemctl enable postgresql && systemctl start postgresql';
+  } else {
+    throw new Error('Unsupported distribution');
+  }
+
+  return execSudo(command);
+});
+
+// Install MySQL
+ipcMain.handle('install-mysql', async () => {
+  const distro = await detectDistro();
+
+  let command = '';
+
+  if (distro === 'debian') {
+    command = 'apt-get update && apt-get install -y mysql-server && systemctl enable mysql && systemctl start mysql';
+  } else if (distro === 'redhat') {
+    command = 'dnf install -y mysql-server && systemctl enable mysqld && systemctl start mysqld';
+  } else if (distro === 'arch') {
+    command = 'pacman -S --noconfirm mysql && mysqld --initialize-insecure --user=mysql --basedir=/usr --datadir=/var/lib/mysql && systemctl enable mysqld && systemctl start mysqld';
+  } else {
+    throw new Error('Unsupported distribution');
+  }
+
+  return execSudo(command);
+});
+
+// Check installed tools and versions
+ipcMain.handle('check-installed-tools', async () => {
+  const results = {
+    php: { installed: false, versions: [] },
+    node: { installed: false, versions: [], default: null },
+    nginx: { installed: false, version: null },
+    composer: { installed: false, version: null },
+    postgresql: { installed: false, version: null },
+    mysql: { installed: false, version: null }
+  };
+
+  return new Promise((resolve) => {
+    const checks = [];
+
+    // Check PHP versions
+    checks.push(
+      new Promise((res) => {
+        exec('php -v 2>/dev/null', (error, stdout) => {
+          if (!error && stdout) {
+            results.php.installed = true;
+            const match = stdout.match(/PHP (\d+\.\d+\.\d+)/);
+            if (match) {
+              results.php.versions.push(match[1]);
+            }
+          }
+
+          exec('ls /usr/bin/php* 2>/dev/null | grep -E "php[0-9]" | sed "s/.*php//" | sort -u', (err, out) => {
+            if (!err && out) {
+              const versions = out.trim().split('\n').filter(v => v);
+              results.php.versions = [...new Set([...results.php.versions, ...versions])];
+              results.php.installed = results.php.versions.length > 0;
+            }
+            res();
+          });
+        });
+      })
+    );
+
+    // Check Node.js versions
+    checks.push(
+      new Promise((res) => {
+        exec('export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" && nvm list 2>/dev/null', (error, stdout) => {
+          if (!error && stdout) {
+            results.node.installed = true;
+            const versions = stdout.match(/v\d+\.\d+\.\d+/g);
+            if (versions) {
+              results.node.versions = versions.map(v => v.substring(1));
+            }
+
+            const defaultMatch = stdout.match(/default -> (v\d+\.\d+\.\d+)/);
+            if (defaultMatch) {
+              results.node.default = defaultMatch[1].substring(1);
+            }
+          }
+          res();
+        });
+      })
+    );
+
+    // Check Nginx
+    checks.push(
+      new Promise((res) => {
+        exec('nginx -v 2>&1', (error, stdout, stderr) => {
+          const output = stdout || stderr;
+          if (!error && output) {
+            results.nginx.installed = true;
+            const match = output.match(/nginx\/(\d+\.\d+\.\d+)/);
+            if (match) {
+              results.nginx.version = match[1];
+            }
+          }
+          res();
+        });
+      })
+    );
+
+    // Check Composer
+    checks.push(
+      new Promise((res) => {
+        exec('composer --version 2>/dev/null', (error, stdout) => {
+          if (!error && stdout) {
+            results.composer.installed = true;
+            const match = stdout.match(/Composer version (\d+\.\d+\.\d+)/);
+            if (match) {
+              results.composer.version = match[1];
+            }
+          }
+          res();
+        });
+      })
+    );
+
+    // Check PostgreSQL
+    checks.push(
+      new Promise((res) => {
+        exec('psql --version 2>/dev/null', (error, stdout) => {
+          if (!error && stdout) {
+            results.postgresql.installed = true;
+            const match = stdout.match(/PostgreSQL\) (\d+\.\d+)/);
+            if (match) {
+              results.postgresql.version = match[1];
+            }
+          }
+          res();
+        });
+      })
+    );
+
+    // Check MySQL
+    checks.push(
+      new Promise((res) => {
+        exec('mysql --version 2>/dev/null', (error, stdout) => {
+          if (!error && stdout) {
+            results.mysql.installed = true;
+            const match = stdout.match(/Distrib (\d+\.\d+\.\d+)/);
+            if (match) {
+              results.mysql.version = match[1];
+            }
+          }
+          res();
+        });
+      })
+    );
+
+    Promise.all(checks).then(() => {
+      resolve(results);
+    });
+  });
+});
