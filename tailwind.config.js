@@ -8,7 +8,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Kantumruy Pro', 'sans-serif'],
+        sans: ['Raleway', 'Kantumruy Pro', 'sans-serif'],
       },
     },
   },
