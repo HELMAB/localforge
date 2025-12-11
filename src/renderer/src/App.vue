@@ -3,7 +3,7 @@
     id="app"
     class="min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-200"
   >
-    <div class="container mx-auto p-6">
+    <div class="max-w-[890px] mx-auto p-6">
       <AppHeader @toggle-settings="showSettings = true" />
 
       <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md mb-6 transition-colors duration-200">

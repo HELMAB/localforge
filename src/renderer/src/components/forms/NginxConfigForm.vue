@@ -1,48 +1,51 @@
 <template>
   <div class="space-y-4">
-    <div>
-      <label class="block text-sm font-medium mb-2">
-        {{ t('domainLabel') }} <span class="text-red-500">*</span>
-      </label>
-      <input
-        v-model="domain"
-        type="text"
-        class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-        placeholder="example.local"
-      >
-    </div>
+    <!-- 2-Column Grid Layout -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <label class="block text-sm font-medium mb-2 dark:text-gray-300">
+          {{ t('domainLabel') }} <span class="text-red-500">*</span>
+        </label>
+        <input
+          v-model="domain"
+          type="text"
+          class="w-full px-4 py-2 border dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="example.local"
+        >
+      </div>
 
-    <div>
-      <label class="block text-sm font-medium mb-2">
-        {{ t('nginxPathLabel') }} <span class="text-red-500">*</span>
-      </label>
-      <DirectorySelector v-model="nginxProjectPath" />
-    </div>
+      <div>
+        <label class="block text-sm font-medium mb-2 dark:text-gray-300">
+          {{ t('nginxPathLabel') }} <span class="text-red-500">*</span>
+        </label>
+        <DirectorySelector v-model="nginxProjectPath" />
+      </div>
 
-    <div>
-      <label class="block text-sm font-medium mb-2">{{ t('nginxPhpVersionLabel') }}</label>
-      <CustomSelect
-        v-model="phpVersion"
-        :options="phpVersionOptions"
-        placeholder="Auto-detect (ស្វ័យប្រវត្តិ)"
-      />
-      <p class="text-xs text-gray-500 mt-1">
-        {{ t('nginxPhpHint') }}
-      </p>
-    </div>
+      <div>
+        <label class="block text-sm font-medium mb-2 dark:text-gray-300">{{ t('nginxPhpVersionLabel') }}</label>
+        <CustomSelect
+          v-model="phpVersion"
+          :options="phpVersionOptions"
+          placeholder="Auto-detect (ស្វ័យប្រវត្តិ)"
+        />
+        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+          {{ t('nginxPhpHint') }}
+        </p>
+      </div>
 
-    <div>
-      <label class="block text-sm font-medium mb-2">{{ t('portLabel') }}</label>
-      <input
-        v-model.number="port"
-        type="number"
-        class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-      >
+      <div>
+        <label class="block text-sm font-medium mb-2 dark:text-gray-300">{{ t('portLabel') }}</label>
+        <input
+          v-model.number="port"
+          type="number"
+          class="w-full px-4 py-2 border dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+      </div>
     </div>
 
     <button
       :disabled="isConfiguring"
-      class="w-full px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+      class="w-full px-6 py-3 bg-blue-500 dark:bg-blue-600 text-white rounded-lg hover:bg-blue-600 dark:hover:bg-blue-700 font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
       @click="handleConfigureNginx"
     >
       {{ isConfiguring ? t('checking') : t('configureBtn') }}

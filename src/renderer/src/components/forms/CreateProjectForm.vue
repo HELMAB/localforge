@@ -18,42 +18,45 @@
       v-model:node-version="nodeVersion"
     />
 
-    <div>
-      <label class="block text-sm font-medium mb-2 dark:text-gray-300">
-        {{ t('projectNameLabel') }} <span class="text-red-500">*</span>
-      </label>
-      <input
-        v-model="projectName"
-        type="text"
-        :class="[
-          'w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2',
-          validationErrors.projectName 
-            ? 'border-red-500 focus:ring-red-500' 
-            : 'border-gray-300 dark:border-gray-600 focus:ring-blue-500',
-          'dark:bg-gray-700 dark:text-white'
-        ]"
-        placeholder="my-project"
-        @blur="validateProjectName"
-      >
-      <p
-        v-if="validationErrors.projectName"
-        class="text-red-500 text-sm mt-1"
-      >
-        {{ validationErrors.projectName }}
-      </p>
-    </div>
+    <!-- 2-Column Grid Layout -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <label class="block text-sm font-medium mb-2 dark:text-gray-300">
+          {{ t('projectNameLabel') }} <span class="text-red-500">*</span>
+        </label>
+        <input
+          v-model="projectName"
+          type="text"
+          :class="[
+            'w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2',
+            validationErrors.projectName
+              ? 'border-red-500 focus:ring-red-500'
+              : 'border-gray-300 dark:border-gray-600 focus:ring-blue-500',
+            'dark:bg-gray-700 dark:text-white'
+          ]"
+          placeholder="my-project"
+          @blur="validateProjectName"
+        >
+        <p
+          v-if="validationErrors.projectName"
+          class="text-red-500 text-sm mt-1"
+        >
+          {{ validationErrors.projectName }}
+        </p>
+      </div>
 
-    <div>
-      <label class="block text-sm font-medium mb-2 dark:text-gray-300">
-        {{ t('projectPathLabel') }} <span class="text-red-500">*</span>
-      </label>
-      <DirectorySelector v-model="projectPath" />
-      <p
-        v-if="validationErrors.path"
-        class="text-red-500 text-sm mt-1"
-      >
-        {{ validationErrors.path }}
-      </p>
+      <div>
+        <label class="block text-sm font-medium mb-2 dark:text-gray-300">
+          {{ t('projectPathLabel') }} <span class="text-red-500">*</span>
+        </label>
+        <DirectorySelector v-model="projectPath" />
+        <p
+          v-if="validationErrors.path"
+          class="text-red-500 text-sm mt-1"
+        >
+          {{ validationErrors.path }}
+        </p>
+      </div>
     </div>
 
     <button

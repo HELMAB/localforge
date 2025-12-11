@@ -1,5 +1,5 @@
 export default {
-  appTitle: 'Development Project Manager',
+  appTitle: 'Devtools Manager',
   tabCreate: 'Create Project',
   tabNginx: 'Configure Nginx',
   tabSsl: 'Generate SSL',
