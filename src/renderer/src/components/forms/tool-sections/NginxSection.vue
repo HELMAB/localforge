@@ -1,6 +1,6 @@
 <template>
   <div class="p-6">
-    <h3 class="text-2xl font-bold mb-6 flex items-center gap-2">
+    <h3 class="text-2xl font-bold mb-6 flex items-center gap-2 text-gray-900 dark:text-white">
       <img
         src="@/assets/svg/nginx.svg"
         alt="Nginx"
@@ -9,34 +9,34 @@
       <span>{{ t('sectionNginxTitle') }}</span>
     </h3>
 
-    <div class="mb-6 bg-green-50 border border-green-200 rounded-lg p-4">
-      <h4 class="font-semibold text-green-800 mb-3">
+    <div class="mb-6 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700 rounded-lg p-4">
+      <h4 class="font-semibold text-green-800 dark:text-green-300 mb-3">
         {{ t('nginxInstalledTitle') }}
       </h4>
       <div v-if="installedTools && installedTools.nginx.installed">
-        <div class="flex items-center justify-between bg-white p-3 rounded border border-green-300">
-          <span class="font-medium text-green-700">Nginx {{ installedTools.nginx.version || '' }}</span>
-          <span class="text-xs px-2 py-1 bg-green-100 text-green-700 rounded">{{ t('installed') }}</span>
+        <div class="flex items-center justify-between bg-white dark:bg-gray-800 p-3 rounded border border-green-300 dark:border-green-700">
+          <span class="font-medium text-green-700 dark:text-green-400">Nginx {{ installedTools.nginx.version || '' }}</span>
+          <span class="text-xs px-2 py-1 bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 rounded">{{ t('installed') }}</span>
         </div>
       </div>
       <p
         v-else
-        class="text-sm text-gray-600"
+        class="text-sm text-gray-600 dark:text-gray-400"
       >
         {{ t('notInstalled') }}
       </p>
     </div>
 
-    <div class="bg-white border border-gray-200 rounded-lg p-4">
-      <h4 class="font-semibold text-gray-800 mb-3">
+    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+      <h4 class="font-semibold text-gray-800 dark:text-gray-200 mb-3">
         {{ t('nginxInstallTitle') }}
       </h4>
-      <p class="text-sm text-gray-600 mb-3">
+      <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">
         {{ t('nginxInstallDesc') }}
       </p>
       <button
         :disabled="installedTools && installedTools.nginx.installed"
-        class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+        class="px-6 py-2 bg-blue-500 dark:bg-blue-600 text-white rounded-lg hover:bg-blue-600 dark:hover:bg-blue-700 font-medium disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         @click="handleInstallNginx"
       >
         {{ t('nginxInstallBtn') }}

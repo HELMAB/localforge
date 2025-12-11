@@ -7,7 +7,7 @@
     />
 
     <div>
-      <label class="block text-sm font-medium mb-2">{{ t('phpVersionLabel') }}</label>
+      <label class="block text-sm font-medium mb-2 dark:text-gray-300">{{ t('phpVersionLabel') }}</label>
       <CustomSelect
         :model-value="phpVersion"
         :options="phpVersionOptions"
@@ -16,7 +16,7 @@
     </div>
 
     <div>
-      <label class="block text-sm font-medium mb-2">{{ t('laravelStarterLabel') }}</label>
+      <label class="block text-sm font-medium mb-2 dark:text-gray-300">{{ t('laravelStarterLabel') }}</label>
       <CustomSelect
         :model-value="laravelStarter"
         :options="laravelStarterOptions"

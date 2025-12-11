@@ -7,7 +7,7 @@
     />
 
     <div>
-      <label class="block text-sm font-medium mb-2">{{ t('wpPhpVersionLabel') }}</label>
+      <label class="block text-sm font-medium mb-2 dark:text-gray-300">{{ t('wpPhpVersionLabel') }}</label>
       <CustomSelect
         :model-value="phpVersion"
         :options="phpVersionOptions"

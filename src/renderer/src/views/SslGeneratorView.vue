@@ -1,6 +1,6 @@
 <template>
   <div class="p-6">
-    <h2 class="text-2xl font-bold mb-6">
+    <h2 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
       {{ t('sslTitle') }}
     </h2>
     <SslGeneratorForm />

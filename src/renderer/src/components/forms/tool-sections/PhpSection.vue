@@ -1,6 +1,6 @@
 <template>
   <div class="p-6">
-    <h3 class="text-2xl font-bold mb-6 flex items-center gap-2">
+    <h3 class="text-2xl font-bold mb-6 flex items-center gap-2 text-gray-900 dark:text-white">
       <img
         src="@/assets/svg/php.svg"
         alt="PHP"
@@ -10,8 +10,8 @@
     </h3>
 
     <!-- Installed PHP Versions -->
-    <div class="mb-6 bg-green-50 border border-green-200 rounded-lg p-4">
-      <h4 class="font-semibold text-green-800 mb-3">
+    <div class="mb-6 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700 rounded-lg p-4">
+      <h4 class="font-semibold text-green-800 dark:text-green-300 mb-3">
         {{ t('phpInstalledTitle') }}
       </h4>
       <div
@@ -21,35 +21,35 @@
         <div
           v-for="version in installedTools.php.versions"
           :key="version"
-          class="flex items-center justify-between bg-white p-3 rounded border border-green-300"
+          class="flex items-center justify-between bg-white dark:bg-gray-800 p-3 rounded border border-green-300 dark:border-green-700"
         >
-          <span class="font-medium text-green-700">PHP {{ version }}</span>
-          <span class="text-xs px-2 py-1 bg-green-100 text-green-700 rounded">{{ t('installed') }}</span>
+          <span class="font-medium text-green-700 dark:text-green-400">PHP {{ version }}</span>
+          <span class="text-xs px-2 py-1 bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 rounded">{{ t('installed') }}</span>
         </div>
       </div>
       <p
         v-else
-        class="text-sm text-gray-600"
+        class="text-sm text-gray-600 dark:text-gray-400"
       >
         {{ t('notInstalled') }}
       </p>
     </div>
 
     <!-- Install PHP Version -->
-    <div class="bg-white border border-gray-200 rounded-lg p-4 mb-4">
-      <h4 class="font-semibold text-gray-800 mb-3">
+    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 mb-4">
+      <h4 class="font-semibold text-gray-800 dark:text-gray-200 mb-3">
         {{ t('phpInstallTitle') }}
       </h4>
       <div class="space-y-3">
         <div>
-          <label class="block text-sm font-medium mb-2">{{ t('phpInstallLabel') }}</label>
+          <label class="block text-sm font-medium mb-2 dark:text-gray-300">{{ t('phpInstallLabel') }}</label>
           <CustomSelect
             v-model="phpInstallVersion"
             :options="phpVersionOptions"
           />
         </div>
         <button
-          class="px-6 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 font-medium"
+          class="px-6 py-2 bg-purple-500 dark:bg-purple-600 text-white rounded-lg hover:bg-purple-600 dark:hover:bg-purple-700 font-medium transition-colors"
           @click="handleInstallPHP"
         >
           {{ t('phpInstallBtn') }}
@@ -58,35 +58,35 @@
     </div>
 
     <!-- Install PHP Extensions -->
-    <div class="bg-white border border-gray-200 rounded-lg p-4">
-      <h4 class="font-semibold text-gray-800 mb-3">
+    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+      <h4 class="font-semibold text-gray-800 dark:text-gray-200 mb-3">
         {{ t('phpExtTitle') }}
       </h4>
       <div class="space-y-3">
         <div>
-          <label class="block text-sm font-medium mb-2">
+          <label class="block text-sm font-medium mb-2 dark:text-gray-300">
             {{ t('phpExtVersionLabel') }} <span class="text-red-500">*</span>
           </label>
           <input
             v-model="phpExtVersion"
             type="text"
             placeholder="8.3"
-            class="w-full px-3 py-2 border rounded-lg"
+            class="w-full px-3 py-2 border dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
           >
         </div>
         <div>
-          <label class="block text-sm font-medium mb-2">
+          <label class="block text-sm font-medium mb-2 dark:text-gray-300">
             {{ t('phpExtNameLabel') }} <span class="text-red-500">*</span>
           </label>
           <input
             v-model="phpExtName"
             type="text"
             placeholder="mbstring, curl, xml"
-            class="w-full px-3 py-2 border rounded-lg"
+            class="w-full px-3 py-2 border dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
           >
         </div>
         <button
-          class="px-6 py-2 bg-purple-400 text-white rounded-lg hover:bg-purple-500 font-medium"
+          class="px-6 py-2 bg-purple-400 dark:bg-purple-500 text-white rounded-lg hover:bg-purple-500 dark:hover:bg-purple-600 font-medium transition-colors"
           @click="handleInstallPHPExtensions"
         >
           {{ t('phpExtBtn') }}

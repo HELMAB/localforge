@@ -7,7 +7,7 @@
     />
 
     <div>
-      <label class="block text-sm font-medium mb-2">{{ t('nodeVersionLabel') }}</label>
+      <label class="block text-sm font-medium mb-2 dark:text-gray-300">{{ t('nodeVersionLabel') }}</label>
       <CustomSelect
         :model-value="nodeVersion"
         :options="nodeVersionOptions"
