@@ -6,6 +6,7 @@ A desktop application for managing development projects with support for Laravel
 
 ## Features
 
+### Core Features
 - ✨ Create projects: Laravel, Vue, Nuxt, React, WordPress
 - 🔧 Automated Nginx virtual host configuration
 - 🔒 Generate HTTPS certificates using mkcert
@@ -13,6 +14,16 @@ A desktop application for managing development projects with support for Laravel
 - 🌐 Bilingual support: Khmer (default) and English
 - 💅 Modern UI with Vue 3 and Tailwind CSS
 - ⚡ Built with Electron + Vue 3 + Vite
+
+### Enhanced Features ✨
+- 🎨 **Form Validation** - Real-time validation with VeeValidate & Yup
+- 🌙 **Dark Mode** - Full dark theme with system preference detection
+- ⌨️ **Keyboard Shortcuts** - Navigate and control the app with hotkeys ([View shortcuts](KEYBOARD_SHORTCUTS.md))
+- 💾 **Settings Persistence** - Save preferences (language, theme, defaults)
+- 📊 **Progress Indicators** - Visual feedback for long operations
+- 🎯 **Enhanced UX** - Smooth transitions, hover effects, and accessibility
+
+For detailed information about enhanced features, see [FEATURES.md](FEATURES.md).
 
 ## Requirements
 
@@ -171,7 +182,31 @@ The "Manage Tools" tab allows you to install and manage development tools direct
 
 ### Language Toggle
 
-Click the language button in the top right corner to switch between Khmer and English.
+Click the language button in the top right corner to switch between Khmer and English, or use the keyboard shortcut `Ctrl+L`.
+
+### Dark Mode
+
+Toggle dark mode by:
+- Clicking the moon/sun icon in the header
+- Using the keyboard shortcut `Ctrl+D`
+- Changing it in Settings (`Ctrl+,`)
+- Dark mode preference is automatically detected from your system
+
+### Settings
+
+Access application settings by:
+- Clicking the gear icon in the header
+- Using the keyboard shortcut `Ctrl+,`
+
+Configure:
+- Default project paths and versions
+- Language and theme preferences
+- Keyboard shortcut visibility
+- Auto-detect PHP-FPM option
+
+### Keyboard Shortcuts
+
+The application supports keyboard shortcuts for improved productivity. Press `Ctrl+1` through `Ctrl+4` to navigate between tabs quickly. See [KEYBOARD_SHORTCUTS.md](KEYBOARD_SHORTCUTS.md) for the complete list.
 
 ## Project Structure
 

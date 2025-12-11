@@ -1,5 +1,5 @@
 <template>
-  <div class="text-center text-gray-600 text-sm">
+  <div class="text-center text-gray-600 dark:text-gray-400 text-sm transition-colors">
     <p>{{ t('footer') }}</p>
   </div>
 </template>
