@@ -10,6 +10,11 @@ export default defineConfig({
   plugins: [
     vue()
   ],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, 'src/renderer/src')
+    }
+  },
   build: {
     outDir: 'dist',
     emptyOutDir: true

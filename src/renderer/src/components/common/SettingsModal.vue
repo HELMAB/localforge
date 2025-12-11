@@ -35,18 +35,11 @@
           <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             {{ t('languageLabel') }}
           </label>
-          <select 
-            v-model="localSettings.language" 
-            class="w-full px-4 py-2 border dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-            @change="updateLanguage"
-          >
-            <option value="km">
-              ភាសាខ្មែរ
-            </option>
-            <option value="en">
-              English
-            </option>
-          </select>
+          <CustomSelect
+            v-model="localSettings.language"
+            :options="languageOptions"
+            @update:model-value="updateLanguage"
+          />
         </div>
 
         <!-- Dark Mode Setting -->
@@ -88,23 +81,10 @@
           <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             {{ t('defaultPhpVersion') }}
           </label>
-          <select 
+          <CustomSelect
             v-model="localSettings.defaultPhpVersion"
-            class="w-full px-4 py-2 border dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            <option value="8.3">
-              PHP 8.3
-            </option>
-            <option value="8.2">
-              PHP 8.2
-            </option>
-            <option value="8.1">
-              PHP 8.1
-            </option>
-            <option value="8.0">
-              PHP 8.0
-            </option>
-          </select>
+            :options="phpVersionOptions"
+          />
         </div>
 
         <!-- Default Node Version -->
@@ -112,20 +92,10 @@
           <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             {{ t('defaultNodeVersion') }}
           </label>
-          <select 
+          <CustomSelect
             v-model="localSettings.defaultNodeVersion"
-            class="w-full px-4 py-2 border dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            <option value="20">
-              Node.js 20 LTS
-            </option>
-            <option value="18">
-              Node.js 18 LTS
-            </option>
-            <option value="16">
-              Node.js 16
-            </option>
-          </select>
+            :options="nodeVersionOptions"
+          />
         </div>
 
         <!-- Auto Detect PHP -->
@@ -193,6 +163,9 @@
 import { ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useSettings } from '../../composables/useSettings'
+import CustomSelect from './CustomSelect.vue'
+import phpIcon from '@/assets/svg/php.svg'
+import nodejsIcon from '@/assets/svg/nodejs.svg'
 
 const props = defineProps({
   isOpen: {
@@ -207,6 +180,24 @@ const { t, locale } = useI18n()
 const { settings, updateSetting, resetSettings: reset } = useSettings()
 
 const localSettings = ref({ ...settings.value })
+
+const languageOptions = [
+  { value: 'km', label: 'ភាសាខ្មែរ' },
+  { value: 'en', label: 'English' }
+]
+
+const phpVersionOptions = [
+  { value: '8.3', label: 'PHP 8.3', icon: phpIcon },
+  { value: '8.2', label: 'PHP 8.2', icon: phpIcon },
+  { value: '8.1', label: 'PHP 8.1', icon: phpIcon },
+  { value: '8.0', label: 'PHP 8.0', icon: phpIcon }
+]
+
+const nodeVersionOptions = [
+  { value: '20', label: 'Node.js 20 LTS', icon: nodejsIcon },
+  { value: '18', label: 'Node.js 18 LTS', icon: nodejsIcon },
+  { value: '16', label: 'Node.js 16', icon: nodejsIcon }
+]
 
 watch(() => props.isOpen, (newVal) => {
   if (newVal) {

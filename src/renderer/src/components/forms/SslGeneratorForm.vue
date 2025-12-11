@@ -1,7 +1,9 @@
 <template>
   <div class="space-y-4">
     <div>
-      <label class="block text-sm font-medium mb-2">{{ t('sslDomainLabel') }}</label>
+      <label class="block text-sm font-medium mb-2">
+        {{ t('sslDomainLabel') }} <span class="text-red-500">*</span>
+      </label>
       <input
         v-model="domain"
         type="text"

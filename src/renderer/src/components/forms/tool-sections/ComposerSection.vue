@@ -1,7 +1,11 @@
 <template>
   <div class="p-6">
     <h3 class="text-2xl font-bold mb-6 flex items-center gap-2">
-      <span>📦</span>
+      <img
+        src="@/assets/svg/composer.svg"
+        alt="Composer"
+        class="w-8 h-8"
+      >
       <span>{{ t('sectionComposerTitle') }}</span>
     </h3>
 

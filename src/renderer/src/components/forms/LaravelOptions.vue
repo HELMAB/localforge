@@ -8,52 +8,20 @@
 
     <div>
       <label class="block text-sm font-medium mb-2">{{ t('phpVersionLabel') }}</label>
-      <select
-        :value="phpVersion"
-        class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-        @change="$emit('update:phpVersion', $event.target.value)"
-      >
-        <option value="8.3">
-          PHP 8.3
-        </option>
-        <option
-          value="8.2"
-          selected
-        >
-          PHP 8.2
-        </option>
-        <option value="8.1">
-          PHP 8.1
-        </option>
-        <option value="8.0">
-          PHP 8.0
-        </option>
-      </select>
+      <CustomSelect
+        :model-value="phpVersion"
+        :options="phpVersionOptions"
+        @update:model-value="$emit('update:phpVersion', $event)"
+      />
     </div>
 
     <div>
       <label class="block text-sm font-medium mb-2">{{ t('laravelStarterLabel') }}</label>
-      <select
-        :value="laravelStarter"
-        class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-        @change="$emit('update:laravelStarter', $event.target.value)"
-      >
-        <option value="none">
-          គ្មាន (Laravel ធម្មតា)
-        </option>
-        <option value="breeze">
-          Laravel Breeze (Blade)
-        </option>
-        <option value="jetstream">
-          Laravel Jetstream (Livewire)
-        </option>
-        <option value="breeze-vue">
-          Breeze + Vue.js
-        </option>
-        <option value="breeze-react">
-          Breeze + React
-        </option>
-      </select>
+      <CustomSelect
+        :model-value="laravelStarter"
+        :options="laravelStarterOptions"
+        @update:model-value="$emit('update:laravelStarter', $event)"
+      />
     </div>
   </div>
 </template>
@@ -61,6 +29,9 @@
 <script setup>
 import { useI18n } from 'vue-i18n'
 import InfoBox from '../common/InfoBox.vue'
+import CustomSelect from '../common/CustomSelect.vue'
+import phpIcon from '@/assets/svg/php.svg'
+import laravelIcon from '@/assets/svg/laravel.svg'
 
 const { t } = useI18n()
 
@@ -76,4 +47,19 @@ defineProps({
 })
 
 defineEmits(['update:phpVersion', 'update:laravelStarter'])
+
+const phpVersionOptions = [
+  { value: '8.3', label: 'PHP 8.3', icon: phpIcon },
+  { value: '8.2', label: 'PHP 8.2', icon: phpIcon },
+  { value: '8.1', label: 'PHP 8.1', icon: phpIcon },
+  { value: '8.0', label: 'PHP 8.0', icon: phpIcon }
+]
+
+const laravelStarterOptions = [
+  { value: 'none', label: 'គ្មាន (Laravel ធម្មតា)', icon: laravelIcon },
+  { value: 'breeze', label: 'Laravel Breeze (Blade)', icon: laravelIcon },
+  { value: 'jetstream', label: 'Laravel Jetstream (Livewire)', icon: laravelIcon },
+  { value: 'breeze-vue', label: 'Breeze + Vue.js', icon: laravelIcon },
+  { value: 'breeze-react', label: 'Breeze + React', icon: laravelIcon }
+]
 </script>

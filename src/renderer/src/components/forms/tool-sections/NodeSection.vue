@@ -1,7 +1,11 @@
 <template>
   <div class="p-6">
     <h3 class="text-2xl font-bold mb-6 flex items-center gap-2">
-      <span>🟢</span>
+      <img
+        src="@/assets/svg/nodejs.svg"
+        alt="Node.js"
+        class="w-8 h-8"
+      >
       <span>{{ t('sectionNodeTitle') }}</span>
     </h3>
 
@@ -47,7 +51,9 @@
       </h4>
       <div class="space-y-3">
         <div>
-          <label class="block text-sm font-medium mb-2">{{ t('nodeInstallLabel') }}</label>
+          <label class="block text-sm font-medium mb-2">
+            {{ t('nodeInstallLabel') }} <span class="text-red-500">*</span>
+          </label>
           <input
             v-model="nodeInstallVersion"
             type="text"
@@ -71,7 +77,9 @@
       </h4>
       <div class="space-y-3">
         <div>
-          <label class="block text-sm font-medium mb-2">{{ t('nodeDefaultLabel') }}</label>
+          <label class="block text-sm font-medium mb-2">
+            {{ t('nodeDefaultLabel') }} <span class="text-red-500">*</span>
+          </label>
           <input
             v-model="nodeDefaultVersion"
             type="text"

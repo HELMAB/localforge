@@ -1,7 +1,11 @@
 <template>
   <div class="p-6">
     <h3 class="text-2xl font-bold mb-6 flex items-center gap-2">
-      <span>🐘</span>
+      <img
+        src="@/assets/svg/php.svg"
+        alt="PHP"
+        class="w-8 h-8"
+      >
       <span>{{ t('sectionPhpTitle') }}</span>
     </h3>
 
@@ -39,26 +43,10 @@
       <div class="space-y-3">
         <div>
           <label class="block text-sm font-medium mb-2">{{ t('phpInstallLabel') }}</label>
-          <select
+          <CustomSelect
             v-model="phpInstallVersion"
-            class="w-full px-3 py-2 border rounded-lg"
-          >
-            <option value="8.4">
-              PHP 8.4
-            </option>
-            <option value="8.3">
-              PHP 8.3
-            </option>
-            <option value="8.2">
-              PHP 8.2
-            </option>
-            <option value="8.1">
-              PHP 8.1
-            </option>
-            <option value="8.0">
-              PHP 8.0
-            </option>
-          </select>
+            :options="phpVersionOptions"
+          />
         </div>
         <button
           class="px-6 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 font-medium"
@@ -76,7 +64,9 @@
       </h4>
       <div class="space-y-3">
         <div>
-          <label class="block text-sm font-medium mb-2">{{ t('phpExtVersionLabel') }}</label>
+          <label class="block text-sm font-medium mb-2">
+            {{ t('phpExtVersionLabel') }} <span class="text-red-500">*</span>
+          </label>
           <input
             v-model="phpExtVersion"
             type="text"
@@ -85,7 +75,9 @@
           >
         </div>
         <div>
-          <label class="block text-sm font-medium mb-2">{{ t('phpExtNameLabel') }}</label>
+          <label class="block text-sm font-medium mb-2">
+            {{ t('phpExtNameLabel') }} <span class="text-red-500">*</span>
+          </label>
           <input
             v-model="phpExtName"
             type="text"
@@ -115,6 +107,8 @@ import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useStatus } from '../../../composables/useStatus'
 import StatusMessage from '../../common/StatusMessage.vue'
+import CustomSelect from '../../common/CustomSelect.vue'
+import phpIcon from '@/assets/svg/php.svg'
 
 const { t, locale } = useI18n()
 const status = useStatus()
@@ -137,6 +131,14 @@ const props = defineProps({
 const phpInstallVersion = ref('8.3')
 const phpExtVersion = ref('')
 const phpExtName = ref('')
+
+const phpVersionOptions = [
+  { value: '8.4', label: 'PHP 8.4', icon: phpIcon },
+  { value: '8.3', label: 'PHP 8.3', icon: phpIcon },
+  { value: '8.2', label: 'PHP 8.2', icon: phpIcon },
+  { value: '8.1', label: 'PHP 8.1', icon: phpIcon },
+  { value: '8.0', label: 'PHP 8.0', icon: phpIcon }
+]
 
 async function handleInstallPHP() {
   if (!phpInstallVersion.value) {

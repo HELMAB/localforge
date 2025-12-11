@@ -4,7 +4,14 @@ import { useIpc } from './useIpc'
 export function useTools() {
   const { invoke } = useIpc()
   const isLoading = ref(false)
-  const installedTools = ref(null)
+  const installedTools = ref({
+    php: { installed: false, versions: [] },
+    node: { installed: false, versions: [], default: null },
+    nginx: { installed: false, version: null },
+    composer: { installed: false, version: null },
+    postgresql: { installed: false, version: null },
+    mysql: { installed: false, version: null }
+  })
   const error = ref(null)
 
   async function checkInstalledTools() {

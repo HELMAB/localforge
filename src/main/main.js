@@ -497,7 +497,31 @@ ipcMain.handle('check-installed-tools', async () => {
             results.node.installed = true;
             const versions = stdout.match(/v\d+\.\d+\.\d+/g);
             if (versions) {
-              results.node.versions = versions.map(v => v.substring(1));
+              // Remove duplicates
+              const uniqueVersions = [...new Set(versions.map(v => v.substring(1)))];
+
+              // Group by major version and keep only the latest version
+              const versionMap = new Map();
+              uniqueVersions.forEach(version => {
+                const [major, minor, patch] = version.split('.').map(Number);
+                const existing = versionMap.get(major);
+
+                // Keep the version with highest minor.patch
+                if (!existing ||
+                    minor > existing.minor ||
+                    (minor === existing.minor && patch > existing.patch)) {
+                  versionMap.set(major, { major, minor, patch, version });
+                }
+              });
+
+              // Convert to array and sort in descending order (newest first)
+              results.node.versions = Array.from(versionMap.values())
+                .sort((a, b) => {
+                  if (a.major !== b.major) return b.major - a.major;
+                  if (a.minor !== b.minor) return b.minor - a.minor;
+                  return b.patch - a.patch;
+                })
+                .map(v => v.version);
             }
 
             const defaultMatch = stdout.match(/default -> (v\d+\.\d+\.\d+)/);

@@ -1,7 +1,9 @@
 <template>
   <div class="space-y-4">
     <div>
-      <label class="block text-sm font-medium mb-2">{{ t('domainLabel') }}</label>
+      <label class="block text-sm font-medium mb-2">
+        {{ t('domainLabel') }} <span class="text-red-500">*</span>
+      </label>
       <input
         v-model="domain"
         type="text"
@@ -11,35 +13,19 @@
     </div>
 
     <div>
-      <label class="block text-sm font-medium mb-2">{{ t('nginxPathLabel') }}</label>
+      <label class="block text-sm font-medium mb-2">
+        {{ t('nginxPathLabel') }} <span class="text-red-500">*</span>
+      </label>
       <DirectorySelector v-model="nginxProjectPath" />
     </div>
 
     <div>
       <label class="block text-sm font-medium mb-2">{{ t('nginxPhpVersionLabel') }}</label>
-      <select
+      <CustomSelect
         v-model="phpVersion"
-        class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-      >
-        <option value="">
-          Auto-detect (ស្វ័យប្រវត្តិ)
-        </option>
-        <option value="8.3">
-          PHP 8.3-FPM
-        </option>
-        <option value="8.2">
-          PHP 8.2-FPM
-        </option>
-        <option value="8.1">
-          PHP 8.1-FPM
-        </option>
-        <option value="8.0">
-          PHP 8.0-FPM
-        </option>
-        <option value="7.4">
-          PHP 7.4-FPM
-        </option>
-      </select>
+        :options="phpVersionOptions"
+        placeholder="Auto-detect (ស្វ័យប្រវត្តិ)"
+      />
       <p class="text-xs text-gray-500 mt-1">
         {{ t('nginxPhpHint') }}
       </p>
@@ -77,6 +63,8 @@ import { useNginx } from '../../composables/useNginx'
 import { useStatus } from '../../composables/useStatus'
 import DirectorySelector from '../common/DirectorySelector.vue'
 import StatusMessage from '../common/StatusMessage.vue'
+import CustomSelect from '../common/CustomSelect.vue'
+import phpIcon from '@/assets/svg/php.svg'
 
 const { t, locale } = useI18n()
 const { configureNginx, isConfiguring } = useNginx()
@@ -86,6 +74,15 @@ const domain = ref('')
 const nginxProjectPath = ref('')
 const phpVersion = ref('')
 const port = ref(80)
+
+const phpVersionOptions = [
+  { value: '', label: 'Auto-detect (ស្វ័យប្រវត្តិ)', icon: phpIcon },
+  { value: '8.3', label: 'PHP 8.3-FPM', icon: phpIcon },
+  { value: '8.2', label: 'PHP 8.2-FPM', icon: phpIcon },
+  { value: '8.1', label: 'PHP 8.1-FPM', icon: phpIcon },
+  { value: '8.0', label: 'PHP 8.0-FPM', icon: phpIcon },
+  { value: '7.4', label: 'PHP 7.4-FPM', icon: phpIcon }
+]
 
 async function handleConfigureNginx() {
   if (!domain.value || !nginxProjectPath.value) {

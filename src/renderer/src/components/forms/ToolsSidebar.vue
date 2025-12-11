@@ -12,7 +12,11 @@
         @click="$emit('select', tool.id)"
       >
         <div class="flex items-center gap-3">
-          <span class="text-xl">{{ tool.icon }}</span>
+          <img
+            :src="tool.icon"
+            :alt="tool.id"
+            class="w-5 h-5"
+          >
           <span class="text-sm">{{ t(tool.label) }}</span>
         </div>
       </button>
@@ -22,6 +26,12 @@
 
 <script setup>
 import { useI18n } from 'vue-i18n'
+import phpIcon from '@/assets/svg/php.svg'
+import composerIcon from '@/assets/svg/composer.svg'
+import nodejsIcon from '@/assets/svg/nodejs.svg'
+import nginxIcon from '@/assets/svg/nginx.svg'
+import postgresqlIcon from '@/assets/svg/postgresql.svg'
+import mysqlIcon from '@/assets/svg/mysql.svg'
 
 const { t } = useI18n()
 
@@ -35,12 +45,12 @@ const props = defineProps({
 defineEmits(['select'])
 
 const tools = [
-  { id: 'php', icon: '🐘', label: 'menuPhp' },
-  { id: 'composer', icon: '📦', label: 'menuComposer' },
-  { id: 'node', icon: '🟢', label: 'menuNode' },
-  { id: 'nginx', icon: '🌐', label: 'menuNginx' },
-  { id: 'postgresql', icon: '🐘', label: 'menuPostgresql' },
-  { id: 'mysql', icon: '🐬', label: 'menuMysql' }
+  { id: 'php', icon: phpIcon, label: 'menuPhp' },
+  { id: 'composer', icon: composerIcon, label: 'menuComposer' },
+  { id: 'node', icon: nodejsIcon, label: 'menuNode' },
+  { id: 'nginx', icon: nginxIcon, label: 'menuNginx' },
+  { id: 'postgresql', icon: postgresqlIcon, label: 'menuPostgresql' },
+  { id: 'mysql', icon: mysqlIcon, label: 'menuMysql' }
 ]
 
 function sidebarButtonClass(toolId) {

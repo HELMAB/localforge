@@ -19,7 +19,9 @@
     />
 
     <div>
-      <label class="block text-sm font-medium mb-2 dark:text-gray-300">{{ t('projectNameLabel') }}</label>
+      <label class="block text-sm font-medium mb-2 dark:text-gray-300">
+        {{ t('projectNameLabel') }} <span class="text-red-500">*</span>
+      </label>
       <input
         v-model="projectName"
         type="text"
@@ -42,7 +44,9 @@
     </div>
 
     <div>
-      <label class="block text-sm font-medium mb-2 dark:text-gray-300">{{ t('projectPathLabel') }}</label>
+      <label class="block text-sm font-medium mb-2 dark:text-gray-300">
+        {{ t('projectPathLabel') }} <span class="text-red-500">*</span>
+      </label>
       <DirectorySelector v-model="projectPath" />
       <p
         v-if="validationErrors.path"
