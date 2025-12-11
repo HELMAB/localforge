@@ -27,7 +27,11 @@
     "wordpress",
     "nginx"
   ],
-  "author": "",
+  "author": {
+    "name": "Mab Hel",
+    "email": "mabhelitc@gmail.com",
+    "url": "https://helmab.netlify.app"
+  },
   "license": "MIT",
   "devDependencies": {
     "@eslint/js": "^9.39.1",
