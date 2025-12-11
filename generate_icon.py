@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw
 import math
 
 def create_icon(size=512):
