@@ -6,13 +6,24 @@ A desktop application for managing development projects with support for Laravel
 
 ## Features
 
+### Core Features
 - ✨ Create projects: Laravel, Vue, Nuxt, React, WordPress
 - 🔧 Automated Nginx virtual host configuration
 - 🔒 Generate HTTPS certificates using mkcert
 - 🛠️ Manage development tools: PHP, Composer, Node.js, Nginx, PostgreSQL, MySQL
 - 🌐 Bilingual support: Khmer (default) and English
-- 💅 Modern UI with Tailwind CSS
-- ⚡ Built with Electron
+- 💅 Modern UI with Vue 3 and Tailwind CSS
+- ⚡ Built with Electron + Vue 3 + Vite
+
+### Enhanced Features ✨
+- 🎨 **Form Validation** - Real-time validation with VeeValidate & Yup
+- 🌙 **Dark Mode** - Full dark theme with system preference detection
+- ⌨️ **Keyboard Shortcuts** - Navigate and control the app with hotkeys ([View shortcuts](KEYBOARD_SHORTCUTS.md))
+- 💾 **Settings Persistence** - Save preferences (language, theme, defaults)
+- 📊 **Progress Indicators** - Visual feedback for long operations
+- 🎯 **Enhanced UX** - Smooth transitions, hover effects, and accessibility
+
+For detailed information about enhanced features, see [FEATURES.md](FEATURES.md).
 
 ## Requirements
 
@@ -76,14 +87,20 @@ nvm --version
 npm install
 ```
 
-3. Build Tailwind CSS:
-```bash
-npm run build:css
-```
-
 ## Usage
 
-### Development Mode
+### Development Mode (with Hot Reload)
+
+```bash
+npm run electron:dev
+```
+
+This starts:
+- Vite dev server on port 5173
+- Electron app with hot module replacement
+- Instant updates when you edit Vue components
+
+### Vite Dev Server Only (Browser Testing)
 
 ```bash
 npm run dev
@@ -98,14 +115,13 @@ npm start
 ### Build Executable
 
 ```bash
-# Build for Linux
-npm run build:linux
+# Build Vue app and package for distribution
+npm run electron:build    # Default platform
 
-# Build for Windows
-npm run build:win
-
-# Build for macOS
-npm run build:mac
+# Build for specific platforms
+npm run build:linux       # Linux (AppImage, deb)
+npm run build:win         # Windows (NSIS installer)
+npm run build:mac         # macOS (DMG)
 ```
 
 ## Features Guide
@@ -166,7 +182,31 @@ The "Manage Tools" tab allows you to install and manage development tools direct
 
 ### Language Toggle
 
-Click the language button in the top right corner to switch between Khmer and English.
+Click the language button in the top right corner to switch between Khmer and English, or use the keyboard shortcut `Ctrl+L`.
+
+### Dark Mode
+
+Toggle dark mode by:
+- Clicking the moon/sun icon in the header
+- Using the keyboard shortcut `Ctrl+D`
+- Changing it in Settings (`Ctrl+,`)
+- Dark mode preference is automatically detected from your system
+
+### Settings
+
+Access application settings by:
+- Clicking the gear icon in the header
+- Using the keyboard shortcut `Ctrl+,`
+
+Configure:
+- Default project paths and versions
+- Language and theme preferences
+- Keyboard shortcut visibility
+- Auto-detect PHP-FPM option
+
+### Keyboard Shortcuts
+
+The application supports keyboard shortcuts for improved productivity. Press `Ctrl+1` through `Ctrl+4` to navigate between tabs quickly. See [KEYBOARD_SHORTCUTS.md](KEYBOARD_SHORTCUTS.md) for the complete list.
 
 ## Project Structure
 
@@ -174,18 +214,95 @@ Click the language button in the top right corner to switch between Khmer and En
 dev-tools-app/
 ├── src/
 │   ├── main/
-│   │   └── main.js          # Electron main process
-│   ├── renderer/
-│   │   ├── index.html       # Main UI
-│   │   ├── app.js          # Application logic
-│   │   └── styles.css      # Tailwind styles
-│   └── utils/              # Utility functions
+│   │   └── main.js              # Electron main process (IPC handlers)
+│   └── renderer/
+│       ├── index.html           # Vite entry point
+│       └── src/
+│           ├── main.js          # Vue app bootstrap
+│           ├── App.vue          # Root component
+│           ├── components/      # Vue components
+│           │   ├── layout/      # Header, Navigation, Footer
+│           │   ├── common/      # Reusable UI components
+│           │   └── forms/       # Feature forms + tool sections
+│           ├── views/           # Route view components
+│           ├── composables/     # IPC wrappers & business logic
+│           ├── router/          # Vue Router configuration
+│           ├── i18n/            # Vue I18n (Khmer/English)
+│           └── assets/styles/   # Tailwind CSS
+├── vite.config.js              # Vite configuration
+├── tailwind.config.js          # Tailwind CSS configuration
 ├── package.json
-├── tailwind.config.js
 └── README.md
 ```
 
+## Tech Stack
+
+- **Frontend Framework**: Vue 3 (Composition API)
+- **Build Tool**: Vite (fast development & HMR)
+- **Desktop Framework**: Electron
+- **Routing**: Vue Router (hash mode for Electron compatibility)
+- **Internationalization**: Vue I18n (Khmer/English)
+- **Styling**: Tailwind CSS
+- **Package Manager**: npm
+
+## Architecture
+
+### Electron + Vue 3 Integration
+
+This application uses a hybrid architecture:
+
+**Main Process** (`src/main/main.js`):
+- Handles all system operations (file I/O, shell commands, sudo operations)
+- Exposes IPC handlers for the renderer process
+- In development: loads Vite dev server (`http://localhost:5173`)
+- In production: loads built files from `src/renderer/dist/`
+
+**Renderer Process** (Vue 3 App):
+- Modern Vue 3 application with Composition API
+- Communicates with main process via composables that wrap `ipcRenderer.invoke()`
+- Uses Vue Router for tab navigation (hash mode for Electron compatibility)
+- Vue I18n for bilingual support (reactive language switching)
+
+### Component Architecture
+
+**Composables Pattern:**
+All Electron IPC calls are wrapped in composables (`src/renderer/src/composables/`):
+- `useIpc()` - Base IPC communication
+- `useProject()` - Project creation and directory selection
+- `useNginx()` - Nginx configuration
+- `useSsl()` - SSL certificate generation
+- `useTools()` - Development tools management
+- `useStatus()` - Status message handling
+
+**Component Hierarchy:**
+- **Layout Components**: Header (language switcher), TabNavigation (routing), Footer
+- **Common Components**: Reusable UI (StatusMessage, DirectorySelector, InfoBox)
+- **Form Components**: Feature-specific forms that use composables for business logic
+- **View Components**: Route wrappers that compose forms
+
 ## Troubleshooting
+
+### Development Issues
+
+**Two Electron windows opening:**
+- This was fixed in the latest version
+- If it happens, ensure `vite-plugin-electron` is NOT in `vite.config.js`
+
+**Vite dev server not starting:**
+```bash
+# Kill any process using port 5173
+lsof -ti:5173 | xargs kill -9
+npm run electron:dev
+```
+
+**Electron shows blank screen:**
+- Open DevTools (F12 or Ctrl+Shift+I) and check console for errors
+- Verify Vite server is running on `http://localhost:5173`
+- Check that `NODE_ENV=development` is set
+
+**Hot reload not working:**
+- Restart `npm run electron:dev`
+- Check Vite server is running in the terminal output
 
 ### Nginx Configuration Issues
 
@@ -220,6 +337,45 @@ If tool installation fails:
 
 MIT
 
+## Code Quality
+
+This project uses ESLint to maintain code quality:
+
+- **ESLint**: Configured with Vue 3 support and best practices
+- **Prettier**: Code formatting for consistent style
+- **Pre-commit Hook**: Automatically checks code before commits
+- **Git Hook**: Prevents committing code with linting errors
+
+### Quick Commands
+
+```bash
+# Check for linting errors
+npm run lint
+
+# Auto-fix linting errors
+npm run lint:fix
+
+# Format all code
+npm run format
+```
+
+For complete details, see [ESLINT_SETUP.md](ESLINT_SETUP.md).
+
+### Pre-commit Protection
+
+The pre-commit hook automatically runs ESLint on staged files. If errors are found, the commit will be blocked. This ensures only quality code is committed to the repository.
+
+To bypass the hook (emergency only):
+```bash
+git commit --no-verify -m "Emergency commit"
+```
+
 ## Contributing
 
 Feel free to submit issues and enhancement requests!
+
+**Before contributing:**
+1. Run `npm run lint:fix` to ensure code quality
+2. Test your changes with `npm run electron:dev`
+3. Follow the existing code style
+4. Write meaningful commit messages

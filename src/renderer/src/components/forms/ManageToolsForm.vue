@@ -1,0 +1,89 @@
+<template>
+  <div>
+    <div class="mb-4">
+      <p class="text-sm text-yellow-700 bg-yellow-50 border border-yellow-200 rounded px-3 py-2">
+        {{ t('manageNote') }}
+      </p>
+    </div>
+
+    <div class="flex bg-white rounded-lg shadow-sm border border-gray-200">
+      <ToolsSidebar
+        :selected-tool="selectedTool"
+        @select="selectedTool = $event"
+      />
+
+      <div class="flex-1 overflow-y-auto bg-gray-50">
+        <PhpSection
+          v-if="selectedTool === 'php'"
+          :installed-tools="installedTools"
+          :on-install-p-h-p="installPHP"
+          :on-install-p-h-p-extensions="installPHPExtensions"
+        />
+
+        <ComposerSection
+          v-if="selectedTool === 'composer'"
+          :installed-tools="installedTools"
+          :on-install-composer="installComposer"
+        />
+
+        <NodeSection
+          v-if="selectedTool === 'node'"
+          :installed-tools="installedTools"
+          :on-install-node="installNode"
+          :on-set-default-node="setDefaultNode"
+        />
+
+        <NginxSection
+          v-if="selectedTool === 'nginx'"
+          :installed-tools="installedTools"
+          :on-install-nginx="installNginx"
+        />
+
+        <PostgresqlSection
+          v-if="selectedTool === 'postgresql'"
+          :installed-tools="installedTools"
+          :on-install-postgre-s-q-l="installPostgreSQL"
+        />
+
+        <MysqlSection
+          v-if="selectedTool === 'mysql'"
+          :installed-tools="installedTools"
+          :on-install-my-s-q-l="installMySQL"
+        />
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useTools } from '../../composables/useTools'
+import ToolsSidebar from './ToolsSidebar.vue'
+import PhpSection from './tool-sections/PhpSection.vue'
+import ComposerSection from './tool-sections/ComposerSection.vue'
+import NodeSection from './tool-sections/NodeSection.vue'
+import NginxSection from './tool-sections/NginxSection.vue'
+import PostgresqlSection from './tool-sections/PostgresqlSection.vue'
+import MysqlSection from './tool-sections/MysqlSection.vue'
+
+const { t } = useI18n()
+const {
+  installedTools,
+  checkInstalledTools,
+  installPHP,
+  installPHPExtensions,
+  installNode,
+  setDefaultNode,
+  installNginx,
+  installComposer,
+  installPostgreSQL,
+  installMySQL
+} = useTools()
+
+const selectedTool = ref('php')
+
+onMounted(() => {
+  checkInstalledTools()
+})
+</script>

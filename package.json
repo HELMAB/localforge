@@ -4,13 +4,18 @@
   "description": "Desktop application for managing development projects with Laravel, Vue, Nuxt, React, WordPress support",
   "main": "src/main/main.js",
   "scripts": {
-    "start": "electron .",
-    "dev": "NODE_ENV=development electron .",
-    "build:css": "npx tailwindcss -i ./src/renderer/styles.css -o ./src/renderer/output.css --watch",
-    "build": "electron-builder",
-    "build:linux": "electron-builder --linux",
-    "build:win": "electron-builder --win",
-    "build:mac": "electron-builder --mac"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "electron:dev": "concurrently \"vite\" \"wait-on http://localhost:5173 && NODE_ENV=development electron .\"",
+    "electron:build": "vite build && electron-builder",
+    "build:linux": "vite build && electron-builder --linux",
+    "build:win": "vite build && electron-builder --win",
+    "build:mac": "vite build && electron-builder --mac",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write \"src/**/*.{js,vue,css}\"",
+    "format:check": "prettier --check \"src/**/*.{js,vue,css}\""
   },
   "keywords": [
     "electron",
@@ -22,41 +27,80 @@
     "wordpress",
     "nginx"
   ],
-  "author": "",
+  "author": {
+    "name": "Mab Hel",
+    "email": "mabhelitc@gmail.com",
+    "url": "https://helmab.netlify.app"
+  },
   "license": "MIT",
   "devDependencies": {
+    "@eslint/js": "^9.39.1",
+    "@vitejs/plugin-vue": "^5.2.4",
+    "@vue/eslint-config-prettier": "^10.2.0",
     "autoprefixer": "^10.4.22",
+    "concurrently": "^9.2.1",
     "electron": "^28.0.0",
     "electron-builder": "^26.0.12",
+    "eslint": "^8.57.1",
+    "eslint-plugin-vue": "^9.33.0",
+    "globals": "^16.5.0",
+    "husky": "^9.1.6",
+    "lint-staged": "^15.2.10",
     "postcss": "^8.5.6",
-    "tailwindcss": "^3.4.17"
+    "prettier": "^3.3.3",
+    "tailwindcss": "^3.4.17",
+    "vite": "^5.4.21",
+    "vite-plugin-electron": "^0.28.8",
+    "vite-plugin-electron-renderer": "^0.14.6",
+    "wait-on": "^9.0.3"
   },
   "dependencies": {
-    "sudo-prompt": "^9.2.1"
+    "@vee-validate/i18n": "^4.15.1",
+    "@vee-validate/rules": "^4.15.1",
+    "sudo-prompt": "^9.2.1",
+    "vee-validate": "^4.15.1",
+    "vue": "^3.5.25",
+    "vue-i18n": "^9.14.5",
+    "vue-router": "^4.6.3",
+    "yup": "^1.7.1"
   },
   "build": {
     "appId": "com.devtools.app",
-    "productName": "Dev Tools Manager",
+    "productName": "Devtools",
     "directories": {
-      "output": "dist"
+      "output": "dist-builder"
     },
     "files": [
-      "src/**/*",
+      "src/main/**/*",
+      "src/renderer/dist/**/*",
+      "src/renderer/src/assets/icons/**/*",
+      "dist-electron/**/*",
       "node_modules/**/*",
       "package.json"
     ],
     "linux": {
       "target": [
-        "AppImage",
         "deb"
       ],
-      "category": "Development"
+      "category": "Development",
+      "icon": "src/renderer/src/assets/icons/icon.png"
     },
     "win": {
-      "target": "nsis"
+      "target": "nsis",
+      "icon": "src/renderer/src/assets/icons/icon.ico"
     },
     "mac": {
-      "target": "dmg"
+      "target": "dmg",
+      "icon": "src/renderer/src/assets/icons/icon.png"
     }
+  },
+  "lint-staged": {
+    "*.{js,vue}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{css,md,json}": [
+      "prettier --write"
+    ]
   }
 }
