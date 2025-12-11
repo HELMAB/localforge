@@ -8,6 +8,16 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
 .tab-btn {
   transition: all 0.3s ease;
   border-bottom: 2px solid transparent;
@@ -15,12 +25,6 @@ body {
 
 .tab-btn:hover {
   background-color: #f3f4f6;
-}
-
-input:focus,
-select:focus,
-textarea:focus {
-  outline: none;
 }
 
 button {

@@ -17,11 +17,13 @@ function createWindow() {
     },
   });
 
-  mainWindow.loadFile(path.join(__dirname, '../renderer/index.html'));
-  
-  // Open DevTools in development
+  // In development, load from Vite dev server
   if (process.env.NODE_ENV === 'development') {
+    mainWindow.loadURL('http://localhost:5173');
     mainWindow.webContents.openDevTools();
+  } else {
+    // In production, load the built files
+    mainWindow.loadFile(path.join(__dirname, '../renderer/dist/index.html'));
   }
 }
 
