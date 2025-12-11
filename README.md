@@ -1,56 +1,92 @@
-# Dev Tools Manager
+<div align="center">
 
-A desktop application for managing development projects with support for Laravel, Vue.js, Nuxt.js, React, and WordPress.
+# 🚀 Dev Tools Manager
+
+**A modern, powerful desktop application for managing development projects and tools**
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![Electron](https://img.shields.io/badge/Electron-28.0-47848F?logo=electron)](https://www.electronjs.org/)
+[![Vue 3](https://img.shields.io/badge/Vue-3.5-4FC08D?logo=vue.js)](https://vuejs.org/)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
 
 ![Dev Tools Manager](art.png)
 
-## Features
+**Streamline your development workflow with project scaffolding, server configuration, and tool management—all in one beautiful desktop app.**
 
-### Core Features
-- ✨ Create projects: Laravel, Vue, Nuxt, React, WordPress
-- 🔧 Automated Nginx virtual host configuration
-- 🔒 Generate HTTPS certificates using mkcert
-- 🛠️ Manage development tools: PHP, Composer, Node.js, Nginx, PostgreSQL, MySQL
-- 🌐 Bilingual support: Khmer (default) and English
-- 💅 Modern UI with Vue 3 and Tailwind CSS
-- ⚡ Built with Electron + Vue 3 + Vite
+[Features](#-features) • [Installation](#-installation) • [Usage](#-usage) • [Contributing](#-contributing) • [License](#-license)
 
-### Enhanced Features ✨
-- 🎨 **Form Validation** - Real-time validation with VeeValidate & Yup
-- 🌙 **Dark Mode** - Full dark theme with system preference detection
-- ⌨️ **Keyboard Shortcuts** - Navigate and control the app with hotkeys ([View shortcuts](KEYBOARD_SHORTCUTS.md))
-- 💾 **Settings Persistence** - Save preferences (language, theme, defaults)
-- 📊 **Progress Indicators** - Visual feedback for long operations
-- 🎯 **Enhanced UX** - Smooth transitions, hover effects, and accessibility
+</div>
 
-For detailed information about enhanced features, see [FEATURES.md](FEATURES.md).
+---
 
-## Requirements
+## ✨ Features
 
-### Essential Requirements
+<table>
+<tr>
+<td width="50%">
 
-Before using this application, ensure you have:
+### 🎯 Project Management
+- **Quick scaffolding** for Laravel, Vue, Nuxt, React, WordPress
+- **Smart directory selection** with recent paths
+- **Real-time validation** with VeeValidate & Yup
+- **Project templates** with best practices
 
-- **Node.js** (v16 or higher) - Required to run the application
-- **sudo privileges** - Required for installing development tools
+### ⚙️ Server Configuration
+- **Automated Nginx** virtual host setup
+- **SSL certificates** generation with mkcert
+- **Port configuration** with conflict detection
+- **Auto PHP-FPM** detection and configuration
 
-### Optional Tools (Can be installed via "Manage Tools" tab)
+</td>
+<td width="50%">
 
-The following tools can be installed directly from the application:
+### 🛠️ Tool Management
+- **PHP versions** (8.0 → 8.4) with extensions
+- **Composer** global installation
+- **Node.js** version management via NVM
+- **Databases**: PostgreSQL, MySQL
+- **Nginx** web server installation
 
-- **PHP** (8.0, 8.1, 8.2, 8.3, 8.4)
-- **Composer** (for Laravel projects)
-- **Node.js versions** (via NVM for version management)
-- **Nginx** (for web server configuration)
-- **PostgreSQL** (database server)
-- **MySQL** (database server)
+### 🎨 User Experience
+- **🌙 Dark mode** with system preference sync
+- **🌐 Bilingual**: English & Khmer (ភាសាខ្មែរ)
+- **⌨️ Keyboard shortcuts** for power users
+- **💾 Persistent settings** & preferences
+- **📊 Progress tracking** for long operations
 
-### Manual Installation Required
+</td>
+</tr>
+</table>
 
-- **mkcert** (for SSL certificate generation) - Must be installed manually
-- **NVM** (for managing multiple Node.js versions) - Recommended for Node.js version switching
+## 📋 Requirements
 
-### Installing mkcert
+### System Requirements
+
+| Requirement | Version | Notes |
+|------------|---------|-------|
+| **Node.js** | ≥ 16.x | Required to run the application |
+| **npm** | ≥ 7.x | Comes with Node.js |
+| **OS** | Linux, macOS, Windows | Tested on Ubuntu 20.04+ |
+| **Permissions** | sudo access | Required for tool installation |
+
+### Tools (Optional - Install via App)
+
+The following can be installed directly from the **Manage Tools** tab:
+
+| Tool | Versions | Purpose |
+|------|----------|---------|
+| PHP | 8.0, 8.1, 8.2, 8.3, 8.4 | Laravel backend |
+| Composer | Latest | PHP dependency manager |
+| Node.js | Any via NVM | Frontend tooling |
+| Nginx | Latest | Web server |
+| PostgreSQL | Customizable | Database |
+| MySQL | Latest | Database |
+
+### Manual Installation
+
+<details>
+<summary><b>📦 mkcert</b> (SSL certificates) - Click to expand</summary>
+
 
 ```bash
 # Linux
@@ -69,313 +105,468 @@ choco install mkcert
 mkcert -install
 ```
 
-### Installing NVM (Optional, for Node.js version management)
+</details>
+
+<details>
+<summary><b>🔧 NVM</b> (Node.js version manager) - Click to expand</summary>
 
 ```bash
 # Linux/macOS
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
 
-# Then restart your terminal and verify
+# Restart terminal, then verify
 nvm --version
 ```
 
-## Installation
+</details>
 
-1. Clone or download this repository
-2. Install dependencies:
+## 🚀 Installation
+
+### Quick Start
+
 ```bash
+# Clone the repository
+git clone https://github.com/yourusername/dev-tools-app.git
+cd dev-tools-app
+
+# Install dependencies
 npm install
-```
 
-## Usage
-
-### Development Mode (with Hot Reload)
-
-```bash
+# Run in development mode
 npm run electron:dev
 ```
 
-This starts:
-- Vite dev server on port 5173
-- Electron app with hot module replacement
-- Instant updates when you edit Vue components
-
-### Vite Dev Server Only (Browser Testing)
+### Build from Source
 
 ```bash
+# Build for your platform
+npm run electron:build
+
+# Or build for specific platforms
+npm run build:linux    # Linux (.deb, AppImage)
+npm run build:win      # Windows (.exe, NSIS)
+npm run build:mac      # macOS (.dmg)
+```
+
+The built application will be in the `dist-builder/` directory.
+
+## 💻 Usage
+
+### Development
+
+```bash
+# Development mode with hot reload
+npm run electron:dev
+
+# Vite dev server only (browser testing)
 npm run dev
+
+# Preview production build
+npm run preview
 ```
 
-### Production Mode
+### Available Scripts
 
-```bash
-npm start
-```
+| Command | Description |
+|---------|-------------|
+| `npm run electron:dev` | Start dev server + Electron with HMR |
+| `npm run dev` | Start Vite dev server only |
+| `npm run build` | Build Vue app for production |
+| `npm run electron:build` | Build and package for distribution |
+| `npm run lint` | Check code quality with ESLint |
+| `npm run lint:fix` | Auto-fix linting issues |
+| `npm run format` | Format code with Prettier |
 
-### Build Executable
+## 📖 User Guide
 
-```bash
-# Build Vue app and package for distribution
-npm run electron:build    # Default platform
+### 🎯 Create Project
 
-# Build for specific platforms
-npm run build:linux       # Linux (AppImage, deb)
-npm run build:win         # Windows (NSIS installer)
-npm run build:mac         # macOS (DMG)
-```
+<table>
+<tr><td>
 
-## Features Guide
+**Step-by-step:**
+1. Click the **Create Project** tab (`Ctrl+1`)
+2. Select your framework/CMS
+3. Enter a project name (auto-validated)
+4. Choose installation directory
+5. Configure framework-specific options
+6. Click **Create Project**
 
-### 1. Create Project
+</td><td>
 
-- Select project type (Laravel, Vue, Nuxt, React, WordPress)
-- Enter project name
-- Choose project location
-- Click "Create Project"
+**Supported Types:**
+- 🟥 **Laravel** (with Composer)
+- 🟩 **Vue.js** (Vite template)
+- 🟦 **Nuxt.js** (latest version)
+- ⚛️ **React** (with Vite)
+- 🔵 **WordPress** (latest)
 
-### 2. Configure Nginx
+</td></tr>
+</table>
 
-- Enter domain name (e.g., myproject.local)
-- Select project path
-- Set port (default: 80)
-- Click "Configure"
+### 🌐 Configure Nginx
 
-Note: You may need sudo privileges for Nginx configuration.
+<table>
+<tr><td width="60%">
 
-### 3. Generate SSL Certificate
+**Quick Setup:**
+1. Navigate to **Nginx Config** tab (`Ctrl+2`)
+2. Enter domain (e.g., `myproject.local`)
+3. Browse to project root directory
+4. Set port (default: 80) or enable SSL (443)
+5. Enable **Auto-detect PHP-FPM** for PHP projects
+6. Click **Configure**
 
-- Enter domain name
-- Click "Generate Certificate"
-- Certificates will be created in your home directory
+> ⚠️ **Note:** Requires sudo password for system configuration
 
-### 4. Manage Development Tools
+</td><td width="40%">
 
-The "Manage Tools" tab allows you to install and manage development tools directly from the application:
+**Features:**
+- ✅ Auto PHP-FPM detection
+- ✅ SSL support (port 443)
+- ✅ Custom port assignment
+- ✅ Symlink to sites-enabled
+- ✅ Auto Nginx reload
 
-#### PHP Management
-- View installed PHP versions
-- Install new PHP versions (8.0, 8.1, 8.2, 8.3, 8.4)
-- Install PHP extensions for specific versions
+</td></tr>
+</table>
 
-#### Composer Management
-- Check Composer installation status
-- Install Composer globally
+### 🔒 Generate SSL Certificate
 
-#### Node.js Management
-- View installed Node.js versions via NVM
-- Install new Node.js versions
-- Set default Node.js version
+Simple HTTPS setup with mkcert:
+1. Go to **SSL Generator** tab (`Ctrl+3`)
+2. Enter domain name
+3. Click **Generate Certificate**
+4. Certificates saved to `~/certs/`
 
-#### Nginx Management
-- Check Nginx installation status
-- Install Nginx web server
+### 🛠️ Manage Tools
 
-#### PostgreSQL Management
-- Check PostgreSQL installation status
-- Install specific PostgreSQL versions
+**One-click installation** for development tools:
 
-#### MySQL Management
-- Check MySQL installation status
-- Install MySQL database server
+| Tool | Features | Shortcut |
+|------|----------|----------|
+| **PHP** | Multi-version support (8.0-8.4), extensions | Install specific versions |
+| **Composer** | Global installation | Check version & install |
+| **Node.js** | NVM integration, version switching | Set default version |
+| **Nginx** | Web server | Quick install |
+| **PostgreSQL** | Version selection | Custom version support |
+| **MySQL** | Database server | Latest stable |
 
-**Note:** All installation operations require sudo privileges and will prompt for your password.
+Access via **Manage Tools** tab (`Ctrl+4`)
 
-### Language Toggle
+### ⚡ Quick Tips
 
-Click the language button in the top right corner to switch between Khmer and English, or use the keyboard shortcut `Ctrl+L`.
+| Action | Method |
+|--------|--------|
+| **Switch Language** | Header button or `Ctrl+L` |
+| **Toggle Dark Mode** | Moon/Sun icon or `Ctrl+D` |
+| **Open Settings** | Gear icon or `Ctrl+,` |
+| **Navigate Tabs** | `Ctrl+1` through `Ctrl+4` |
+| **View Shortcuts** | Press `Ctrl+/` anytime |
 
-### Dark Mode
+## 🏗️ Tech Stack
 
-Toggle dark mode by:
-- Clicking the moon/sun icon in the header
-- Using the keyboard shortcut `Ctrl+D`
-- Changing it in Settings (`Ctrl+,`)
-- Dark mode preference is automatically detected from your system
+<table>
+<tr>
+<td>
 
-### Settings
+**Frontend**
+- Vue 3 (Composition API)
+- Vue Router (hash mode)
+- Vue I18n (bilingual)
+- VeeValidate + Yup
+- Tailwind CSS
 
-Access application settings by:
-- Clicking the gear icon in the header
-- Using the keyboard shortcut `Ctrl+,`
+</td>
+<td>
 
-Configure:
-- Default project paths and versions
-- Language and theme preferences
-- Keyboard shortcut visibility
-- Auto-detect PHP-FPM option
+**Desktop**
+- Electron 28
+- IPC communication
+- Node.js integration
+- sudo-prompt
 
-### Keyboard Shortcuts
+</td>
+<td>
 
-The application supports keyboard shortcuts for improved productivity. Press `Ctrl+1` through `Ctrl+4` to navigate between tabs quickly. See [KEYBOARD_SHORTCUTS.md](KEYBOARD_SHORTCUTS.md) for the complete list.
+**Build & Dev**
+- Vite (HMR)
+- ESLint + Prettier
+- Husky (git hooks)
+- electron-builder
 
-## Project Structure
+</td>
+</tr>
+</table>
+
+## 📁 Project Structure
 
 ```
 dev-tools-app/
-├── src/
-│   ├── main/
-│   │   └── main.js              # Electron main process (IPC handlers)
-│   └── renderer/
-│       ├── index.html           # Vite entry point
-│       └── src/
-│           ├── main.js          # Vue app bootstrap
-│           ├── App.vue          # Root component
-│           ├── components/      # Vue components
-│           │   ├── layout/      # Header, Navigation, Footer
-│           │   ├── common/      # Reusable UI components
-│           │   └── forms/       # Feature forms + tool sections
-│           ├── views/           # Route view components
-│           ├── composables/     # IPC wrappers & business logic
-│           ├── router/          # Vue Router configuration
-│           ├── i18n/            # Vue I18n (Khmer/English)
-│           └── assets/styles/   # Tailwind CSS
-├── vite.config.js              # Vite configuration
-├── tailwind.config.js          # Tailwind CSS configuration
-├── package.json
-└── README.md
+├── 📂 src/
+│   ├── 📂 main/
+│   │   └── main.js                    # Electron main process (IPC)
+│   └── 📂 renderer/
+│       ├── index.html                 # Entry point
+│       └── 📂 src/
+│           ├── main.js                # Vue app bootstrap
+│           ├── App.vue                # Root component
+│           ├── 📂 components/
+│           │   ├── layout/           # Header, Nav, Footer
+│           │   ├── common/           # Reusable UI
+│           │   └── forms/            # Feature forms
+│           ├── 📂 views/              # Route views
+│           ├── 📂 composables/        # Business logic + IPC
+│           ├── 📂 router/             # Vue Router
+│           ├── 📂 i18n/               # Translations (km/en)
+│           └── 📂 assets/             # Styles, icons, images
+├── vite.config.js
+├── tailwind.config.js
+├── eslint.config.mjs
+└── package.json
 ```
 
-## Tech Stack
+## 🏛️ Architecture
 
-- **Frontend Framework**: Vue 3 (Composition API)
-- **Build Tool**: Vite (fast development & HMR)
-- **Desktop Framework**: Electron
-- **Routing**: Vue Router (hash mode for Electron compatibility)
-- **Internationalization**: Vue I18n (Khmer/English)
-- **Styling**: Tailwind CSS
-- **Package Manager**: npm
+### Process Model
 
-## Architecture
+```mermaid
+graph LR
+    A[Main Process] -->|IPC| B[Renderer Process]
+    B -->|ipcRenderer.invoke| A
+    A -->|System Ops| C[OS]
+    A -->|Shell| D[CLI Tools]
+```
 
-### Electron + Vue 3 Integration
+<table>
+<tr>
+<td width="50%">
 
-This application uses a hybrid architecture:
+**Main Process** (`src/main/main.js`)
+- System operations (file I/O, shell)
+- Sudo operations (tool installation)
+- IPC handlers for renderer
+- Window management
+- **Dev:** Loads `localhost:5173`
+- **Prod:** Loads built files
 
-**Main Process** (`src/main/main.js`):
-- Handles all system operations (file I/O, shell commands, sudo operations)
-- Exposes IPC handlers for the renderer process
-- In development: loads Vite dev server (`http://localhost:5173`)
-- In production: loads built files from `src/renderer/dist/`
+</td>
+<td width="50%">
 
-**Renderer Process** (Vue 3 App):
-- Modern Vue 3 application with Composition API
-- Communicates with main process via composables that wrap `ipcRenderer.invoke()`
-- Uses Vue Router for tab navigation (hash mode for Electron compatibility)
-- Vue I18n for bilingual support (reactive language switching)
+**Renderer Process** (Vue 3 App)
+- Vue 3 with Composition API
+- IPC via composables
+- Hash routing (Electron compat)
+- Reactive i18n switching
+- Tailwind CSS styling
+- VeeValidate forms
 
-### Component Architecture
+</td>
+</tr>
+</table>
 
-**Composables Pattern:**
-All Electron IPC calls are wrapped in composables (`src/renderer/src/composables/`):
-- `useIpc()` - Base IPC communication
-- `useProject()` - Project creation and directory selection
-- `useNginx()` - Nginx configuration
-- `useSsl()` - SSL certificate generation
-- `useTools()` - Development tools management
-- `useStatus()` - Status message handling
+### Composables Pattern
 
-**Component Hierarchy:**
-- **Layout Components**: Header (language switcher), TabNavigation (routing), Footer
-- **Common Components**: Reusable UI (StatusMessage, DirectorySelector, InfoBox)
-- **Form Components**: Feature-specific forms that use composables for business logic
-- **View Components**: Route wrappers that compose forms
+All IPC calls wrapped in reusable composables:
 
-## Troubleshooting
+| Composable | Purpose |
+|------------|---------|
+| `useIpc()` | Base IPC communication |
+| `useProject()` | Project creation, directory selection |
+| `useNginx()` | Nginx configuration |
+| `useSsl()` | SSL certificate generation |
+| `useTools()` | Tool installation & management |
+| `useStatus()` | Status messages |
+| `useSettings()` | Settings persistence |
+| `useDarkMode()` | Theme management |
 
-### Development Issues
+## 🔧 Troubleshooting
 
-**Two Electron windows opening:**
-- This was fixed in the latest version
-- If it happens, ensure `vite-plugin-electron` is NOT in `vite.config.js`
+<details>
+<summary><b>🐛 Development Issues</b></summary>
 
-**Vite dev server not starting:**
+### Port already in use
 ```bash
-# Kill any process using port 5173
+# Kill process on port 5173
 lsof -ti:5173 | xargs kill -9
 npm run electron:dev
 ```
 
-**Electron shows blank screen:**
-- Open DevTools (F12 or Ctrl+Shift+I) and check console for errors
-- Verify Vite server is running on `http://localhost:5173`
-- Check that `NODE_ENV=development` is set
+### Blank Electron window
+1. Open DevTools (`F12` or `Ctrl+Shift+I`)
+2. Check console for errors
+3. Verify Vite server: `http://localhost:5173`
+4. Ensure `NODE_ENV=development`
 
-**Hot reload not working:**
-- Restart `npm run electron:dev`
-- Check Vite server is running in the terminal output
-
-### Nginx Configuration Issues
-
-If Nginx configuration fails, ensure:
-- Nginx is installed and running (you can install it via "Manage Tools" tab)
-- You have sudo privileges
-- The project path exists and is accessible
-
-### SSL Certificate Issues
-
-If SSL generation fails:
-- Verify mkcert is installed: `mkcert -version`
-- Run `mkcert -install` to install the local CA
-
-### Project Creation Issues
-
-- Ensure Composer is installed for Laravel projects (install via "Manage Tools" tab)
-- Verify Node.js is installed for Vue/Nuxt/React projects
-- Check internet connection for downloading project templates
-
-### Manage Tools Installation Issues
-
-If tool installation fails:
-- **Permission denied**: Ensure you entered your sudo password correctly
-- **PHP installation fails**: Check if you have Ubuntu's `software-properties-common` package installed
-- **Node.js versions not showing**: Install NVM first (see NVM installation guide above)
-- **Database installation fails**: Ensure your system package manager is up to date (`sudo apt update`)
-
-**Tip**: Check the status messages displayed in the application for specific error details.
-
-## License
-
-MIT
-
-## Code Quality
-
-This project uses ESLint to maintain code quality:
-
-- **ESLint**: Configured with Vue 3 support and best practices
-- **Prettier**: Code formatting for consistent style
-- **Pre-commit Hook**: Automatically checks code before commits
-- **Git Hook**: Prevents committing code with linting errors
-
-### Quick Commands
-
+### Hot reload not working
 ```bash
-# Check for linting errors
-npm run lint
-
-# Auto-fix linting errors
-npm run lint:fix
-
-# Format all code
-npm run format
+# Restart dev server
+npm run electron:dev
 ```
 
-For complete details, see [ESLINT_SETUP.md](ESLINT_SETUP.md).
+### Duplicate Electron windows
+- Ensure `vite-plugin-electron` is NOT in `vite.config.js`
+- Already fixed in latest version
 
-### Pre-commit Protection
+</details>
 
-The pre-commit hook automatically runs ESLint on staged files. If errors are found, the commit will be blocked. This ensures only quality code is committed to the repository.
+<details>
+<summary><b>🌐 Nginx Issues</b></summary>
 
-To bypass the hook (emergency only):
+**Configuration fails:**
+- ✅ Install Nginx via "Manage Tools" tab
+- ✅ Verify sudo privileges
+- ✅ Check project path exists
+- ✅ Ensure port is not in use
+
+**Virtual host not working:**
+- Add domain to `/etc/hosts`: `127.0.0.1 yourdomain.local`
+- Restart Nginx: `sudo systemctl restart nginx`
+
+</details>
+
+<details>
+<summary><b>🔒 SSL Certificate Issues</b></summary>
+
 ```bash
-git commit --no-verify -m "Emergency commit"
+# Verify mkcert installation
+mkcert -version
+
+# Install local CA
+mkcert -install
+
+# Check certificate location
+ls ~/certs/
 ```
 
-## Contributing
+</details>
 
-Feel free to submit issues and enhancement requests!
+<details>
+<summary><b>🛠️ Tool Installation Issues</b></summary>
 
-**Before contributing:**
-1. Run `npm run lint:fix` to ensure code quality
-2. Test your changes with `npm run electron:dev`
-3. Follow the existing code style
-4. Write meaningful commit messages
+| Issue | Solution |
+|-------|----------|
+| **Permission denied** | Enter correct sudo password |
+| **PHP install fails** | Install `software-properties-common` |
+| **Node versions not showing** | Install NVM first |
+| **Database install fails** | Run `sudo apt update` |
+| **Composer not found** | Install via "Manage Tools" first |
+
+</details>
+
+<details>
+<summary><b>🎨 UI/Display Issues</b></summary>
+
+- **Dark mode not working:** Check system preferences
+- **Language not switching:** Clear browser cache (if testing in browser)
+- **Icons missing:** Ensure `src/renderer/src/assets/` is intact
+
+</details>
+
+> 💡 **Tip:** Always check the in-app status messages for specific error details!
+
+## 🤝 Contributing
+
+We welcome contributions! Here's how to get started:
+
+### 🚦 Getting Started
+
+1. **Fork** the repository
+2. **Clone** your fork
+   ```bash
+   git clone https://github.com/yourusername/dev-tools-app.git
+   cd dev-tools-app
+   ```
+3. **Create a branch**
+   ```bash
+   git checkout -b feature/amazing-feature
+   ```
+4. **Make changes** and test thoroughly
+5. **Commit** with meaningful messages
+   ```bash
+   git commit -m "feat: add amazing feature"
+   ```
+6. **Push** to your fork
+   ```bash
+   git push origin feature/amazing-feature
+   ```
+7. **Open a Pull Request**
+
+### 📝 Contribution Guidelines
+
+- ✅ Run `npm run lint:fix` before committing
+- ✅ Test with `npm run electron:dev`
+- ✅ Follow existing code style
+- ✅ Write clear commit messages ([Conventional Commits](https://www.conventionalcommits.org/))
+- ✅ Update documentation if needed
+- ✅ Add tests for new features
+
+### 🎯 Areas for Contribution
+
+- 🐛 Bug fixes
+- ✨ New features
+- 📖 Documentation improvements
+- 🌐 Translations (add new languages)
+- 🎨 UI/UX enhancements
+- ⚡ Performance optimizations
+- 🧪 Tests
+
+### 🔒 Code Quality
+
+This project uses automated code quality tools:
+
+| Tool | Purpose | Command |
+|------|---------|---------|
+| **ESLint** | Code linting | `npm run lint` |
+| **Prettier** | Code formatting | `npm run format` |
+| **Husky** | Git hooks | Auto-runs on commit |
+| **lint-staged** | Staged file linting | Auto-runs on commit |
+
+**Pre-commit hook** automatically validates code before committing.
+
+> **Emergency bypass:** `git commit --no-verify` (use sparingly!)
+
+## 📄 License
+
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+
+```
+MIT License - Copyright (c) 2024 Mab Hel
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+```
+
+## 🙏 Acknowledgments
+
+- **[Electron](https://www.electronjs.org/)** - Desktop app framework
+- **[Vue.js](https://vuejs.org/)** - Progressive JavaScript framework
+- **[Vite](https://vitejs.dev/)** - Next generation frontend tooling
+- **[Tailwind CSS](https://tailwindcss.com/)** - Utility-first CSS framework
+- All open-source contributors
+
+## 📞 Support & Contact
+
+- 🐛 **Issues:** [GitHub Issues](https://github.com/yourusername/dev-tools-app/issues)
+- 💬 **Discussions:** [GitHub Discussions](https://github.com/yourusername/dev-tools-app/discussions)
+- 📧 **Email:** mabhelitc@gmail.com
+- 🌐 **Website:** [helmab.netlify.app](https://helmab.netlify.app)
+
+---
+
+<div align="center">
+
+**⭐ Star this repo if you find it helpful!**
+
+Made with ❤️ by [Mab Hel](https://helmab.netlify.app)
+
+[⬆ Back to Top](#-dev-tools-manager)
+
+</div>
