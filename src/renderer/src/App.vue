@@ -1,5 +1,8 @@
 <template>
-  <div id="app" class="min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-200">
+  <div
+    id="app"
+    class="min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-200"
+  >
     <div class="container mx-auto p-6">
       <AppHeader @toggle-settings="showSettings = true" />
 
@@ -7,7 +10,10 @@
         <TabNavigation />
 
         <router-view v-slot="{ Component }">
-          <transition name="fade" mode="out-in">
+          <transition
+            name="fade"
+            mode="out-in"
+          >
             <component :is="Component" />
           </transition>
         </router-view>
@@ -17,14 +23,14 @@
     </div>
 
     <SettingsModal 
-      :isOpen="showSettings" 
+      :is-open="showSettings" 
       @close="showSettings = false"
       @toggle-dark-mode="toggleDarkMode"
       @change-language="handleLanguageChange"
     />
 
     <ProgressBar 
-      :isLoading="progress.isLoading.value"
+      :is-loading="progress.isLoading.value"
       :progress="progress.progress.value"
       :message="progress.message.value"
     />
@@ -45,7 +51,7 @@ import { useKeyboardShortcuts } from './composables/useKeyboardShortcuts'
 import { useProgress } from './composables/useProgress'
 
 const { locale } = useI18n()
-const { isDark, toggleDarkMode: toggle } = useDarkMode()
+const { toggleDarkMode: toggle } = useDarkMode()
 const { settings } = useSettings()
 const progress = useProgress()
 const showSettings = ref(false)

@@ -1,5 +1,8 @@
 <template>
-  <div :class="boxClasses[type]" class="border rounded-lg p-3">
+  <div
+    :class="boxClasses[type]"
+    class="border rounded-lg p-3"
+  >
     <p class="text-sm">
       <strong>{{ title }}</strong><br>
       <span>{{ message }}</span>
@@ -8,7 +11,7 @@
 </template>
 
 <script setup>
-const props = defineProps({
+defineProps({
   title: {
     type: String,
     required: true

@@ -1,12 +1,15 @@
 <template>
-  <div class="bg-gray-50 border-r border-gray-200 py-4 px-3 flex flex-col rounded-l-lg" style="width: 180px; min-width: 180px;">
+  <div
+    class="bg-gray-50 border-r border-gray-200 py-4 px-3 flex flex-col rounded-l-lg"
+    style="width: 180px; min-width: 180px;"
+  >
     <nav class="space-y-2 flex-1 overflow-y-auto">
       <button
         v-for="tool in tools"
         :key="tool.id"
-        @click="$emit('select', tool.id)"
         :class="sidebarButtonClass(tool.id)"
         class="w-full px-3 py-2.5 rounded-lg text-sm font-medium transition-colors"
+        @click="$emit('select', tool.id)"
       >
         <div class="flex items-center gap-3">
           <span class="text-xl">{{ tool.icon }}</span>

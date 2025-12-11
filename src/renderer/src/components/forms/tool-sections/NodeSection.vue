@@ -7,8 +7,13 @@
 
     <!-- Installed Node Versions -->
     <div class="mb-6 bg-green-50 border border-green-200 rounded-lg p-4">
-      <h4 class="font-semibold text-green-800 mb-3">{{ t('nodeInstalledTitle') }}</h4>
-      <div v-if="installedTools && installedTools.node.installed" class="space-y-2">
+      <h4 class="font-semibold text-green-800 mb-3">
+        {{ t('nodeInstalledTitle') }}
+      </h4>
+      <div
+        v-if="installedTools && installedTools.node.installed"
+        class="space-y-2"
+      >
         <div
           v-for="version in installedTools.node.versions"
           :key="version"
@@ -27,12 +32,19 @@
           </span>
         </div>
       </div>
-      <p v-else class="text-sm text-gray-600">{{ t('notInstalled') }}</p>
+      <p
+        v-else
+        class="text-sm text-gray-600"
+      >
+        {{ t('notInstalled') }}
+      </p>
     </div>
 
     <!-- Install Node Version -->
     <div class="bg-white border border-gray-200 rounded-lg p-4 mb-4">
-      <h4 class="font-semibold text-gray-800 mb-3">{{ t('nodeInstallTitle') }}</h4>
+      <h4 class="font-semibold text-gray-800 mb-3">
+        {{ t('nodeInstallTitle') }}
+      </h4>
       <div class="space-y-3">
         <div>
           <label class="block text-sm font-medium mb-2">{{ t('nodeInstallLabel') }}</label>
@@ -41,11 +53,11 @@
             type="text"
             placeholder="20.10.0, lts, or latest"
             class="w-full px-3 py-2 border rounded-lg"
-          />
+          >
         </div>
         <button
-          @click="handleInstallNode"
           class="px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 font-medium"
+          @click="handleInstallNode"
         >
           {{ t('nodeInstallBtn') }}
         </button>
@@ -54,7 +66,9 @@
 
     <!-- Set Default Node -->
     <div class="bg-white border border-gray-200 rounded-lg p-4">
-      <h4 class="font-semibold text-gray-800 mb-3">{{ t('nodeDefaultTitle') }}</h4>
+      <h4 class="font-semibold text-gray-800 mb-3">
+        {{ t('nodeDefaultTitle') }}
+      </h4>
       <div class="space-y-3">
         <div>
           <label class="block text-sm font-medium mb-2">{{ t('nodeDefaultLabel') }}</label>
@@ -63,11 +77,11 @@
             type="text"
             placeholder="20, lts"
             class="w-full px-3 py-2 border rounded-lg"
-          />
+          >
         </div>
         <button
-          @click="handleSetDefaultNode"
           class="px-6 py-2 bg-green-400 text-white rounded-lg hover:bg-green-500 font-medium"
+          @click="handleSetDefaultNode"
         >
           {{ t('nodeDefaultBtn') }}
         </button>
@@ -92,9 +106,18 @@ const { t, locale } = useI18n()
 const status = useStatus()
 
 const props = defineProps({
-  installedTools: Object,
-  onInstallNode: Function,
-  onSetDefaultNode: Function
+  installedTools: {
+    type: Object,
+    required: true
+  },
+  onInstallNode: {
+    type: Function,
+    required: true
+  },
+  onSetDefaultNode: {
+    type: Function,
+    required: true
+  }
 })
 
 const nodeInstallVersion = ref('')

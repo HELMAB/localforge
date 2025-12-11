@@ -7,7 +7,7 @@
         type="text"
         class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         placeholder="example.local"
-      />
+      >
     </div>
 
     <InfoBox
@@ -17,9 +17,9 @@
     />
 
     <button
-      @click="handleGenerateSSL"
       :disabled="isGenerating"
       class="w-full px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+      @click="handleGenerateSSL"
     >
       {{ isGenerating ? t('checking') : t('generateBtn') }}
     </button>

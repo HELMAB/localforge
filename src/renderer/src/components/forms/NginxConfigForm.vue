@@ -7,7 +7,7 @@
         type="text"
         class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         placeholder="example.local"
-      />
+      >
     </div>
 
     <div>
@@ -21,14 +21,28 @@
         v-model="phpVersion"
         class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
       >
-        <option value="">Auto-detect (ស្វ័យប្រវត្តិ)</option>
-        <option value="8.3">PHP 8.3-FPM</option>
-        <option value="8.2">PHP 8.2-FPM</option>
-        <option value="8.1">PHP 8.1-FPM</option>
-        <option value="8.0">PHP 8.0-FPM</option>
-        <option value="7.4">PHP 7.4-FPM</option>
+        <option value="">
+          Auto-detect (ស្វ័យប្រវត្តិ)
+        </option>
+        <option value="8.3">
+          PHP 8.3-FPM
+        </option>
+        <option value="8.2">
+          PHP 8.2-FPM
+        </option>
+        <option value="8.1">
+          PHP 8.1-FPM
+        </option>
+        <option value="8.0">
+          PHP 8.0-FPM
+        </option>
+        <option value="7.4">
+          PHP 7.4-FPM
+        </option>
       </select>
-      <p class="text-xs text-gray-500 mt-1">{{ t('nginxPhpHint') }}</p>
+      <p class="text-xs text-gray-500 mt-1">
+        {{ t('nginxPhpHint') }}
+      </p>
     </div>
 
     <div>
@@ -37,13 +51,13 @@
         v-model.number="port"
         type="number"
         class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-      />
+      >
     </div>
 
     <button
-      @click="handleConfigureNginx"
       :disabled="isConfiguring"
       class="w-full px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+      @click="handleConfigureNginx"
     >
       {{ isConfiguring ? t('checking') : t('configureBtn') }}
     </button>

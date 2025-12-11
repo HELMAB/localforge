@@ -22,6 +22,7 @@ export function useSettings() {
         settings.value = { ...defaultSettings, ...JSON.parse(saved) }
       }
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error('Failed to load settings:', error)
     }
   }
@@ -30,6 +31,7 @@ export function useSettings() {
     try {
       localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings.value))
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error('Failed to save settings:', error)
     }
   }

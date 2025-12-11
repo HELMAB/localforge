@@ -6,23 +6,34 @@
     </h3>
 
     <div class="mb-6 bg-green-50 border border-green-200 rounded-lg p-4">
-      <h4 class="font-semibold text-green-800 mb-3">{{ t('nginxInstalledTitle') }}</h4>
+      <h4 class="font-semibold text-green-800 mb-3">
+        {{ t('nginxInstalledTitle') }}
+      </h4>
       <div v-if="installedTools && installedTools.nginx.installed">
         <div class="flex items-center justify-between bg-white p-3 rounded border border-green-300">
           <span class="font-medium text-green-700">Nginx {{ installedTools.nginx.version || '' }}</span>
           <span class="text-xs px-2 py-1 bg-green-100 text-green-700 rounded">{{ t('installed') }}</span>
         </div>
       </div>
-      <p v-else class="text-sm text-gray-600">{{ t('notInstalled') }}</p>
+      <p
+        v-else
+        class="text-sm text-gray-600"
+      >
+        {{ t('notInstalled') }}
+      </p>
     </div>
 
     <div class="bg-white border border-gray-200 rounded-lg p-4">
-      <h4 class="font-semibold text-gray-800 mb-3">{{ t('nginxInstallTitle') }}</h4>
-      <p class="text-sm text-gray-600 mb-3">{{ t('nginxInstallDesc') }}</p>
+      <h4 class="font-semibold text-gray-800 mb-3">
+        {{ t('nginxInstallTitle') }}
+      </h4>
+      <p class="text-sm text-gray-600 mb-3">
+        {{ t('nginxInstallDesc') }}
+      </p>
       <button
-        @click="handleInstallNginx"
         :disabled="installedTools && installedTools.nginx.installed"
         class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+        @click="handleInstallNginx"
       >
         {{ t('nginxInstallBtn') }}
       </button>
@@ -45,8 +56,14 @@ const { t, locale } = useI18n()
 const status = useStatus()
 
 const props = defineProps({
-  installedTools: Object,
-  onInstallNginx: Function
+  installedTools: {
+    type: Object,
+    required: true
+  },
+  onInstallNginx: {
+    type: Function,
+    required: true
+  }
 })
 
 async function handleInstallNginx() {

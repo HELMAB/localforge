@@ -3,14 +3,14 @@
     <router-link
       v-for="(tab, index) in tabs"
       :key="tab.path"
+      v-slot="{ navigate, isActive }"
       :to="tab.path"
       custom
-      v-slot="{ navigate, isActive }"
     >
       <button
-        @click="navigate"
         :class="tabButtonClass(isActive)"
         class="px-6 py-3 font-semibold border-b-2 transition-colors flex items-center"
+        @click="navigate"
       >
         {{ t(tab.label) }}
         <KeyboardHint :hint="`Ctrl+${index + 1}`" />

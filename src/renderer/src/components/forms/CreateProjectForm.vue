@@ -4,25 +4,24 @@
 
     <LaravelOptions
       v-if="projectType === 'laravel'"
-      v-model:phpVersion="phpVersion"
-      v-model:laravelStarter="laravelStarter"
+      v-model:php-version="phpVersion"
+      v-model:laravel-starter="laravelStarter"
     />
 
     <WordPressOptions
       v-if="projectType === 'wordpress'"
-      v-model:phpVersion="wpPhpVersion"
+      v-model:php-version="wpPhpVersion"
     />
 
     <NodeOptions
       v-if="['vue', 'nuxt', 'react'].includes(projectType)"
-      v-model:nodeVersion="nodeVersion"
+      v-model:node-version="nodeVersion"
     />
 
     <div>
       <label class="block text-sm font-medium mb-2 dark:text-gray-300">{{ t('projectNameLabel') }}</label>
       <input
         v-model="projectName"
-        @blur="validateProjectName"
         type="text"
         :class="[
           'w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2',
@@ -32,8 +31,12 @@
           'dark:bg-gray-700 dark:text-white'
         ]"
         placeholder="my-project"
-      />
-      <p v-if="validationErrors.projectName" class="text-red-500 text-sm mt-1">
+        @blur="validateProjectName"
+      >
+      <p
+        v-if="validationErrors.projectName"
+        class="text-red-500 text-sm mt-1"
+      >
         {{ validationErrors.projectName }}
       </p>
     </div>
@@ -41,15 +44,18 @@
     <div>
       <label class="block text-sm font-medium mb-2 dark:text-gray-300">{{ t('projectPathLabel') }}</label>
       <DirectorySelector v-model="projectPath" />
-      <p v-if="validationErrors.path" class="text-red-500 text-sm mt-1">
+      <p
+        v-if="validationErrors.path"
+        class="text-red-500 text-sm mt-1"
+      >
         {{ validationErrors.path }}
       </p>
     </div>
 
     <button
-      @click="handleCreateProject"
       :disabled="isCreating"
       class="w-full px-6 py-3 bg-blue-500 dark:bg-blue-600 text-white rounded-lg hover:bg-blue-600 dark:hover:bg-blue-700 font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+      @click="handleCreateProject"
     >
       {{ isCreating ? t('checking') : t('createBtn') }}
     </button>

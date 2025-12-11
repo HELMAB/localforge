@@ -14,7 +14,7 @@ export const domainSchema = yup.object({
     .string()
     .required('Domain name is required')
     .matches(
-      /^[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,}$/,
+      /^[a-z0-9]+([-.]{ 1}[a-z0-9]+)*\.[a-z]{2,}$/,
       'Invalid domain format (e.g., example.local)'
     )
 })

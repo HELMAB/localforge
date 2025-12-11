@@ -7,45 +7,48 @@
     </div>
 
     <div class="flex bg-white rounded-lg shadow-sm border border-gray-200">
-      <ToolsSidebar :selectedTool="selectedTool" @select="selectedTool = $event" />
+      <ToolsSidebar
+        :selected-tool="selectedTool"
+        @select="selectedTool = $event"
+      />
 
       <div class="flex-1 overflow-y-auto bg-gray-50">
         <PhpSection
           v-if="selectedTool === 'php'"
-          :installedTools="installedTools"
-          :onInstallPHP="installPHP"
-          :onInstallPHPExtensions="installPHPExtensions"
+          :installed-tools="installedTools"
+          :on-install-p-h-p="installPHP"
+          :on-install-p-h-p-extensions="installPHPExtensions"
         />
 
         <ComposerSection
           v-if="selectedTool === 'composer'"
-          :installedTools="installedTools"
-          :onInstallComposer="installComposer"
+          :installed-tools="installedTools"
+          :on-install-composer="installComposer"
         />
 
         <NodeSection
           v-if="selectedTool === 'node'"
-          :installedTools="installedTools"
-          :onInstallNode="installNode"
-          :onSetDefaultNode="setDefaultNode"
+          :installed-tools="installedTools"
+          :on-install-node="installNode"
+          :on-set-default-node="setDefaultNode"
         />
 
         <NginxSection
           v-if="selectedTool === 'nginx'"
-          :installedTools="installedTools"
-          :onInstallNginx="installNginx"
+          :installed-tools="installedTools"
+          :on-install-nginx="installNginx"
         />
 
         <PostgresqlSection
           v-if="selectedTool === 'postgresql'"
-          :installedTools="installedTools"
-          :onInstallPostgreSQL="installPostgreSQL"
+          :installed-tools="installedTools"
+          :on-install-postgre-s-q-l="installPostgreSQL"
         />
 
         <MysqlSection
           v-if="selectedTool === 'mysql'"
-          :installedTools="installedTools"
-          :onInstallMySQL="installMySQL"
+          :installed-tools="installedTools"
+          :on-install-my-s-q-l="installMySQL"
         />
       </div>
     </div>

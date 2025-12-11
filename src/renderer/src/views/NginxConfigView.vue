@@ -1,6 +1,8 @@
 <template>
   <div class="p-6">
-    <h2 class="text-2xl font-bold mb-6">{{ t('nginxTitle') }}</h2>
+    <h2 class="text-2xl font-bold mb-6">
+      {{ t('nginxTitle') }}
+    </h2>
     <NginxConfigForm />
   </div>
 </template>

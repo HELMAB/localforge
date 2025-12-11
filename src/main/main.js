@@ -49,7 +49,7 @@ ipcMain.handle('select-directory', async () => {
   return result.filePaths[0];
 });
 
-ipcMain.handle('create-project', async (event, { type, name, path: projectPath, phpVersion, laravelStarter, nodeVersion }) => {
+ipcMain.handle('create-project', async (event, { type, name, path: projectPath, laravelStarter, nodeVersion }) => {
   return new Promise((resolve, reject) => {
     let command = '';
     const fullPath = path.join(projectPath, name);
@@ -74,7 +74,7 @@ ipcMain.handle('create-project', async (event, { type, name, path: projectPath, 
         }
         break;
         
-      case 'vue':
+      case 'vue': {
         // Use specific Node version if available with NVM
         let vueCmd = `npm create vue@latest ${name}`;
         if (nodeVersion) {
@@ -82,22 +82,25 @@ ipcMain.handle('create-project', async (event, { type, name, path: projectPath, 
         }
         command = `cd "${projectPath}" && ${vueCmd}`;
         break;
+      }
         
-      case 'nuxt':
+      case 'nuxt': {
         let nuxtCmd = `npx nuxi@latest init ${name}`;
         if (nodeVersion) {
           nuxtCmd = `export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" && nvm use ${nodeVersion} && ${nuxtCmd}`;
         }
         command = `cd "${projectPath}" && ${nuxtCmd}`;
         break;
+      }
         
-      case 'react':
+      case 'react': {
         let reactCmd = `npx create-react-app ${name}`;
         if (nodeVersion) {
           reactCmd = `export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" && nvm use ${nodeVersion} && ${reactCmd}`;
         }
         command = `cd "${projectPath}" && ${reactCmd}`;
         break;
+      }
         
       case 'wordpress':
         command = `cd "${projectPath}" && mkdir -p ${name} && cd ${name} && curl -O https://wordpress.org/latest.zip && unzip latest.zip && mv wordpress/* . && rmdir wordpress && rm latest.zip`;
@@ -108,7 +111,7 @@ ipcMain.handle('create-project', async (event, { type, name, path: projectPath, 
         return;
     }
 
-    exec(command, { maxBuffer: 1024 * 1024 * 10 }, (error, stdout, stderr) => {
+    exec(command, { maxBuffer: 1024 * 1024 * 10 }, (error) => {
       if (error) {
         reject(error);
       } else {
@@ -207,7 +210,7 @@ server {
 
 ipcMain.handle('generate-ssl', async (event, { domain }) => {
   return new Promise((resolve, reject) => {
-    exec(`mkcert ${domain}`, { cwd: os.homedir() }, (error, stdout, stderr) => {
+    exec(`mkcert ${domain}`, { cwd: os.homedir() }, (error) => {
       if (error) {
         reject(error);
       } else {
