@@ -11,7 +11,11 @@
     "electron:build": "vite build && electron-builder",
     "build:linux": "vite build && electron-builder --linux",
     "build:win": "vite build && electron-builder --win",
-    "build:mac": "vite build && electron-builder --mac"
+    "build:mac": "vite build && electron-builder --mac",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write \"src/**/*.{js,vue,css}\"",
+    "format:check": "prettier --check \"src/**/*.{js,vue,css}\""
   },
   "keywords": [
     "electron",
@@ -26,12 +30,20 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
+    "@eslint/js": "^9.39.1",
     "@vitejs/plugin-vue": "^5.2.4",
+    "@vue/eslint-config-prettier": "^10.2.0",
     "autoprefixer": "^10.4.22",
     "concurrently": "^9.2.1",
     "electron": "^28.0.0",
     "electron-builder": "^26.0.12",
+    "eslint": "^8.57.1",
+    "eslint-plugin-vue": "^9.33.0",
+    "globals": "^16.5.0",
+    "husky": "^9.1.6",
+    "lint-staged": "^15.2.10",
     "postcss": "^8.5.6",
+    "prettier": "^3.3.3",
     "tailwindcss": "^3.4.17",
     "vite": "^5.4.21",
     "vite-plugin-electron": "^0.28.8",
@@ -74,5 +86,14 @@
     "mac": {
       "target": "dmg"
     }
+  },
+  "lint-staged": {
+    "*.{js,vue}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{css,md,json}": [
+      "prettier --write"
+    ]
   }
 }

@@ -1,0 +1,8 @@
+node_modules
+dist
+dist-builder
+dist-electron
+src/renderer/dist
+*.config.js
+*.config.mjs
+package-lock.json

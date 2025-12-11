@@ -337,6 +337,45 @@ If tool installation fails:
 
 MIT
 
+## Code Quality
+
+This project uses ESLint to maintain code quality:
+
+- **ESLint**: Configured with Vue 3 support and best practices
+- **Prettier**: Code formatting for consistent style
+- **Pre-commit Hook**: Automatically checks code before commits
+- **Git Hook**: Prevents committing code with linting errors
+
+### Quick Commands
+
+```bash
+# Check for linting errors
+npm run lint
+
+# Auto-fix linting errors
+npm run lint:fix
+
+# Format all code
+npm run format
+```
+
+For complete details, see [ESLINT_SETUP.md](ESLINT_SETUP.md).
+
+### Pre-commit Protection
+
+The pre-commit hook automatically runs ESLint on staged files. If errors are found, the commit will be blocked. This ensures only quality code is committed to the repository.
+
+To bypass the hook (emergency only):
+```bash
+git commit --no-verify -m "Emergency commit"
+```
+
 ## Contributing
 
 Feel free to submit issues and enhancement requests!
+
+**Before contributing:**
+1. Run `npm run lint:fix` to ensure code quality
+2. Test your changes with `npm run electron:dev`
+3. Follow the existing code style
+4. Write meaningful commit messages
