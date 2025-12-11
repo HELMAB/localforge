@@ -66,13 +66,14 @@
   },
   "build": {
     "appId": "com.devtools.app",
-    "productName": "Dev Tools Manager",
+    "productName": "Devtools",
     "directories": {
       "output": "dist-builder"
     },
     "files": [
       "src/main/**/*",
       "src/renderer/dist/**/*",
+      "src/renderer/src/assets/icons/**/*",
       "dist-electron/**/*",
       "node_modules/**/*",
       "package.json"
@@ -82,13 +83,16 @@
         "AppImage",
         "deb"
       ],
-      "category": "Development"
+      "category": "Development",
+      "icon": "src/renderer/src/assets/icons/icon.png"
     },
     "win": {
-      "target": "nsis"
+      "target": "nsis",
+      "icon": "src/renderer/src/assets/icons/icon.ico"
     },
     "mac": {
-      "target": "dmg"
+      "target": "dmg",
+      "icon": "src/renderer/src/assets/icons/icon.png"
     }
   },
   "lint-staged": {
