@@ -4,8 +4,6 @@ const { ipcRenderer } = require('electron');
 const translations = {
   km: {
     appTitle: 'កម្មវិធីគ្រប់គ្រងគម្រោង',
-    reqTitle: 'ពិនិត្យតម្រូវការប្រព័ន្ធ',
-    checkBtn: 'ពិនិត្យឡើងវិញ',
     tabCreate: 'បង្កើតគម្រោង',
     tabNginx: 'កំណត់រចនាសម្ព័ន្ធ Nginx',
     tabSsl: 'បង្កើត SSL',
@@ -89,8 +87,6 @@ const translations = {
   },
   en: {
     appTitle: 'Development Project Manager',
-    reqTitle: 'System Requirements Check',
-    checkBtn: 'Check Again',
     tabCreate: 'Create Project',
     tabNginx: 'Configure Nginx',
     tabSsl: 'Generate SSL',
@@ -176,18 +172,29 @@ const translations = {
 
 let currentLang = 'km';
 
-function toggleLanguage() {
-  currentLang = currentLang === 'km' ? 'en' : 'km';
+function setLanguage(lang) {
+  currentLang = lang;
   updateLanguage();
-  document.getElementById('lang-toggle').textContent = currentLang === 'km' ? 'EN' : 'KH';
+  updateLanguageButtons();
+}
+
+function updateLanguageButtons() {
+  const kmBtn = document.getElementById('lang-btn-km');
+  const enBtn = document.getElementById('lang-btn-en');
+
+  if (currentLang === 'km') {
+    kmBtn.className = 'px-4 py-2 rounded-md font-medium text-sm transition-all duration-200 bg-white text-blue-600 shadow-sm';
+    enBtn.className = 'px-4 py-2 rounded-md font-medium text-sm transition-all duration-200 text-gray-600 hover:text-gray-800';
+  } else {
+    kmBtn.className = 'px-4 py-2 rounded-md font-medium text-sm transition-all duration-200 text-gray-600 hover:text-gray-800';
+    enBtn.className = 'px-4 py-2 rounded-md font-medium text-sm transition-all duration-200 bg-white text-blue-600 shadow-sm';
+  }
 }
 
 function updateLanguage() {
   const t = translations[currentLang];
 
   document.getElementById('app-title').textContent = t.appTitle;
-  document.getElementById('req-title').textContent = t.reqTitle;
-  document.getElementById('check-btn').textContent = t.checkBtn;
   document.querySelector('.tab-text-create').textContent = t.tabCreate;
   document.querySelector('.tab-text-nginx').textContent = t.tabNginx;
   document.querySelector('.tab-text-ssl').textContent = t.tabSsl;
@@ -708,7 +715,7 @@ async function installNginx() {
       currentLang === 'km' ? 'Nginx បានដំឡើងជោគជ័យ' : 'Nginx installed successfully',
       'success'
     );
-    checkRequirements();
+    checkInstalledTools();
   } catch (error) {
     showStatus('nginx-status',
       currentLang === 'km' ? `កំហុស: ${error.message}` : `Error: ${error.message}`,
@@ -727,7 +734,7 @@ async function installComposer() {
       currentLang === 'km' ? 'Composer បានដំឡើងជោគជ័យ' : 'Composer installed successfully',
       'success'
     );
-    checkRequirements();
+    checkInstalledTools();
   } catch (error) {
     showStatus('composer-status',
       currentLang === 'km' ? `កំហុស: ${error.message}` : `Error: ${error.message}`,
@@ -777,5 +784,5 @@ async function installMySQL() {
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
   updateLanguage();
-  checkRequirements();
+  updateLanguageButtons();
 });
