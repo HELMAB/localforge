@@ -50,7 +50,7 @@ ipcMain.handle('select-directory', async () => {
   return result.filePaths[0];
 });
 
-ipcMain.handle('create-project', async (event, { type, name, path: projectPath, laravelStarter, nodeVersion }) => {
+ipcMain.handle('create-project', async (event, { type, name, path: projectPath, laravelStarter, nodeVersion, vueOptions }) => {
   return new Promise((resolve, reject) => {
     let command = '';
     const fullPath = path.join(projectPath, name);
@@ -76,8 +76,25 @@ ipcMain.handle('create-project', async (event, { type, name, path: projectPath, 
         break;
         
       case 'vue': {
-        // Use specific Node version if available with NVM
-        let vueCmd = `npm create vue@latest ${name}`;
+        // Build Vue CLI flags based on selected options
+        const flags = [];
+
+        if (vueOptions) {
+          // If any option is selected, use specific flags
+          if (vueOptions.typescript) flags.push('--typescript');
+          if (vueOptions.jsx) flags.push('--jsx');
+          if (vueOptions.router) flags.push('--router');
+          if (vueOptions.pinia) flags.push('--pinia');
+          if (vueOptions.vitest) flags.push('--vitest');
+          if (vueOptions.playwright) flags.push('--playwright');
+          if (vueOptions.eslint) flags.push('--eslint');
+          if (vueOptions.prettier) flags.push('--prettier');
+        }
+
+        // If no flags, use default; otherwise use selected flags
+        const vueFlags = flags.length > 0 ? flags.join(' ') : '--default';
+        let vueCmd = `npm create vue@latest ${name} -- ${vueFlags}`;
+
         if (nodeVersion) {
           vueCmd = `export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" && nvm use ${nodeVersion} && ${vueCmd}`;
         }
@@ -104,7 +121,7 @@ ipcMain.handle('create-project', async (event, { type, name, path: projectPath, 
       }
         
       case 'wordpress':
-        command = `cd "${projectPath}" && mkdir -p ${name} && cd ${name} && curl -O https://wordpress.org/latest.zip && unzip latest.zip && mv wordpress/* . && rmdir wordpress && rm latest.zip`;
+        command = `cd "${projectPath}" && mkdir -p ${name} && cd ${name} && curl -O https://wordpress.org/latest.zip && unzip latest.zip && mv wordpress/* . && rmdir wordpress && rm latest.zip && chown -R $USER:$USER . && find . -type d -exec chmod 755 {} \\; && find . -type f -exec chmod 644 {} \\;`;
         break;
         
       default:
@@ -122,29 +139,116 @@ ipcMain.handle('create-project', async (event, { type, name, path: projectPath, 
   });
 });
 
-ipcMain.handle('configure-nginx', async (event, { domain, projectPath, port = 80, phpVersion = null }) => {
+ipcMain.handle('configure-nginx', async (event, { domain, projectPath, port = 80, projectType = 'php', phpVersion = null }) => {
   return new Promise((resolve, reject) => {
-    // Auto-detect PHP-FPM socket path
-    const detectPhpFpmSocket = (callback) => {
-      if (phpVersion) {
-        // Use specific PHP version if provided
-        const socketPath = `/var/run/php/php${phpVersion}-fpm.sock`;
-        callback(socketPath);
-      } else {
-        // Auto-detect available PHP-FPM socket
-        exec('ls -1 /var/run/php/php*-fpm.sock 2>/dev/null | head -1', (error, stdout) => {
-          if (error || !stdout.trim()) {
-            // Fallback to default
-            callback('/var/run/php/php-fpm.sock');
-          } else {
-            callback(stdout.trim());
-          }
-        });
-      }
-    };
+    let nginxConfig = '';
 
-    detectPhpFpmSocket((phpFpmSocket) => {
-      const nginxConfig = `
+    // Generate configuration based on project type
+    if (projectType === 'static-vue') {
+      // Static Vue/SPA configuration - serves from /dist with SPA routing
+      nginxConfig = `
+server {
+    listen ${port};
+    listen [::]:${port};
+    server_name ${domain};
+    root ${projectPath}/dist;
+
+    add_header X-Frame-Options "SAMEORIGIN";
+    add_header X-Content-Type-Options "nosniff";
+
+    index index.html;
+
+    charset utf-8;
+
+    # Enable gzip compression
+    gzip on;
+    gzip_vary on;
+    gzip_min_length 1024;
+    gzip_types text/plain text/css text/xml text/javascript application/x-javascript application/xml+rss application/javascript application/json;
+
+    location / {
+        # SPA fallback - always serve index.html for Vue Router history mode
+        try_files $uri $uri/ /index.html;
+    }
+
+    # Cache static assets
+    location ~* \\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+    }
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location = /robots.txt  { access_log off; log_not_found off; }
+
+    # Deny access to hidden files
+    location ~ /\\. {
+        deny all;
+    }
+}
+`;
+    } else if (projectType === 'static-html') {
+      // Static HTML configuration - serves from root directory
+      nginxConfig = `
+server {
+    listen ${port};
+    listen [::]:${port};
+    server_name ${domain};
+    root ${projectPath};
+
+    add_header X-Frame-Options "SAMEORIGIN";
+    add_header X-Content-Type-Options "nosniff";
+
+    index index.html index.htm;
+
+    charset utf-8;
+
+    # Enable gzip compression
+    gzip on;
+    gzip_vary on;
+    gzip_min_length 1024;
+    gzip_types text/plain text/css text/xml text/javascript application/x-javascript application/xml+rss application/javascript application/json;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+
+    # Cache static assets
+    location ~* \\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+    }
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location = /robots.txt  { access_log off; log_not_found off; }
+
+    # Deny access to hidden files
+    location ~ /\\. {
+        deny all;
+    }
+}
+`;
+    } else if (projectType === 'laravel') {
+      // Laravel configuration - serves from /public directory
+      const detectPhpFpmSocket = (callback) => {
+        if (phpVersion) {
+          // Use specific PHP version if provided
+          const socketPath = `/var/run/php/php${phpVersion}-fpm.sock`;
+          callback(socketPath);
+        } else {
+          // Auto-detect available PHP-FPM socket
+          exec('ls -1 /var/run/php/php*-fpm.sock 2>/dev/null | head -1', (error, stdout) => {
+            if (error || !stdout.trim()) {
+              // Fallback to default
+              callback('/var/run/php/php-fpm.sock');
+            } else {
+              callback(stdout.trim());
+            }
+          });
+        }
+      };
+
+      detectPhpFpmSocket((phpFpmSocket) => {
+        nginxConfig = `
 server {
     listen ${port};
     listen [::]:${port};
@@ -179,31 +283,256 @@ server {
 }
 `;
 
-      const configPath = `/etc/nginx/sites-available/${domain}`;
-      const symlinkPath = `/etc/nginx/sites-enabled/${domain}`;
-      const tempConfigPath = path.join(os.tmpdir(), `${domain}.conf`);
+        const configPath = `/etc/nginx/sites-available/${domain}`;
+        const symlinkPath = `/etc/nginx/sites-enabled/${domain}`;
+        const tempConfigPath = path.join(os.tmpdir(), `${domain}.conf`);
 
-      // Write config to temp file first
-      fs.writeFile(tempConfigPath, nginxConfig, (err) => {
-        if (err) {
-          reject(err);
-          return;
-        }
-
-        // Use sudo to move file and configure nginx
-        const options = {
-          name: 'Dev Tools Manager',
-        };
-
-        const command = `mv "${tempConfigPath}" "${configPath}" && ln -sf "${configPath}" "${symlinkPath}" && nginx -t && systemctl reload nginx`;
-
-        sudo.exec(command, options, (error, stdout, stderr) => {
-          if (error) {
-            reject(new Error(stderr || error.message));
-          } else {
-            resolve({ success: true, configPath, phpFpmSocket });
+        // Write config to temp file first
+        fs.writeFile(tempConfigPath, nginxConfig, (err) => {
+          if (err) {
+            reject(err);
+            return;
           }
+
+          // Use sudo to move file and configure nginx
+          const options = {
+            name: 'Dev Tools Manager',
+          };
+
+          const command = `mv "${tempConfigPath}" "${configPath}" && ln -sf "${configPath}" "${symlinkPath}" && nginx -t && systemctl reload nginx`;
+
+          sudo.exec(command, options, (error, stdout, stderr) => {
+            if (error) {
+              reject(new Error(stderr || error.message));
+            } else {
+              resolve({ success: true, configPath, phpFpmSocket });
+            }
+          });
         });
+      });
+      return; // End Laravel configuration flow
+    } else if (projectType === 'wordpress') {
+      // WordPress configuration - serves from root directory with WP-specific rules
+      const detectPhpFpmSocket = (callback) => {
+        if (phpVersion) {
+          // Use specific PHP version if provided
+          const socketPath = `/var/run/php/php${phpVersion}-fpm.sock`;
+          callback(socketPath);
+        } else {
+          // Auto-detect available PHP-FPM socket
+          exec('ls -1 /var/run/php/php*-fpm.sock 2>/dev/null | head -1', (error, stdout) => {
+            if (error || !stdout.trim()) {
+              // Fallback to default
+              callback('/var/run/php/php-fpm.sock');
+            } else {
+              callback(stdout.trim());
+            }
+          });
+        }
+      };
+
+      detectPhpFpmSocket((phpFpmSocket) => {
+        nginxConfig = `
+server {
+    listen ${port};
+    listen [::]:${port};
+    server_name ${domain};
+    root ${projectPath};
+
+    add_header X-Frame-Options "SAMEORIGIN";
+    add_header X-Content-Type-Options "nosniff";
+
+    index index.php index.html index.htm;
+
+    charset utf-8;
+
+    # WordPress permalink structure
+    location / {
+        try_files $uri $uri/ /index.php?$args;
+    }
+
+    # Deny access to sensitive files
+    location ~* /(?:uploads|files)/.*\\.php$ {
+        deny all;
+    }
+
+    location = /favicon.ico {
+        access_log off;
+        log_not_found off;
+    }
+
+    location = /robots.txt {
+        access_log off;
+        log_not_found off;
+        allow all;
+    }
+
+    # Deny access to .htaccess files
+    location ~ /\\.ht {
+        deny all;
+    }
+
+    # Process PHP files
+    location ~ \\.php$ {
+        try_files $uri =404;
+        fastcgi_pass unix:${phpFpmSocket};
+        fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+        include fastcgi_params;
+    }
+
+    # Cache static assets
+    location ~* \\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {
+        expires max;
+        log_not_found off;
+    }
+
+    # Deny access to hidden files
+    location ~ /\\. {
+        deny all;
+    }
+}
+`;
+
+        const configPath = `/etc/nginx/sites-available/${domain}`;
+        const symlinkPath = `/etc/nginx/sites-enabled/${domain}`;
+        const tempConfigPath = path.join(os.tmpdir(), `${domain}.conf`);
+
+        // Write config to temp file first
+        fs.writeFile(tempConfigPath, nginxConfig, (err) => {
+          if (err) {
+            reject(err);
+            return;
+          }
+
+          // Use sudo to move file and configure nginx
+          const options = {
+            name: 'Dev Tools Manager',
+          };
+
+          const command = `mv "${tempConfigPath}" "${configPath}" && ln -sf "${configPath}" "${symlinkPath}" && nginx -t && systemctl reload nginx`;
+
+          sudo.exec(command, options, (error, stdout, stderr) => {
+            if (error) {
+              reject(new Error(stderr || error.message));
+            } else {
+              resolve({ success: true, configPath, phpFpmSocket });
+            }
+          });
+        });
+      });
+      return; // End WordPress configuration flow
+    } else {
+      // Generic PHP configuration - serves from root directory
+      const detectPhpFpmSocket = (callback) => {
+        if (phpVersion) {
+          // Use specific PHP version if provided
+          const socketPath = `/var/run/php/php${phpVersion}-fpm.sock`;
+          callback(socketPath);
+        } else {
+          // Auto-detect available PHP-FPM socket
+          exec('ls -1 /var/run/php/php*-fpm.sock 2>/dev/null | head -1', (error, stdout) => {
+            if (error || !stdout.trim()) {
+              // Fallback to default
+              callback('/var/run/php/php-fpm.sock');
+            } else {
+              callback(stdout.trim());
+            }
+          });
+        }
+      };
+
+      detectPhpFpmSocket((phpFpmSocket) => {
+        nginxConfig = `
+server {
+    listen ${port};
+    listen [::]:${port};
+    server_name ${domain};
+    root ${projectPath};
+
+    add_header X-Frame-Options "SAMEORIGIN";
+    add_header X-Content-Type-Options "nosniff";
+
+    index index.php index.html index.htm;
+
+    charset utf-8;
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location = /robots.txt  { access_log off; log_not_found off; }
+
+    error_page 404 /index.php;
+
+    location ~ \\.php$ {
+        fastcgi_pass unix:${phpFpmSocket};
+        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+        include fastcgi_params;
+    }
+
+    location ~ /\\.(?!well-known).* {
+        deny all;
+    }
+}
+`;
+
+        const configPath = `/etc/nginx/sites-available/${domain}`;
+        const symlinkPath = `/etc/nginx/sites-enabled/${domain}`;
+        const tempConfigPath = path.join(os.tmpdir(), `${domain}.conf`);
+
+        // Write config to temp file first
+        fs.writeFile(tempConfigPath, nginxConfig, (err) => {
+          if (err) {
+            reject(err);
+            return;
+          }
+
+          // Use sudo to move file and configure nginx
+          const options = {
+            name: 'Dev Tools Manager',
+          };
+
+          const command = `mv "${tempConfigPath}" "${configPath}" && ln -sf "${configPath}" "${symlinkPath}" && nginx -t && systemctl reload nginx`;
+
+          sudo.exec(command, options, (error, stdout, stderr) => {
+            if (error) {
+              reject(new Error(stderr || error.message));
+            } else {
+              resolve({ success: true, configPath, phpFpmSocket });
+            }
+          });
+        });
+      });
+      return; // End PHP configuration flow
+    }
+
+    // For Vue/Static, write config directly (no PHP-FPM detection needed)
+    const configPath = `/etc/nginx/sites-available/${domain}`;
+    const symlinkPath = `/etc/nginx/sites-enabled/${domain}`;
+    const tempConfigPath = path.join(os.tmpdir(), `${domain}.conf`);
+
+    // Write config to temp file first
+    fs.writeFile(tempConfigPath, nginxConfig, (err) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+
+      // Use sudo to move file and configure nginx
+      const options = {
+        name: 'Dev Tools Manager',
+      };
+
+      const command = `mv "${tempConfigPath}" "${configPath}" && ln -sf "${configPath}" "${symlinkPath}" && nginx -t && systemctl reload nginx`;
+
+      sudo.exec(command, options, (error, stdout, stderr) => {
+        if (error) {
+          reject(new Error(stderr || error.message));
+        } else {
+          resolve({ success: true, configPath });
+        }
       });
     });
   });

@@ -13,6 +13,18 @@
       v-model:php-version="wpPhpVersion"
     />
 
+    <VueOptions
+      v-if="projectType === 'vue'"
+      v-model:typescript="vueOptions.typescript"
+      v-model:jsx="vueOptions.jsx"
+      v-model:router="vueOptions.router"
+      v-model:pinia="vueOptions.pinia"
+      v-model:vitest="vueOptions.vitest"
+      v-model:playwright="vueOptions.playwright"
+      v-model:eslint="vueOptions.eslint"
+      v-model:prettier="vueOptions.prettier"
+    />
+
     <NodeOptions
       v-if="['vue', 'nuxt', 'react'].includes(projectType)"
       v-model:node-version="nodeVersion"
@@ -85,6 +97,7 @@ import { projectNameSchema, pathSchema, validateField } from '../../utils/valida
 import ProjectTypeSelector from './ProjectTypeSelector.vue'
 import LaravelOptions from './LaravelOptions.vue'
 import WordPressOptions from './WordPressOptions.vue'
+import VueOptions from './VueOptions.vue'
 import NodeOptions from './NodeOptions.vue'
 import DirectorySelector from '../common/DirectorySelector.vue'
 import StatusMessage from '../common/StatusMessage.vue'
@@ -102,6 +115,16 @@ const phpVersion = ref(settings.value.defaultPhpVersion || '8.2')
 const laravelStarter = ref('none')
 const wpPhpVersion = ref(settings.value.defaultPhpVersion || '8.2')
 const nodeVersion = ref(settings.value.defaultNodeVersion || '18')
+const vueOptions = ref({
+  typescript: false,
+  jsx: false,
+  router: false,
+  pinia: false,
+  vitest: false,
+  playwright: false,
+  eslint: false,
+  prettier: false
+})
 const validationErrors = ref({})
 
 const validateProjectName = () => {
@@ -153,7 +176,11 @@ async function handleCreateProject() {
       projectData.laravelStarter = laravelStarter.value
     } else if (projectType.value === 'wordpress') {
       projectData.phpVersion = wpPhpVersion.value
-    } else if (['vue', 'nuxt', 'react'].includes(projectType.value)) {
+    } else if (projectType.value === 'vue') {
+      projectData.nodeVersion = nodeVersion.value
+      // Convert reactive object to plain object for IPC
+      projectData.vueOptions = JSON.parse(JSON.stringify(vueOptions.value))
+    } else if (['nuxt', 'react'].includes(projectType.value)) {
       projectData.nodeVersion = nodeVersion.value
     }
 

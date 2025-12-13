@@ -1,5 +1,16 @@
 <template>
   <div class="space-y-4">
+    <!-- Project Type Selector -->
+    <div>
+      <label class="block text-sm font-medium mb-2 dark:text-gray-300">
+        {{ t('nginxProjectTypeLabel') }} <span class="text-red-500">*</span>
+      </label>
+      <CustomSelect
+        v-model="projectType"
+        :options="projectTypeOptions"
+      />
+    </div>
+
     <!-- 2-Column Grid Layout -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div>
@@ -21,7 +32,8 @@
         <DirectorySelector v-model="nginxProjectPath" />
       </div>
 
-      <div>
+      <!-- PHP Version (only for PHP, Laravel, and WordPress projects) -->
+      <div v-if="['php', 'laravel', 'wordpress'].includes(projectType)">
         <label class="block text-sm font-medium mb-2 dark:text-gray-300">{{ t('nginxPhpVersionLabel') }}</label>
         <CustomSelect
           v-model="phpVersion"
@@ -68,15 +80,28 @@ import DirectorySelector from '../common/DirectorySelector.vue'
 import StatusMessage from '../common/StatusMessage.vue'
 import CustomSelect from '../common/CustomSelect.vue'
 import phpIcon from '@/assets/svg/php.svg'
+import laravelIcon from '@/assets/svg/laravel.svg'
+import wordpressIcon from '@/assets/svg/wordpress.svg'
+import vueIcon from '@/assets/svg/vuejs.svg'
+import htmlIcon from '@/assets/svg/html5.svg'
 
 const { t, locale } = useI18n()
 const { configureNginx, isConfiguring } = useNginx()
 const status = useStatus()
 
+const projectType = ref('php')
 const domain = ref('')
 const nginxProjectPath = ref('')
 const phpVersion = ref('')
 const port = ref(80)
+
+const projectTypeOptions = [
+  { value: 'php', label: 'PHP', icon: phpIcon },
+  { value: 'laravel', label: 'Laravel', icon: laravelIcon },
+  { value: 'wordpress', label: 'WordPress', icon: wordpressIcon },
+  { value: 'static-vue', label: 'Vue', icon: vueIcon },
+  { value: 'static-html', label: 'HTML', icon: htmlIcon }
+]
 
 const phpVersionOptions = [
   { value: '', label: 'Auto-detect (ស្វ័យប្រវត្តិ)', icon: phpIcon },
@@ -110,6 +135,7 @@ async function handleConfigureNginx() {
       domain: domain.value,
       projectPath: nginxProjectPath.value,
       port: port.value,
+      projectType: projectType.value,
       phpVersion: phpVersion.value || null
     })
 
