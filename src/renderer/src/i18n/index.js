@@ -4,7 +4,7 @@ import en from './locales/en'
 
 export default createI18n({
   legacy: false,
-  locale: 'km',
+  locale: 'en',
   fallbackLocale: 'en',
   messages: { km, en }
 })

@@ -4,6 +4,7 @@
 
     <LaravelOptions
       v-if="projectType === 'laravel'"
+      v-model:laravel-version="laravelVersion"
       v-model:php-version="phpVersion"
       v-model:laravel-starter="laravelStarter"
     />
@@ -23,6 +24,12 @@
       v-model:playwright="vueOptions.playwright"
       v-model:eslint="vueOptions.eslint"
       v-model:prettier="vueOptions.prettier"
+    />
+
+    <NuxtOptions
+      v-if="projectType === 'nuxt'"
+      v-model:nuxt-version="nuxtVersion"
+      v-model:nuxt-template="nuxtTemplate"
     />
 
     <NodeOptions
@@ -93,11 +100,13 @@ import { useI18n } from 'vue-i18n'
 import { useProject } from '../../composables/useProject'
 import { useStatus } from '../../composables/useStatus'
 import { useSettings } from '../../composables/useSettings'
+import { useTools } from '../../composables/useTools'
 import { projectNameSchema, pathSchema, validateField } from '../../utils/validation'
 import ProjectTypeSelector from './ProjectTypeSelector.vue'
 import LaravelOptions from './LaravelOptions.vue'
 import WordPressOptions from './WordPressOptions.vue'
 import VueOptions from './VueOptions.vue'
+import NuxtOptions from './NuxtOptions.vue'
 import NodeOptions from './NodeOptions.vue'
 import DirectorySelector from '../common/DirectorySelector.vue'
 import StatusMessage from '../common/StatusMessage.vue'
@@ -106,11 +115,13 @@ const { t } = useI18n()
 const { createProject, isCreating } = useProject()
 const status = useStatus()
 const { settings } = useSettings()
+const { installedTools, checkInstalledTools } = useTools()
 const progress = inject('progress', null)
 
 const projectType = ref('laravel')
 const projectName = ref('')
 const projectPath = ref(settings.value.defaultProjectPath || '')
+const laravelVersion = ref('11')
 const phpVersion = ref(settings.value.defaultPhpVersion || '8.2')
 const laravelStarter = ref('none')
 const wpPhpVersion = ref(settings.value.defaultPhpVersion || '8.2')
@@ -125,6 +136,8 @@ const vueOptions = ref({
   eslint: false,
   prettier: false
 })
+const nuxtVersion = ref('4')
+const nuxtTemplate = ref('minimal')
 const validationErrors = ref({})
 
 const validateProjectName = () => {
@@ -144,6 +157,37 @@ async function handleCreateProject() {
     validationErrors.value.path = pathResult.error
   } else {
     delete validationErrors.value.path
+  }
+
+  // Validate Node.js version for Node-based projects
+  if (['vue', 'nuxt', 'react'].includes(projectType.value) && nodeVersion.value) {
+    await checkInstalledTools()
+    const availableVersions = installedTools.value.node.versions || []
+    if (!availableVersions.includes(nodeVersion.value)) {
+      status.showStatus(
+        t('checking') === 'កំពុងពិនិត្យ...'
+          ? `កំណែ Node.js ${nodeVersion.value} មិនត្រូវបានដំឡើង។ សូមដំឡើងវាជាមុនសិននៅក្នុងផ្ទាំងគ្រប់គ្រងឧបករណ៍។`
+          : `Node.js version ${nodeVersion.value} is not installed. Please install it first in the Manage Tools tab.`,
+        'error'
+      )
+      return
+    }
+  }
+
+  // Validate PHP version for PHP-based projects
+  if (['laravel', 'wordpress'].includes(projectType.value)) {
+    await checkInstalledTools()
+    const phpVer = projectType.value === 'laravel' ? phpVersion.value : wpPhpVersion.value
+    const availablePhpVersions = installedTools.value.php.versions || []
+    if (phpVer && !availablePhpVersions.includes(phpVer)) {
+      status.showStatus(
+        t('checking') === 'កំពុងពិនិត្យ...'
+          ? `កំណែ PHP ${phpVer} មិនត្រូវបានដំឡើង។ សូមដំឡើងវាជាមុនសិននៅក្នុងផ្ទាំងគ្រប់គ្រងឧបករណ៍។`
+          : `PHP version ${phpVer} is not installed. Please install it first in the Manage Tools tab.`,
+        'error'
+      )
+      return
+    }
   }
 
   if (Object.keys(validationErrors.value).length > 0) {
@@ -172,6 +216,7 @@ async function handleCreateProject() {
     }
 
     if (projectType.value === 'laravel') {
+      projectData.laravelVersion = laravelVersion.value
       projectData.phpVersion = phpVersion.value
       projectData.laravelStarter = laravelStarter.value
     } else if (projectType.value === 'wordpress') {
@@ -180,7 +225,11 @@ async function handleCreateProject() {
       projectData.nodeVersion = nodeVersion.value
       // Convert reactive object to plain object for IPC
       projectData.vueOptions = JSON.parse(JSON.stringify(vueOptions.value))
-    } else if (['nuxt', 'react'].includes(projectType.value)) {
+    } else if (projectType.value === 'nuxt') {
+      projectData.nodeVersion = nodeVersion.value
+      projectData.nuxtVersion = nuxtVersion.value
+      projectData.nuxtTemplate = nuxtTemplate.value
+    } else if (projectType.value === 'react') {
       projectData.nodeVersion = nodeVersion.value
     }
 

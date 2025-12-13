@@ -50,23 +50,42 @@ ipcMain.handle('select-directory', async () => {
   return result.filePaths[0];
 });
 
-ipcMain.handle('create-project', async (event, { type, name, path: projectPath, laravelStarter, nodeVersion, vueOptions }) => {
+ipcMain.handle('create-project', async (event, { type, name, path: projectPath, laravelVersion, laravelStarter, nodeVersion, vueOptions, nuxtVersion, nuxtTemplate }) => {
   return new Promise((resolve, reject) => {
     let command = '';
     const fullPath = path.join(projectPath, name);
 
     switch (type) {
-      case 'laravel':
-        // Base Laravel command
-        command = `composer create-project laravel/laravel "${fullPath}"`;
+      case 'laravel': {
+        // Base Laravel command with version
+        const version = laravelVersion || '11';
+        command = `composer create-project laravel/laravel "${fullPath}" "${version}.*"`;
         
         // Add Laravel starter kit if selected
         if (laravelStarter && laravelStarter !== 'none') {
           const starterCommands = {
+            // Laravel 12 - Template-based stacks (shadcn/ui)
+            'template-react': `cd "${fullPath}" && composer remove laravel/pint laravel/sail && composer require laravel/breeze --dev && php artisan breeze:install react --typescript && npm install && npm run build`,
+            'template-vue': `cd "${fullPath}" && composer remove laravel/pint laravel/sail && composer require laravel/breeze --dev && php artisan breeze:install vue --typescript && npm install && npm run build`,
+            'template-livewire': `cd "${fullPath}" && composer remove laravel/pint laravel/sail && composer require laravel/breeze --dev && php artisan breeze:install livewire && npm install && npm run build`,
+            
+            // Laravel 12 - Manual Breeze & Jetstream installation
+            'breeze-manual': `cd "${fullPath}" && composer require laravel/breeze --dev && php artisan breeze:install blade && npm install && npm run build`,
+            'jetstream-manual': `cd "${fullPath}" && composer require laravel/jetstream && php artisan jetstream:install livewire && npm install && npm run build`,
+            
+            // Laravel 8-11 - Breeze & Jetstream
             'breeze': `cd "${fullPath}" && composer require laravel/breeze --dev && php artisan breeze:install blade && npm install && npm run build`,
-            'jetstream': `cd "${fullPath}" && composer require laravel/jetstream && php artisan jetstream:install livewire`,
+            'jetstream': `cd "${fullPath}" && composer require laravel/jetstream && php artisan jetstream:install livewire && npm install && npm run build`,
             'breeze-vue': `cd "${fullPath}" && composer require laravel/breeze --dev && php artisan breeze:install vue && npm install && npm run build`,
-            'breeze-react': `cd "${fullPath}" && composer require laravel/breeze --dev && php artisan breeze:install react && npm install && npm run build`
+            'breeze-react': `cd "${fullPath}" && composer require laravel/breeze --dev && php artisan breeze:install react && npm install && npm run build`,
+            
+            // Laravel 6-7 - Laravel UI
+            'ui-bootstrap': `cd "${fullPath}" && composer require laravel/ui && php artisan ui bootstrap --auth && npm install && npm run build`,
+            'ui-vue': `cd "${fullPath}" && composer require laravel/ui && php artisan ui vue --auth && npm install && npm run build`,
+            'ui-react': `cd "${fullPath}" && composer require laravel/ui && php artisan ui react --auth && npm install && npm run build`,
+            
+            // Laravel 5.1-5.8 - Make Auth
+            'make-auth': `cd "${fullPath}" && php artisan make:auth`
           };
           
           if (starterCommands[laravelStarter]) {
@@ -74,6 +93,7 @@ ipcMain.handle('create-project', async (event, { type, name, path: projectPath, 
           }
         }
         break;
+      }
         
       case 'vue': {
         // Build Vue CLI flags based on selected options
@@ -103,7 +123,22 @@ ipcMain.handle('create-project', async (event, { type, name, path: projectPath, 
       }
         
       case 'nuxt': {
-        let nuxtCmd = `npx nuxi@latest init ${name}`;
+        // Handle different Nuxt versions
+        const version = nuxtVersion || '4';
+        let nuxtCmd = '';
+        
+        if (version === '2') {
+          // Nuxt 2.x - uses npm init nuxt-app (interactive, auto-accepts with yes)
+          nuxtCmd = `yes "" | npm init nuxt-app ${name}`;
+        } else if (version === '3') {
+          // Nuxt 3.x - uses npm create nuxt with v3 template flag (auto-accepts with yes)
+          nuxtCmd = `yes "" | npm create nuxt@latest ${name} -- -t v3`;
+        } else {
+          // Nuxt 4.x (default) - uses npm create nuxt with template selection
+          const template = nuxtTemplate || 'minimal';
+          nuxtCmd = `yes "" | npm create nuxt@latest ${name} -- -t ${template}`;
+        }
+        
         if (nodeVersion) {
           nuxtCmd = `export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" && nvm use ${nodeVersion} && ${nuxtCmd}`;
         }

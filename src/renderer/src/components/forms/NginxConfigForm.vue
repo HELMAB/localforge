@@ -72,10 +72,11 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useNginx } from '../../composables/useNginx'
 import { useStatus } from '../../composables/useStatus'
+import { useTools } from '../../composables/useTools'
 import DirectorySelector from '../common/DirectorySelector.vue'
 import StatusMessage from '../common/StatusMessage.vue'
 import CustomSelect from '../common/CustomSelect.vue'
@@ -88,12 +89,17 @@ import htmlIcon from '@/assets/svg/html5.svg'
 const { t, locale } = useI18n()
 const { configureNginx, isConfiguring } = useNginx()
 const status = useStatus()
+const { installedTools, checkInstalledTools } = useTools()
 
 const projectType = ref('php')
 const domain = ref('')
 const nginxProjectPath = ref('')
 const phpVersion = ref('')
 const port = ref(80)
+
+onMounted(async () => {
+  await checkInstalledTools()
+})
 
 const projectTypeOptions = [
   { value: 'php', label: 'PHP', icon: phpIcon },
@@ -103,14 +109,24 @@ const projectTypeOptions = [
   { value: 'static-html', label: 'HTML', icon: htmlIcon }
 ]
 
-const phpVersionOptions = [
-  { value: '', label: 'Auto-detect (ស្វ័យប្រវត្តិ)', icon: phpIcon },
-  { value: '8.3', label: 'PHP 8.3-FPM', icon: phpIcon },
-  { value: '8.2', label: 'PHP 8.2-FPM', icon: phpIcon },
-  { value: '8.1', label: 'PHP 8.1-FPM', icon: phpIcon },
-  { value: '8.0', label: 'PHP 8.0-FPM', icon: phpIcon },
-  { value: '7.4', label: 'PHP 7.4-FPM', icon: phpIcon }
-]
+const phpVersionOptions = computed(() => {
+  const options = [
+    { value: '', label: 'Auto-detect (ស្វ័យប្រវត្តិ)', icon: phpIcon }
+  ]
+  
+  // Add installed PHP versions
+  if (installedTools.value.php.installed && installedTools.value.php.versions.length > 0) {
+    installedTools.value.php.versions.forEach(version => {
+      options.push({
+        value: version,
+        label: `PHP ${version}-FPM`,
+        icon: phpIcon
+      })
+    })
+  }
+  
+  return options
+})
 
 async function handleConfigureNginx() {
   if (!domain.value || !nginxProjectPath.value) {

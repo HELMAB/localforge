@@ -13,17 +13,26 @@
         :options="phpVersionOptions"
         @update:model-value="$emit('update:phpVersion', $event)"
       />
+      <p
+        v-if="phpVersionOptions.length === 0"
+        class="text-sm text-orange-600 dark:text-orange-400 mt-2"
+      >
+        {{ t('noPhpVersionsInstalled') }}
+      </p>
     </div>
   </div>
 </template>
 
 <script setup>
+import { computed, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useTools } from '../../composables/useTools'
 import InfoBox from '../common/InfoBox.vue'
 import CustomSelect from '../common/CustomSelect.vue'
 import phpIcon from '@/assets/svg/php.svg'
 
 const { t } = useI18n()
+const { installedTools, checkInstalledTools } = useTools()
 
 defineProps({
   phpVersion: {
@@ -34,11 +43,24 @@ defineProps({
 
 defineEmits(['update:phpVersion'])
 
-const phpVersionOptions = [
-  { value: '8.3', label: 'PHP 8.3', icon: phpIcon },
-  { value: '8.2', label: 'PHP 8.2', icon: phpIcon },
-  { value: '8.1', label: 'PHP 8.1', icon: phpIcon },
-  { value: '8.0', label: 'PHP 8.0', icon: phpIcon },
-  { value: '7.4', label: 'PHP 7.4', icon: phpIcon }
-]
+onMounted(async () => {
+  await checkInstalledTools()
+})
+
+const phpVersionOptions = computed(() => {
+  const options = []
+  
+  // Add installed PHP versions
+  if (installedTools.value.php.installed && installedTools.value.php.versions.length > 0) {
+    installedTools.value.php.versions.forEach(version => {
+      options.push({
+        value: version,
+        label: `PHP ${version}`,
+        icon: phpIcon
+      })
+    })
+  }
+  
+  return options
+})
 </script>
