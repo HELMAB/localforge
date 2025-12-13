@@ -2,7 +2,7 @@
 
 # 🚀 LocalForge
 
-**A modern, powerful desktop application for managing development projects and tools**
+**Forge your perfect local development environment with ease**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Electron](https://img.shields.io/badge/Electron-28.0-47848F?logo=electron)](https://www.electronjs.org/)
@@ -11,7 +11,7 @@
 
 ![LocalForge](art.png)
 
-**Streamline your development workflow with project scaffolding, server configuration, and tool management—all in one beautiful desktop app.**
+**A powerful Electron desktop application that streamlines local development environment setup. Create projects, configure servers, manage development tools, and generate SSL certificates—all from one intuitive interface.**
 
 [Features](#-features) • [Installation](#-installation) • [Usage](#-usage) • [Contributing](#-contributing) • [License](#-license)
 
@@ -25,34 +25,37 @@
 <tr>
 <td width="50%">
 
-### 🎯 Project Management
-- **Quick scaffolding** for Laravel, Vue, Nuxt, React, WordPress
-- **Smart directory selection** with recent paths
-- **Real-time validation** with VeeValidate & Yup
-- **Project templates** with best practices
+### 🎯 Project Creation
+- **One-click scaffolding** for Laravel, Vue, Nuxt, React, and WordPress
+- **Smart directory picker** with path validation
+- **Framework-specific options** and starter kits
+- **Real-time validation** and error handling
 
-### ⚙️ Server Configuration
-- **Automated Nginx** virtual host setup
-- **SSL certificates** generation with mkcert
-- **Port configuration** with conflict detection
-- **Auto PHP-FPM** detection and configuration
+### ⚙️ Nginx Management
+- **Virtual host configuration** with auto-generation
+- **SSL certificate support** via mkcert integration
+- **Custom port assignment** with validation
+- **Automatic PHP-FPM detection** for PHP projects
+- **Site management** with enable/disable controls
 
 </td>
 <td width="50%">
 
-### 🛠️ Tool Management
-- **PHP versions** (8.0 → 8.4) with extensions
-- **Composer** global installation
-- **Node.js** version management via NVM
-- **Databases**: PostgreSQL, MySQL
-- **Nginx** web server installation
+### 🛠️ Development Tools
+- **PHP multi-version** support (8.0 - 8.4) with extensions
+- **Composer** dependency manager installation
+- **Node.js** via NVM with version switching
+- **Nginx** web server setup
+- **PostgreSQL & MySQL** database servers
+- **One-click installation** for all tools
 
-### 🎨 User Experience
-- **🌙 Dark mode** with system preference sync
-- **🌐 Bilingual**: English & Khmer (ភាសាខ្មែរ)
-- **⌨️ Keyboard shortcuts** for power users
-- **💾 Persistent settings** & preferences
-- **📊 Progress tracking** for long operations
+### 🎨 Modern Interface
+- **🌙 Dark/Light mode** with system sync
+- **🌐 Bilingual UI**: English & Khmer (ភាសាខ្មែរ)
+- **⌨️ Keyboard shortcuts** for productivity
+- **💾 Settings persistence** across sessions
+- **📊 Real-time progress** indicators
+- **✨ Smooth animations** and transitions
 
 </td>
 </tr>
@@ -184,22 +187,22 @@ npm run preview
 <table>
 <tr><td>
 
-**Step-by-step:**
-1. Click the **Create Project** tab (`Ctrl+1`)
-2. Select your framework/CMS
-3. Enter a project name (auto-validated)
-4. Choose installation directory
+**Quick Guide:**
+1. Navigate to **Create Project** tab (`Ctrl+1`)
+2. Select project type (Laravel, Vue, Nuxt, React, WordPress)
+3. Enter project name (validates automatically)
+4. Browse to installation directory
 5. Configure framework-specific options
-6. Click **Create Project**
+6. Click **Create Project** and wait for completion
 
 </td><td>
 
-**Supported Types:**
-- 🟥 **Laravel** (with Composer)
-- 🟩 **Vue.js** (Vite template)
-- 🟦 **Nuxt.js** (latest version)
-- ⚛️ **React** (with Vite)
-- 🔵 **WordPress** (latest)
+**Supported Frameworks:**
+- 🟥 **Laravel** - Full-stack PHP framework with starter kits
+- 🟩 **Vue.js** - Progressive JavaScript framework with Vite
+- 🟦 **Nuxt.js** - Vue-based SSR framework (v3 & v4)
+- ⚛️ **React** - JavaScript library with Vite bundler
+- 🔵 **WordPress** - Popular CMS (latest stable)
 
 </td></tr>
 </table>
@@ -209,60 +212,76 @@ npm run preview
 <table>
 <tr><td width="60%">
 
-**Quick Setup:**
-1. Navigate to **Nginx Config** tab (`Ctrl+2`)
-2. Enter domain (e.g., `myproject.local`)
-3. Browse to project root directory
-4. Set port (default: 80) or enable SSL (443)
-5. Enable **Auto-detect PHP-FPM** for PHP projects
-6. Click **Configure**
+**Configuration Steps:**
+1. Switch to **Nginx Config** tab (`Ctrl+2`)
+2. Enter domain name (e.g., `myproject.local`)
+3. Select project root directory
+4. Choose port (default: 80, SSL: 443)
+5. Select project type (Laravel, Vue, React, Static)
+6. Enable **Auto-detect PHP-FPM** for PHP projects
+7. Optional: Enable SSL certificate generation
+8. Click **Configure** and enter sudo password
 
-> ⚠️ **Note:** Requires sudo password for system configuration
+> ⚠️ **Important:** Requires sudo privileges for system configuration
+> 
+> 💡 **Tip:** Add domain to `/etc/hosts` for local DNS resolution
 
 </td><td width="40%">
 
-**Features:**
-- ✅ Auto PHP-FPM detection
-- ✅ SSL support (port 443)
-- ✅ Custom port assignment
-- ✅ Symlink to sites-enabled
-- ✅ Auto Nginx reload
+**Key Features:**
+- ✅ Automatic PHP-FPM socket detection
+- ✅ SSL certificate generation with mkcert
+- ✅ Custom port configuration
+- ✅ Automatic symlink creation
+- ✅ Nginx test & reload
+- ✅ Configuration management (view/delete)
 
 </td></tr>
 </table>
 
-### 🔒 Generate SSL Certificate
+### 🔒 SSL Certificate Generation
 
-Simple HTTPS setup with mkcert:
-1. Go to **SSL Generator** tab (`Ctrl+3`)
-2. Enter domain name
+**Secure your local development with HTTPS:**
+1. Navigate to **SSL Generator** tab (`Ctrl+3`)
+2. Enter your domain name (e.g., `myproject.local`)
 3. Click **Generate Certificate**
-4. Certificates saved to `~/certs/`
+4. Certificates are saved to `~/certs/` directory
 
-### 🛠️ Manage Tools
+> 📝 **Prerequisites:** mkcert must be installed and initialized
+> 
+> 🔐 **Note:** Generated certificates are trusted locally by your system
 
-**One-click installation** for development tools:
+### 🛠️ Development Tools Management
 
-| Tool | Features | Shortcut |
-|------|----------|----------|
-| **PHP** | Multi-version support (8.0-8.4), extensions | Install specific versions |
-| **Composer** | Global installation | Check version & install |
-| **Node.js** | NVM integration, version switching | Set default version |
-| **Nginx** | Web server | Quick install |
-| **PostgreSQL** | Version selection | Custom version support |
-| **MySQL** | Database server | Latest stable |
+**Install and manage essential development tools:**
 
 Access via **Manage Tools** tab (`Ctrl+4`)
 
-### ⚡ Quick Tips
+| Tool | Capabilities | Actions |
+|------|--------------|---------|
+| **PHP** | Multi-version (8.0-8.4), extensions | Install versions, add extensions |
+| **Composer** | Global package manager | Install/upgrade Composer |
+| **Node.js** | Multiple versions via NVM | Install versions, set default |
+| **Nginx** | High-performance web server | Quick installation |
+| **PostgreSQL** | Relational database | Custom version support |
+| **MySQL** | Popular database server | Latest stable version |
 
-| Action | Method |
-|--------|--------|
-| **Switch Language** | Header button or `Ctrl+L` |
-| **Toggle Dark Mode** | Moon/Sun icon or `Ctrl+D` |
-| **Open Settings** | Gear icon or `Ctrl+,` |
-| **Navigate Tabs** | `Ctrl+1` through `Ctrl+4` |
-| **View Shortcuts** | Press `Ctrl+/` anytime |
+> 🔑 **All installations require sudo privileges**
+> 
+> ✅ **Status checking:** View installed tools and versions
+
+### ⚡ Productivity Tips
+
+| Feature | Shortcut | Description |
+|---------|----------|-------------|
+| **Create Project** | `Ctrl+1` | Quick access to project creation |
+| **Nginx Config** | `Ctrl+2` | Configure virtual hosts |
+| **SSL Generator** | `Ctrl+3` | Generate SSL certificates |
+| **Manage Tools** | `Ctrl+4` | Install development tools |
+| **Toggle Dark Mode** | `Ctrl+D` | Switch theme |
+| **Switch Language** | `Ctrl+L` | English ↔ Khmer |
+| **Settings** | `Ctrl+,` | Open settings panel |
+| **Help** | `Ctrl+/` | View all shortcuts |
 
 ## 🏗️ Tech Stack
 
@@ -474,8 +493,8 @@ We welcome contributions! Here's how to get started:
 1. **Fork** the repository
 2. **Clone** your fork
    ```bash
-   git clone https://github.com/yourusername/dev-tools-app.git
-   cd dev-tools-app
+   git clone https://github.com/yourusername/localforge.git
+   cd localforge
    ```
 3. **Create a branch**
    ```bash
@@ -531,7 +550,7 @@ This project uses automated code quality tools:
 This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
 
 ```
-MIT License - Copyright (c) 2024 Mab Hel
+MIT License - Copyright (c) 2025 Mab Hel
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -546,11 +565,18 @@ copies or substantial portions of the Software.
 
 ## 🙏 Acknowledgments
 
-- **[Electron](https://www.electronjs.org/)** - Desktop app framework
-- **[Vue.js](https://vuejs.org/)** - Progressive JavaScript framework
-- **[Vite](https://vitejs.dev/)** - Next generation frontend tooling
+Built with amazing open-source technologies:
+
+- **[Electron](https://www.electronjs.org/)** - Cross-platform desktop framework
+- **[Vue 3](https://vuejs.org/)** - Progressive JavaScript framework with Composition API
+- **[Vite](https://vitejs.dev/)** - Lightning-fast build tool and dev server
 - **[Tailwind CSS](https://tailwindcss.com/)** - Utility-first CSS framework
-- All open-source contributors
+- **[Vue Router](https://router.vuejs.org/)** - Official routing library
+- **[Vue I18n](https://vue-i18n.intlify.dev/)** - Internationalization plugin
+- **[VeeValidate](https://vee-validate.logaretm.com/)** - Form validation
+- **[mkcert](https://github.com/FiloSottile/mkcert)** - Local SSL certificates
+
+Special thanks to all open-source contributors! 🎉
 
 ## 📞 Support & Contact
 

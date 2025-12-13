@@ -1,6 +1,6 @@
 import { ref, watch } from 'vue'
 
-const SETTINGS_KEY = 'devtools-settings'
+const SETTINGS_KEY = 'localforge-settings'
 
 const defaultSettings = {
   language: 'km',

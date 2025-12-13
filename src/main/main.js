@@ -332,7 +332,7 @@ server {
 
           // Use sudo to move file and configure nginx
           const options = {
-            name: 'Dev Tools Manager',
+            name: 'LocalForge',
           };
 
           const command = `mv "${tempConfigPath}" "${configPath}" && ln -sf "${configPath}" "${symlinkPath}" && nginx -t && systemctl reload nginx`;
@@ -455,7 +455,7 @@ server {
 
           // Use sudo to move file and configure nginx
           const options = {
-            name: 'Dev Tools Manager',
+            name: 'LocalForge',
           };
 
           const command = `mv "${tempConfigPath}" "${configPath}" && ln -sf "${configPath}" "${symlinkPath}" && nginx -t && systemctl reload nginx`;
@@ -551,7 +551,7 @@ server {
 
           // Use sudo to move file and configure nginx
           const options = {
-            name: 'Dev Tools Manager',
+            name: 'LocalForge',
           };
 
           const command = `mv "${tempConfigPath}" "${configPath}" && ln -sf "${configPath}" "${symlinkPath}" && nginx -t && systemctl reload nginx`;
@@ -594,7 +594,7 @@ server {
 
       // Use sudo to move file and configure nginx
       const options = {
-        name: 'Dev Tools Manager',
+        name: 'LocalForge',
       };
 
       const command = `mv "${tempConfigPath}" "${configPath}" && ln -sf "${configPath}" "${symlinkPath}" && nginx -t && systemctl reload nginx`;
@@ -683,7 +683,7 @@ ipcMain.handle('list-nginx-configs', async () => {
 ipcMain.handle('delete-nginx-config', async (event, { configName }) => {
   return new Promise((resolve, reject) => {
     const options = {
-      name: 'Dev Tools Manager',
+      name: 'LocalForge',
     };
 
     const availablePath = `/etc/nginx/sites-available/${configName}`;
@@ -761,7 +761,7 @@ function detectDistro() {
 function execSudo(command) {
   return new Promise((resolve, reject) => {
     const options = {
-      name: 'Dev Tools Manager',
+      name: 'LocalForge',
     };
 
     sudo.exec(command, options, (error, stdout, stderr) => {
@@ -872,7 +872,7 @@ ipcMain.handle('install-composer', async () => {
     const command = 'curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer && chmod +x /usr/local/bin/composer';
 
     const options = {
-      name: 'Dev Tools Manager',
+      name: 'LocalForge',
     };
 
     sudo.exec(command, options, (error, stdout, stderr) => {
