@@ -1,5 +1,5 @@
 export default {
-  appTitle: 'កម្មវិធីគ្រប់គ្រងគម្រោង',
+  appTitle: 'LocalForge',
   tabCreate: 'គម្រោងថ្មី',
   tabNginx: 'គ្រប់គ្រង Virtual Host',
   tabSsl: 'បង្កើត SSL',
@@ -121,7 +121,7 @@ export default {
   checking: 'កំពុងពិនិត្យ...',
   notInstalled: 'មិនទាន់បានដំឡើង',
   installed: 'បានដំឡើងរូច',
-  footer: 'កម្មវិធីគ្រប់គ្រងការអភិវឌ្ឍន៍ | Built with Electron & Tailwind CSS',
+  footer: 'LocalForge - រចនាបរិស្ថានអភិវឌ្ឍន៍ក្នុងតំបន់របស់អ្នក | Built with ❤️',
   settingsTitle: 'ការកំណត់',
   languageLabel: 'ភាសា',
   darkModeLabel: 'ម៉ូតងងឹត',

@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🚀 Dev Tools Manager
+# 🚀 LocalForge
 
 **A modern, powerful desktop application for managing development projects and tools**
 
@@ -9,7 +9,7 @@
 [![Vue 3](https://img.shields.io/badge/Vue-3.5-4FC08D?logo=vue.js)](https://vuejs.org/)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
 
-![Dev Tools Manager](art.png)
+![LocalForge](art.png)
 
 **Streamline your development workflow with project scaffolding, server configuration, and tool management—all in one beautiful desktop app.**
 
@@ -126,8 +126,8 @@ nvm --version
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/dev-tools-app.git
-cd dev-tools-app
+git clone https://github.com/yourusername/localforge.git
+cd localforge
 
 # Install dependencies
 npm install
@@ -302,7 +302,7 @@ Access via **Manage Tools** tab (`Ctrl+4`)
 ## 📁 Project Structure
 
 ```
-dev-tools-app/
+localforge/
 ├── 📂 src/
 │   ├── 📂 main/
 │   │   └── main.js                    # Electron main process (IPC)
@@ -554,8 +554,8 @@ copies or substantial portions of the Software.
 
 ## 📞 Support & Contact
 
-- 🐛 **Issues:** [GitHub Issues](https://github.com/yourusername/dev-tools-app/issues)
-- 💬 **Discussions:** [GitHub Discussions](https://github.com/yourusername/dev-tools-app/discussions)
+- 🐛 **Issues:** [GitHub Issues](https://github.com/yourusername/localforge/issues)
+- 💬 **Discussions:** [GitHub Discussions](https://github.com/yourusername/localforge/discussions)
 - 📧 **Email:** mabhelitc@gmail.com
 - 🌐 **Website:** [helmab.netlify.app](https://helmab.netlify.app)
 
@@ -567,6 +567,6 @@ copies or substantial portions of the Software.
 
 Made with ❤️ by [Mab Hel](https://helmab.netlify.app)
 
-[⬆ Back to Top](#-dev-tools-manager)
+[⬆ Back to Top](#-localforge)
 
 </div>

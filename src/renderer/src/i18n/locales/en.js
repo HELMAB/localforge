@@ -1,5 +1,5 @@
 export default {
-  appTitle: 'Devtools Manager',
+  appTitle: 'LocalForge',
   tabCreate: 'New Project',
   tabNginx: 'Manage Virtual Host',
   tabSsl: 'Generate SSL',
@@ -121,7 +121,7 @@ export default {
   checking: 'Checking...',
   notInstalled: 'Not installed yet',
   installed: 'Installed',
-  footer: 'Development Management Tool | Built with Electron & Tailwind CSS',
+  footer: 'LocalForge - Forge Your Local Development Environment | Built with ❤️',
   settingsTitle: 'Settings',
   languageLabel: 'Language',
   darkModeLabel: 'Dark Mode',

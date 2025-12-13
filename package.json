@@ -1,7 +1,7 @@
 {
-  "name": "dev-tools-app",
+  "name": "localforge",
   "version": "1.0.0",
-  "description": "Desktop application for managing development projects with Laravel, Vue, Nuxt, React, WordPress support",
+  "description": "LocalForge - Desktop application for managing development projects with Laravel, Vue, Nuxt, React, WordPress support",
   "main": "src/main/main.js",
   "scripts": {
     "dev": "vite",
@@ -65,8 +65,8 @@
     "yup": "^1.7.1"
   },
   "build": {
-    "appId": "com.devtools.app",
-    "productName": "Devtools",
+    "appId": "com.localforge.app",
+    "productName": "LocalForge",
     "directories": {
       "output": "dist-builder"
     },

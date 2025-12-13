@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Dev Tools Manager is an Electron desktop application for managing development projects. It creates projects (Laravel, Vue, Nuxt, React, WordPress), configures Nginx virtual hosts, generates SSL certificates, and manages development tools (PHP, Composer, Node.js, Nginx, PostgreSQL, MySQL). The UI is bilingual (Khmer/English).
+LocalForge is an Electron desktop application for managing development projects. It creates projects (Laravel, Vue, Nuxt, React, WordPress), configures Nginx virtual hosts, generates SSL certificates, and manages development tools (PHP, Composer, Node.js, Nginx, PostgreSQL, MySQL). The UI is bilingual (Khmer/English).
 
 **Tech Stack:**
 - **Frontend**: Vue 3 (Composition API) + Vite + Vue Router + Vue I18n + Tailwind CSS
