@@ -1,96 +1,123 @@
 <template>
   <div class="space-y-4">
-    <ProjectTypeSelector v-model="projectType" />
+    <!-- Recent Projects -->
+    <RecentProjects @clone-config="handleCloneConfig" />
 
-    <LaravelOptions
-      v-if="projectType === 'laravel'"
-      v-model:laravel-version="laravelVersion"
-      v-model:php-version="phpVersion"
-      v-model:laravel-starter="laravelStarter"
+    <!-- Post Creation Success -->
+    <PostCreationActions
+      v-if="showPostCreation"
+      :project-path="createdProjectPath"
+      :project-type="projectType"
+      :project-name="projectName"
+      @close="showPostCreation = false"
     />
 
-    <WordPressOptions
-      v-if="projectType === 'wordpress'"
-      v-model:php-version="wpPhpVersion"
-    />
+    <template v-else>
+      <ProjectTypeSelector v-model="projectType" />
 
-    <VueOptions
-      v-if="projectType === 'vue'"
-      v-model:typescript="vueOptions.typescript"
-      v-model:jsx="vueOptions.jsx"
-      v-model:router="vueOptions.router"
-      v-model:pinia="vueOptions.pinia"
-      v-model:vitest="vueOptions.vitest"
-      v-model:playwright="vueOptions.playwright"
-      v-model:eslint="vueOptions.eslint"
-      v-model:prettier="vueOptions.prettier"
-    />
+      <LaravelOptions
+        v-if="projectType === 'laravel'"
+        v-model:laravel-version="laravelVersion"
+        v-model:php-version="phpVersion"
+        v-model:laravel-starter="laravelStarter"
+      />
 
-    <NuxtOptions
-      v-if="projectType === 'nuxt'"
-      v-model:nuxt-version="nuxtVersion"
-      v-model:nuxt-template="nuxtTemplate"
-    />
+      <WordPressOptions
+        v-if="projectType === 'wordpress'"
+        v-model:php-version="wpPhpVersion"
+      />
 
-    <NodeOptions
-      v-if="['vue', 'nuxt', 'react'].includes(projectType)"
-      v-model:node-version="nodeVersion"
-    />
+      <VueOptions
+        v-if="projectType === 'vue'"
+        v-model:typescript="vueOptions.typescript"
+        v-model:jsx="vueOptions.jsx"
+        v-model:router="vueOptions.router"
+        v-model:pinia="vueOptions.pinia"
+        v-model:vitest="vueOptions.vitest"
+        v-model:playwright="vueOptions.playwright"
+        v-model:eslint="vueOptions.eslint"
+        v-model:prettier="vueOptions.prettier"
+      />
 
-    <!-- 2-Column Grid Layout -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div>
-        <label class="block text-sm font-medium mb-2 dark:text-gray-300">
-          {{ t('projectNameLabel') }} <span class="text-red-500">*</span>
-        </label>
-        <input
-          v-model="projectName"
-          type="text"
-          :class="[
-            'w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2',
-            validationErrors.projectName
-              ? 'border-red-500 focus:ring-red-500'
-              : 'border-gray-300 dark:border-gray-600 focus:ring-blue-500',
-            'dark:bg-gray-700 dark:text-white'
-          ]"
-          placeholder="my-project"
-          @blur="validateProjectName"
-        >
-        <p
-          v-if="validationErrors.projectName"
-          class="text-red-500 text-sm mt-1"
-        >
-          {{ validationErrors.projectName }}
-        </p>
+      <NuxtOptions
+        v-if="projectType === 'nuxt'"
+        v-model:nuxt-version="nuxtVersion"
+        v-model:nuxt-template="nuxtTemplate"
+      />
+
+      <NodeOptions
+        v-if="['vue', 'nuxt', 'react'].includes(projectType)"
+        v-model:node-version="nodeVersion"
+      />
+
+      <!-- Project Preview -->
+      <ProjectPreview
+        v-if="projectName && projectPath"
+        :project-type="projectType"
+        :project-name="projectName"
+        :php-version="projectType === 'laravel' ? phpVersion : wpPhpVersion"
+        :node-version="nodeVersion"
+        :laravel-version="laravelVersion"
+        :laravel-starter="laravelStarter"
+        :nuxt-version="nuxtVersion"
+        :vue-options="vueOptions"
+      />
+
+      <!-- 2-Column Grid Layout -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-medium mb-2 dark:text-gray-300">
+            {{ t('projectNameLabel') }} <span class="text-red-500">*</span>
+          </label>
+          <input
+            v-model="projectName"
+            type="text"
+            :class="[
+              'w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2',
+              validationErrors.projectName
+                ? 'border-red-500 focus:ring-red-500'
+                : 'border-gray-300 dark:border-gray-600 focus:ring-blue-500',
+              'dark:bg-gray-700 dark:text-white'
+            ]"
+            placeholder="my-project"
+            @blur="validateProjectName"
+          >
+          <p
+            v-if="validationErrors.projectName"
+            class="text-red-500 text-sm mt-1"
+          >
+            {{ validationErrors.projectName }}
+          </p>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium mb-2 dark:text-gray-300">
+            {{ t('projectPathLabel') }} <span class="text-red-500">*</span>
+          </label>
+          <DirectorySelector v-model="projectPath" />
+          <p
+            v-if="validationErrors.path"
+            class="text-red-500 text-sm mt-1"
+          >
+            {{ validationErrors.path }}
+          </p>
+        </div>
       </div>
 
-      <div>
-        <label class="block text-sm font-medium mb-2 dark:text-gray-300">
-          {{ t('projectPathLabel') }} <span class="text-red-500">*</span>
-        </label>
-        <DirectorySelector v-model="projectPath" />
-        <p
-          v-if="validationErrors.path"
-          class="text-red-500 text-sm mt-1"
-        >
-          {{ validationErrors.path }}
-        </p>
-      </div>
-    </div>
+      <button
+        :disabled="isCreating"
+        class="w-full px-6 py-3 bg-blue-500 dark:bg-blue-600 text-white rounded-lg hover:bg-blue-600 dark:hover:bg-blue-700 font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+        @click="handleCreateProject"
+      >
+        {{ isCreating ? t('checking') : t('createBtn') }}
+      </button>
 
-    <button
-      :disabled="isCreating"
-      class="w-full px-6 py-3 bg-blue-500 dark:bg-blue-600 text-white rounded-lg hover:bg-blue-600 dark:hover:bg-blue-700 font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-      @click="handleCreateProject"
-    >
-      {{ isCreating ? t('checking') : t('createBtn') }}
-    </button>
-
-    <StatusMessage
-      :message="status.message.value"
-      :type="status.type.value"
-      :visible="status.visible.value"
-    />
+      <StatusMessage
+        :message="status.message.value"
+        :type="status.type.value"
+        :visible="status.visible.value"
+      />
+    </template>
   </div>
 </template>
 
@@ -101,6 +128,7 @@ import { useProject } from '../../composables/useProject'
 import { useStatus } from '../../composables/useStatus'
 import { useSettings } from '../../composables/useSettings'
 import { useTools } from '../../composables/useTools'
+import { useRecentProjects } from '../../composables/useRecentProjects'
 import { projectNameSchema, pathSchema, validateField } from '../../utils/validation'
 import ProjectTypeSelector from './ProjectTypeSelector.vue'
 import LaravelOptions from './LaravelOptions.vue'
@@ -110,6 +138,9 @@ import NuxtOptions from './NuxtOptions.vue'
 import NodeOptions from './NodeOptions.vue'
 import DirectorySelector from '../common/DirectorySelector.vue'
 import StatusMessage from '../common/StatusMessage.vue'
+import RecentProjects from './RecentProjects.vue'
+import ProjectPreview from './ProjectPreview.vue'
+import PostCreationActions from './PostCreationActions.vue'
 
 const { t } = useI18n()
 const { createProject, isCreating } = useProject()
@@ -117,6 +148,7 @@ const status = useStatus()
 const { settings } = useSettings()
 const { installedTools, checkInstalledTools } = useTools()
 const progress = inject('progress', null)
+const { addRecentProject } = useRecentProjects()
 
 const projectType = ref('laravel')
 const projectName = ref('')
@@ -139,6 +171,8 @@ const vueOptions = ref({
 const nuxtVersion = ref('4')
 const nuxtTemplate = ref('minimal')
 const validationErrors = ref({})
+const showPostCreation = ref(false)
+const createdProjectPath = ref('')
 
 const validateProjectName = () => {
   const result = validateField(projectNameSchema, 'projectName', projectName.value)
@@ -147,6 +181,25 @@ const validateProjectName = () => {
   } else {
     delete validationErrors.value.projectName
   }
+}
+
+function handleCloneConfig(config) {
+  // Clone configuration from recent project
+  if (config.phpVersion) {
+    if (projectType.value === 'laravel') {
+      phpVersion.value = config.phpVersion
+    } else {
+      wpPhpVersion.value = config.phpVersion
+    }
+  }
+  if (config.nodeVersion) nodeVersion.value = config.nodeVersion
+  if (config.laravelVersion) laravelVersion.value = config.laravelVersion
+  if (config.laravelStarter) laravelStarter.value = config.laravelStarter
+  if (config.nuxtVersion) nuxtVersion.value = config.nuxtVersion
+  if (config.nuxtTemplate) nuxtTemplate.value = config.nuxtTemplate
+  if (config.vueOptions) vueOptions.value = { ...config.vueOptions }
+  
+  status.showStatus(t('configCloned'), 'success')
 }
 
 async function handleCreateProject() {
@@ -242,6 +295,17 @@ async function handleCreateProject() {
           : 'Completed!'
       )
     }
+
+    // Add to recent projects with full path from result
+    const projectDataWithFullPath = {
+      ...projectData,
+      fullPath: result.path
+    }
+    addRecentProject(projectDataWithFullPath)
+
+    // Show post-creation actions
+    createdProjectPath.value = result.path
+    showPostCreation.value = true
 
     status.showStatus(
       t('checking') === 'កំពុងពិនិត្យ...'

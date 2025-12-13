@@ -3,13 +3,13 @@ import { ref, watch } from 'vue'
 const SETTINGS_KEY = 'localforge-settings'
 
 const defaultSettings = {
-  language: 'km',
+  language: 'en',
   darkMode: false,
   defaultProjectPath: '',
-  defaultPhpVersion: '8.2',
-  defaultNodeVersion: '20',
+  defaultPhpVersion: '8.3',
+  defaultNodeVersion: '22',
   autoDetectPhp: true,
-  showKeyboardHints: true
+  showKeyboardHints: false,
 }
 
 const settings = ref({ ...defaultSettings })
