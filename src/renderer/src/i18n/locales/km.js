@@ -192,5 +192,17 @@ export default {
   blogTemplate: 'Blog មានមុខងារពេញលេញ',
   apiTemplate: 'REST API',
   adminTemplate: 'Admin Dashboard',
-  useTemplate: 'ប្រើគំរូនេះ'
+  useTemplate: 'ប្រើគំរូនេះ',
+  // Error Modal
+  errorTitle: 'កំហុសបានកើតឡើង',
+  errorSubtitle: 'មានអ្វីមួយខុសប្រក្រតី',
+  errorDetails: 'ព័ត៌មានលម្អិត',
+  showDetails: 'បង្ហាញព័ត៌មានលម្អិត',
+  hideDetails: 'លាក់ព័ត៌មានលម្អិត',
+  copyError: 'ចម្លងកំហុស',
+  copyFullError: 'ចម្លងរបាយការណ៍កំហុសពេញលេញ',
+  suggestions: 'ការណែនាំ',
+  contextInfo: 'ព័ត៌មានបរិបទ',
+  retry: 'ព្យាយាមម្តងទៀត',
+  close: 'បិទ'
 }

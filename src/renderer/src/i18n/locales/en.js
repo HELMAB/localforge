@@ -192,5 +192,17 @@ export default {
   blogTemplate: 'Blog with Full Features',
   apiTemplate: 'REST API',
   adminTemplate: 'Admin Dashboard',
-  useTemplate: 'Use This Template'
+  useTemplate: 'Use This Template',
+  // Error Modal
+  errorTitle: 'An Error Occurred',
+  errorSubtitle: 'Something went wrong',
+  errorDetails: 'Error Details',
+  showDetails: 'Show Details',
+  hideDetails: 'Hide Details',
+  copyError: 'Copy Error',
+  copyFullError: 'Copy Full Error Report',
+  suggestions: 'Suggestions',
+  contextInfo: 'Context Information',
+  retry: 'Try Again',
+  close: 'Close'
 }

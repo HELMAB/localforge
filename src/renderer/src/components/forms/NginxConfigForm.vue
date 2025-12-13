@@ -764,7 +764,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, inject } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useNginx } from '../../composables/useNginx'
 import { useStatus } from '../../composables/useStatus'
@@ -783,6 +783,7 @@ const { t, locale } = useI18n()
 const { configureNginx, isConfiguring, listNginxConfigs, deleteNginxConfig, enableNginxConfig, disableNginxConfig, addSslToConfig, removeSslFromConfig, isLoading } = useNginx()
 const status = useStatus()
 const { installedTools, checkInstalledTools } = useTools()
+const errorModal = inject('errorModal', null)
 
 const projectType = ref('php')
 const domain = ref('')
@@ -1023,6 +1024,34 @@ async function handleConfigureNginx() {
     await loadConfigs()
     activeMenu.value = 'sites'
   } catch (error) {
+    // Show detailed error in modal
+    if (errorModal) {
+      errorModal.showError(error, {
+        title: locale.value === 'km' ? 'បរាជ័យក្នុងការកំណត់ Nginx' : 'Failed to Configure Nginx',
+        subtitle: locale.value === 'km' ? 'មានកំហុសកើតឡើងពេលកំណត់រចនាសម្ព័ន្ធ Nginx' : 'An error occurred while configuring Nginx',
+        suggestions: [
+          locale.value === 'km' 
+            ? 'ពិនិត្យមើលថាតើអ្នកបានបញ្ចូលពាក្យសម្ងាត់ត្រឹមត្រូវ (sudo privilege ត្រូវការ)'
+            : 'Check if you entered the correct password (sudo privilege required)',
+          locale.value === 'km'
+            ? 'ត្រូវប្រាកដថា Nginx ត្រូវបានដំឡើងនៅលើប្រព័ន្ធរបស់អ្នក'
+            : 'Ensure Nginx is installed on your system',
+          locale.value === 'km'
+            ? 'ពិនិត្យមើលថាតើផ្លូវគម្រោងមានឬអត់'
+            : 'Check if the project path exists'
+        ],
+        context: {
+          'Domain': domain.value,
+          'Project Path': nginxProjectPath.value,
+          'Project Type': projectType.value,
+          'Port': port.value,
+          'PHP Version': phpVersion.value || 'Auto-detect',
+          'SSL Enabled': enableSSL.value ? 'Yes' : 'No'
+        },
+        onRetry: handleConfigureNginx
+      })
+    }
+
     status.showStatus(
       locale.value === 'km'
         ? `កំហុស: ${error.message}\n\nប្រសិនបើអ្នកមិនបានបញ្ចូលពាក្យសម្ងាត់ សូមព្យាយាមម្តងទៀត។`

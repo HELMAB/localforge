@@ -148,6 +148,7 @@ const status = useStatus()
 const { settings } = useSettings()
 const { installedTools, checkInstalledTools } = useTools()
 const progress = inject('progress', null)
+const errorModal = inject('errorModal', null)
 const { addRecentProject } = useRecentProjects()
 
 const projectType = ref('laravel')
@@ -320,6 +321,36 @@ async function handleCreateProject() {
           ? 'បរាជ័យ'
           : 'Failed'
       )
+    }
+
+    // Show error in modal with detailed information
+    if (errorModal) {
+      errorModal.showError(error, {
+        title: t('checking') === 'កំពុងពិនិត្យ...' ? 'បរាជ័យក្នុងការបង្កើតគម្រោង' : 'Failed to Create Project',
+        subtitle: t('checking') === 'កំពុងពិនិត្យ...' ? 'មានកំហុសកើតឡើងពេលបង្កើតគម្រោងរបស់អ្នក' : 'An error occurred while creating your project',
+        suggestions: [
+          t('checking') === 'កំពុងពិនិត្យ...' 
+            ? 'ពិនិត្យមើលថាអ្នកមានសិទ្ធិគ្រប់គ្រាន់សម្រាប់បង្កើតឯកសារនៅក្នុងថតនោះ'
+            : 'Check if you have sufficient permissions to create files in that directory',
+          t('checking') === 'កំពុងពិនិត្យ...'
+            ? 'ត្រូវប្រាកដថា Composer, Node.js, ឬសេវាកម្មចាំបាច់ផ្សេងទៀតត្រូវបានដំឡើង'
+            : 'Ensure Composer, Node.js, or other required services are installed',
+          t('checking') === 'កំពុងពិនិត្យ...'
+            ? 'ពិនិត្យមើលការភ្ជាប់អ៊ីនធឺណិតរបស់អ្នក ប្រសិនបើគម្រោងត្រូវការទាញយក dependencies'
+            : 'Check your internet connection if the project needs to download dependencies'
+        ],
+        context: {
+          'Project Type': projectType.value,
+          'Project Name': projectName.value,
+          'Project Path': projectPath.value,
+          ...(projectType.value === 'laravel' && { 'Laravel Version': laravelVersion.value, 'PHP Version': phpVersion.value }),
+          ...(projectType.value === 'vue' && { 'Node Version': nodeVersion.value }),
+          ...(projectType.value === 'nuxt' && { 'Nuxt Version': nuxtVersion.value, 'Node Version': nodeVersion.value }),
+          ...(projectType.value === 'react' && { 'Node Version': nodeVersion.value }),
+          ...(projectType.value === 'wordpress' && { 'PHP Version': wpPhpVersion.value })
+        },
+        onRetry: handleCreateProject
+      })
     }
 
     status.showStatus(

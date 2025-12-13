@@ -3,7 +3,7 @@
     id="app"
     class="min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-200"
   >
-    <div class="max-w-[890px] mx-auto p-6">
+    <div class="max-w-[980px] mx-auto p-6">
       <AppHeader @toggle-settings="showSettings = true" />
 
       <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md mb-6 transition-colors duration-200">
@@ -34,6 +34,18 @@
       :progress="progress.progress.value"
       :message="progress.message.value"
     />
+
+    <ErrorModal
+      :visible="errorModal.visible.value"
+      :title="errorModal.title.value"
+      :subtitle="errorModal.subtitle.value"
+      :message="errorModal.message.value"
+      :details="errorModal.details.value"
+      :suggestions="errorModal.suggestions.value"
+      :context="errorModal.context.value"
+      :on-retry="errorModal.onRetry.value"
+      @close="errorModal.hideError"
+    />
   </div>
 </template>
 
@@ -45,15 +57,18 @@ import TabNavigation from './components/layout/TabNavigation.vue'
 import AppFooter from './components/layout/AppFooter.vue'
 import SettingsModal from './components/common/SettingsModal.vue'
 import ProgressBar from './components/common/ProgressBar.vue'
+import ErrorModal from './components/common/ErrorModal.vue'
 import { useDarkMode } from './composables/useDarkMode'
 import { useSettings } from './composables/useSettings'
 import { useKeyboardShortcuts } from './composables/useKeyboardShortcuts'
 import { useProgress } from './composables/useProgress'
+import { useErrorModal } from './composables/useErrorModal'
 
 const { locale } = useI18n()
 const { toggleDarkMode: toggle } = useDarkMode()
 const { settings } = useSettings()
 const progress = useProgress()
+const errorModal = useErrorModal()
 const showSettings = ref(false)
 
 useKeyboardShortcuts()
@@ -79,6 +94,7 @@ onMounted(() => {
 })
 
 provide('progress', progress)
+provide('errorModal', errorModal)
 </script>
 
 <style scoped>
