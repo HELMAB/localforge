@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const path = require('path');
 const { exec } = require('child_process');
@@ -343,13 +344,14 @@ server {
             } else {
               // Generate SSL if enabled
               if (enableSSL) {
-                exec(`mkcert ${domain}`, { cwd: os.homedir() }, (sslError) => {
+                const sslCommand = `mkdir -p /etc/nginx/ssl && cd /etc/nginx/ssl && mkcert ${domain}`;
+                sudo.exec(sslCommand, options, (sslError) => {
                   if (sslError) {
                     console.error('SSL generation failed:', sslError);
                   } else {
                     sslGenerated = true;
                   }
-                  resolve({ success: true, configPath, phpFpmSocket, sslGenerated });
+                  resolve({ success: true, configPath, phpFpmSocket, sslGenerated, sslPath: '/etc/nginx/ssl' });
                 });
               } else {
                 resolve({ success: true, configPath, phpFpmSocket, sslGenerated });
@@ -466,13 +468,14 @@ server {
             } else {
               // Generate SSL if enabled
               if (enableSSL) {
-                exec(`mkcert ${domain}`, { cwd: os.homedir() }, (sslError) => {
+                const sslCommand = `mkdir -p /etc/nginx/ssl && cd /etc/nginx/ssl && mkcert ${domain}`;
+                sudo.exec(sslCommand, options, (sslError) => {
                   if (sslError) {
                     console.error('SSL generation failed:', sslError);
                   } else {
                     sslGenerated = true;
                   }
-                  resolve({ success: true, configPath, phpFpmSocket, sslGenerated });
+                  resolve({ success: true, configPath, phpFpmSocket, sslGenerated, sslPath: '/etc/nginx/ssl' });
                 });
               } else {
                 resolve({ success: true, configPath, phpFpmSocket, sslGenerated });
@@ -562,13 +565,14 @@ server {
             } else {
               // Generate SSL if enabled
               if (enableSSL) {
-                exec(`mkcert ${domain}`, { cwd: os.homedir() }, (sslError) => {
+                const sslCommand = `mkdir -p /etc/nginx/ssl && cd /etc/nginx/ssl && mkcert ${domain}`;
+                sudo.exec(sslCommand, options, (sslError) => {
                   if (sslError) {
                     console.error('SSL generation failed:', sslError);
                   } else {
                     sslGenerated = true;
                   }
-                  resolve({ success: true, configPath, phpFpmSocket, sslGenerated });
+                  resolve({ success: true, configPath, phpFpmSocket, sslGenerated, sslPath: '/etc/nginx/ssl' });
                 });
               } else {
                 resolve({ success: true, configPath, phpFpmSocket, sslGenerated });
@@ -605,13 +609,15 @@ server {
         } else {
           // Generate SSL if enabled
           if (enableSSL) {
-            exec(`mkcert ${domain}`, { cwd: os.homedir() }, (sslError) => {
+            const sslCommand = `mkdir -p /etc/nginx/ssl && cd /etc/nginx/ssl && mkcert ${domain}`;
+            const sslOptions = { name: 'LocalForge' };
+            sudo.exec(sslCommand, sslOptions, (sslError) => {
               if (sslError) {
                 console.error('SSL generation failed:', sslError);
               } else {
                 sslGenerated = true;
               }
-              resolve({ success: true, configPath, sslGenerated });
+              resolve({ success: true, configPath, sslGenerated, sslPath: '/etc/nginx/ssl' });
             });
           } else {
             resolve({ success: true, configPath, sslGenerated });
@@ -624,11 +630,19 @@ server {
 
 ipcMain.handle('generate-ssl', async (event, { domain }) => {
   return new Promise((resolve, reject) => {
-    exec(`mkcert ${domain}`, { cwd: os.homedir() }, (error) => {
+    const sslDir = '/etc/nginx/ssl';
+    const sslCommand = `mkdir -p ${sslDir} && cd ${sslDir} && mkcert ${domain}`;
+    const options = { name: 'LocalForge' };
+
+    sudo.exec(sslCommand, options, (error) => {
       if (error) {
         reject(error);
       } else {
-        resolve({ success: true, message: `SSL certificate generated for ${domain}` });
+        resolve({ 
+          success: true, 
+          message: `SSL certificate generated for ${domain}`,
+          path: `${sslDir}/${domain}.pem`
+        });
       }
     });
   });

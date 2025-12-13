@@ -245,11 +245,11 @@ npm run preview
 1. Navigate to **SSL Generator** tab (`Ctrl+3`)
 2. Enter your domain name (e.g., `myproject.local`)
 3. Click **Generate Certificate**
-4. Certificates are saved to `~/certs/` directory
+4. Certificates are saved to `/etc/nginx/ssl/` directory
 
 > 📝 **Prerequisites:** mkcert must be installed and initialized
 > 
-> 🔐 **Note:** Generated certificates are trusted locally by your system
+> 🔐 **Note:** Generated certificates are trusted locally by your system and stored in `/etc/nginx/ssl/`
 
 ### 🛠️ Development Tools Management
 
