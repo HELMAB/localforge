@@ -265,9 +265,9 @@
           v-else
           class="space-y-6"
         >
-          <!-- Active/Enabled Sites -->
+          <!-- Active Sites with HTTPS -->
           <div
-            v-if="activeSites.length > 0"
+            v-if="activeSitesWithSSL.length > 0"
             class="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700 rounded-lg p-4"
           >
             <h4 class="font-semibold text-green-800 dark:text-green-300 mb-3 flex items-center gap-2">
@@ -279,18 +279,18 @@
               >
                 <path
                   fill-rule="evenodd"
-                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                  d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
                   clip-rule="evenodd"
                 />
               </svg>
-              {{ t('nginxActiveSites') }}
+              {{ locale === 'km' ? 'គេហទំព័រសកម្ម (មាន HTTPS)' : 'Active Sites (HTTPS)' }}
               <span class="ml-auto px-2 py-0.5 text-xs bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 rounded-full">
-                {{ activeSites.length }}
+                {{ activeSitesWithSSL.length }}
               </span>
             </h4>
             <div class="space-y-2">
               <div
-                v-for="config in activeSites"
+                v-for="config in activeSitesWithSSL"
                 :key="config.name"
                 class="flex items-center justify-between bg-white dark:bg-gray-800 p-4 rounded-lg border border-green-300 dark:border-green-700"
               >
@@ -310,6 +310,101 @@
                     </svg>
                     <span class="font-semibold text-green-700 dark:text-green-400 truncate">{{ config.name }}</span>
                     <span class="px-2 py-0.5 text-xs bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 rounded flex-shrink-0">
+                      {{ t('active') }}
+                    </span>
+                    <span
+                      v-if="config.hasSSL"
+                      class="px-2 py-0.5 text-xs bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 rounded flex items-center gap-1 flex-shrink-0"
+                      :title="locale === 'km' ? 'មាន SSL/HTTPS' : 'SSL/HTTPS Enabled'"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-3 w-3"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                          clip-rule="evenodd"
+                        />
+                      </svg>
+                      HTTPS
+                    </span>
+                  </div>
+                  <div class="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-400 ml-7">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="h-3.5 w-3.5 flex-shrink-0"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M2 6a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1H8a3 3 0 00-3 3v1.5a1.5 1.5 0 01-3 0V6z"
+                        clip-rule="evenodd"
+                      />
+                      <path d="M6 12a2 2 0 012-2h8a2 2 0 012 2v2a2 2 0 01-2 2H2h2a2 2 0 002-2v-2z" />
+                    </svg>
+                    <span class="truncate">{{ config.path }}</span>
+                  </div>
+                </div>
+                <button
+                  :disabled="isDeleting"
+                  class="ml-4 px-4 py-2 text-sm bg-red-500 dark:bg-red-600 text-white rounded-lg hover:bg-red-600 dark:hover:bg-red-700 disabled:opacity-50 transition-colors flex-shrink-0 font-medium"
+                  @click="handleDeleteConfig(config.name)"
+                >
+                  {{ t('delete') }}
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Active Sites without HTTPS -->
+          <div
+            v-if="activeSitesWithoutSSL.length > 0"
+            class="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-700 rounded-lg p-4"
+          >
+            <h4 class="font-semibold text-yellow-800 dark:text-yellow-300 mb-3 flex items-center gap-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+              {{ locale === 'km' ? 'គេហទំព័រសកម្ម (គ្មាន HTTPS)' : 'Active Sites (No HTTPS)' }}
+              <span class="ml-auto px-2 py-0.5 text-xs bg-yellow-100 dark:bg-yellow-900 text-yellow-700 dark:text-yellow-300 rounded-full">
+                {{ activeSitesWithoutSSL.length }}
+              </span>
+            </h4>
+            <div class="space-y-2">
+              <div
+                v-for="config in activeSitesWithoutSSL"
+                :key="config.name"
+                class="flex items-center justify-between bg-white dark:bg-gray-800 p-4 rounded-lg border border-yellow-300 dark:border-yellow-700"
+              >
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-center gap-2 mb-1">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="h-5 w-5 text-yellow-600 dark:text-yellow-400 flex-shrink-0"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M2 5a2 2 0 012-2h12a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm3.293 1.293a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 01-1.414-1.414L7.586 10 5.293 7.707a1 1 0 010-1.414zM11 12a1 1 0 100 2h3a1 1 0 100-2h-3z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+                    <span class="font-semibold text-yellow-700 dark:text-yellow-400 truncate">{{ config.name }}</span>
+                    <span class="px-2 py-0.5 text-xs bg-yellow-100 dark:bg-yellow-900 text-yellow-700 dark:text-yellow-300 rounded flex-shrink-0">
                       {{ t('active') }}
                     </span>
                   </div>
@@ -388,6 +483,25 @@
                     <span class="px-2 py-0.5 text-xs bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded flex-shrink-0">
                       {{ t('inactive') }}
                     </span>
+                    <span
+                      v-if="config.hasSSL"
+                      class="px-2 py-0.5 text-xs bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 rounded flex items-center gap-1 flex-shrink-0"
+                      :title="locale === 'km' ? 'មាន SSL/HTTPS' : 'SSL/HTTPS Enabled'"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-3 w-3"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                          clip-rule="evenodd"
+                        />
+                      </svg>
+                      HTTPS
+                    </span>
                   </div>
                   <div class="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-400 ml-7">
                     <svg
@@ -452,7 +566,9 @@ const enableSSL = ref(false)
 const configs = ref([])
 const activeMenu = ref('new-site')
 
-// Computed properties to separate active and inactive sites
+// Computed properties to separate sites by status and SSL
+const activeSitesWithSSL = computed(() => configs.value.filter(config => config.enabled && config.hasSSL))
+const activeSitesWithoutSSL = computed(() => configs.value.filter(config => config.enabled && !config.hasSSL))
 const activeSites = computed(() => configs.value.filter(config => config.enabled))
 const inactiveSites = computed(() => configs.value.filter(config => !config.enabled))
 

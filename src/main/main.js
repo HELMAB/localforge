@@ -248,6 +248,49 @@ server {
         deny all;
     }
 }
+${enableSSL ? `
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    server_name ${domain};
+    root ${projectPath}/dist;
+
+    ssl_certificate /etc/nginx/ssl/${domain}.pem;
+    ssl_certificate_key /etc/nginx/ssl/${domain}-key.pem;
+
+    add_header X-Frame-Options "SAMEORIGIN";
+    add_header X-Content-Type-Options "nosniff";
+
+    index index.html;
+
+    charset utf-8;
+
+    # Enable gzip compression
+    gzip on;
+    gzip_vary on;
+    gzip_min_length 1024;
+    gzip_types text/plain text/css text/xml text/javascript application/x-javascript application/xml+rss application/javascript application/json;
+
+    location / {
+        # SPA fallback - always serve index.html for Vue Router history mode
+        try_files $uri $uri/ /index.html;
+    }
+
+    # Cache static assets
+    location ~* \\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+    }
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location = /robots.txt  { access_log off; log_not_found off; }
+
+    # Deny access to hidden files
+    location ~ /\\. {
+        deny all;
+    }
+}
+` : ''}
 `;
     } else if (projectType === 'static-html') {
       // Static HTML configuration - serves from root directory
@@ -289,6 +332,48 @@ server {
         deny all;
     }
 }
+${enableSSL ? `
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    server_name ${domain};
+    root ${projectPath};
+
+    ssl_certificate /etc/nginx/ssl/${domain}.pem;
+    ssl_certificate_key /etc/nginx/ssl/${domain}-key.pem;
+
+    add_header X-Frame-Options "SAMEORIGIN";
+    add_header X-Content-Type-Options "nosniff";
+
+    index index.html index.htm;
+
+    charset utf-8;
+
+    # Enable gzip compression
+    gzip on;
+    gzip_vary on;
+    gzip_min_length 1024;
+    gzip_types text/plain text/css text/xml text/javascript application/x-javascript application/xml+rss application/javascript application/json;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+
+    # Cache static assets
+    location ~* \\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+    }
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location = /robots.txt  { access_log off; log_not_found off; }
+
+    # Deny access to hidden files
+    location ~ /\\. {
+        deny all;
+    }
+}
+` : ''}
 `;
     } else if (projectType === 'laravel') {
       // Laravel configuration - serves from /public directory
@@ -344,6 +429,43 @@ server {
         deny all;
     }
 }
+${enableSSL ? `
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    server_name ${domain};
+    root ${projectPath}/public;
+
+    ssl_certificate /etc/nginx/ssl/${domain}.pem;
+    ssl_certificate_key /etc/nginx/ssl/${domain}-key.pem;
+
+    add_header X-Frame-Options "SAMEORIGIN";
+    add_header X-Content-Type-Options "nosniff";
+
+    index index.php index.html index.htm;
+
+    charset utf-8;
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location = /robots.txt  { access_log off; log_not_found off; }
+
+    error_page 404 /index.php;
+
+    location ~ \\.php$ {
+        fastcgi_pass unix:${phpFpmSocket};
+        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+        include fastcgi_params;
+    }
+
+    location ~ /\\.(?!well-known).* {
+        deny all;
+    }
+}
+` : ''}
 `;
 
         const configPath = `/etc/nginx/sites-available/${domain}`;
@@ -473,6 +595,70 @@ server {
         deny all;
     }
 }
+${enableSSL ? `
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    server_name ${domain};
+    root ${projectPath};
+
+    ssl_certificate /etc/nginx/ssl/${domain}.pem;
+    ssl_certificate_key /etc/nginx/ssl/${domain}-key.pem;
+
+    add_header X-Frame-Options "SAMEORIGIN";
+    add_header X-Content-Type-Options "nosniff";
+
+    index index.php index.html index.htm;
+
+    charset utf-8;
+
+    # WordPress permalink structure
+    location / {
+        try_files $uri $uri/ /index.php?$args;
+    }
+
+    # Deny access to sensitive files
+    location ~* /(?:uploads|files)/.*\\.php$ {
+        deny all;
+    }
+
+    location = /favicon.ico {
+        access_log off;
+        log_not_found off;
+    }
+
+    location = /robots.txt {
+        access_log off;
+        log_not_found off;
+        allow all;
+    }
+
+    # Deny access to .htaccess files
+    location ~ /\\.ht {
+        deny all;
+    }
+
+    # Process PHP files
+    location ~ \\.php$ {
+        try_files $uri =404;
+        fastcgi_pass unix:${phpFpmSocket};
+        fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+        include fastcgi_params;
+    }
+
+    # Cache static assets
+    location ~* \\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {
+        expires max;
+        log_not_found off;
+    }
+
+    # Deny access to hidden files
+    location ~ /\\. {
+        deny all;
+    }
+}
+` : ''}
 `;
 
         const configPath = `/etc/nginx/sites-available/${domain}`;
@@ -575,6 +761,43 @@ server {
         deny all;
     }
 }
+${enableSSL ? `
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    server_name ${domain};
+    root ${projectPath};
+
+    ssl_certificate /etc/nginx/ssl/${domain}.pem;
+    ssl_certificate_key /etc/nginx/ssl/${domain}-key.pem;
+
+    add_header X-Frame-Options "SAMEORIGIN";
+    add_header X-Content-Type-Options "nosniff";
+
+    index index.php index.html index.htm;
+
+    charset utf-8;
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location = /robots.txt  { access_log off; log_not_found off; }
+
+    error_page 404 /index.php;
+
+    location ~ \\.php$ {
+        fastcgi_pass unix:${phpFpmSocket};
+        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+        include fastcgi_params;
+    }
+
+    location ~ /\\.(?!well-known).* {
+        deny all;
+    }
+}
+` : ''}
 `;
 
         const configPath = `/etc/nginx/sites-available/${domain}`;
@@ -720,19 +943,25 @@ ipcMain.handle('list-nginx-configs', async () => {
 
         fs.stat(availablePath, (err, stats) => {
           const isEnabled = fs.existsSync(enabledPath);
-          
-          configDetails.push({
-            name: name,
-            path: availablePath,
-            enabled: isEnabled,
-            size: stats ? stats.size : 0,
-            modified: stats ? stats.mtime : null
-          });
 
-          processed++;
-          if (processed === configs.length) {
-            resolve(configDetails);
-          }
+          // Check if SSL is configured by reading the config file
+          fs.readFile(availablePath, 'utf8', (readErr, content) => {
+            const hasSSL = !readErr && content && content.includes('listen 443 ssl');
+
+            configDetails.push({
+              name: name,
+              path: availablePath,
+              enabled: isEnabled,
+              hasSSL: hasSSL,
+              size: stats ? stats.size : 0,
+              modified: stats ? stats.mtime : null
+            });
+
+            processed++;
+            if (processed === configs.length) {
+              resolve(configDetails);
+            }
+          });
         });
       });
     });
