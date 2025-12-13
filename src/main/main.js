@@ -971,21 +971,44 @@ ipcMain.handle('list-nginx-configs', async () => {
 // Delete Nginx configuration
 ipcMain.handle('delete-nginx-config', async (event, { configName }) => {
   return new Promise((resolve, reject) => {
-    const options = {
-      name: 'LocalForge',
-    };
-
     const availablePath = `/etc/nginx/sites-available/${configName}`;
     const enabledPath = `/etc/nginx/sites-enabled/${configName}`;
 
-    const command = `rm -f "${enabledPath}" && rm -f "${availablePath}" && nginx -t && systemctl reload nginx`;
+    // First, read the config file to extract the domain
+    fs.readFile(availablePath, 'utf8', (readErr, content) => {
+      let domain = null;
 
-    sudo.exec(command, options, (error, stdout, stderr) => {
-      if (error) {
-        reject(new Error(stderr || error.message));
-      } else {
-        resolve({ success: true, message: `Configuration ${configName} deleted successfully` });
+      // Extract domain from server_name directive
+      if (!readErr && content) {
+        const domainMatch = content.match(/server_name\s+([^;]+);/);
+        if (domainMatch) {
+          domain = domainMatch[1].trim();
+        }
       }
+
+      const options = { name: 'LocalForge' };
+
+      // Build command to delete config files and remove from /etc/hosts
+      let command = `rm -f "${enabledPath}" && rm -f "${availablePath}"`;
+
+      // Add /etc/hosts removal if domain was found
+      if (domain) {
+        // Use sed to remove the line containing the domain
+        command += ` && sed -i "/127\\.0\\.0\\.1[[:space:]]\\+${domain.replace(/\./g, '\\.')}/d" /etc/hosts`;
+      }
+
+      command += ' && nginx -t && systemctl reload nginx';
+
+      sudo.exec(command, options, (error, _stdout, stderr) => {
+        if (error) {
+          reject(new Error(stderr || error.message));
+        } else {
+          resolve({
+            success: true,
+            message: `Configuration ${configName} deleted successfully${domain ? ' and removed from /etc/hosts' : ''}`
+          });
+        }
+      });
     });
   });
 });
