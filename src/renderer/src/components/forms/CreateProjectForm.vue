@@ -166,8 +166,8 @@ async function handleCreateProject() {
     if (!availableVersions.includes(nodeVersion.value)) {
       status.showStatus(
         t('checking') === 'កំពុងពិនិត្យ...'
-          ? `កំណែ Node.js ${nodeVersion.value} មិនត្រូវបានដំឡើង។ សូមដំឡើងវាជាមុនសិននៅក្នុងផ្ទាំងគ្រប់គ្រងឧបករណ៍។`
-          : `Node.js version ${nodeVersion.value} is not installed. Please install it first in the Manage Tools tab.`,
+          ? `កំណែ Node.js ${nodeVersion.value} មិនត្រូវបានដំឡើង។ សូមដំឡើងវាជាមុនសិននៅក្នុងផ្ទាំងគ្រប់គ្រងសេវាកម្ម។`
+          : `Node.js version ${nodeVersion.value} is not installed. Please install it first in the Manage Services tab.`,
         'error'
       )
       return
@@ -182,8 +182,8 @@ async function handleCreateProject() {
     if (phpVer && !availablePhpVersions.includes(phpVer)) {
       status.showStatus(
         t('checking') === 'កំពុងពិនិត្យ...'
-          ? `កំណែ PHP ${phpVer} មិនត្រូវបានដំឡើង។ សូមដំឡើងវាជាមុនសិននៅក្នុងផ្ទាំងគ្រប់គ្រងឧបករណ៍។`
-          : `PHP version ${phpVer} is not installed. Please install it first in the Manage Tools tab.`,
+          ? `កំណែ PHP ${phpVer} មិនត្រូវបានដំឡើង។ សូមដំឡើងវាជាមុនសិននៅក្នុងផ្ទាំងគ្រប់គ្រងសេវាកម្ម។`
+          : `PHP version ${phpVer} is not installed. Please install it first in the Manage Services tab.`,
         'error'
       )
       return
