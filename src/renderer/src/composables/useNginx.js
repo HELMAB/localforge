@@ -53,6 +53,50 @@ export function useNginx() {
     }
   }
 
+  async function enableNginxConfig(configName) {
+    error.value = null
+    try {
+      const result = await invoke('enable-nginx-config', { configName })
+      return result
+    } catch (err) {
+      error.value = err.message
+      throw err
+    }
+  }
+
+  async function disableNginxConfig(configName) {
+    error.value = null
+    try {
+      const result = await invoke('disable-nginx-config', { configName })
+      return result
+    } catch (err) {
+      error.value = err.message
+      throw err
+    }
+  }
+
+  async function addSslToConfig(configName) {
+    error.value = null
+    try {
+      const result = await invoke('add-ssl-to-config', { configName })
+      return result
+    } catch (err) {
+      error.value = err.message
+      throw err
+    }
+  }
+
+  async function removeSslFromConfig(configName) {
+    error.value = null
+    try {
+      const result = await invoke('remove-ssl-from-config', { configName })
+      return result
+    } catch (err) {
+      error.value = err.message
+      throw err
+    }
+  }
+
   return {
     isConfiguring,
     isLoading,
@@ -60,6 +104,10 @@ export function useNginx() {
     error,
     configureNginx,
     listNginxConfigs,
-    deleteNginxConfig
+    deleteNginxConfig,
+    enableNginxConfig,
+    disableNginxConfig,
+    addSslToConfig,
+    removeSslFromConfig
   }
 }

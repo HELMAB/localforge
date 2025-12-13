@@ -990,6 +990,180 @@ ipcMain.handle('delete-nginx-config', async (event, { configName }) => {
   });
 });
 
+// Enable Nginx configuration
+ipcMain.handle('enable-nginx-config', async (event, { configName }) => {
+  return new Promise((resolve, reject) => {
+    const options = {
+      name: 'LocalForge',
+    };
+
+    const availablePath = `/etc/nginx/sites-available/${configName}`;
+    const enabledPath = `/etc/nginx/sites-enabled/${configName}`;
+
+    const command = `ln -sf "${availablePath}" "${enabledPath}" && nginx -t && systemctl reload nginx`;
+
+    sudo.exec(command, options, (error, stdout, stderr) => {
+      if (error) {
+        reject(new Error(stderr || error.message));
+      } else {
+        resolve({ success: true, message: `Configuration ${configName} enabled successfully` });
+      }
+    });
+  });
+});
+
+// Disable Nginx configuration
+ipcMain.handle('disable-nginx-config', async (event, { configName }) => {
+  return new Promise((resolve, reject) => {
+    const options = {
+      name: 'LocalForge',
+    };
+
+    const enabledPath = `/etc/nginx/sites-enabled/${configName}`;
+
+    const command = `rm -f "${enabledPath}" && nginx -t && systemctl reload nginx`;
+
+    sudo.exec(command, options, (error, stdout, stderr) => {
+      if (error) {
+        reject(new Error(stderr || error.message));
+      } else {
+        resolve({ success: true, message: `Configuration ${configName} disabled successfully` });
+      }
+    });
+  });
+});
+
+// Add SSL to existing Nginx configuration
+ipcMain.handle('add-ssl-to-config', async (event, { configName }) => {
+  return new Promise((resolve, reject) => {
+    const availablePath = `/etc/nginx/sites-available/${configName}`;
+
+    // Read the existing config
+    fs.readFile(availablePath, 'utf8', (readErr, content) => {
+      if (readErr) {
+        reject(new Error(`Failed to read config: ${readErr.message}`));
+        return;
+      }
+
+      // Check if SSL already exists
+      if (content.includes('listen 443 ssl')) {
+        reject(new Error('SSL is already configured for this site'));
+        return;
+      }
+
+      // Extract domain from server_name
+      const domainMatch = content.match(/server_name\s+([^;]+);/);
+      if (!domainMatch) {
+        reject(new Error('Could not find domain in configuration'));
+        return;
+      }
+      const domain = domainMatch[1].trim();
+
+      // Generate SSL certificate first
+      const sslDir = '/etc/nginx/ssl';
+      const sslCommand = `mkdir -p ${sslDir} && cd ${sslDir} && mkcert ${domain}`;
+      const options = { name: 'LocalForge' };
+
+      sudo.exec(sslCommand, options, (sslError) => {
+        if (sslError) {
+          reject(new Error(`Failed to generate SSL certificate: ${sslError.message}`));
+          return;
+        }
+
+        // Create SSL server block by duplicating the existing server block
+        const serverBlockMatch = content.match(/server\s*\{[\s\S]*?\n\}/);
+        if (!serverBlockMatch) {
+          reject(new Error('Could not parse server block'));
+          return;
+        }
+
+        let sslBlock = serverBlockMatch[0];
+
+        // Replace listen directives with SSL version
+        sslBlock = sslBlock.replace(/listen\s+(\d+);/g, 'listen 443 ssl;');
+        sslBlock = sslBlock.replace(/listen\s+\[::\]:(\d+);/g, 'listen [::]:443 ssl;');
+
+        // Add SSL certificate paths after server_name
+        sslBlock = sslBlock.replace(
+          /(server_name\s+[^;]+;)/,
+          `$1\n\n    ssl_certificate /etc/nginx/ssl/${domain}.pem;\n    ssl_certificate_key /etc/nginx/ssl/${domain}-key.pem;`
+        );
+
+        // Append SSL block to original content
+        const newContent = content + '\n' + sslBlock;
+
+        // Write updated config to temp file
+        const tempConfigPath = path.join(os.tmpdir(), `${configName}.conf`);
+        fs.writeFile(tempConfigPath, newContent, (writeErr) => {
+          if (writeErr) {
+            reject(new Error(`Failed to write config: ${writeErr.message}`));
+            return;
+          }
+
+          // Move temp file to sites-available and reload nginx
+          const moveCommand = `mv "${tempConfigPath}" "${availablePath}" && nginx -t && systemctl reload nginx`;
+          sudo.exec(moveCommand, options, (moveError, stdout, stderr) => {
+            if (moveError) {
+              reject(new Error(stderr || moveError.message));
+            } else {
+              resolve({ success: true, message: `SSL added to ${configName} successfully` });
+            }
+          });
+        });
+      });
+    });
+  });
+});
+
+// Remove SSL from existing Nginx configuration
+ipcMain.handle('remove-ssl-from-config', async (event, { configName }) => {
+  return new Promise((resolve, reject) => {
+    const availablePath = `/etc/nginx/sites-available/${configName}`;
+
+    // Read the existing config
+    fs.readFile(availablePath, 'utf8', (readErr, content) => {
+      if (readErr) {
+        reject(new Error(`Failed to read config: ${readErr.message}`));
+        return;
+      }
+
+      // Check if SSL exists
+      if (!content.includes('listen 443 ssl')) {
+        reject(new Error('No SSL configuration found for this site'));
+        return;
+      }
+
+      // Remove SSL server block (everything from "server {" with "listen 443 ssl" to its closing "}")
+      let newContent = content;
+      const sslBlockRegex = /server\s*\{[^}]*listen\s+443\s+ssl[^}]*\}/gs;
+      newContent = newContent.replace(sslBlockRegex, '');
+
+      // Clean up extra blank lines
+      newContent = newContent.replace(/\n\n\n+/g, '\n\n');
+
+      // Write updated config to temp file
+      const tempConfigPath = path.join(os.tmpdir(), `${configName}.conf`);
+      fs.writeFile(tempConfigPath, newContent, (writeErr) => {
+        if (writeErr) {
+          reject(new Error(`Failed to write config: ${writeErr.message}`));
+          return;
+        }
+
+        // Move temp file to sites-available and reload nginx
+        const options = { name: 'LocalForge' };
+        const moveCommand = `mv "${tempConfigPath}" "${availablePath}" && nginx -t && systemctl reload nginx`;
+        sudo.exec(moveCommand, options, (moveError, stdout, stderr) => {
+          if (moveError) {
+            reject(new Error(stderr || moveError.message));
+          } else {
+            resolve({ success: true, message: `SSL removed from ${configName} successfully` });
+          }
+        });
+      });
+    });
+  });
+});
+
 ipcMain.handle('check-requirements', async () => {
   const checks = {
     composer: false,
