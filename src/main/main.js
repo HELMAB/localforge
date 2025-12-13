@@ -179,6 +179,30 @@ ipcMain.handle('configure-nginx', async (event, { domain, projectPath, port = 80
   return new Promise((resolve, reject) => {
     let nginxConfig = '';
     let sslGenerated = false;
+    let hostsUpdated = false;
+
+    // Helper function to add domain to /etc/hosts
+    const addToHosts = (callback) => {
+      // Check if domain already exists in /etc/hosts
+      exec(`grep -q "127.0.0.1.*${domain}" /etc/hosts`, (grepError) => {
+        if (grepError) {
+          // Domain not found, add it
+          const options = { name: 'LocalForge' };
+          const hostsCommand = `echo "127.0.0.1    ${domain}" >> /etc/hosts`;
+          sudo.exec(hostsCommand, options, (hostsError) => {
+            if (hostsError) {
+              console.error('Failed to update /etc/hosts:', hostsError);
+              callback(false);
+            } else {
+              callback(true);
+            }
+          });
+        } else {
+          // Domain already exists
+          callback(true);
+        }
+      });
+    };
 
     // Generate configuration based on project type
     if (projectType === 'static-vue') {
@@ -342,20 +366,25 @@ server {
             if (error) {
               reject(new Error(stderr || error.message));
             } else {
-              // Generate SSL if enabled
-              if (enableSSL) {
-                const sslCommand = `mkdir -p /etc/nginx/ssl && cd /etc/nginx/ssl && mkcert ${domain}`;
-                sudo.exec(sslCommand, options, (sslError) => {
-                  if (sslError) {
-                    console.error('SSL generation failed:', sslError);
-                  } else {
-                    sslGenerated = true;
-                  }
-                  resolve({ success: true, configPath, phpFpmSocket, sslGenerated, sslPath: '/etc/nginx/ssl' });
-                });
-              } else {
-                resolve({ success: true, configPath, phpFpmSocket, sslGenerated });
-              }
+              // Add domain to /etc/hosts
+              addToHosts((hostsResult) => {
+                hostsUpdated = hostsResult;
+
+                // Generate SSL if enabled
+                if (enableSSL) {
+                  const sslCommand = `mkdir -p /etc/nginx/ssl && cd /etc/nginx/ssl && mkcert ${domain}`;
+                  sudo.exec(sslCommand, options, (sslError) => {
+                    if (sslError) {
+                      console.error('SSL generation failed:', sslError);
+                    } else {
+                      sslGenerated = true;
+                    }
+                    resolve({ success: true, configPath, phpFpmSocket, sslGenerated, sslPath: '/etc/nginx/ssl', hostsUpdated });
+                  });
+                } else {
+                  resolve({ success: true, configPath, phpFpmSocket, sslGenerated, hostsUpdated });
+                }
+              });
             }
           });
         });
@@ -466,20 +495,25 @@ server {
             if (error) {
               reject(new Error(stderr || error.message));
             } else {
-              // Generate SSL if enabled
-              if (enableSSL) {
-                const sslCommand = `mkdir -p /etc/nginx/ssl && cd /etc/nginx/ssl && mkcert ${domain}`;
-                sudo.exec(sslCommand, options, (sslError) => {
-                  if (sslError) {
-                    console.error('SSL generation failed:', sslError);
-                  } else {
-                    sslGenerated = true;
-                  }
-                  resolve({ success: true, configPath, phpFpmSocket, sslGenerated, sslPath: '/etc/nginx/ssl' });
-                });
-              } else {
-                resolve({ success: true, configPath, phpFpmSocket, sslGenerated });
-              }
+              // Add domain to /etc/hosts
+              addToHosts((hostsResult) => {
+                hostsUpdated = hostsResult;
+
+                // Generate SSL if enabled
+                if (enableSSL) {
+                  const sslCommand = `mkdir -p /etc/nginx/ssl && cd /etc/nginx/ssl && mkcert ${domain}`;
+                  sudo.exec(sslCommand, options, (sslError) => {
+                    if (sslError) {
+                      console.error('SSL generation failed:', sslError);
+                    } else {
+                      sslGenerated = true;
+                    }
+                    resolve({ success: true, configPath, phpFpmSocket, sslGenerated, sslPath: '/etc/nginx/ssl', hostsUpdated });
+                  });
+                } else {
+                  resolve({ success: true, configPath, phpFpmSocket, sslGenerated, hostsUpdated });
+                }
+              });
             }
           });
         });
@@ -563,20 +597,25 @@ server {
             if (error) {
               reject(new Error(stderr || error.message));
             } else {
-              // Generate SSL if enabled
-              if (enableSSL) {
-                const sslCommand = `mkdir -p /etc/nginx/ssl && cd /etc/nginx/ssl && mkcert ${domain}`;
-                sudo.exec(sslCommand, options, (sslError) => {
-                  if (sslError) {
-                    console.error('SSL generation failed:', sslError);
-                  } else {
-                    sslGenerated = true;
-                  }
-                  resolve({ success: true, configPath, phpFpmSocket, sslGenerated, sslPath: '/etc/nginx/ssl' });
-                });
-              } else {
-                resolve({ success: true, configPath, phpFpmSocket, sslGenerated });
-              }
+              // Add domain to /etc/hosts
+              addToHosts((hostsResult) => {
+                hostsUpdated = hostsResult;
+
+                // Generate SSL if enabled
+                if (enableSSL) {
+                  const sslCommand = `mkdir -p /etc/nginx/ssl && cd /etc/nginx/ssl && mkcert ${domain}`;
+                  sudo.exec(sslCommand, options, (sslError) => {
+                    if (sslError) {
+                      console.error('SSL generation failed:', sslError);
+                    } else {
+                      sslGenerated = true;
+                    }
+                    resolve({ success: true, configPath, phpFpmSocket, sslGenerated, sslPath: '/etc/nginx/ssl', hostsUpdated });
+                  });
+                } else {
+                  resolve({ success: true, configPath, phpFpmSocket, sslGenerated, hostsUpdated });
+                }
+              });
             }
           });
         });
@@ -607,21 +646,26 @@ server {
         if (error) {
           reject(new Error(stderr || error.message));
         } else {
-          // Generate SSL if enabled
-          if (enableSSL) {
-            const sslCommand = `mkdir -p /etc/nginx/ssl && cd /etc/nginx/ssl && mkcert ${domain}`;
-            const sslOptions = { name: 'LocalForge' };
-            sudo.exec(sslCommand, sslOptions, (sslError) => {
-              if (sslError) {
-                console.error('SSL generation failed:', sslError);
-              } else {
-                sslGenerated = true;
-              }
-              resolve({ success: true, configPath, sslGenerated, sslPath: '/etc/nginx/ssl' });
-            });
-          } else {
-            resolve({ success: true, configPath, sslGenerated });
-          }
+          // Add domain to /etc/hosts
+          addToHosts((hostsResult) => {
+            hostsUpdated = hostsResult;
+
+            // Generate SSL if enabled
+            if (enableSSL) {
+              const sslCommand = `mkdir -p /etc/nginx/ssl && cd /etc/nginx/ssl && mkcert ${domain}`;
+              const sslOptions = { name: 'LocalForge' };
+              sudo.exec(sslCommand, sslOptions, (sslError) => {
+                if (sslError) {
+                  console.error('SSL generation failed:', sslError);
+                } else {
+                  sslGenerated = true;
+                }
+                resolve({ success: true, configPath, sslGenerated, sslPath: '/etc/nginx/ssl', hostsUpdated });
+              });
+            } else {
+              resolve({ success: true, configPath, sslGenerated, hostsUpdated });
+            }
+          });
         }
       });
     });

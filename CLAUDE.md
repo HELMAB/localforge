@@ -22,8 +22,8 @@ npm run electron:dev
 # Vite dev server only (for testing Vue app in browser)
 npm run dev
 
-# Production mode (no hot reload)
-npm start
+# Preview production build (serves built files)
+npm run preview
 ```
 
 ### Building
@@ -34,16 +34,28 @@ npm run build
 
 # Build and package for distribution
 npm run electron:build      # Default platform
-npm run build:linux         # Linux (AppImage, deb)
+npm run build:linux         # Linux (deb)
 npm run build:win           # Windows (NSIS installer)
 npm run build:mac           # macOS (DMG)
 ```
 
-### Preview Production Build
+### Code Quality
 
 ```bash
-npm run preview
+# Lint code with ESLint
+npm run lint
+
+# Auto-fix linting issues
+npm run lint:fix
+
+# Format code with Prettier
+npm run format
+
+# Check formatting without modifying files
+npm run format:check
 ```
+
+**Note**: Pre-commit hooks automatically run `lint-staged` to lint and format staged files before each commit.
 
 ## Architecture
 
@@ -87,6 +99,18 @@ src/renderer/src/
 3. Forms import composables, call methods, handle loading states and errors
 4. Main process handles actual system operations (shell commands, file operations, sudo)
 
+**Available Composables:**
+- `useIpc()` - Base IPC communication wrapper
+- `useProject()` - Project creation and directory selection
+- `useNginx()` - Nginx virtual host configuration
+- `useSsl()` - SSL certificate generation
+- `useTools()` - Development tools installation and management
+- `useStatus()` - Reactive status messages (success/error/info)
+- `useSettings()` - Settings persistence (localStorage)
+- `useDarkMode()` - Theme management (dark/light mode)
+- `useKeyboardShortcuts()` - Global keyboard shortcuts
+- `useProgress()` - Progress tracking for long operations
+
 **State Management:**
 - No Vuex/Pinia - state is local to components
 - `useStatus()` composable provides reactive status messages
@@ -112,6 +136,11 @@ The Vite config uses a custom root (`src/renderer`) and builds to `src/renderer/
 root: path.join(__dirname, 'src/renderer')
 build: { outDir: 'dist' }
 base: './'  // Important for relative paths in production
+resolve: {
+  alias: {
+    '@': path.resolve(__dirname, 'src/renderer/src')  // Use @/components, @/composables, etc.
+  }
+}
 ```
 
 **Do not add** `vite-plugin-electron` or `vite-plugin-electron-renderer` - they cause duplicate Electron windows. We manually start Electron with `concurrently`.
@@ -145,6 +174,30 @@ Translation keys are centralized in `src/renderer/src/i18n/locales/`:
 - `en.js` - English
 
 Components access translations via `const { t } = useI18n()` and use `{{ t('key') }}` in templates.
+
+### Code Style & Formatting
+
+**Prettier Configuration:**
+- Semi: false (no semicolons)
+- Single quotes: true
+- Tab width: 2 spaces
+- Print width: 100 characters
+- Trailing commas: ES5
+- Arrow parens: always
+
+**ESLint Rules:**
+- No console/debugger warnings in development
+- Prefer const over let
+- No var keyword
+- Unused variables must start with underscore (`_`)
+- Vue multi-word component names rule disabled
+
+**Path Aliases:**
+Use `@` for imports from `src/renderer/src/`:
+```js
+import MyComponent from '@/components/MyComponent.vue'
+import { useProject } from '@/composables/useProject'
+```
 
 ## Common Development Tasks
 

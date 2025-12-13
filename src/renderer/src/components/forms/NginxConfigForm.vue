@@ -185,131 +185,235 @@
       <!-- Sites List -->
       <div
         v-else-if="activeMenu === 'sites'"
-        class="h-full flex flex-col"
+        class="p-6 overflow-y-auto h-full"
       >
         <!-- Header -->
-        <div class="px-4 py-3 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
-          <div class="flex items-center justify-between">
-            <div class="flex items-center gap-3">
-              <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
-                {{ t('nginxExistingConfigs') }}
-              </h2>
-              <span class="px-2 py-0.5 text-xs bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 rounded-full">
-                {{ configs.length }}
-              </span>
-            </div>
-            <button
-              :disabled="isLoading"
-              class="px-3 py-1.5 text-sm bg-blue-500 dark:bg-blue-600 text-white rounded hover:bg-blue-600 dark:hover:bg-blue-700 disabled:opacity-50 transition-colors flex items-center gap-1.5"
-              @click="loadConfigs"
+        <div class="mb-6 flex items-center justify-between">
+          <div>
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-1">
+              {{ t('nginxManageVirtualHosts') }}
+            </h2>
+            <p class="text-sm text-gray-600 dark:text-gray-400">
+              {{ t('nginxManageVirtualHostsDesc') }}
+            </p>
+          </div>
+          <button
+            :disabled="isLoading"
+            class="px-4 py-2 bg-blue-500 dark:bg-blue-600 text-white rounded-lg hover:bg-blue-600 dark:hover:bg-blue-700 disabled:opacity-50 transition-colors flex items-center gap-2 font-medium"
+            @click="loadConfigs"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              viewBox="0 0 20 20"
+              fill="currentColor"
             >
+              <path
+                fill-rule="evenodd"
+                d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
+                clip-rule="evenodd"
+              />
+            </svg>
+            {{ t('refresh') }}
+          </button>
+        </div>
+
+        <!-- Loading State -->
+        <div
+          v-if="isLoading"
+          class="flex flex-col items-center justify-center py-16 text-gray-500 dark:text-gray-400"
+        >
+          <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mb-4" />
+          <p>{{ t('loading') }}...</p>
+        </div>
+
+        <!-- Empty State -->
+        <div
+          v-else-if="configs.length === 0"
+          class="flex flex-col items-center justify-center py-16 text-gray-500 dark:text-gray-400"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-20 w-20 mb-4 text-gray-400"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+            />
+          </svg>
+          <p class="text-lg font-medium mb-2">
+            {{ t('nginxNoConfigs') }}
+          </p>
+          <p class="text-sm text-gray-500 dark:text-gray-400 mb-6">
+            {{ t('nginxNoConfigsDesc') }}
+          </p>
+          <button
+            class="px-6 py-2.5 bg-blue-500 dark:bg-blue-600 text-white rounded-lg hover:bg-blue-600 dark:hover:bg-blue-700 transition-colors font-medium"
+            @click="activeMenu = 'new-site'"
+          >
+            {{ t('nginxCreateFirst') }}
+          </button>
+        </div>
+
+        <!-- Active Sites -->
+        <div
+          v-else
+          class="space-y-6"
+        >
+          <!-- Active/Enabled Sites -->
+          <div
+            v-if="activeSites.length > 0"
+            class="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700 rounded-lg p-4"
+          >
+            <h4 class="font-semibold text-green-800 dark:text-green-300 mb-3 flex items-center gap-2">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="h-4 w-4"
+                class="h-5 w-5"
                 viewBox="0 0 20 20"
                 fill="currentColor"
               >
                 <path
                   fill-rule="evenodd"
-                  d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
                   clip-rule="evenodd"
                 />
               </svg>
-              {{ t('refresh') }}
-            </button>
-          </div>
-        </div>
-
-        <!-- Sites Content -->
-        <div class="flex-1 overflow-y-auto p-6 bg-white dark:bg-gray-800">
-          <div
-            v-if="isLoading"
-            class="flex flex-col items-center justify-center h-full text-gray-500 dark:text-gray-400"
-          >
-            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mb-4" />
-            <p>{{ t('loading') }}...</p>
-          </div>
-
-          <div
-            v-else-if="configs.length === 0"
-            class="flex flex-col items-center justify-center h-full text-gray-500 dark:text-gray-400"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-16 w-16 mb-4 text-gray-400"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-              />
-            </svg>
-            <p class="text-lg font-medium mb-2">
-              {{ t('nginxNoConfigs') }}
-            </p>
-            <button
-              class="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
-              @click="activeMenu = 'new-site'"
-            >
-              {{ t('nginxCreateFirst') }}
-            </button>
-          </div>
-
-          <div
-            v-else
-            class="space-y-1"
-          >
-            <div
-              v-for="config in configs"
-              :key="config.name"
-              class="flex items-center justify-between px-3 py-2 border border-gray-200 dark:border-gray-600 rounded bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-            >
-              <div class="flex items-center gap-3 flex-1 min-w-0">
+              {{ t('nginxActiveSites') }}
+              <span class="ml-auto px-2 py-0.5 text-xs bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 rounded-full">
+                {{ activeSites.length }}
+              </span>
+            </h4>
+            <div class="space-y-2">
+              <div
+                v-for="config in activeSites"
+                :key="config.name"
+                class="flex items-center justify-between bg-white dark:bg-gray-800 p-4 rounded-lg border border-green-300 dark:border-green-700"
+              >
                 <div class="flex-1 min-w-0">
-                  <div class="flex items-center gap-2">
-                    <span class="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">
-                      {{ config.name }}
-                    </span>
-                    <span
-                      :class="[
-                        'px-1.5 py-0.5 text-xs rounded flex-shrink-0',
-                        config.enabled
-                          ? 'bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-400'
-                          : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400'
-                      ]"
-                    >
-                      {{ config.enabled ? '●' : '○' }}
-                    </span>
-                  </div>
-                  <div class="flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                  <div class="flex items-center gap-2 mb-1">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      class="h-3 w-3 flex-shrink-0 opacity-70"
+                      class="h-5 w-5 text-green-600 dark:text-green-400 flex-shrink-0"
                       viewBox="0 0 20 20"
                       fill="currentColor"
                     >
                       <path
                         fill-rule="evenodd"
-                        d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"
+                        d="M2 5a2 2 0 012-2h12a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm3.293 1.293a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 01-1.414-1.414L7.586 10 5.293 7.707a1 1 0 010-1.414zM11 12a1 1 0 100 2h3a1 1 0 100-2h-3z"
                         clip-rule="evenodd"
                       />
+                    </svg>
+                    <span class="font-semibold text-green-700 dark:text-green-400 truncate">{{ config.name }}</span>
+                    <span class="px-2 py-0.5 text-xs bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 rounded flex-shrink-0">
+                      {{ t('active') }}
+                    </span>
+                  </div>
+                  <div class="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-400 ml-7">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="h-3.5 w-3.5 flex-shrink-0"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M2 6a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1H8a3 3 0 00-3 3v1.5a1.5 1.5 0 01-3 0V6z"
+                        clip-rule="evenodd"
+                      />
+                      <path d="M6 12a2 2 0 012-2h8a2 2 0 012 2v2a2 2 0 01-2 2H2h2a2 2 0 002-2v-2z" />
                     </svg>
                     <span class="truncate">{{ config.path }}</span>
                   </div>
                 </div>
+                <button
+                  :disabled="isDeleting"
+                  class="ml-4 px-4 py-2 text-sm bg-red-500 dark:bg-red-600 text-white rounded-lg hover:bg-red-600 dark:hover:bg-red-700 disabled:opacity-50 transition-colors flex-shrink-0 font-medium"
+                  @click="handleDeleteConfig(config.name)"
+                >
+                  {{ t('delete') }}
+                </button>
               </div>
+            </div>
+          </div>
 
-              <button
-                :disabled="isDeleting"
-                class="ml-3 px-3 py-1 text-sm bg-red-500 dark:bg-red-600 text-white rounded hover:bg-red-600 dark:hover:bg-red-700 disabled:opacity-50 transition-colors flex-shrink-0"
-                @click="handleDeleteConfig(config.name)"
+          <!-- Inactive/Disabled Sites -->
+          <div
+            v-if="inactiveSites.length > 0"
+            class="bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 rounded-lg p-4"
+          >
+            <h4 class="font-semibold text-gray-700 dark:text-gray-300 mb-3 flex items-center gap-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5"
+                viewBox="0 0 20 20"
+                fill="currentColor"
               >
-                {{ t('delete') }}
-              </button>
+                <path
+                  fill-rule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+              {{ t('nginxInactiveSites') }}
+              <span class="ml-auto px-2 py-0.5 text-xs bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-full">
+                {{ inactiveSites.length }}
+              </span>
+            </h4>
+            <div class="space-y-2">
+              <div
+                v-for="config in inactiveSites"
+                :key="config.name"
+                class="flex items-center justify-between bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-300 dark:border-gray-600"
+              >
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-center gap-2 mb-1">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="h-5 w-5 text-gray-500 dark:text-gray-400 flex-shrink-0"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M2 5a2 2 0 012-2h12a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm3.293 1.293a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 01-1.414-1.414L7.586 10 5.293 7.707a1 1 0 010-1.414zM11 12a1 1 0 100 2h3a1 1 0 100-2h-3z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+                    <span class="font-semibold text-gray-700 dark:text-gray-300 truncate">{{ config.name }}</span>
+                    <span class="px-2 py-0.5 text-xs bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded flex-shrink-0">
+                      {{ t('inactive') }}
+                    </span>
+                  </div>
+                  <div class="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-400 ml-7">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="h-3.5 w-3.5 flex-shrink-0"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M2 6a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1H8a3 3 0 00-3 3v1.5a1.5 1.5 0 01-3 0V6z"
+                        clip-rule="evenodd"
+                      />
+                      <path d="M6 12a2 2 0 012-2h8a2 2 0 012 2v2a2 2 0 01-2 2H2h2a2 2 0 002-2v-2z" />
+                    </svg>
+                    <span class="truncate">{{ config.path }}</span>
+                  </div>
+                </div>
+                <button
+                  :disabled="isDeleting"
+                  class="ml-4 px-4 py-2 text-sm bg-red-500 dark:bg-red-600 text-white rounded-lg hover:bg-red-600 dark:hover:bg-red-700 disabled:opacity-50 transition-colors flex-shrink-0 font-medium"
+                  @click="handleDeleteConfig(config.name)"
+                >
+                  {{ t('delete') }}
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -346,6 +450,10 @@ const port = ref(80)
 const enableSSL = ref(false)
 const configs = ref([])
 const activeMenu = ref('new-site')
+
+// Computed properties to separate active and inactive sites
+const activeSites = computed(() => configs.value.filter(config => config.enabled))
+const inactiveSites = computed(() => configs.value.filter(config => !config.enabled))
 
 onMounted(async () => {
   await checkInstalledTools()
@@ -445,12 +553,13 @@ async function handleConfigureNginx() {
     })
 
     const phpInfo = result.phpFpmSocket ? `\nPHP-FPM: ${result.phpFpmSocket}` : ''
-    const sslInfo = result.sslGenerated ? `\n✓ SSL Certificate generated` : ''
+    const sslInfo = result.sslGenerated ? `\n✓ ${t('sslGenerated')}` : ''
+    const hostsInfo = result.hostsUpdated ? `\n✓ ${t('hostsUpdated')}` : ''
 
     status.showStatus(
       locale.value === 'km'
-        ? `Nginx បានកំណត់រចនាសម្ព័ន្ធជោគជ័យ!${phpInfo}${sslInfo}\n\nកុំភ្លេច៖\n1. បន្ថែម "${domain.value}" ទៅក្នុង /etc/hosts\n2. ដំណើរការ៖ sudo nano /etc/hosts\n3. បន្ថែម៖ 127.0.0.1 ${domain.value}`
-        : `Nginx configured successfully!${phpInfo}${sslInfo}\n\nDon't forget:\n1. Add "${domain.value}" to /etc/hosts\n2. Run: sudo nano /etc/hosts\n3. Add: 127.0.0.1 ${domain.value}`,
+        ? `Nginx បានកំណត់រចនាសម្ព័ន្ធជោគជ័យ!${phpInfo}${sslInfo}${hostsInfo}\n\nអ្នកអាចចូលប្រើគេហទំព័ររបស់អ្នកតាមរយៈ៖\nhttp://${domain.value}`
+        : `Nginx configured successfully!${phpInfo}${sslInfo}${hostsInfo}\n\nYou can now access your site at:\nhttp://${domain.value}`,
       'success'
     )
     
