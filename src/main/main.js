@@ -148,7 +148,9 @@ ipcMain.handle('create-project', async (event, { type, name, path: projectPath, 
       }
         
       case 'react': {
-        let reactCmd = `npx create-react-app ${name}`;
+        // Use Vite for React (create-react-app is deprecated)
+        // Auto-accept prompts with yes and install dependencies
+        let reactCmd = `yes "" | npm create vite@latest ${name} -- --template react && cd ${name} && npm install`;
         if (nodeVersion) {
           reactCmd = `export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" && nvm use ${nodeVersion} && ${reactCmd}`;
         }
@@ -205,8 +207,8 @@ ipcMain.handle('configure-nginx', async (event, { domain, projectPath, port = 80
     };
 
     // Generate configuration based on project type
-    if (projectType === 'static-vue') {
-      // Static Vue/SPA configuration - serves from /dist with SPA routing
+    if (projectType === 'static-vue' || projectType === 'react') {
+      // Static Vue/React SPA configuration - serves from /dist with SPA routing
       nginxConfig = `
 server {
     listen ${port};
