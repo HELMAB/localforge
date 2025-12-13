@@ -174,9 +174,10 @@ ipcMain.handle('create-project', async (event, { type, name, path: projectPath, 
   });
 });
 
-ipcMain.handle('configure-nginx', async (event, { domain, projectPath, port = 80, projectType = 'php', phpVersion = null }) => {
+ipcMain.handle('configure-nginx', async (event, { domain, projectPath, port = 80, projectType = 'php', phpVersion = null, enableSSL = false }) => {
   return new Promise((resolve, reject) => {
     let nginxConfig = '';
+    let sslGenerated = false;
 
     // Generate configuration based on project type
     if (projectType === 'static-vue') {
@@ -340,7 +341,19 @@ server {
             if (error) {
               reject(new Error(stderr || error.message));
             } else {
-              resolve({ success: true, configPath, phpFpmSocket });
+              // Generate SSL if enabled
+              if (enableSSL) {
+                exec(`mkcert ${domain}`, { cwd: os.homedir() }, (sslError) => {
+                  if (sslError) {
+                    console.error('SSL generation failed:', sslError);
+                  } else {
+                    sslGenerated = true;
+                  }
+                  resolve({ success: true, configPath, phpFpmSocket, sslGenerated });
+                });
+              } else {
+                resolve({ success: true, configPath, phpFpmSocket, sslGenerated });
+              }
             }
           });
         });
@@ -451,7 +464,19 @@ server {
             if (error) {
               reject(new Error(stderr || error.message));
             } else {
-              resolve({ success: true, configPath, phpFpmSocket });
+              // Generate SSL if enabled
+              if (enableSSL) {
+                exec(`mkcert ${domain}`, { cwd: os.homedir() }, (sslError) => {
+                  if (sslError) {
+                    console.error('SSL generation failed:', sslError);
+                  } else {
+                    sslGenerated = true;
+                  }
+                  resolve({ success: true, configPath, phpFpmSocket, sslGenerated });
+                });
+              } else {
+                resolve({ success: true, configPath, phpFpmSocket, sslGenerated });
+              }
             }
           });
         });
@@ -535,7 +560,19 @@ server {
             if (error) {
               reject(new Error(stderr || error.message));
             } else {
-              resolve({ success: true, configPath, phpFpmSocket });
+              // Generate SSL if enabled
+              if (enableSSL) {
+                exec(`mkcert ${domain}`, { cwd: os.homedir() }, (sslError) => {
+                  if (sslError) {
+                    console.error('SSL generation failed:', sslError);
+                  } else {
+                    sslGenerated = true;
+                  }
+                  resolve({ success: true, configPath, phpFpmSocket, sslGenerated });
+                });
+              } else {
+                resolve({ success: true, configPath, phpFpmSocket, sslGenerated });
+              }
             }
           });
         });
@@ -566,7 +603,19 @@ server {
         if (error) {
           reject(new Error(stderr || error.message));
         } else {
-          resolve({ success: true, configPath });
+          // Generate SSL if enabled
+          if (enableSSL) {
+            exec(`mkcert ${domain}`, { cwd: os.homedir() }, (sslError) => {
+              if (sslError) {
+                console.error('SSL generation failed:', sslError);
+              } else {
+                sslGenerated = true;
+              }
+              resolve({ success: true, configPath, sslGenerated });
+            });
+          } else {
+            resolve({ success: true, configPath, sslGenerated });
+          }
         }
       });
     });

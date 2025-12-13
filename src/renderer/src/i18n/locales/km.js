@@ -45,6 +45,8 @@ export default {
   nginxPhpVersionLabel: 'កំណែ PHP-FPM',
   nginxPhpHint: 'Auto-detect នឹងស្វែងរក PHP-FPM socket ដែលមាននៅក្នុងប្រព័ន្ធ',
   portLabel: 'ច្រកទំនាក់ទំនង',
+  enableSSL: 'បើកវិញ្ញាបនប័ត្រ SSL',
+  enableSSLDesc: 'បង្កើតវិញ្ញាបនប័ត្រ SSL ដោយស្វ័យប្រវត្តិដោយប្រើ mkcert (ត្រូវដំឡើង mkcert)',
   configureBtn: 'កំណត់រចនាសម្ព័ន្ធ',
   nginxExistingConfigs: 'ការកំណត់រចនាសម្ព័ន្ធ Nginx ដែលមានស្រាប់',
   nginxNoConfigs: 'រកមិនឃើញការកំណត់រចនាសម្ព័ន្ធ។ បង្កើតការកំណត់រចនាសម្ព័ន្ធដំបូងខាងលើ។',

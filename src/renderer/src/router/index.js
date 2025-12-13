@@ -16,11 +16,6 @@ const routes = [
     component: () => import('../views/NginxConfigView.vue')
   },
   {
-    path: '/ssl',
-    name: 'ssl',
-    component: () => import('../views/SslGeneratorView.vue')
-  },
-  {
     path: '/manage',
     name: 'manage',
     component: () => import('../views/ManageToolsView.vue')

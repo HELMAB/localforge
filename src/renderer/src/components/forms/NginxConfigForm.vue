@@ -107,6 +107,29 @@
           >
         </div>
 
+        <!-- Enable SSL Toggle -->
+        <div class="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-900">
+          <div class="flex-1">
+            <label class="flex items-center gap-2 text-sm font-medium text-gray-900 dark:text-gray-100 cursor-pointer">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-600 dark:text-green-400" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
+              </svg>
+              {{ t('enableSSL') }}
+            </label>
+            <p class="text-xs text-gray-600 dark:text-gray-400 mt-1 ml-7">
+              {{ t('enableSSLDesc') }}
+            </p>
+          </div>
+          <label class="relative inline-flex items-center cursor-pointer">
+            <input
+              v-model="enableSSL"
+              type="checkbox"
+              class="sr-only peer"
+            >
+            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+          </label>
+        </div>
+
         <button
           :disabled="isConfiguring"
           class="w-full px-6 py-3 bg-blue-500 dark:bg-blue-600 text-white rounded-lg hover:bg-blue-600 dark:hover:bg-blue-700 font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
@@ -239,6 +262,7 @@ const domain = ref('')
 const nginxProjectPath = ref('')
 const phpVersion = ref('')
 const port = ref(80)
+const enableSSL = ref(false)
 const configs = ref([])
 const activeMenu = ref('new-site')
 
@@ -334,15 +358,17 @@ async function handleConfigureNginx() {
       projectPath: nginxProjectPath.value,
       port: port.value,
       projectType: projectType.value,
-      phpVersion: phpVersion.value || null
+      phpVersion: phpVersion.value || null,
+      enableSSL: enableSSL.value
     })
 
     const phpInfo = result.phpFpmSocket ? `\nPHP-FPM: ${result.phpFpmSocket}` : ''
+    const sslInfo = result.sslGenerated ? `\n✓ SSL Certificate generated` : ''
 
     status.showStatus(
       locale.value === 'km'
-        ? `Nginx បានកំណត់រចនាសម្ព័ន្ធជោគជ័យ!${phpInfo}\n\nកុំភ្លេច៖\n1. បន្ថែម "${domain.value}" ទៅក្នុង /etc/hosts\n2. ដំណើរការ៖ sudo nano /etc/hosts\n3. បន្ថែម៖ 127.0.0.1 ${domain.value}`
-        : `Nginx configured successfully!${phpInfo}\n\nDon't forget:\n1. Add "${domain.value}" to /etc/hosts\n2. Run: sudo nano /etc/hosts\n3. Add: 127.0.0.1 ${domain.value}`,
+        ? `Nginx បានកំណត់រចនាសម្ព័ន្ធជោគជ័យ!${phpInfo}${sslInfo}\n\nកុំភ្លេច៖\n1. បន្ថែម "${domain.value}" ទៅក្នុង /etc/hosts\n2. ដំណើរការ៖ sudo nano /etc/hosts\n3. បន្ថែម៖ 127.0.0.1 ${domain.value}`
+        : `Nginx configured successfully!${phpInfo}${sslInfo}\n\nDon't forget:\n1. Add "${domain.value}" to /etc/hosts\n2. Run: sudo nano /etc/hosts\n3. Add: 127.0.0.1 ${domain.value}`,
       'success'
     )
     

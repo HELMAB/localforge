@@ -28,7 +28,6 @@ const { t } = useI18n()
 const tabs = [
   { path: '/create', label: 'tabCreate' },
   { path: '/nginx', label: 'tabNginx' },
-  { path: '/ssl', label: 'tabSsl' },
   { path: '/manage', label: 'tabManage' }
 ]
 

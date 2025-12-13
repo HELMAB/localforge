@@ -45,6 +45,8 @@ export default {
   nginxPhpVersionLabel: 'PHP-FPM Version',
   nginxPhpHint: 'Auto-detect will search for available PHP-FPM socket in the system',
   portLabel: 'Port',
+  enableSSL: 'Enable SSL Certificate',
+  enableSSLDesc: 'Automatically generate SSL certificate using mkcert (mkcert must be installed)',
   configureBtn: 'Configure',
   nginxExistingConfigs: 'Existing Nginx Configurations',
   nginxNoConfigs: 'No configurations found. Create your first configuration above.',
