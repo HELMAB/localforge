@@ -585,6 +585,73 @@ ipcMain.handle('generate-ssl', async (event, { domain }) => {
   });
 });
 
+// List all Nginx configuration files
+ipcMain.handle('list-nginx-configs', async () => {
+  return new Promise((resolve, reject) => {
+    exec('ls -1 /etc/nginx/sites-available/', (error, stdout) => {
+      if (error) {
+        reject(error);
+        return;
+      }
+
+      const configs = stdout.trim().split('\n').filter(name => name && name !== 'default');
+      
+      // Get details for each config
+      const configDetails = [];
+      let processed = 0;
+
+      if (configs.length === 0) {
+        resolve([]);
+        return;
+      }
+
+      configs.forEach(name => {
+        const availablePath = `/etc/nginx/sites-available/${name}`;
+        const enabledPath = `/etc/nginx/sites-enabled/${name}`;
+
+        fs.stat(availablePath, (err, stats) => {
+          const isEnabled = fs.existsSync(enabledPath);
+          
+          configDetails.push({
+            name: name,
+            path: availablePath,
+            enabled: isEnabled,
+            size: stats ? stats.size : 0,
+            modified: stats ? stats.mtime : null
+          });
+
+          processed++;
+          if (processed === configs.length) {
+            resolve(configDetails);
+          }
+        });
+      });
+    });
+  });
+});
+
+// Delete Nginx configuration
+ipcMain.handle('delete-nginx-config', async (event, { configName }) => {
+  return new Promise((resolve, reject) => {
+    const options = {
+      name: 'Dev Tools Manager',
+    };
+
+    const availablePath = `/etc/nginx/sites-available/${configName}`;
+    const enabledPath = `/etc/nginx/sites-enabled/${configName}`;
+
+    const command = `rm -f "${enabledPath}" && rm -f "${availablePath}" && nginx -t && systemctl reload nginx`;
+
+    sudo.exec(command, options, (error, stdout, stderr) => {
+      if (error) {
+        reject(new Error(stderr || error.message));
+      } else {
+        resolve({ success: true, message: `Configuration ${configName} deleted successfully` });
+      }
+    });
+  });
+});
+
 ipcMain.handle('check-requirements', async () => {
   const checks = {
     composer: false,
