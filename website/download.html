@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO Meta Tags -->
+  <title>Download LocalForge - Free Local Development Environment Manager</title>
+  <meta name="description" content="Download LocalForge for Linux (Ubuntu/Debian). Available as .deb package and AppImage. Free and open source development tool for managing PHP, Node.js, Laravel, and more.">
+  <meta name="keywords" content="download LocalForge, Linux development tools, Ubuntu development, Debian development, AppImage, deb package">
+  <meta name="author" content="LocalForge">
+  <meta name="robots" content="index, follow">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://localforge.dev/download.html">
+  <meta property="og:title" content="Download LocalForge - Free Development Tool">
+  <meta property="og:description" content="Download LocalForge for Linux. Free and open source.">
+  <meta property="og:image" content="https://localforge.dev/assets/og-image.png">
+  
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://localforge.dev/download.html">
+  <meta property="twitter:title" content="Download LocalForge - Free Development Tool">
+  <meta property="twitter:description" content="Download LocalForge for Linux. Free and open source.">
+  <meta property="twitter:image" content="https://localforge.dev/assets/twitter-image.png">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/css/style.css">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="font-inter antialiased bg-gray-50 text-gray-900">
+  
+  <!-- Navigation -->
+  <nav class="fixed w-full bg-white/80 backdrop-blur-md shadow-sm z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <div class="flex items-center gap-2">
+          <img src="/assets/logo.svg" alt="LocalForge Logo" class="h-8 w-8">
+          <span class="text-xl font-bold text-gray-900">LocalForge</span>
+        </div>
+        
+        <div class="hidden md:flex items-center gap-8">
+          <a href="/" class="text-gray-600 hover:text-blue-600 transition">Home</a>
+          <a href="/docs.html" class="text-gray-600 hover:text-blue-600 transition">Docs</a>
+          <a href="/download.html" class="text-gray-900 font-medium hover:text-blue-600 transition">Download</a>
+        </div>
+        
+        <!-- Mobile Menu Button -->
+        <button id="mobile-menu-button" class="md:hidden p-2 rounded-lg hover:bg-gray-100">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden bg-white border-t">
+      <div class="px-4 py-4 space-y-3">
+        <a href="/" class="block text-gray-600 hover:text-blue-600 transition">Home</a>
+        <a href="/docs.html" class="block text-gray-600 hover:text-blue-600 transition">Docs</a>
+        <a href="/download.html" class="block text-gray-900 font-medium hover:text-blue-600 transition">Download</a>
+      </div>
+    </div>
+  </nav>
+  
+  <!-- Download Hero -->
+  <section class="pt-32 pb-20 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-4xl mx-auto text-center">
+      <h1 class="text-5xl sm:text-6xl font-bold text-gray-900 mb-6">
+        Download LocalForge
+      </h1>
+      <p class="text-xl text-gray-600 mb-8">
+        Free and open source. Available for Linux.
+      </p>
+      <div class="flex items-center justify-center gap-4 text-sm text-gray-500">
+        <span class="flex items-center gap-2">
+          <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+          </svg>
+          Version 1.0.0
+        </span>
+        <span>•</span>
+        <span>Released December 2024</span>
+        <span>•</span>
+        <span>~100 MB</span>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Download Options -->
+  <section class="pb-20 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-5xl mx-auto">
+      <div class="grid md:grid-cols-2 gap-6">
+        
+        <!-- Debian Package -->
+        <div class="bg-white rounded-xl border-2 border-gray-200 hover:border-blue-500 transition p-8">
+          <div class="flex items-start justify-between mb-4">
+            <div class="w-16 h-16 bg-blue-100 rounded-xl flex items-center justify-center">
+              <svg class="w-10 h-10 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
+              </svg>
+            </div>
+            <span class="px-3 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full">Recommended</span>
+          </div>
+          
+          <h3 class="text-2xl font-bold text-gray-900 mb-2">Debian Package (.deb)</h3>
+          <p class="text-gray-600 mb-6">
+            Best for Ubuntu and Debian-based distributions. Integrates with your system package manager.
+          </p>
+          
+          <div class="space-y-3 mb-6">
+            <div class="flex items-start gap-2 text-sm text-gray-600">
+              <svg class="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+              </svg>
+              <span>Easy system-wide installation</span>
+            </div>
+            <div class="flex items-start gap-2 text-sm text-gray-600">
+              <svg class="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+              </svg>
+              <span>Automatic updates via apt</span>
+            </div>
+            <div class="flex items-start gap-2 text-sm text-gray-600">
+              <svg class="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+              </svg>
+              <span>Desktop menu integration</span>
+            </div>
+          </div>
+          
+          <a href="https://github.com/yourusername/localforge/releases/latest/download/localforge_1.0.0_amd64.deb" class="block w-full px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-semibold text-center">
+            Download .deb Package
+          </a>
+          
+          <div class="mt-4 p-4 bg-gray-50 rounded-lg">
+            <p class="text-xs text-gray-600 mb-2 font-medium">Installation:</p>
+            <code class="text-xs text-gray-800 block">sudo dpkg -i localforge_1.0.0_amd64.deb</code>
+          </div>
+        </div>
+        
+        <!-- AppImage -->
+        <div class="bg-white rounded-xl border-2 border-gray-200 hover:border-blue-500 transition p-8">
+          <div class="w-16 h-16 bg-purple-100 rounded-xl flex items-center justify-center mb-4">
+            <svg class="w-10 h-10 text-purple-600" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+            </svg>
+          </div>
+          
+          <h3 class="text-2xl font-bold text-gray-900 mb-2">AppImage</h3>
+          <p class="text-gray-600 mb-6">
+            Universal Linux package. Run without installation on any distribution.
+          </p>
+          
+          <div class="space-y-3 mb-6">
+            <div class="flex items-start gap-2 text-sm text-gray-600">
+              <svg class="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+              </svg>
+              <span>No installation required</span>
+            </div>
+            <div class="flex items-start gap-2 text-sm text-gray-600">
+              <svg class="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+              </svg>
+              <span>Works on any Linux distribution</span>
+            </div>
+            <div class="flex items-start gap-2 text-sm text-gray-600">
+              <svg class="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+              </svg>
+              <span>Portable and self-contained</span>
+            </div>
+          </div>
+          
+          <a href="https://github.com/yourusername/localforge/releases/latest/download/LocalForge-1.0.0.AppImage" class="block w-full px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition font-semibold text-center">
+            Download AppImage
+          </a>
+          
+          <div class="mt-4 p-4 bg-gray-50 rounded-lg">
+            <p class="text-xs text-gray-600 mb-2 font-medium">Usage:</p>
+            <code class="text-xs text-gray-800 block">chmod +x LocalForge-1.0.0.AppImage</code>
+            <code class="text-xs text-gray-800 block mt-1">./LocalForge-1.0.0.AppImage</code>
+          </div>
+        </div>
+        
+      </div>
+      
+      <!-- Source Code -->
+      <div class="mt-6 bg-white rounded-xl border border-gray-200 p-6">
+        <div class="flex items-center justify-between">
+          <div>
+            <h4 class="text-lg font-semibold text-gray-900 mb-1">Build from Source</h4>
+            <p class="text-gray-600">Clone the repository and build LocalForge yourself</p>
+          </div>
+          <a href="https://github.com/yourusername/localforge" class="px-5 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition font-medium" target="_blank">
+            View on GitHub
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- System Requirements -->
+  <section class="py-20 bg-white px-4 sm:px-6 lg:px-8">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">System Requirements</h2>
+      
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="bg-gray-50 rounded-lg p-6">
+          <h3 class="text-lg font-semibold text-gray-900 mb-4">Minimum</h3>
+          <ul class="space-y-2 text-gray-600">
+            <li class="flex items-start gap-2">
+              <svg class="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+              </svg>
+              <span>Ubuntu 20.04 or Debian 11</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <svg class="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+              </svg>
+              <span>4 GB RAM</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <svg class="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+              </svg>
+              <span>2 GB free disk space</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <svg class="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+              </svg>
+              <span>Internet connection (for downloads)</span>
+            </li>
+          </ul>
+        </div>
+        
+        <div class="bg-blue-50 rounded-lg p-6">
+          <h3 class="text-lg font-semibold text-gray-900 mb-4">Recommended</h3>
+          <ul class="space-y-2 text-gray-600">
+            <li class="flex items-start gap-2">
+              <svg class="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+              </svg>
+              <span>Ubuntu 24.04 or Debian 12</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <svg class="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+              </svg>
+              <span>8 GB RAM or more</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <svg class="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+              </svg>
+              <span>5 GB free disk space</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <svg class="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+              </svg>
+              <span>Sudo/root privileges</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="mt-8 bg-yellow-50 border-l-4 border-yellow-500 p-4 rounded">
+        <p class="text-sm text-yellow-900">
+          <strong>Note:</strong> LocalForge requires sudo/root privileges to install development tools (PHP, Nginx, databases, etc.).
+        </p>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Installation Guide -->
+  <section class="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">Quick Installation Guide</h2>
+      
+      <div class="space-y-8">
+        <!-- Step 1 -->
+        <div class="bg-white rounded-lg p-6 border border-gray-200">
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0">1</div>
+            <div class="flex-1">
+              <h3 class="text-xl font-semibold text-gray-900 mb-2">Download LocalForge</h3>
+              <p class="text-gray-600 mb-3">Choose your preferred package format (.deb or AppImage) and download it.</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Step 2 -->
+        <div class="bg-white rounded-lg p-6 border border-gray-200">
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0">2</div>
+            <div class="flex-1">
+              <h3 class="text-xl font-semibold text-gray-900 mb-2">Install the Package</h3>
+              <p class="text-gray-600 mb-3">For .deb package:</p>
+              <div class="bg-gray-900 rounded-lg p-4">
+                <code class="text-sm text-green-400">sudo dpkg -i localforge_1.0.0_amd64.deb</code>
+              </div>
+              <p class="text-gray-600 mt-3 mb-3">For AppImage:</p>
+              <div class="bg-gray-900 rounded-lg p-4">
+                <code class="text-sm text-green-400">chmod +x LocalForge-1.0.0.AppImage</code>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Step 3 -->
+        <div class="bg-white rounded-lg p-6 border border-gray-200">
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0">3</div>
+            <div class="flex-1">
+              <h3 class="text-xl font-semibold text-gray-900 mb-2">Launch LocalForge</h3>
+              <p class="text-gray-600">Open LocalForge from your applications menu or run the AppImage file.</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Step 4 -->
+        <div class="bg-white rounded-lg p-6 border border-gray-200">
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0">4</div>
+            <div class="flex-1">
+              <h3 class="text-xl font-semibold text-gray-900 mb-2">Install Development Tools</h3>
+              <p class="text-gray-600">Go to "Manage Services" tab and install PHP, Node.js, Nginx, and other tools you need.</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Step 5 -->
+        <div class="bg-white rounded-lg p-6 border border-gray-200">
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0">5</div>
+            <div class="flex-1">
+              <h3 class="text-xl font-semibold text-gray-900 mb-2">Start Creating Projects</h3>
+              <p class="text-gray-600">You're ready! Start creating Laravel, Vue, React, or WordPress projects with one click.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Release Notes -->
+  <section class="py-20 px-4 sm:px-6 lg:px-8 bg-white">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">Release Notes</h2>
+      
+      <div class="space-y-6">
+        <div class="border-l-4 border-blue-600 pl-6">
+          <div class="flex items-center gap-3 mb-2">
+            <h3 class="text-xl font-semibold text-gray-900">Version 1.0.0</h3>
+            <span class="px-2 py-1 bg-blue-100 text-blue-700 text-xs font-semibold rounded">Latest</span>
+          </div>
+          <p class="text-sm text-gray-500 mb-3">Released December 14, 2024</p>
+          
+          <div class="space-y-2 text-gray-600">
+            <p class="font-medium text-gray-900">Features:</p>
+            <ul class="list-disc list-inside space-y-1 ml-4">
+              <li>One-click project creation (Laravel, Vue, Nuxt, React, WordPress)</li>
+              <li>Multiple PHP version management (8.0-8.4)</li>
+              <li>PHP extensions manager with INI editor</li>
+              <li>Nginx virtual host configuration</li>
+              <li>SSL certificate generation with mkcert</li>
+              <li>Node.js version management via NVM</li>
+              <li>MySQL and PostgreSQL installation</li>
+              <li>Bilingual interface (English/Khmer)</li>
+              <li>Dark mode support</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <div class="mt-8 text-center">
+        <a href="https://github.com/yourusername/localforge/releases" class="text-blue-600 hover:underline font-medium" target="_blank">
+          View All Releases →
+        </a>
+      </div>
+    </div>
+  </section>
+  
+  <!-- CTA -->
+  <section class="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-blue-600 to-purple-600">
+    <div class="max-w-4xl mx-auto text-center">
+      <h2 class="text-4xl font-bold text-white mb-6">Need Help Getting Started?</h2>
+      <p class="text-xl text-blue-100 mb-10">Check out our comprehensive documentation</p>
+      <a href="/docs.html" class="inline-block px-10 py-4 bg-white text-blue-600 rounded-lg hover:bg-gray-100 transition font-semibold text-lg shadow-xl">
+        Read Documentation
+      </a>
+    </div>
+  </section>
+  
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-gray-300 py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid md:grid-cols-4 gap-8">
+        <div>
+          <div class="flex items-center gap-2 mb-4">
+            <img src="/assets/logo-white.svg" alt="LocalForge" class="h-8 w-8">
+            <span class="text-xl font-bold text-white">LocalForge</span>
+          </div>
+          <p class="text-gray-400 text-sm">Simplify your local development workflow.</p>
+        </div>
+        
+        <div>
+          <h4 class="text-white font-semibold mb-4">Product</h4>
+          <ul class="space-y-2 text-sm">
+            <li><a href="/download.html" class="hover:text-white transition">Download</a></li>
+            <li><a href="/docs.html" class="hover:text-white transition">Documentation</a></li>
+            <li><a href="/#features" class="hover:text-white transition">Features</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 class="text-white font-semibold mb-4">Resources</h4>
+          <ul class="space-y-2 text-sm">
+            <li><a href="/docs.html#getting-started" class="hover:text-white transition">Getting Started</a></li>
+            <li><a href="/docs.html#tutorials" class="hover:text-white transition">Tutorials</a></li>
+            <li><a href="https://github.com/yourusername/localforge" class="hover:text-white transition" target="_blank">GitHub</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 class="text-white font-semibold mb-4">Connect</h4>
+          <ul class="space-y-2 text-sm">
+            <li><a href="mailto:support@localforge.dev" class="hover:text-white transition">Contact</a></li>
+            <li><a href="https://twitter.com/localforge" class="hover:text-white transition" target="_blank">Twitter</a></li>
+            <li><a href="https://github.com/yourusername/localforge/issues" class="hover:text-white transition" target="_blank">Report Issue</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="border-t border-gray-800 mt-10 pt-8 text-center text-sm text-gray-400">
+        <p>&copy; 2024 LocalForge. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+  
+  <script src="/js/main.js"></script>
+</body>
+</html>

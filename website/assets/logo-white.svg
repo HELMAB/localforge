@@ -1,0 +1,9 @@
+<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background rounded square -->
+  <rect width="48" height="48" rx="12" fill="white"/>
+  
+  <!-- Code bracket symbols -->
+  <path d="M16 14L10 24L16 34" stroke="#667eea" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M32 14L38 24L32 34" stroke="#667eea" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M28 12L20 36" stroke="#764ba2" stroke-width="3" stroke-linecap="round"/>
+</svg>

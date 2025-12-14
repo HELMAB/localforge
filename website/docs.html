@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO Meta Tags -->
+  <title>Documentation - LocalForge | Complete Guide for Local Development</title>
+  <meta name="description" content="Complete documentation for LocalForge. Learn how to create projects, manage PHP versions, configure Nginx, generate SSL certificates, and more.">
+  <meta name="keywords" content="LocalForge documentation, development guide, PHP tutorial, Laravel setup, Nginx configuration, SSL certificates">
+  <meta name="author" content="LocalForge">
+  <meta name="robots" content="index, follow">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://localforge.dev/docs.html">
+  <meta property="og:title" content="Documentation - LocalForge">
+  <meta property="og:description" content="Complete guide to using LocalForge for local development.">
+  <meta property="og:image" content="https://localforge.dev/assets/og-image.png">
+  
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://localforge.dev/docs.html">
+  <meta property="twitter:title" content="Documentation - LocalForge">
+  <meta property="twitter:description" content="Complete guide to using LocalForge for local development.">
+  <meta property="twitter:image" content="https://localforge.dev/assets/twitter-image.png">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/css/style.css">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Prism.js for code highlighting -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+</head>
+<body class="font-inter antialiased bg-gray-50 text-gray-900">
+  
+  <!-- Navigation -->
+  <nav class="fixed w-full bg-white/80 backdrop-blur-md shadow-sm z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <div class="flex items-center gap-2">
+          <img src="/assets/logo.svg" alt="LocalForge Logo" class="h-8 w-8">
+          <span class="text-xl font-bold text-gray-900">LocalForge</span>
+        </div>
+        
+        <div class="hidden md:flex items-center gap-8">
+          <a href="/" class="text-gray-600 hover:text-blue-600 transition">Home</a>
+          <a href="/docs.html" class="text-gray-900 font-medium hover:text-blue-600 transition">Docs</a>
+          <a href="/download.html" class="px-5 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium">Download</a>
+        </div>
+        
+        <!-- Mobile Menu Button -->
+        <button id="mobile-menu-button" class="md:hidden p-2 rounded-lg hover:bg-gray-100">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden bg-white border-t">
+      <div class="px-4 py-4 space-y-3">
+        <a href="/" class="block text-gray-600 hover:text-blue-600 transition">Home</a>
+        <a href="/docs.html" class="block text-gray-900 font-medium hover:text-blue-600 transition">Docs</a>
+        <a href="/download.html" class="block px-5 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium text-center">Download</a>
+      </div>
+    </div>
+  </nav>
+  
+  <!-- Documentation Content -->
+  <div class="pt-20 pb-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col lg:flex-row gap-8">
+        
+        <!-- Sidebar -->
+        <aside class="lg:w-64 flex-shrink-0">
+          <div class="sticky top-24 bg-white rounded-lg border border-gray-200 p-4">
+            <nav class="space-y-1">
+              <a href="#introduction" class="block px-3 py-2 text-sm font-medium text-blue-600 bg-blue-50 rounded-lg">Introduction</a>
+              <a href="#installation" class="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg">Installation</a>
+              <a href="#getting-started" class="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg">Getting Started</a>
+              <a href="#creating-projects" class="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg">Creating Projects</a>
+              <a href="#nginx-config" class="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg">Nginx Configuration</a>
+              <a href="#ssl-certificates" class="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg">SSL Certificates</a>
+              <a href="#managing-tools" class="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg">Managing Tools</a>
+              <a href="#php-management" class="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg">PHP Management</a>
+              <a href="#troubleshooting" class="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg">Troubleshooting</a>
+              <a href="#faq" class="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg">FAQ</a>
+            </nav>
+          </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="flex-1 bg-white rounded-lg border border-gray-200 p-8 lg:p-12">
+          
+          <!-- Introduction -->
+          <section id="introduction" class="mb-16 scroll-mt-24">
+            <h1 class="text-4xl font-bold text-gray-900 mb-4">Documentation</h1>
+            <p class="text-xl text-gray-600 mb-6">
+              Welcome to LocalForge documentation. Learn how to streamline your local development workflow.
+            </p>
+            <div class="bg-blue-50 border-l-4 border-blue-600 p-4 rounded">
+              <p class="text-sm text-blue-900">
+                <strong>Note:</strong> LocalForge is currently available for Linux (Ubuntu/Debian). Support for other platforms is coming soon.
+              </p>
+            </div>
+          </section>
+          
+          <!-- Installation -->
+          <section id="installation" class="mb-16 scroll-mt-24">
+            <h2 class="text-3xl font-bold text-gray-900 mb-4">Installation</h2>
+            <p class="text-gray-600 mb-4">
+              Download and install LocalForge on your Linux system.
+            </p>
+            
+            <h3 class="text-xl font-semibold text-gray-900 mb-3 mt-6">System Requirements</h3>
+            <ul class="list-disc list-inside text-gray-600 space-y-2 mb-6">
+              <li>Ubuntu 20.04 or later / Debian 11 or later</li>
+              <li>4GB RAM minimum (8GB recommended)</li>
+              <li>2GB free disk space</li>
+              <li>Sudo privileges required for tool installation</li>
+            </ul>
+            
+            <h3 class="text-xl font-semibold text-gray-900 mb-3">Download & Install</h3>
+            <p class="text-gray-600 mb-4">Download the latest .deb or AppImage from the <a href="/download.html" class="text-blue-600 hover:underline">download page</a>.</p>
+            
+            <div class="bg-gray-900 rounded-lg p-4 mb-4">
+              <pre class="text-sm"><code class="language-bash"># For .deb package
+sudo dpkg -i localforge_1.0.0_amd64.deb
+sudo apt-get install -f
+
+# Or use AppImage
+chmod +x LocalForge-1.0.0.AppImage
+./LocalForge-1.0.0.AppImage</code></pre>
+            </div>
+          </section>
+          
+          <!-- Getting Started -->
+          <section id="getting-started" class="mb-16 scroll-mt-24">
+            <h2 class="text-3xl font-bold text-gray-900 mb-4">Getting Started</h2>
+            <p class="text-gray-600 mb-4">
+              Launch LocalForge and familiarize yourself with the interface.
+            </p>
+            
+            <h3 class="text-xl font-semibold text-gray-900 mb-3 mt-6">First Launch</h3>
+            <ol class="list-decimal list-inside text-gray-600 space-y-2 mb-6">
+              <li>Open LocalForge from your applications menu</li>
+              <li>The application will check for installed development tools</li>
+              <li>Navigate to the "Manage Services" tab to install required tools (PHP, Node.js, Nginx, etc.)</li>
+              <li>Once tools are installed, you can start creating projects</li>
+            </ol>
+            
+            <h3 class="text-xl font-semibold text-gray-900 mb-3">Interface Overview</h3>
+            <ul class="list-disc list-inside text-gray-600 space-y-2">
+              <li><strong>Create Project:</strong> Create new Laravel, Vue, React, Nuxt, or WordPress projects</li>
+              <li><strong>Nginx Config:</strong> Generate Nginx virtual host configurations</li>
+              <li><strong>SSL Certificate:</strong> Generate local SSL certificates with mkcert</li>
+              <li><strong>Manage Services:</strong> Install and manage development tools (PHP, Node.js, databases, etc.)</li>
+            </ul>
+          </section>
+          
+          <!-- Creating Projects -->
+          <section id="creating-projects" class="mb-16 scroll-mt-24">
+            <h2 class="text-3xl font-bold text-gray-900 mb-4">Creating Projects</h2>
+            <p class="text-gray-600 mb-4">
+              LocalForge supports multiple project types with optimized configurations.
+            </p>
+            
+            <h3 class="text-xl font-semibold text-gray-900 mb-3 mt-6">Laravel Projects</h3>
+            <ol class="list-decimal list-inside text-gray-600 space-y-2 mb-4">
+              <li>Select "Laravel" as project type</li>
+              <li>Choose Laravel version (10.x or 11.x)</li>
+              <li>Select PHP version (8.1, 8.2, or 8.3)</li>
+              <li>Optional: Choose a starter kit (Breeze, Jetstream, or None)</li>
+              <li>Enter project name and select directory</li>
+              <li>Click "Create Project"</li>
+            </ol>
+            
+            <div class="bg-gray-900 rounded-lg p-4 mb-6">
+              <pre class="text-sm"><code class="language-bash"># LocalForge automatically runs:
+composer create-project laravel/laravel project-name
+cd project-name
+php artisan key:generate</code></pre>
+            </div>
+            
+            <h3 class="text-xl font-semibold text-gray-900 mb-3">Vue.js / Nuxt Projects</h3>
+            <p class="text-gray-600 mb-4">Choose Vue version (Vue 2/3) and features (Router, Vuex/Pinia, TypeScript).</p>
+            
+            <h3 class="text-xl font-semibold text-gray-900 mb-3">React Projects</h3>
+            <p class="text-gray-600 mb-4">Select JavaScript or TypeScript template with optional routing support.</p>
+            
+            <h3 class="text-xl font-semibold text-gray-900 mb-3">WordPress Projects</h3>
+            <p class="text-gray-600 mb-4">Download and configure WordPress with database setup assistance.</p>
+          </section>
+          
+          <!-- Nginx Configuration -->
+          <section id="nginx-config" class="mb-16 scroll-mt-24">
+            <h2 class="text-3xl font-bold text-gray-900 mb-4">Nginx Configuration</h2>
+            <p class="text-gray-600 mb-4">
+              Generate Nginx virtual host configurations automatically.
+            </p>
+            
+            <h3 class="text-xl font-semibold text-gray-900 mb-3 mt-6">Setup Steps</h3>
+            <ol class="list-decimal list-inside text-gray-600 space-y-2 mb-6">
+              <li>Go to "Nginx Config" tab</li>
+              <li>Enter your domain name (e.g., myproject.local)</li>
+              <li>Select project directory</li>
+              <li>Choose project type (Laravel, Static, WordPress, Vue/React)</li>
+              <li>Select PHP version for PHP projects</li>
+              <li>Optional: Enable SSL</li>
+              <li>Click "Generate Configuration"</li>
+            </ol>
+            
+            <div class="bg-yellow-50 border-l-4 border-yellow-600 p-4 rounded mb-6">
+              <p class="text-sm text-yellow-900">
+                <strong>Important:</strong> Don't forget to add your domain to /etc/hosts
+              </p>
+            </div>
+            
+            <div class="bg-gray-900 rounded-lg p-4 mb-4">
+              <pre class="text-sm"><code class="language-bash"># Add to /etc/hosts
+sudo nano /etc/hosts
+
+# Add this line:
+127.0.0.1 myproject.local</code></pre>
+            </div>
+          </section>
+          
+          <!-- SSL Certificates -->
+          <section id="ssl-certificates" class="mb-16 scroll-mt-24">
+            <h2 class="text-3xl font-bold text-gray-900 mb-4">SSL Certificates</h2>
+            <p class="text-gray-600 mb-4">
+              Generate trusted local SSL certificates using mkcert.
+            </p>
+            
+            <h3 class="text-xl font-semibold text-gray-900 mb-3 mt-6">Prerequisites</h3>
+            <p class="text-gray-600 mb-4">
+              First, install mkcert through the "Manage Services" tab or manually:
+            </p>
+            
+            <div class="bg-gray-900 rounded-lg p-4 mb-6">
+              <pre class="text-sm"><code class="language-bash"># Install mkcert
+sudo apt install libnss3-tools
+wget https://github.com/FiloSottile/mkcert/releases/latest/download/mkcert-v*-linux-amd64
+chmod +x mkcert-v*-linux-amd64
+sudo mv mkcert-v*-linux-amd64 /usr/local/bin/mkcert
+mkcert -install</code></pre>
+            </div>
+            
+            <h3 class="text-xl font-semibold text-gray-900 mb-3">Generate Certificate</h3>
+            <ol class="list-decimal list-inside text-gray-600 space-y-2">
+              <li>Go to "SSL Certificate" tab</li>
+              <li>Enter your domain name</li>
+              <li>Click "Generate Certificate"</li>
+              <li>Certificates will be saved to /etc/nginx/ssl/</li>
+            </ol>
+          </section>
+          
+          <!-- Managing Tools -->
+          <section id="managing-tools" class="mb-16 scroll-mt-24">
+            <h2 class="text-3xl font-bold text-gray-900 mb-4">Managing Development Tools</h2>
+            <p class="text-gray-600 mb-4">
+              Install and manage PHP, Node.js, Nginx, Composer, and databases.
+            </p>
+            
+            <h3 class="text-xl font-semibold text-gray-900 mb-3 mt-6">Supported Tools</h3>
+            <ul class="list-disc list-inside text-gray-600 space-y-2">
+              <li><strong>PHP:</strong> Multiple versions (8.0, 8.1, 8.2, 8.3, 8.4)</li>
+              <li><strong>Node.js:</strong> Managed via NVM with version switching</li>
+              <li><strong>Nginx:</strong> Web server installation and configuration</li>
+              <li><strong>Composer:</strong> PHP dependency manager</li>
+              <li><strong>PostgreSQL:</strong> PostgreSQL database server</li>
+              <li><strong>MySQL:</strong> MySQL database server</li>
+            </ul>
+          </section>
+          
+          <!-- PHP Management -->
+          <section id="php-management" class="mb-16 scroll-mt-24">
+            <h2 class="text-3xl font-bold text-gray-900 mb-4">PHP Management</h2>
+            <p class="text-gray-600 mb-4">
+              Install multiple PHP versions and manage extensions.
+            </p>
+            
+            <h3 class="text-xl font-semibold text-gray-900 mb-3 mt-6">Installing PHP</h3>
+            <ol class="list-decimal list-inside text-gray-600 space-y-2 mb-6">
+              <li>Go to "Manage Services" → PHP section</li>
+              <li>Enter desired PHP version (e.g., 8.3)</li>
+              <li>Click "Install New Version"</li>
+              <li>Watch the installation progress in the log modal</li>
+            </ol>
+            
+            <h3 class="text-xl font-semibold text-gray-900 mb-3">Managing Extensions</h3>
+            <ol class="list-decimal list-inside text-gray-600 space-y-2 mb-6">
+              <li>Click "Extensions" button on any installed PHP version</li>
+              <li>View installed extensions in the green section</li>
+              <li>Select extensions to install from the not-installed section</li>
+              <li>Use "Check All" to select all available extensions</li>
+              <li>Click "Install Selected" to install</li>
+            </ol>
+            
+            <h3 class="text-xl font-semibold text-gray-900 mb-3">Editing PHP Configuration</h3>
+            <ol class="list-decimal list-inside text-gray-600 space-y-2">
+              <li>Click "php.ini" button to edit CLI configuration</li>
+              <li>Click "FPM" button to edit PHP-FPM configuration</li>
+              <li>Make your changes in the modal editor</li>
+              <li>Click "Save" (requires sudo password)</li>
+            </ol>
+          </section>
+          
+          <!-- Troubleshooting -->
+          <section id="troubleshooting" class="mb-16 scroll-mt-24">
+            <h2 class="text-3xl font-bold text-gray-900 mb-4">Troubleshooting</h2>
+            
+            <h3 class="text-xl font-semibold text-gray-900 mb-3 mt-6">Common Issues</h3>
+            
+            <div class="space-y-6">
+              <div class="border-l-4 border-blue-500 pl-4">
+                <h4 class="font-semibold text-gray-900 mb-2">Port 80/443 already in use</h4>
+                <p class="text-gray-600 mb-2">Check if another service is using these ports:</p>
+                <div class="bg-gray-900 rounded-lg p-4">
+                  <pre class="text-sm"><code class="language-bash">sudo lsof -i :80
+sudo lsof -i :443</code></pre>
+                </div>
+              </div>
+              
+              <div class="border-l-4 border-blue-500 pl-4">
+                <h4 class="font-semibold text-gray-900 mb-2">PHP version not found</h4>
+                <p class="text-gray-600">Make sure you've added the ondrej/php PPA and updated your system.</p>
+              </div>
+              
+              <div class="border-l-4 border-blue-500 pl-4">
+                <h4 class="font-semibold text-gray-900 mb-2">Nginx configuration test failed</h4>
+                <p class="text-gray-600 mb-2">Test your Nginx configuration manually:</p>
+                <div class="bg-gray-900 rounded-lg p-4">
+                  <pre class="text-sm"><code class="language-bash">sudo nginx -t
+sudo systemctl restart nginx</code></pre>
+                </div>
+              </div>
+            </div>
+          </section>
+          
+          <!-- FAQ -->
+          <section id="faq" class="mb-16 scroll-mt-24">
+            <h2 class="text-3xl font-bold text-gray-900 mb-4">Frequently Asked Questions</h2>
+            
+            <div class="space-y-6">
+              <div>
+                <h4 class="font-semibold text-gray-900 mb-2">Is LocalForge free?</h4>
+                <p class="text-gray-600">Yes, LocalForge is completely free and open source.</p>
+              </div>
+              
+              <div>
+                <h4 class="font-semibold text-gray-900 mb-2">Can I use LocalForge on Windows or macOS?</h4>
+                <p class="text-gray-600">Currently, LocalForge is only available for Linux. Windows and macOS support is planned for future releases.</p>
+              </div>
+              
+              <div>
+                <h4 class="font-semibold text-gray-900 mb-2">Does LocalForge require Docker?</h4>
+                <p class="text-gray-600">No, LocalForge installs tools directly on your system without containers.</p>
+              </div>
+              
+              <div>
+                <h4 class="font-semibold text-gray-900 mb-2">Can I manage existing projects?</h4>
+                <p class="text-gray-600">Yes, you can use LocalForge to configure Nginx and SSL for existing projects.</p>
+              </div>
+              
+              <div>
+                <h4 class="font-semibold text-gray-900 mb-2">How do I update LocalForge?</h4>
+                <p class="text-gray-600">Download the latest version from the download page and install it. Your settings and configurations will be preserved.</p>
+              </div>
+            </div>
+          </section>
+          
+          <!-- Support -->
+          <section class="bg-blue-50 rounded-lg p-8 border border-blue-200">
+            <h3 class="text-2xl font-bold text-gray-900 mb-4">Need Help?</h3>
+            <p class="text-gray-600 mb-4">
+              If you can't find what you're looking for, reach out to our community.
+            </p>
+            <div class="flex flex-wrap gap-4">
+              <a href="https://github.com/yourusername/localforge/issues" class="px-5 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium" target="_blank">
+                Report an Issue
+              </a>
+              <a href="https://github.com/yourusername/localforge/discussions" class="px-5 py-2 bg-white text-blue-600 border-2 border-blue-600 rounded-lg hover:bg-blue-50 transition font-medium" target="_blank">
+                Join Discussion
+              </a>
+            </div>
+          </section>
+          
+        </main>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-gray-300 py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid md:grid-cols-4 gap-8">
+        <div>
+          <div class="flex items-center gap-2 mb-4">
+            <img src="/assets/logo-white.svg" alt="LocalForge" class="h-8 w-8">
+            <span class="text-xl font-bold text-white">LocalForge</span>
+          </div>
+          <p class="text-gray-400 text-sm">Simplify your local development workflow.</p>
+        </div>
+        
+        <div>
+          <h4 class="text-white font-semibold mb-4">Product</h4>
+          <ul class="space-y-2 text-sm">
+            <li><a href="/download.html" class="hover:text-white transition">Download</a></li>
+            <li><a href="/docs.html" class="hover:text-white transition">Documentation</a></li>
+            <li><a href="/#features" class="hover:text-white transition">Features</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 class="text-white font-semibold mb-4">Resources</h4>
+          <ul class="space-y-2 text-sm">
+            <li><a href="/docs.html#getting-started" class="hover:text-white transition">Getting Started</a></li>
+            <li><a href="/docs.html#troubleshooting" class="hover:text-white transition">Troubleshooting</a></li>
+            <li><a href="https://github.com/yourusername/localforge" class="hover:text-white transition" target="_blank">GitHub</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 class="text-white font-semibold mb-4">Connect</h4>
+          <ul class="space-y-2 text-sm">
+            <li><a href="mailto:support@localforge.dev" class="hover:text-white transition">Contact</a></li>
+            <li><a href="https://twitter.com/localforge" class="hover:text-white transition" target="_blank">Twitter</a></li>
+            <li><a href="https://github.com/yourusername/localforge/issues" class="hover:text-white transition" target="_blank">Report Issue</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="border-t border-gray-800 mt-10 pt-8 text-center text-sm text-gray-400">
+        <p>&copy; 2024 LocalForge. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+  <script src="/js/main.js"></script>
+</body>
+</html>
