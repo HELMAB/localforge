@@ -12,112 +12,139 @@
       @close="showPostCreation = false"
     />
 
-    <template v-else>
-      <ProjectTypeSelector v-model="projectType" />
-
-      <LaravelOptions
-        v-if="projectType === 'laravel'"
-        v-model:laravel-version="laravelVersion"
-        v-model:php-version="phpVersion"
-        v-model:laravel-starter="laravelStarter"
-      />
-
-      <WordPressOptions
-        v-if="projectType === 'wordpress'"
-        v-model:php-version="wpPhpVersion"
-      />
-
-      <VueOptions
-        v-if="projectType === 'vue'"
-        v-model:typescript="vueOptions.typescript"
-        v-model:jsx="vueOptions.jsx"
-        v-model:router="vueOptions.router"
-        v-model:pinia="vueOptions.pinia"
-        v-model:vitest="vueOptions.vitest"
-        v-model:playwright="vueOptions.playwright"
-        v-model:eslint="vueOptions.eslint"
-        v-model:prettier="vueOptions.prettier"
-      />
-
-      <NuxtOptions
-        v-if="projectType === 'nuxt'"
-        v-model:nuxt-version="nuxtVersion"
-        v-model:nuxt-template="nuxtTemplate"
-      />
-
-      <NodeOptions
-        v-if="['vue', 'nuxt', 'react'].includes(projectType)"
-        v-model:node-version="nodeVersion"
-      />
-
-      <!-- Project Preview -->
-      <ProjectPreview
-        v-if="projectName && projectPath"
-        :project-type="projectType"
-        :project-name="projectName"
-        :php-version="projectType === 'laravel' ? phpVersion : wpPhpVersion"
-        :node-version="nodeVersion"
-        :laravel-version="laravelVersion"
-        :laravel-starter="laravelStarter"
-        :nuxt-version="nuxtVersion"
-        :vue-options="vueOptions"
-      />
-
-      <!-- 2-Column Grid Layout -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <label class="block text-sm font-medium mb-2 dark:text-gray-300">
-            {{ t('projectNameLabel') }} <span class="text-red-500">*</span>
-          </label>
-          <input
-            v-model="projectName"
-            type="text"
-            :class="[
-              'w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2',
-              validationErrors.projectName
-                ? 'border-red-500 focus:ring-red-500'
-                : 'border-gray-300 dark:border-gray-600 focus:ring-blue-500',
-              'dark:bg-gray-700 dark:text-white'
-            ]"
-            placeholder="my-project"
-            @blur="validateProjectName"
+    <!-- Project Form -->
+    <div
+      v-else
+      class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6"
+    >
+      <div class="mb-6">
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 flex items-center gap-2">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5 text-blue-500"
+            viewBox="0 0 20 20"
+            fill="currentColor"
           >
-          <p
-            v-if="validationErrors.projectName"
-            class="text-red-500 text-sm mt-1"
-          >
-            {{ validationErrors.projectName }}
-          </p>
-        </div>
-
-        <div>
-          <label class="block text-sm font-medium mb-2 dark:text-gray-300">
-            {{ t('projectPathLabel') }} <span class="text-red-500">*</span>
-          </label>
-          <DirectorySelector v-model="projectPath" />
-          <p
-            v-if="validationErrors.path"
-            class="text-red-500 text-sm mt-1"
-          >
-            {{ validationErrors.path }}
-          </p>
-        </div>
+            <path
+              fill-rule="evenodd"
+              d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+              clip-rule="evenodd"
+            />
+          </svg>
+          {{ t('createTitle') }}
+        </h3>
+        <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
+          {{ t('createSubtitle') }}
+        </p>
       </div>
 
-      <button
-        :disabled="isCreating"
-        class="w-full px-6 py-3 bg-blue-500 dark:bg-blue-600 text-white rounded-lg hover:bg-blue-600 dark:hover:bg-blue-700 font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-        @click="handleCreateProject"
-      >
-        {{ isCreating ? t('checking') : t('createBtn') }}
-      </button>
+      <div class="space-y-4">
+        <ProjectTypeSelector v-model="projectType" />
 
-      <StatusMessage
-        :message="status.message.value"
-        :type="status.type.value"
-        :visible="status.visible.value"
-      />
-    </template>
+        <LaravelOptions
+          v-if="projectType === 'laravel'"
+          v-model:laravel-version="laravelVersion"
+          v-model:php-version="phpVersion"
+          v-model:laravel-starter="laravelStarter"
+        />
+
+        <WordPressOptions
+          v-if="projectType === 'wordpress'"
+          v-model:php-version="wpPhpVersion"
+        />
+
+        <VueOptions
+          v-if="projectType === 'vue'"
+          v-model:typescript="vueOptions.typescript"
+          v-model:jsx="vueOptions.jsx"
+          v-model:router="vueOptions.router"
+          v-model:pinia="vueOptions.pinia"
+          v-model:vitest="vueOptions.vitest"
+          v-model:playwright="vueOptions.playwright"
+          v-model:eslint="vueOptions.eslint"
+          v-model:prettier="vueOptions.prettier"
+        />
+
+        <NuxtOptions
+          v-if="projectType === 'nuxt'"
+          v-model:nuxt-version="nuxtVersion"
+          v-model:nuxt-template="nuxtTemplate"
+        />
+
+        <NodeOptions
+          v-if="['vue', 'nuxt', 'react'].includes(projectType)"
+          v-model:node-version="nodeVersion"
+        />
+
+        <!-- Project Preview -->
+        <ProjectPreview
+          v-if="projectName && projectPath"
+          :project-type="projectType"
+          :project-name="projectName"
+          :php-version="projectType === 'laravel' ? phpVersion : wpPhpVersion"
+          :node-version="nodeVersion"
+          :laravel-version="laravelVersion"
+          :laravel-starter="laravelStarter"
+          :nuxt-version="nuxtVersion"
+          :vue-options="vueOptions"
+        />
+
+        <!-- 2-Column Grid Layout -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium mb-2 dark:text-gray-300">
+              {{ t('projectNameLabel') }} <span class="text-red-500">*</span>
+            </label>
+            <input
+              v-model="projectName"
+              type="text"
+              :class="[
+                'w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2',
+                validationErrors.projectName
+                  ? 'border-red-500 focus:ring-red-500'
+                  : 'border-gray-300 dark:border-gray-600 focus:ring-blue-500',
+                'dark:bg-gray-700 dark:text-white'
+              ]"
+              placeholder="my-project"
+              @blur="validateProjectName"
+            >
+            <p
+              v-if="validationErrors.projectName"
+              class="text-red-500 text-sm mt-1"
+            >
+              {{ validationErrors.projectName }}
+            </p>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium mb-2 dark:text-gray-300">
+              {{ t('projectPathLabel') }} <span class="text-red-500">*</span>
+            </label>
+            <DirectorySelector v-model="projectPath" />
+            <p
+              v-if="validationErrors.path"
+              class="text-red-500 text-sm mt-1"
+            >
+              {{ validationErrors.path }}
+            </p>
+          </div>
+        </div>
+
+        <button
+          :disabled="isCreating"
+          class="w-full px-6 py-3 bg-blue-500 dark:bg-blue-600 text-white rounded-lg hover:bg-blue-600 dark:hover:bg-blue-700 font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          @click="handleCreateProject"
+        >
+          {{ isCreating ? t('checking') : t('createBtn') }}
+        </button>
+
+        <StatusMessage
+          :message="status.message.value"
+          :type="status.type.value"
+          :visible="status.visible.value"
+        />
+      </div>
+    </div>
   </div>
 </template>
 

@@ -5,6 +5,7 @@ export default {
   tabSsl: 'បង្កើត SSL',
   tabManage: 'គ្រប់គ្រងសេវាកម្ម',
   createTitle: 'បង្កើតគម្រោងថ្មី',
+  createSubtitle: 'កំណត់រចនាសម្ព័ន្ធគម្រោងថ្មីរបស់អ្នក',
   projectTypeLabel: 'ប្រភេទគម្រោង',
   phpVersionLabel: 'កំណែ PHP',
   laravelVersionLabel: 'កំណែ Laravel',

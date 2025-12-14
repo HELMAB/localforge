@@ -5,6 +5,7 @@ export default {
   tabSsl: 'Generate SSL',
   tabManage: 'Manage Services',
   createTitle: 'Create New Project',
+  createSubtitle: 'Configure your new project',
   projectTypeLabel: 'Project Type',
   phpVersionLabel: 'PHP Version',
   laravelVersionLabel: 'Laravel Version',
