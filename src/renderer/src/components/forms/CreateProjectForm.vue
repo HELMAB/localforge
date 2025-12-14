@@ -131,7 +131,7 @@
                   : 'border-gray-300 dark:border-gray-600 focus:ring-blue-500',
                 'dark:bg-gray-700 dark:text-white',
               ]"
-              placeholder="my-project"
+              :placeholder="locale === 'km' ? 'ឈ្មោះគម្រោងរបស់អ្នក' : 'my-awesome-project'"
               @blur="validateProjectName"
             >
             <p
