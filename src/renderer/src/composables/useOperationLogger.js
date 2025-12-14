@@ -20,7 +20,7 @@ export function useOperationLogger() {
       steps: [],
       status: 'in_progress',
       startTime: new Date(),
-      endTime: null
+      endTime: null,
     }
 
     currentOperation.value = operation
@@ -30,7 +30,7 @@ export function useOperationLogger() {
   }
 
   function logStep(operationId, step) {
-    const operation = operations.value.find(op => op.id === operationId)
+    const operation = operations.value.find((op) => op.id === operationId)
     if (!operation) {
       // eslint-disable-next-line no-console
       console.warn(`Operation ${operationId} not found`)
@@ -40,14 +40,14 @@ export function useOperationLogger() {
     const stepEntry = {
       id: Date.now() + Math.random().toString(36).substr(2, 9),
       timestamp: new Date(),
-      ...step
+      ...step,
     }
 
     operation.steps.push(stepEntry)
   }
 
   function completeOperation(operationId, status = 'success', result = null) {
-    const operation = operations.value.find(op => op.id === operationId)
+    const operation = operations.value.find((op) => op.id === operationId)
     if (!operation) {
       // eslint-disable-next-line no-console
       console.warn(`Operation ${operationId} not found`)
@@ -69,7 +69,7 @@ export function useOperationLogger() {
   }
 
   async function rollbackOperation(operationId) {
-    const operation = operations.value.find(op => op.id === operationId)
+    const operation = operations.value.find((op) => op.id === operationId)
     if (!operation) {
       throw new Error(`Operation ${operationId} not found`)
     }
@@ -86,14 +86,14 @@ export function useOperationLogger() {
             stepId: step.id,
             action: step.action,
             success: true,
-            result
+            result,
           })
         } catch (error) {
           rollbackResults.push({
             stepId: step.id,
             action: step.action,
             success: false,
-            error: error.message
+            error: error.message,
           })
         }
       }
@@ -107,7 +107,7 @@ export function useOperationLogger() {
   }
 
   function getOperation(operationId) {
-    return operations.value.find(op => op.id === operationId)
+    return operations.value.find((op) => op.id === operationId)
   }
 
   function getRecentOperations(limit = 10) {
@@ -115,7 +115,7 @@ export function useOperationLogger() {
   }
 
   function getFailedOperations() {
-    return operations.value.filter(op => op.status === 'failed')
+    return operations.value.filter((op) => op.status === 'failed')
   }
 
   function clearOperations() {
@@ -133,6 +133,6 @@ export function useOperationLogger() {
     getOperation,
     getRecentOperations,
     getFailedOperations,
-    clearOperations
+    clearOperations,
   }
 }

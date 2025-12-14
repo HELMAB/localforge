@@ -63,7 +63,7 @@ import { ref, computed, onMounted, onUnmounted } from 'vue'
 const props = defineProps({
   modelValue: {
     type: [String, Number],
-    default: ''
+    default: '',
   },
   options: {
     type: Array,
@@ -72,12 +72,12 @@ const props = defineProps({
   },
   placeholder: {
     type: String,
-    default: 'Select an option'
+    default: 'Select an option',
   },
   disabled: {
     type: Boolean,
-    default: false
-  }
+    default: false,
+  },
 })
 
 const emit = defineEmits(['update:modelValue'])
@@ -86,7 +86,7 @@ const isOpen = ref(false)
 const dropdownRef = ref(null)
 
 const selectedOption = computed(() => {
-  return props.options.find(opt => opt.value === props.modelValue)
+  return props.options.find((opt) => opt.value === props.modelValue)
 })
 
 function toggleDropdown() {

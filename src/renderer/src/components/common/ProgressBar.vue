@@ -9,7 +9,7 @@
           {{ message }}
         </h3>
         <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3 overflow-hidden">
-          <div 
+          <div
             class="bg-blue-500 dark:bg-blue-600 h-3 rounded-full transition-all duration-300 ease-out"
             :style="{ width: progress + '%' }"
           />
@@ -26,15 +26,15 @@
 defineProps({
   isLoading: {
     type: Boolean,
-    default: false
+    default: false,
   },
   progress: {
     type: Number,
-    default: 0
+    default: 0,
   },
   message: {
     type: String,
-    default: 'Processing...'
-  }
+    default: 'Processing...',
+  },
 })
 </script>

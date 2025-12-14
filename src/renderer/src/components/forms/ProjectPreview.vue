@@ -1,5 +1,7 @@
 <template>
-  <div class="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-lg border border-blue-200 dark:border-blue-700 p-4 mb-4">
+  <div
+    class="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-lg border border-blue-200 dark:border-blue-700 p-4 mb-4"
+  >
     <div class="flex items-center justify-between mb-3">
       <h3 class="text-sm font-semibold text-blue-900 dark:text-blue-100 flex items-center gap-2">
         <svg
@@ -160,7 +162,9 @@
             fill="currentColor"
           >
             <path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z" />
-            <path d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z" />
+            <path
+              d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z"
+            />
           </svg>
         </button>
         <pre class="whitespace-pre-wrap break-all">{{ command }}</pre>
@@ -180,43 +184,43 @@ const status = useStatus()
 const props = defineProps({
   projectType: {
     type: String,
-    required: true
+    required: true,
   },
   projectName: {
     type: String,
-    required: true
+    required: true,
   },
   phpVersion: {
     type: String,
-    default: ''
+    default: '',
   },
   nodeVersion: {
     type: String,
-    default: ''
+    default: '',
   },
   laravelVersion: {
     type: String,
-    default: ''
+    default: '',
   },
   laravelStarter: {
     type: String,
-    default: ''
+    default: '',
   },
   nuxtVersion: {
     type: String,
-    default: ''
+    default: '',
   },
   vueOptions: {
     type: Object,
-    default: () => ({})
-  }
+    default: () => ({}),
+  },
 })
 
 const showCommand = ref(false)
 
 const installItems = computed(() => {
   const items = []
-  
+
   if (props.projectType === 'laravel') {
     items.push(`Laravel ${props.laravelVersion}`)
     if (props.phpVersion) items.push(`PHP ${props.phpVersion}`)
@@ -245,7 +249,7 @@ const installItems = computed(() => {
     items.push('WordPress Latest')
     if (props.phpVersion) items.push(`PHP ${props.phpVersion}`)
   }
-  
+
   return items
 })
 
@@ -271,14 +275,14 @@ const compatibilityStatus = computed(() => {
   if (props.projectType === 'laravel' && props.laravelVersion && props.phpVersion) {
     const phpVer = parseFloat(props.phpVersion)
     const laravelVer = parseFloat(props.laravelVersion)
-    
+
     if (laravelVer === 12 && phpVer >= 8.3) return 'recommended'
     if (laravelVer === 11 && phpVer >= 8.2) return 'recommended'
     if (laravelVer === 10 && phpVer >= 8.1) return 'recommended'
     if (laravelVer === 12 && phpVer < 8.3) return 'warning'
     if (laravelVer === 11 && phpVer < 8.2) return 'warning'
     if (laravelVer === 10 && phpVer < 8.1) return 'warning'
-    
+
     return 'compatible'
   }
   return null
@@ -315,7 +319,7 @@ const compatibilityMessage = computed(() => {
 
 const command = computed(() => {
   if (!props.projectName) return ''
-  
+
   if (props.projectType === 'laravel') {
     let cmd = `composer create-project laravel/laravel ${props.projectName}`
     if (props.laravelVersion) cmd += ` "${props.laravelVersion}.*"`

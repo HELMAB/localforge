@@ -7,7 +7,9 @@
     />
 
     <div>
-      <label class="block text-sm font-medium mb-2 dark:text-gray-300">{{ t('nodeVersionLabel') }}</label>
+      <label class="block text-sm font-medium mb-2 dark:text-gray-300">{{
+        t('nodeVersionLabel')
+      }}</label>
       <CustomSelect
         :model-value="nodeVersion"
         :options="nodeVersionOptions"
@@ -37,8 +39,8 @@ const { installedTools, checkInstalledTools } = useTools()
 defineProps({
   nodeVersion: {
     type: String,
-    default: ''
-  }
+    default: '',
+  },
 })
 
 defineEmits(['update:nodeVersion'])
@@ -49,30 +51,28 @@ onMounted(async () => {
 
 const nodeVersionOptions = computed(() => {
   const options = []
-  
+
   // Add installed Node versions
   if (installedTools.value.node.installed && installedTools.value.node.versions.length > 0) {
-    installedTools.value.node.versions.forEach(version => {
+    installedTools.value.node.versions.forEach((version) => {
       const isDefault = version === installedTools.value.node.default
-      const label = isDefault 
-        ? `Node.js ${version} (Default - Recommended)`
-        : `Node.js ${version}`
-      
+      const label = isDefault ? `Node.js ${version} (Default - Recommended)` : `Node.js ${version}`
+
       options.push({
         value: version,
         label: label,
-        icon: nodejsIcon
+        icon: nodejsIcon,
       })
     })
   }
-  
+
   // Add "Current Node Version" option as fallback
   options.push({
     value: '',
     label: 'Current Node Version',
-    icon: nodejsIcon
+    icon: nodejsIcon,
   })
-  
+
   return options
 })
 </script>

@@ -51,18 +51,14 @@ const domain = ref('')
 async function handleGenerateSSL() {
   if (!domain.value) {
     status.showStatus(
-      locale.value === 'km'
-        ? 'សូមបញ្ចូលឈ្មោះដែន'
-        : 'Please enter domain name',
+      locale.value === 'km' ? 'សូមបញ្ចូលឈ្មោះដែន' : 'Please enter domain name',
       'error'
     )
     return
   }
 
   status.showStatus(
-    locale.value === 'km'
-      ? 'កំពុងបង្កើតវិញ្ញាបនប័ត្រ...'
-      : 'Generating certificate...',
+    locale.value === 'km' ? 'កំពុងបង្កើតវិញ្ញាបនប័ត្រ...' : 'Generating certificate...',
     'info'
   )
 
@@ -70,16 +66,12 @@ async function handleGenerateSSL() {
     await generateSSL(domain.value)
 
     status.showStatus(
-      locale.value === 'km'
-        ? 'វិញ្ញាបនប័ត្របានបង្កើតជោគជ័យ'
-        : 'Certificate generated successfully',
+      locale.value === 'km' ? 'វិញ្ញាបនប័ត្របានបង្កើតជោគជ័យ' : 'Certificate generated successfully',
       'success'
     )
   } catch (error) {
     status.showStatus(
-      locale.value === 'km'
-        ? `កំហុស: ${error.message}`
-        : `Error: ${error.message}`,
+      locale.value === 'km' ? `កំហុស: ${error.message}` : `Error: ${error.message}`,
       'error'
     )
   }

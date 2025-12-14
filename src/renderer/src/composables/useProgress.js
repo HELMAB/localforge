@@ -42,6 +42,6 @@ export function useProgress() {
     startProgress,
     updateProgress,
     completeProgress,
-    failProgress
+    failProgress,
   }
 }

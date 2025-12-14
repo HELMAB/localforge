@@ -27,7 +27,9 @@
           viewBox="0 0 20 20"
           fill="currentColor"
         >
-          <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+          <path
+            d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"
+          />
         </svg>
         {{ t('recentProjects') }}
         <span class="text-sm text-gray-500 dark:text-gray-400">({{ recentProjects.length }})</span>
@@ -72,7 +74,9 @@
                 <h4 class="font-semibold text-gray-900 dark:text-gray-100 truncate">
                   {{ project.name }}
                 </h4>
-                <span class="px-2 py-0.5 text-xs rounded bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300">
+                <span
+                  class="px-2 py-0.5 text-xs rounded bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300"
+                >
                   {{ getProjectTypeLabel(project.type) }}
                 </span>
               </div>
@@ -84,8 +88,10 @@
               </p>
             </div>
           </div>
-        
-          <div class="flex items-center gap-1 ml-2 opacity-0 group-hover:opacity-100 transition-opacity">
+
+          <div
+            class="flex items-center gap-1 ml-2 opacity-0 group-hover:opacity-100 transition-opacity"
+          >
             <button
               class="p-2 text-blue-600 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-900/30 rounded transition-colors"
               :title="t('openInIDE')"
@@ -130,7 +136,9 @@
                 fill="currentColor"
               >
                 <path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z" />
-                <path d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z" />
+                <path
+                  d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z"
+                />
               </svg>
             </button>
             <button
@@ -170,7 +178,8 @@ import reactIcon from '@/assets/svg/react.svg'
 import wordpressIcon from '@/assets/svg/wordpress.svg'
 
 const { t } = useI18n()
-const { recentProjects, removeRecentProject, loadRecentProjects, clearRecentProjects } = useRecentProjects()
+const { recentProjects, removeRecentProject, loadRecentProjects, clearRecentProjects } =
+  useRecentProjects()
 const status = useStatus()
 const isExpanded = ref(false)
 
@@ -196,7 +205,7 @@ function getProjectIcon(type) {
     vue: vuejsIcon,
     nuxt: nuxtjsIcon,
     react: reactIcon,
-    wordpress: wordpressIcon
+    wordpress: wordpressIcon,
   }
   return icons[type] || laravelIcon
 }
@@ -207,7 +216,7 @@ function getProjectIconBg(type) {
     vue: 'bg-green-100 dark:bg-green-900/20',
     nuxt: 'bg-green-100 dark:bg-green-900/20',
     react: 'bg-blue-100 dark:bg-blue-900/20',
-    wordpress: 'bg-blue-100 dark:bg-blue-900/20'
+    wordpress: 'bg-blue-100 dark:bg-blue-900/20',
   }
   return colors[type] || 'bg-gray-100 dark:bg-gray-700'
 }
@@ -218,7 +227,7 @@ function getProjectTypeLabel(type) {
     vue: 'Vue.js',
     nuxt: 'Nuxt.js',
     react: 'React',
-    wordpress: 'WordPress'
+    wordpress: 'WordPress',
   }
   return labels[type] || type
 }
@@ -228,11 +237,11 @@ function formatDate(dateString) {
   const now = new Date()
   const diff = now - date
   const days = Math.floor(diff / (1000 * 60 * 60 * 24))
-  
+
   if (days === 0) return 'Today'
   if (days === 1) return 'Yesterday'
   if (days < 7) return `${days} days ago`
-  
+
   return date.toLocaleDateString()
 }
 
@@ -249,9 +258,12 @@ function openInIDE(path) {
 function openInFileManager(path) {
   // Open in file manager
   const { exec } = require('child_process')
-  const command = process.platform === 'win32' ? `explorer "${path}"` : 
-                  process.platform === 'darwin' ? `open "${path}"` : 
-                  `xdg-open "${path}"`
+  const command =
+    process.platform === 'win32'
+      ? `explorer "${path}"`
+      : process.platform === 'darwin'
+        ? `open "${path}"`
+        : `xdg-open "${path}"`
   exec(command)
 }
 

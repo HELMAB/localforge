@@ -10,6 +10,6 @@ export function useIpc() {
   }
 
   return {
-    invoke
+    invoke,
   }
 }

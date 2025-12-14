@@ -6,11 +6,17 @@
         class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
         @click.self="closeModal"
       >
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-2xl max-w-3xl w-full max-h-[90vh] flex flex-col">
+        <div
+          class="bg-white dark:bg-gray-800 rounded-lg shadow-2xl max-w-3xl w-full max-h-[90vh] flex flex-col"
+        >
           <!-- Header -->
-          <div class="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
+          <div
+            class="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700"
+          >
             <div class="flex items-center gap-3">
-              <div class="flex-shrink-0 w-12 h-12 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center">
+              <div
+                class="flex-shrink-0 w-12 h-12 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   class="h-6 w-6 text-red-600 dark:text-red-400"
@@ -95,7 +101,7 @@
                   {{ showDetails ? t('hideDetails') : t('showDetails') }}
                 </button>
               </div>
-              
+
               <Transition name="slide-down">
                 <div
                   v-if="showDetails"
@@ -114,7 +120,9 @@
                       fill="currentColor"
                     >
                       <path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z" />
-                      <path d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z" />
+                      <path
+                        d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z"
+                      />
                     </svg>
                     <svg
                       v-else
@@ -130,7 +138,9 @@
                       />
                     </svg>
                   </button>
-                  <pre class="text-xs font-mono whitespace-pre-wrap break-words pr-10">{{ details }}</pre>
+                  <pre class="text-xs font-mono whitespace-pre-wrap break-words pr-10">{{
+                    details
+                  }}</pre>
                 </div>
               </Transition>
             </div>
@@ -140,7 +150,9 @@
               v-if="suggestions && suggestions.length > 0"
               class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4"
             >
-              <h4 class="text-sm font-semibold text-blue-900 dark:text-blue-100 mb-2 flex items-center gap-2">
+              <h4
+                class="text-sm font-semibold text-blue-900 dark:text-blue-100 mb-2 flex items-center gap-2"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   class="h-5 w-5"
@@ -204,7 +216,9 @@
           </div>
 
           <!-- Footer -->
-          <div class="flex items-center justify-between gap-3 p-6 border-t border-gray-200 dark:border-gray-700">
+          <div
+            class="flex items-center justify-between gap-3 p-6 border-t border-gray-200 dark:border-gray-700"
+          >
             <button
               class="px-4 py-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors flex items-center gap-2"
               @click="copyAllError"
@@ -216,7 +230,9 @@
                 fill="currentColor"
               >
                 <path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z" />
-                <path d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z" />
+                <path
+                  d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z"
+                />
               </svg>
               {{ t('copyFullError') }}
             </button>
@@ -251,36 +267,36 @@ const { t } = useI18n()
 const props = defineProps({
   visible: {
     type: Boolean,
-    default: false
+    default: false,
   },
   title: {
     type: String,
-    default: ''
+    default: '',
   },
   subtitle: {
     type: String,
-    default: ''
+    default: '',
   },
   message: {
     type: String,
-    default: ''
+    default: '',
   },
   details: {
     type: String,
-    default: ''
+    default: '',
   },
   suggestions: {
     type: Array,
-    default: () => []
+    default: () => [],
   },
   context: {
     type: Object,
-    default: () => null
+    default: () => null,
   },
   onRetry: {
     type: Function,
-    default: null
-  }
+    default: null,
+  },
 })
 
 const emit = defineEmits(['close'])
@@ -332,19 +348,19 @@ async function copyAllError() {
 
 function formatFullError() {
   let text = `ERROR REPORT\n${'='.repeat(50)}\n\n`
-  
+
   if (props.title) text += `Title: ${props.title}\n`
   if (props.subtitle) text += `Subtitle: ${props.subtitle}\n`
   text += `\n`
-  
+
   if (props.message) {
     text += `Message:\n${props.message}\n\n`
   }
-  
+
   if (props.details) {
     text += `Details:\n${props.details}\n\n`
   }
-  
+
   if (props.context) {
     text += `Context:\n`
     for (const [key, value] of Object.entries(props.context)) {
@@ -352,17 +368,17 @@ function formatFullError() {
     }
     text += `\n`
   }
-  
+
   if (props.suggestions && props.suggestions.length > 0) {
     text += `Suggestions:\n`
     props.suggestions.forEach((suggestion, index) => {
       text += `  ${index + 1}. ${suggestion}\n`
     })
   }
-  
+
   text += `\n${'='.repeat(50)}\n`
   text += `Generated: ${new Date().toISOString()}\n`
-  
+
   return text
 }
 </script>

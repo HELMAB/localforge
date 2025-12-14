@@ -6,5 +6,5 @@ export default createI18n({
   legacy: false,
   locale: 'en',
   fallbackLocale: 'en',
-  messages: { km, en }
+  messages: { km, en },
 })

@@ -26,8 +26,8 @@ const { selectDirectory } = useProject()
 defineProps({
   modelValue: {
     type: String,
-    default: ''
-  }
+    default: '',
+  },
 })
 
 const emit = defineEmits(['update:modelValue'])

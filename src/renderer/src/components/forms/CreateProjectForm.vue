@@ -82,7 +82,9 @@
             <div class="w-full border-t border-gray-200 dark:border-gray-600" />
           </div>
           <div class="relative flex justify-center text-sm">
-            <span class="px-3 bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400 font-medium flex items-center gap-2">
+            <span
+              class="px-3 bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400 font-medium flex items-center gap-2"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 class="h-4 w-4"
@@ -127,7 +129,7 @@
                 validationErrors.projectName
                   ? 'border-red-500 focus:ring-red-500'
                   : 'border-gray-300 dark:border-gray-600 focus:ring-blue-500',
-                'dark:bg-gray-700 dark:text-white'
+                'dark:bg-gray-700 dark:text-white',
               ]"
               placeholder="my-project"
               @blur="validateProjectName"
@@ -180,6 +182,7 @@ import { useStatus } from '../../composables/useStatus'
 import { useSettings } from '../../composables/useSettings'
 import { useTools } from '../../composables/useTools'
 import { useRecentProjects } from '../../composables/useRecentProjects'
+import { useToast } from '../../composables/useToast'
 import { projectNameSchema, pathSchema, validateField } from '../../utils/validation'
 import ProjectTypeSelector from './ProjectTypeSelector.vue'
 import LaravelOptions from './LaravelOptions.vue'
@@ -196,6 +199,7 @@ import PostCreationActions from './PostCreationActions.vue'
 const { t } = useI18n()
 const { createProject, isCreating } = useProject()
 const status = useStatus()
+const toast = useToast()
 const { settings } = useSettings()
 const { installedTools, checkInstalledTools } = useTools()
 const progress = inject('progress', null)
@@ -218,7 +222,7 @@ const vueOptions = ref({
   vitest: false,
   playwright: false,
   eslint: false,
-  prettier: false
+  prettier: false,
 })
 const nuxtVersion = ref('4')
 const nuxtTemplate = ref('minimal')
@@ -250,13 +254,13 @@ function handleCloneConfig(config) {
   if (config.nuxtVersion) nuxtVersion.value = config.nuxtVersion
   if (config.nuxtTemplate) nuxtTemplate.value = config.nuxtTemplate
   if (config.vueOptions) vueOptions.value = { ...config.vueOptions }
-  
-  status.showStatus(t('configCloned'), 'success')
+
+  toast.success(t('configCloned'))
 }
 
 async function handleCreateProject() {
   validateProjectName()
-  
+
   const pathResult = validateField(pathSchema, 'path', projectPath.value)
   if (!pathResult.valid) {
     validationErrors.value.path = pathResult.error
@@ -307,9 +311,7 @@ async function handleCreateProject() {
 
   if (progress) {
     progress.startProgress(
-      t('checking') === 'កំពុងពិនិត្យ...'
-        ? 'កំពុងបង្កើតគម្រោង...'
-        : 'Creating project...'
+      t('checking') === 'កំពុងពិនិត្យ...' ? 'កំពុងបង្កើតគម្រោង...' : 'Creating project...'
     )
   }
 
@@ -317,7 +319,7 @@ async function handleCreateProject() {
     const projectData = {
       type: projectType.value,
       name: projectName.value,
-      path: projectPath.value
+      path: projectPath.value,
     }
 
     if (projectType.value === 'laravel') {
@@ -341,17 +343,13 @@ async function handleCreateProject() {
     const result = await createProject(projectData)
 
     if (progress) {
-      progress.completeProgress(
-        t('checking') === 'កំពុងពិនិត្យ...'
-          ? 'បានបញ្ចប់!'
-          : 'Completed!'
-      )
+      progress.completeProgress(t('checking') === 'កំពុងពិនិត្យ...' ? 'បានបញ្ចប់!' : 'Completed!')
     }
 
     // Add to recent projects with full path from result
     const projectDataWithFullPath = {
       ...projectData,
-      fullPath: result.path
+      fullPath: result.path,
     }
     addRecentProject(projectDataWithFullPath)
 
@@ -359,26 +357,27 @@ async function handleCreateProject() {
     createdProjectPath.value = result.path
     showPostCreation.value = true
 
-    status.showStatus(
+    toast.success(
       t('checking') === 'កំពុងពិនិត្យ...'
-        ? `គម្រោងបានបង្កើតជោគជ័យ: ${result.path}`
-        : `Project created successfully: ${result.path}`,
-      'success'
+        ? `គម្រោងបានបង្កើតជោគជ័យ: ${projectName.value}`
+        : `Project created successfully: ${projectName.value}`
     )
   } catch (error) {
     if (progress) {
-      progress.failProgress(
-        t('checking') === 'កំពុងពិនិត្យ...'
-          ? 'បរាជ័យ'
-          : 'Failed'
-      )
+      progress.failProgress(t('checking') === 'កំពុងពិនិត្យ...' ? 'បរាជ័យ' : 'Failed')
     }
 
     // Show error in modal with detailed information
     if (errorModal) {
       errorModal.showError(error, {
-        title: t('checking') === 'កំពុងពិនិត្យ...' ? 'បរាជ័យក្នុងការបង្កើតគម្រោង' : 'Failed to Create Project',
-        subtitle: t('checking') === 'កំពុងពិនិត្យ...' ? 'មានកំហុសកើតឡើងពេលបង្កើតគម្រោងរបស់អ្នក' : 'An error occurred while creating your project',
+        title:
+          t('checking') === 'កំពុងពិនិត្យ...'
+            ? 'បរាជ័យក្នុងការបង្កើតគម្រោង'
+            : 'Failed to Create Project',
+        subtitle:
+          t('checking') === 'កំពុងពិនិត្យ...'
+            ? 'មានកំហុសកើតឡើងពេលបង្កើតគម្រោងរបស់អ្នក'
+            : 'An error occurred while creating your project',
         suggestions: [
           t('checking') === 'កំពុងពិនិត្យ...'
             ? 'ពិនិត្យមើលថាអ្នកមានសិទ្ធិគ្រប់គ្រាន់សម្រាប់បង្កើតឯកសារនៅក្នុងថតនោះ'
@@ -388,19 +387,25 @@ async function handleCreateProject() {
             : 'Ensure Composer, Node.js, or other required services are installed',
           t('checking') === 'កំពុងពិនិត្យ...'
             ? 'ពិនិត្យមើលការភ្ជាប់អ៊ីនធឺណិតរបស់អ្នក ប្រសិនបើគម្រោងត្រូវការទាញយក dependencies'
-            : 'Check your internet connection if the project needs to download dependencies'
+            : 'Check your internet connection if the project needs to download dependencies',
         ],
         context: {
           'Project Type': projectType.value,
           'Project Name': projectName.value,
           'Project Path': projectPath.value,
-          ...(projectType.value === 'laravel' && { 'Laravel Version': laravelVersion.value, 'PHP Version': phpVersion.value }),
+          ...(projectType.value === 'laravel' && {
+            'Laravel Version': laravelVersion.value,
+            'PHP Version': phpVersion.value,
+          }),
           ...(projectType.value === 'vue' && { 'Node Version': nodeVersion.value }),
-          ...(projectType.value === 'nuxt' && { 'Nuxt Version': nuxtVersion.value, 'Node Version': nodeVersion.value }),
+          ...(projectType.value === 'nuxt' && {
+            'Nuxt Version': nuxtVersion.value,
+            'Node Version': nodeVersion.value,
+          }),
           ...(projectType.value === 'react' && { 'Node Version': nodeVersion.value }),
-          ...(projectType.value === 'wordpress' && { 'PHP Version': wpPhpVersion.value })
+          ...(projectType.value === 'wordpress' && { 'PHP Version': wpPhpVersion.value }),
         },
-        onRetry: handleCreateProject
+        onRetry: handleCreateProject,
       })
     }
   }

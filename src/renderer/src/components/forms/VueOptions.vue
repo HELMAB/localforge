@@ -105,36 +105,36 @@ const { t } = useI18n()
 defineProps({
   typescript: {
     type: Boolean,
-    default: false
+    default: false,
   },
   jsx: {
     type: Boolean,
-    default: false
+    default: false,
   },
   router: {
     type: Boolean,
-    default: false
+    default: false,
   },
   pinia: {
     type: Boolean,
-    default: false
+    default: false,
   },
   vitest: {
     type: Boolean,
-    default: false
+    default: false,
   },
   playwright: {
     type: Boolean,
-    default: false
+    default: false,
   },
   eslint: {
     type: Boolean,
-    default: false
+    default: false,
   },
   prettier: {
     type: Boolean,
-    default: false
-  }
+    default: false,
+  },
 })
 
 defineEmits([
@@ -145,6 +145,6 @@ defineEmits([
   'update:vitest',
   'update:playwright',
   'update:eslint',
-  'update:prettier'
+  'update:prettier',
 ])
 </script>

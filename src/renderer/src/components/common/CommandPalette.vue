@@ -55,7 +55,7 @@
                 'px-4 py-3 cursor-pointer transition-colors border-b border-gray-100 dark:border-gray-700 last:border-b-0',
                 selectedIndex === index
                   ? 'bg-blue-50 dark:bg-blue-900/20'
-                  : 'hover:bg-gray-50 dark:hover:bg-gray-700/50'
+                  : 'hover:bg-gray-50 dark:hover:bg-gray-700/50',
               ]"
               @click="execute(command)"
               @mouseenter="selectedIndex = index"
@@ -63,7 +63,10 @@
               <div class="flex items-center gap-3">
                 <div
                   class="flex-shrink-0 w-8 h-8 rounded flex items-center justify-center"
-                  :class="command.iconColor || 'bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400'"
+                  :class="
+                    command.iconColor ||
+                      'bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400'
+                  "
                 >
                   <component
                     :is="command.icon"
@@ -99,18 +102,26 @@
         </div>
 
         <!-- Footer -->
-        <div class="px-4 py-2 bg-gray-50 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
+        <div
+          class="px-4 py-2 bg-gray-50 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 flex items-center justify-between text-xs text-gray-500 dark:text-gray-400"
+        >
           <div class="flex gap-4">
             <div>
-              <kbd class="px-1.5 py-0.5 bg-white dark:bg-gray-800 rounded border border-gray-300 dark:border-gray-600">↑↓</kbd>
+              <kbd
+                class="px-1.5 py-0.5 bg-white dark:bg-gray-800 rounded border border-gray-300 dark:border-gray-600"
+              >↑↓</kbd>
               {{ locale === 'km' ? 'រុករក' : 'Navigate' }}
             </div>
             <div>
-              <kbd class="px-1.5 py-0.5 bg-white dark:bg-gray-800 rounded border border-gray-300 dark:border-gray-600">Enter</kbd>
+              <kbd
+                class="px-1.5 py-0.5 bg-white dark:bg-gray-800 rounded border border-gray-300 dark:border-gray-600"
+              >Enter</kbd>
               {{ locale === 'km' ? 'ជ្រើសរើស' : 'Select' }}
             </div>
             <div>
-              <kbd class="px-1.5 py-0.5 bg-white dark:bg-gray-800 rounded border border-gray-300 dark:border-gray-600">Esc</kbd>
+              <kbd
+                class="px-1.5 py-0.5 bg-white dark:bg-gray-800 rounded border border-gray-300 dark:border-gray-600"
+              >Esc</kbd>
               {{ locale === 'km' ? 'បិទ' : 'Close' }}
             </div>
           </div>
@@ -128,8 +139,8 @@ import { useI18n } from 'vue-i18n'
 const props = defineProps({
   modelValue: {
     type: Boolean,
-    default: false
-  }
+    default: false,
+  },
 })
 
 const emit = defineEmits(['update:modelValue'])
@@ -142,64 +153,108 @@ const searchInput = ref(null)
 
 const isOpen = computed({
   get: () => props.modelValue,
-  set: (value) => emit('update:modelValue', value)
+  set: (value) => emit('update:modelValue', value),
 })
 
 // Icon components
-const PlusIcon = h('svg', { xmlns: 'http://www.w3.org/2000/svg', viewBox: '0 0 20 20', fill: 'currentColor' }, [
-  h('path', { 'fill-rule': 'evenodd', d: 'M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z', 'clip-rule': 'evenodd' })
-])
+const PlusIcon = h(
+  'svg',
+  { xmlns: 'http://www.w3.org/2000/svg', viewBox: '0 0 20 20', fill: 'currentColor' },
+  [
+    h('path', {
+      'fill-rule': 'evenodd',
+      d: 'M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z',
+      'clip-rule': 'evenodd',
+    }),
+  ]
+)
 
-const ServerIcon = h('svg', { xmlns: 'http://www.w3.org/2000/svg', viewBox: '0 0 20 20', fill: 'currentColor' }, [
-  h('path', { 'fill-rule': 'evenodd', d: 'M2 5a2 2 0 012-2h12a2 2 0 012 2v2a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm14 1a1 1 0 11-2 0 1 1 0 012 0zM2 13a2 2 0 012-2h12a2 2 0 012 2v2a2 2 0 01-2 2H4a2 2 0 01-2-2v-2zm14 1a1 1 0 11-2 0 1 1 0 012 0z', 'clip-rule': 'evenodd' })
-])
+const ServerIcon = h(
+  'svg',
+  { xmlns: 'http://www.w3.org/2000/svg', viewBox: '0 0 20 20', fill: 'currentColor' },
+  [
+    h('path', {
+      'fill-rule': 'evenodd',
+      d: 'M2 5a2 2 0 012-2h12a2 2 0 012 2v2a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm14 1a1 1 0 11-2 0 1 1 0 012 0zM2 13a2 2 0 012-2h12a2 2 0 012 2v2a2 2 0 01-2 2H4a2 2 0 01-2-2v-2zm14 1a1 1 0 11-2 0 1 1 0 012 0z',
+      'clip-rule': 'evenodd',
+    }),
+  ]
+)
 
-const LockIcon = h('svg', { xmlns: 'http://www.w3.org/2000/svg', viewBox: '0 0 20 20', fill: 'currentColor' }, [
-  h('path', { 'fill-rule': 'evenodd', d: 'M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z', 'clip-rule': 'evenodd' })
-])
+const LockIcon = h(
+  'svg',
+  { xmlns: 'http://www.w3.org/2000/svg', viewBox: '0 0 20 20', fill: 'currentColor' },
+  [
+    h('path', {
+      'fill-rule': 'evenodd',
+      d: 'M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z',
+      'clip-rule': 'evenodd',
+    }),
+  ]
+)
 
-const CogIcon = h('svg', { xmlns: 'http://www.w3.org/2000/svg', viewBox: '0 0 20 20', fill: 'currentColor' }, [
-  h('path', { 'fill-rule': 'evenodd', d: 'M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z', 'clip-rule': 'evenodd' })
-])
+const CogIcon = h(
+  'svg',
+  { xmlns: 'http://www.w3.org/2000/svg', viewBox: '0 0 20 20', fill: 'currentColor' },
+  [
+    h('path', {
+      'fill-rule': 'evenodd',
+      d: 'M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z',
+      'clip-rule': 'evenodd',
+    }),
+  ]
+)
 
 // Available commands
 const commands = computed(() => [
   {
     id: 'create-project',
     label: locale.value === 'km' ? 'បង្កើតគម្រោងថ្មី' : 'Create New Project',
-    description: locale.value === 'km' ? 'បង្កើតគម្រោង Laravel, Vue, React, ឬ WordPress' : 'Create Laravel, Vue, React, or WordPress project',
+    description:
+      locale.value === 'km'
+        ? 'បង្កើតគម្រោង Laravel, Vue, React, ឬ WordPress'
+        : 'Create Laravel, Vue, React, or WordPress project',
     icon: PlusIcon,
     iconColor: 'bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400',
     action: () => router.push('/create'),
-    keywords: ['create', 'new', 'project', 'laravel', 'vue', 'react', 'បង្កើត']
+    keywords: ['create', 'new', 'project', 'laravel', 'vue', 'react', 'បង្កើត'],
   },
   {
     id: 'nginx-config',
     label: locale.value === 'km' ? 'កំណត់រចនាសម្ព័ន្ធ Nginx' : 'Configure Nginx',
-    description: locale.value === 'km' ? 'បង្កើតការកំណត់រចនាសម្ព័ន្ធ Virtual Host' : 'Create virtual host configuration',
+    description:
+      locale.value === 'km'
+        ? 'បង្កើតការកំណត់រចនាសម្ព័ន្ធ Virtual Host'
+        : 'Create virtual host configuration',
     icon: ServerIcon,
     iconColor: 'bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400',
     action: () => router.push('/nginx'),
-    keywords: ['nginx', 'server', 'virtual host', 'config', 'configuration']
+    keywords: ['nginx', 'server', 'virtual host', 'config', 'configuration'],
   },
   {
     id: 'ssl-generate',
     label: locale.value === 'km' ? 'បង្កើតវិញ្ញាបនប័ត្រ SSL' : 'Generate SSL Certificate',
-    description: locale.value === 'km' ? 'បង្កើតវិញ្ញាបនប័ត្រ SSL ជាមួយ mkcert' : 'Generate SSL certificate with mkcert',
+    description:
+      locale.value === 'km'
+        ? 'បង្កើតវិញ្ញាបនប័ត្រ SSL ជាមួយ mkcert'
+        : 'Generate SSL certificate with mkcert',
     icon: LockIcon,
     iconColor: 'bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400',
     action: () => router.push('/ssl'),
-    keywords: ['ssl', 'certificate', 'https', 'mkcert', 'security']
+    keywords: ['ssl', 'certificate', 'https', 'mkcert', 'security'],
   },
   {
     id: 'manage-tools',
     label: locale.value === 'km' ? 'គ្រប់គ្រងឧបករណ៍' : 'Manage Tools',
-    description: locale.value === 'km' ? 'ដំឡើង និងគ្រប់គ្រងឧបករណ៍អភិវឌ្ឍន៍' : 'Install and manage development tools',
+    description:
+      locale.value === 'km'
+        ? 'ដំឡើង និងគ្រប់គ្រងឧបករណ៍អភិវឌ្ឍន៍'
+        : 'Install and manage development tools',
     icon: CogIcon,
     iconColor: 'bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-400',
     action: () => router.push('/manage'),
-    keywords: ['tools', 'install', 'php', 'node', 'nginx', 'manage', 'ឧបករណ៍']
-  }
+    keywords: ['tools', 'install', 'php', 'node', 'nginx', 'manage', 'ឧបករណ៍'],
+  },
 ])
 
 const filteredCommands = computed(() => {
@@ -208,10 +263,11 @@ const filteredCommands = computed(() => {
   }
 
   const query = searchQuery.value.toLowerCase()
-  return commands.value.filter(cmd =>
-    cmd.label.toLowerCase().includes(query) ||
-    cmd.description.toLowerCase().includes(query) ||
-    cmd.keywords.some(keyword => keyword.toLowerCase().includes(query))
+  return commands.value.filter(
+    (cmd) =>
+      cmd.label.toLowerCase().includes(query) ||
+      cmd.description.toLowerCase().includes(query) ||
+      cmd.keywords.some((keyword) => keyword.toLowerCase().includes(query))
   )
 })
 

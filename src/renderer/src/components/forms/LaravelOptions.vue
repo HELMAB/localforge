@@ -7,7 +7,9 @@
     />
 
     <div>
-      <label class="block text-sm font-medium mb-2 dark:text-gray-300">{{ t('laravelVersionLabel') }}</label>
+      <label class="block text-sm font-medium mb-2 dark:text-gray-300">{{
+        t('laravelVersionLabel')
+      }}</label>
       <CustomSelect
         :model-value="laravelVersion"
         :options="laravelVersionOptions"
@@ -16,7 +18,9 @@
     </div>
 
     <div>
-      <label class="block text-sm font-medium mb-2 dark:text-gray-300">{{ t('phpVersionLabel') }}</label>
+      <label class="block text-sm font-medium mb-2 dark:text-gray-300">{{
+        t('phpVersionLabel')
+      }}</label>
       <CustomSelect
         :model-value="phpVersion"
         :options="phpVersionOptions"
@@ -37,7 +41,9 @@
     </div>
 
     <div>
-      <label class="block text-sm font-medium mb-2 dark:text-gray-300">{{ t('laravelStarterLabel') }}</label>
+      <label class="block text-sm font-medium mb-2 dark:text-gray-300">{{
+        t('laravelStarterLabel')
+      }}</label>
       <CustomSelect
         :model-value="laravelStarter"
         :options="laravelStarterOptions"
@@ -62,16 +68,16 @@ const { installedTools, checkInstalledTools } = useTools()
 const props = defineProps({
   laravelVersion: {
     type: String,
-    default: '11'
+    default: '11',
   },
   phpVersion: {
     type: String,
-    default: '8.2'
+    default: '8.2',
   },
   laravelStarter: {
     type: String,
-    default: 'none'
-  }
+    default: 'none',
+  },
 })
 
 defineEmits(['update:laravelVersion', 'update:phpVersion', 'update:laravelStarter'])
@@ -97,30 +103,30 @@ const laravelVersionOptions = [
   { value: '5.2', label: 'Laravel 5.2', icon: laravelIcon },
   { value: '5.1', label: 'Laravel 5.1 (LTS)', icon: laravelIcon },
   { value: '5.0', label: 'Laravel 5.0', icon: laravelIcon },
-  { value: '4.2', label: 'Laravel 4.2', icon: laravelIcon }
+  { value: '4.2', label: 'Laravel 4.2', icon: laravelIcon },
 ]
 
 const phpVersionOptions = computed(() => {
   const options = []
-  
+
   // Add installed PHP versions
   if (installedTools.value.php.installed && installedTools.value.php.versions.length > 0) {
-    installedTools.value.php.versions.forEach(version => {
+    installedTools.value.php.versions.forEach((version) => {
       options.push({
         value: version,
         label: `PHP ${version}`,
-        icon: phpIcon
+        icon: phpIcon,
       })
     })
   }
-  
+
   return options
 })
 
 const laravelStarterOptions = computed(() => {
   const version = props.laravelVersion
   const options = [{ value: 'none', label: 'គ្មាន (Laravel ធម្មតា)', icon: laravelIcon }]
-  
+
   // Laravel 12 - New template-based stacks (shadcn/ui)
   if (version === '12') {
     options.push(
@@ -150,35 +156,33 @@ const laravelStarterOptions = computed(() => {
   }
   // Laravel 5.1-5.8 have built-in auth
   else if (parseFloat(version) >= 5.1 && parseFloat(version) <= 5.8) {
-    options.push(
-      { value: 'make-auth', label: 'Built-in Auth (make:auth)', icon: laravelIcon }
-    )
+    options.push({ value: 'make-auth', label: 'Built-in Auth (make:auth)', icon: laravelIcon })
   }
-  
+
   return options
 })
 
 function getPhpCompatibilityMessage() {
   const phpRequirements = {
-    '12': 'PHP 8.3+',
-    '11': 'PHP 8.2 - 8.3',
-    '10': 'PHP 8.1 - 8.3',
-    '9': 'PHP 8.0 - 8.2',
-    '8': 'PHP 7.3 - 8.1',
-    '7': 'PHP 7.2.5 - 8.0',
-    '6': 'PHP 7.2 - 8.0',
-    '5.8': 'PHP 7.1 - 7.4',
-    '5.7': 'PHP 7.1 - 7.3',
-    '5.6': 'PHP 7.1 - 7.3',
-    '5.5': 'PHP 7.0 - 7.3',
-    '5.4': 'PHP 5.6.4 - 7.2',
-    '5.3': 'PHP 5.6.4 - 7.1',
-    '5.2': 'PHP 5.5.9 - 7.0',
-    '5.1': 'PHP 5.5.9 - 7.0',
+    12: 'PHP 8.3+',
+    11: 'PHP 8.2 - 8.3',
+    10: 'PHP 8.1 - 8.3',
+    9: 'PHP 8.0 - 8.2',
+    8: 'PHP 7.3 - 8.1',
+    7: 'PHP 7.2.5 - 8.0',
+    6: 'PHP 7.2 - 8.0',
+    5.8: 'PHP 7.1 - 7.4',
+    5.7: 'PHP 7.1 - 7.3',
+    5.6: 'PHP 7.1 - 7.3',
+    5.5: 'PHP 7.0 - 7.3',
+    5.4: 'PHP 5.6.4 - 7.2',
+    5.3: 'PHP 5.6.4 - 7.1',
+    5.2: 'PHP 5.5.9 - 7.0',
+    5.1: 'PHP 5.5.9 - 7.0',
     '5.0': 'PHP 5.4 - 5.6',
-    '4.2': 'PHP 5.4 - 5.6'
+    4.2: 'PHP 5.4 - 5.6',
   }
-  
+
   const required = phpRequirements[props.laravelVersion]
   return required ? `Required: ${required}` : ''
 }

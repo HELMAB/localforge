@@ -12,18 +12,20 @@ const favorites = ref(loadFavorites())
 function loadFavorites() {
   try {
     const stored = localStorage.getItem(STORAGE_KEY)
-    return stored ? JSON.parse(stored) : {
-      projects: [],
-      nginxConfigs: [],
-      sslCerts: []
-    }
+    return stored
+      ? JSON.parse(stored)
+      : {
+          projects: [],
+          nginxConfigs: [],
+          sslCerts: [],
+        }
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error('Failed to load favorites:', error)
     return {
       projects: [],
       nginxConfigs: [],
-      sslCerts: []
+      sslCerts: [],
     }
   }
 }
@@ -46,7 +48,7 @@ export function useFavorites() {
       return
     }
 
-    const index = list.findIndex(fav => fav.id === item.id)
+    const index = list.findIndex((fav) => fav.id === item.id)
 
     if (index > -1) {
       // Remove from favorites
@@ -58,7 +60,7 @@ export function useFavorites() {
         name: item.name,
         path: item.path,
         type: item.type,
-        addedAt: new Date().toISOString()
+        addedAt: new Date().toISOString(),
       })
     }
 
@@ -67,7 +69,7 @@ export function useFavorites() {
 
   function isFavorite(type, id) {
     const list = favorites.value[type]
-    return list ? list.some(fav => fav.id === id) : false
+    return list ? list.some((fav) => fav.id === id) : false
   }
 
   function getFavorites(type) {
@@ -78,7 +80,7 @@ export function useFavorites() {
     const list = favorites.value[type]
     if (!list) return
 
-    const index = list.findIndex(fav => fav.id === id)
+    const index = list.findIndex((fav) => fav.id === id)
     if (index > -1) {
       list.splice(index, 1)
       saveFavorites()
@@ -92,7 +94,7 @@ export function useFavorites() {
       favorites.value = {
         projects: [],
         nginxConfigs: [],
-        sslCerts: []
+        sslCerts: [],
       }
     }
     saveFavorites()
@@ -103,9 +105,11 @@ export function useFavorites() {
   const favoriteSslCerts = computed(() => favorites.value.sslCerts)
 
   const hasFavorites = computed(() => {
-    return favorites.value.projects.length > 0 ||
-           favorites.value.nginxConfigs.length > 0 ||
-           favorites.value.sslCerts.length > 0
+    return (
+      favorites.value.projects.length > 0 ||
+      favorites.value.nginxConfigs.length > 0 ||
+      favorites.value.sslCerts.length > 0
+    )
   })
 
   return {
@@ -118,6 +122,6 @@ export function useFavorites() {
     favoriteProjects,
     favoriteNginxConfigs,
     favoriteSslCerts,
-    hasFavorites
+    hasFavorites,
   }
 }

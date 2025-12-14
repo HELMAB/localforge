@@ -6,7 +6,9 @@
     <div class="max-w-[980px] mx-auto p-6">
       <AppHeader @toggle-settings="showSettings = true" />
 
-      <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md mb-6 transition-colors duration-200">
+      <div
+        class="bg-white dark:bg-gray-800 rounded-lg shadow-md mb-6 transition-colors duration-200"
+      >
         <TabNavigation />
 
         <router-view v-slot="{ Component }">
@@ -22,14 +24,14 @@
       <AppFooter />
     </div>
 
-    <SettingsModal 
-      :is-open="showSettings" 
+    <SettingsModal
+      :is-open="showSettings"
       @close="showSettings = false"
       @toggle-dark-mode="toggleDarkMode"
       @change-language="handleLanguageChange"
     />
 
-    <ProgressBar 
+    <ProgressBar
       :is-loading="progress.isLoading.value"
       :progress="progress.progress.value"
       :message="progress.message.value"
@@ -48,6 +50,16 @@
     />
 
     <CommandPalette v-model="showCommandPalette" />
+
+    <WelcomeDialog
+      v-if="showWelcome"
+      @start-tour="handleStartTour"
+      @skip="handleSkipTour"
+    />
+
+    <OnboardingTour />
+
+    <OperationMonitor />
   </div>
 </template>
 
@@ -61,19 +73,27 @@ import SettingsModal from './components/common/SettingsModal.vue'
 import ProgressBar from './components/common/ProgressBar.vue'
 import ErrorModal from './components/common/ErrorModal.vue'
 import CommandPalette from './components/common/CommandPalette.vue'
+import WelcomeDialog from './components/common/WelcomeDialog.vue'
+import OnboardingTour from './components/common/OnboardingTour.vue'
+import OperationMonitor from './components/common/OperationMonitor.vue'
 import { useDarkMode } from './composables/useDarkMode'
 import { useSettings } from './composables/useSettings'
 import { useKeyboardShortcuts } from './composables/useKeyboardShortcuts'
 import { useProgress } from './composables/useProgress'
 import { useErrorModal } from './composables/useErrorModal'
+import { useOnboarding } from './composables/useOnboarding'
+import { useOperationControl } from './composables/useOperationControl'
 
 const { locale } = useI18n()
 const { toggleDarkMode: toggle } = useDarkMode()
 const { settings } = useSettings()
 const progress = useProgress()
 const errorModal = useErrorModal()
+const onboarding = useOnboarding()
+const operations = useOperationControl()
 const showSettings = ref(false)
 const showCommandPalette = ref(false)
+const showWelcome = ref(false)
 
 useKeyboardShortcuts()
 
@@ -85,8 +105,23 @@ const handleLanguageChange = (lang) => {
   locale.value = lang
 }
 
+const handleStartTour = () => {
+  onboarding.start()
+}
+
+const handleSkipTour = () => {
+  onboarding.complete()
+}
+
 onMounted(() => {
   locale.value = settings.value.language || 'km'
+
+  // Show welcome dialog for first-time users
+  setTimeout(() => {
+    if (onboarding.shouldShow.value) {
+      showWelcome.value = true
+    }
+  }, 500)
 
   window.addEventListener('toggle-dark-mode', toggleDarkMode)
   window.addEventListener('toggle-language', () => {
@@ -107,6 +142,7 @@ onMounted(() => {
 
 provide('progress', progress)
 provide('errorModal', errorModal)
+provide('operations', operations)
 </script>
 
 <style scoped>

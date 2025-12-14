@@ -10,7 +10,9 @@
     </h3>
 
     <!-- Installed Node Versions -->
-    <div class="mb-6 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700 rounded-lg p-4">
+    <div
+      class="mb-6 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700 rounded-lg p-4"
+    >
       <h4 class="font-semibold text-green-800 dark:text-green-300 mb-3">
         {{ t('nodeInstalledTitle') }}
       </h4>
@@ -29,7 +31,7 @@
               'text-xs px-2 py-1 rounded',
               installedTools.node.default === version
                 ? 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300'
-                : 'bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300'
+                : 'bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300',
             ]"
           >
             {{ installedTools.node.default === version ? 'Default' : t('installed') }}
@@ -45,7 +47,9 @@
     </div>
 
     <!-- Install Node Version -->
-    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 mb-4">
+    <div
+      class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 mb-4"
+    >
       <h4 class="font-semibold text-gray-800 dark:text-gray-200 mb-3">
         {{ t('nodeInstallTitle') }}
       </h4>
@@ -71,7 +75,9 @@
     </div>
 
     <!-- Set Default Node -->
-    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+    <div
+      class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4"
+    >
       <h4 class="font-semibold text-gray-800 dark:text-gray-200 mb-3">
         {{ t('nodeDefaultTitle') }}
       </h4>
@@ -116,16 +122,16 @@ const status = useStatus()
 const props = defineProps({
   installedTools: {
     type: Object,
-    required: true
+    required: true,
   },
   onInstallNode: {
     type: Function,
-    required: true
+    required: true,
   },
   onSetDefaultNode: {
     type: Function,
-    required: true
-  }
+    required: true,
+  },
 })
 
 const nodeInstallVersion = ref('')

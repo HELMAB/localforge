@@ -1,12 +1,16 @@
 <template>
   <div>
     <div class="mb-4">
-      <p class="text-sm text-yellow-700 dark:text-yellow-400 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-700 rounded px-3 py-2">
+      <p
+        class="text-sm text-yellow-700 dark:text-yellow-400 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-700 rounded px-3 py-2"
+      >
         {{ t('manageNote') }}
       </p>
     </div>
 
-    <div class="flex bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+    <div
+      class="flex bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700"
+    >
       <ToolsSidebar
         :selected-tool="selectedTool"
         @select="selectedTool = $event"
@@ -78,7 +82,7 @@ const {
   installNginx,
   installComposer,
   installPostgreSQL,
-  installMySQL
+  installMySQL,
 } = useTools()
 
 const selectedTool = ref('php')

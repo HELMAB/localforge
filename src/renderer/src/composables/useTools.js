@@ -10,7 +10,7 @@ export function useTools() {
     nginx: { installed: false, version: null },
     composer: { installed: false, version: null },
     postgresql: { installed: false, version: null },
-    mysql: { installed: false, version: null }
+    mysql: { installed: false, version: null },
   })
   const error = ref(null)
 
@@ -129,6 +129,6 @@ export function useTools() {
     installNginx,
     installComposer,
     installPostgreSQL,
-    installMySQL
+    installMySQL,
   }
 }

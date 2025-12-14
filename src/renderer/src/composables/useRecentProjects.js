@@ -31,7 +31,7 @@ export function useRecentProjects() {
   function addRecentProject(project) {
     // Use fullPath if available, otherwise construct it
     const fullPath = project.fullPath || `${project.path}/${project.name}`
-    
+
     const projectData = {
       name: project.name,
       path: fullPath, // Store full path
@@ -46,12 +46,12 @@ export function useRecentProjects() {
         nuxtVersion: project.nuxtVersion,
         nuxtTemplate: project.nuxtTemplate,
         vueOptions: project.vueOptions,
-        wpPhpVersion: project.wpPhpVersion
-      }
+        wpPhpVersion: project.wpPhpVersion,
+      },
     }
 
     // Remove duplicate if exists (check by full path)
-    recentProjects.value = recentProjects.value.filter(p => p.path !== fullPath)
+    recentProjects.value = recentProjects.value.filter((p) => p.path !== fullPath)
 
     // Add to beginning
     recentProjects.value.unshift(projectData)
@@ -62,13 +62,13 @@ export function useRecentProjects() {
     }
 
     saveRecentProjects()
-    
+
     // eslint-disable-next-line no-console
     console.log('Project saved to recent:', projectData)
   }
 
   function removeRecentProject(path) {
-    recentProjects.value = recentProjects.value.filter(p => p.path !== path)
+    recentProjects.value = recentProjects.value.filter((p) => p.path !== path)
     saveRecentProjects()
   }
 
@@ -93,6 +93,6 @@ export function useRecentProjects() {
     addRecentProject,
     removeRecentProject,
     clearRecentProjects,
-    loadRecentProjects
+    loadRecentProjects,
   }
 }

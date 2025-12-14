@@ -9,14 +9,20 @@
       <span>{{ t('sectionPostgresqlTitle') }}</span>
     </h3>
 
-    <div class="mb-6 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700 rounded-lg p-4">
+    <div
+      class="mb-6 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700 rounded-lg p-4"
+    >
       <h4 class="font-semibold text-green-800 dark:text-green-300 mb-3">
         {{ t('postgresqlInstalledTitle') }}
       </h4>
       <div v-if="installedTools && installedTools.postgresql.installed">
-        <div class="flex items-center justify-between bg-white dark:bg-gray-800 p-3 rounded border border-green-300 dark:border-green-700">
+        <div
+          class="flex items-center justify-between bg-white dark:bg-gray-800 p-3 rounded border border-green-300 dark:border-green-700"
+        >
           <span class="font-medium text-green-700 dark:text-green-400">PostgreSQL {{ installedTools.postgresql.version || '' }}</span>
-          <span class="text-xs px-2 py-1 bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 rounded">{{ t('installed') }}</span>
+          <span
+            class="text-xs px-2 py-1 bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 rounded"
+          >{{ t('installed') }}</span>
         </div>
       </div>
       <p
@@ -27,13 +33,17 @@
       </p>
     </div>
 
-    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+    <div
+      class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4"
+    >
       <h4 class="font-semibold text-gray-800 dark:text-gray-200 mb-3">
         {{ t('postgresqlInstallTitle') }}
       </h4>
       <div class="space-y-3">
         <div>
-          <label class="block text-sm font-medium mb-2 dark:text-gray-300">{{ t('postgresLabel') }}</label>
+          <label class="block text-sm font-medium mb-2 dark:text-gray-300">{{
+            t('postgresLabel')
+          }}</label>
           <input
             v-model="postgresVersion"
             type="text"
@@ -71,12 +81,12 @@ const status = useStatus()
 const props = defineProps({
   installedTools: {
     type: Object,
-    required: true
+    required: true,
   },
   onInstallPostgreSQL: {
     type: Function,
-    required: true
-  }
+    required: true,
+  },
 })
 
 const postgresVersion = ref('')

@@ -24,7 +24,7 @@
           'group relative p-4 rounded-lg border-2 transition-all duration-200 hover:scale-105',
           modelValue === framework.value
             ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20 shadow-md'
-            : 'border-gray-200 dark:border-gray-600 hover:border-blue-300 dark:hover:border-blue-600 bg-white dark:bg-gray-700'
+            : 'border-gray-200 dark:border-gray-600 hover:border-blue-300 dark:hover:border-blue-600 bg-white dark:bg-gray-700',
         ]"
         @click="$emit('update:modelValue', framework.value)"
       >
@@ -34,7 +34,7 @@
               'w-12 h-12 rounded-lg flex items-center justify-center transition-colors',
               modelValue === framework.value
                 ? 'bg-blue-100 dark:bg-blue-900/40'
-                : 'bg-gray-100 dark:bg-gray-600 group-hover:bg-blue-50 dark:group-hover:bg-blue-900/20'
+                : 'bg-gray-100 dark:bg-gray-600 group-hover:bg-blue-50 dark:group-hover:bg-blue-900/20',
             ]"
           >
             <img
@@ -48,7 +48,7 @@
               'text-sm font-medium transition-colors',
               modelValue === framework.value
                 ? 'text-blue-700 dark:text-blue-300'
-                : 'text-gray-700 dark:text-gray-200 group-hover:text-blue-600 dark:group-hover:text-blue-400'
+                : 'text-gray-700 dark:text-gray-200 group-hover:text-blue-600 dark:group-hover:text-blue-400',
             ]"
           >
             {{ framework.label }}
@@ -89,8 +89,8 @@ const { t } = useI18n()
 defineProps({
   modelValue: {
     type: String,
-    default: 'laravel'
-  }
+    default: 'laravel',
+  },
 })
 
 defineEmits(['update:modelValue'])
@@ -100,6 +100,6 @@ const frameworks = [
   { value: 'vue', label: 'Vue.js', icon: vuejsIcon },
   { value: 'nuxt', label: 'Nuxt.js', icon: nuxtjsIcon },
   { value: 'react', label: 'React', icon: reactIcon },
-  { value: 'wordpress', label: 'WordPress', icon: wordpressIcon }
+  { value: 'wordpress', label: 'WordPress', icon: wordpressIcon },
 ]
 </script>

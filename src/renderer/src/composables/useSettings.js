@@ -10,6 +10,7 @@ const defaultSettings = {
   defaultNodeVersion: '22',
   autoDetectPhp: true,
   showKeyboardHints: false,
+  onboardingCompleted: false,
 }
 
 const settings = ref({ ...defaultSettings })
@@ -55,6 +56,6 @@ export function useSettings() {
     updateSetting,
     resetSettings,
     loadSettings,
-    saveSettings
+    saveSettings,
   }
 }

@@ -1,7 +1,7 @@
 <template>
   <div
     class="bg-gray-50 dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 py-4 px-3 flex flex-col rounded-l-lg"
-    style="width: 180px; min-width: 180px;"
+    style="width: 180px; min-width: 180px"
   >
     <nav class="space-y-2 flex-1 overflow-y-auto">
       <button
@@ -38,8 +38,8 @@ const { t } = useI18n()
 const props = defineProps({
   selectedTool: {
     type: String,
-    default: 'php'
-  }
+    default: 'php',
+  },
 })
 
 defineEmits(['select'])
@@ -50,7 +50,7 @@ const tools = [
   { id: 'node', icon: nodejsIcon, label: 'menuNode' },
   { id: 'nginx', icon: nginxIcon, label: 'menuNginx' },
   { id: 'postgresql', icon: postgresqlIcon, label: 'menuPostgresql' },
-  { id: 'mysql', icon: mysqlIcon, label: 'menuMysql' }
+  { id: 'mysql', icon: mysqlIcon, label: 'menuMysql' },
 ]
 
 function sidebarButtonClass(toolId) {

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex border-b dark:border-gray-700">
+  <div class="flex border-b dark:border-gray-700 tab-navigation">
     <router-link
       v-for="(tab, index) in tabs"
       :key="tab.path"
@@ -9,6 +9,7 @@
     >
       <button
         :class="tabButtonClass(isActive)"
+        :data-tour="tab.dataTour"
         class="px-6 py-3 font-semibold border-b-2 transition-colors flex items-center"
         @click="navigate"
       >
@@ -26,9 +27,9 @@ import KeyboardHint from '../common/KeyboardHint.vue'
 const { t } = useI18n()
 
 const tabs = [
-  { path: '/create', label: 'tabCreate' },
-  { path: '/nginx', label: 'tabNginx' },
-  { path: '/manage', label: 'tabManage' }
+  { path: '/create', label: 'tabCreate', dataTour: 'create-project' },
+  { path: '/nginx', label: 'tabNginx', dataTour: 'nginx-config' },
+  { path: '/manage', label: 'tabManage', dataTour: 'manage-tools' },
 ]
 
 function tabButtonClass(isActive) {

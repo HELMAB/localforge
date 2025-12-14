@@ -3,7 +3,7 @@ import { useRouter } from 'vue-router'
 
 export function useKeyboardShortcuts() {
   const router = useRouter()
-  
+
   const shortcuts = {
     'ctrl+1': () => router.push('/create'),
     'ctrl+2': () => router.push('/nginx'),
@@ -23,7 +23,7 @@ export function useKeyboardShortcuts() {
       e.preventDefault()
       const event = new CustomEvent('open-settings')
       window.dispatchEvent(event)
-    }
+    },
   }
 
   const handleKeydown = (e) => {
@@ -32,10 +32,10 @@ export function useKeyboardShortcuts() {
     if (e.altKey) key.push('alt')
     if (e.shiftKey) key.push('shift')
     key.push(e.key.toLowerCase())
-    
+
     const combo = key.join('+')
     const handler = shortcuts[combo]
-    
+
     if (handler) {
       handler(e)
     }
@@ -50,6 +50,6 @@ export function useKeyboardShortcuts() {
   })
 
   return {
-    shortcuts
+    shortcuts,
   }
 }

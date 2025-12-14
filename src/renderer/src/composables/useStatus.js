@@ -27,6 +27,6 @@ export function useStatus() {
     visible,
     showStatus,
     hideStatus,
-    clearStatus
+    clearStatus,
   }
 }

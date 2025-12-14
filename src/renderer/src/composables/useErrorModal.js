@@ -37,11 +37,11 @@ export function useErrorModal() {
   function showErrorWithContext(error, contextInfo) {
     const errorContext = {
       timestamp: new Date().toLocaleString(),
-      ...contextInfo
+      ...contextInfo,
     }
 
     showError(error, {
-      context: errorContext
+      context: errorContext,
     })
   }
 
@@ -69,10 +69,10 @@ export function useErrorModal() {
     suggestions,
     context,
     onRetry,
-    
+
     // Methods
     showError,
     showErrorWithContext,
-    hideError
+    hideError,
   }
 }

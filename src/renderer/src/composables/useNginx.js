@@ -123,6 +123,6 @@ export function useNginx() {
     disableNginxConfig,
     addSslToConfig,
     removeSslFromConfig,
-    getNginxConfigDetails
+    getNginxConfigDetails,
   }
 }

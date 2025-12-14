@@ -24,6 +24,6 @@ export function useSsl() {
   return {
     isGenerating,
     error,
-    generateSSL
+    generateSSL,
   }
 }

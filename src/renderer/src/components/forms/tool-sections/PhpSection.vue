@@ -3,7 +3,9 @@
     <!-- Header with Quick Actions -->
     <div class="flex items-center justify-between">
       <h3 class="text-2xl font-bold flex items-center gap-3 text-gray-900 dark:text-white">
-        <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-xl flex items-center justify-center">
+        <div
+          class="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-xl flex items-center justify-center"
+        >
           <img
             src="@/assets/svg/php.svg"
             alt="PHP"
@@ -61,7 +63,11 @@
           {{ t('phpInstalledTitle') }}
         </h4>
         <span class="text-xs text-green-600 dark:text-green-400 font-medium">
-          {{ latestInstalledVersion ? `${locale === 'km' ? 'ចុងក្រោយបំផុត' : 'Latest'}: ${latestInstalledVersion}` : '' }}
+          {{
+            latestInstalledVersion
+              ? `${locale === 'km' ? 'ចុងក្រោយបំផុត' : 'Latest'}: ${latestInstalledVersion}`
+              : ''
+          }}
         </span>
       </div>
       <div class="space-y-2">
@@ -71,7 +77,9 @@
           class="group flex items-center justify-between bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm p-4 rounded-lg border border-green-300 dark:border-green-700 hover:shadow-md transition-all"
         >
           <div class="flex items-center gap-3">
-            <div class="w-10 h-10 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center">
+            <div
+              class="w-10 h-10 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center"
+            >
               <img
                 src="@/assets/svg/php.svg"
                 alt="PHP"
@@ -81,7 +89,9 @@
             <div>
               <span class="font-semibold text-gray-900 dark:text-gray-100">PHP {{ version }}</span>
               <div class="flex items-center gap-2 mt-0.5">
-                <span class="text-xs px-2 py-0.5 bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 rounded">
+                <span
+                  class="text-xs px-2 py-0.5 bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 rounded"
+                >
                   {{ t('installed') }}
                 </span>
                 <span
@@ -122,7 +132,9 @@
       v-else
       class="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl p-8 text-center"
     >
-      <div class="w-16 h-16 bg-purple-100 dark:bg-purple-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
+      <div
+        class="w-16 h-16 bg-purple-100 dark:bg-purple-900/30 rounded-full flex items-center justify-center mx-auto mb-4"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           class="h-8 w-8 text-purple-600 dark:text-purple-400"
@@ -142,14 +154,18 @@
         {{ locale === 'km' ? 'មិនទាន់បានដំឡើង PHP' : 'No PHP Installed' }}
       </h4>
       <p class="text-sm text-gray-600 dark:text-gray-400 mb-4 max-w-md mx-auto">
-        {{ locale === 'km'
-          ? 'ចាប់ផ្តើមដោយដំឡើង PHP។ យើងណែនាំ PHP 8.3 សម្រាប់គម្រោង Laravel ថ្មី។'
-          : 'Get started by installing PHP. We recommend PHP 8.3 for new Laravel projects.' }}
+        {{
+          locale === 'km'
+            ? 'ចាប់ផ្តើមដោយដំឡើង PHP។ យើងណែនាំ PHP 8.3 សម្រាប់គម្រោង Laravel ថ្មី។'
+            : 'Get started by installing PHP. We recommend PHP 8.3 for new Laravel projects.'
+        }}
       </p>
     </div>
 
     <!-- Install PHP Version -->
-    <div class="bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-xl p-5 shadow-sm hover:shadow-md transition-all">
+    <div
+      class="bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-xl p-5 shadow-sm hover:shadow-md transition-all"
+    >
       <div class="flex items-center justify-between mb-4">
         <h4 class="font-semibold text-gray-800 dark:text-gray-200 flex items-center gap-2">
           <svg
@@ -182,9 +198,11 @@
 
         <InfoBox
           :title="locale === 'km' ? 'ណែនាំកំណែ' : 'Version Recommendation'"
-          :message="locale === 'km'
-            ? 'PHP 8.3 គឺជាកំណែចុងក្រោយបំផុតដែលមានស្ថេរភាព និងត្រូវបានណែនាំសម្រាប់គម្រោងថ្មី។ PHP 8.4 គឺជាកំណែចុងក្រោយបំផុតប៉ុន្តែអាចមានបញ្ហាឆបគ្នា។'
-            : 'PHP 8.3 is the latest stable version and recommended for new projects. PHP 8.4 is the newest but may have compatibility issues.'"
+          :message="
+            locale === 'km'
+              ? 'PHP 8.3 គឺជាកំណែចុងក្រោយបំផុតដែលមានស្ថេរភាព និងត្រូវបានណែនាំសម្រាប់គម្រោងថ្មី។ PHP 8.4 គឺជាកំណែចុងក្រោយបំផុតប៉ុន្តែអាចមានបញ្ហាឆបគ្នា។'
+              : 'PHP 8.3 is the latest stable version and recommended for new projects. PHP 8.4 is the newest but may have compatibility issues.'
+          "
           type="info"
         />
 
@@ -212,13 +230,21 @@
           class="w-full px-6 py-3 bg-gradient-to-r from-purple-500 to-purple-600 dark:from-purple-600 dark:to-purple-700 text-white rounded-lg hover:shadow-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-all"
           @click="handleInstallPHP"
         >
-          {{ isInstalling ? (locale === 'km' ? 'កំពុងដំឡើង...' : 'Installing...') : t('phpInstallBtn') }}
+          {{
+            isInstalling
+              ? locale === 'km'
+                ? 'កំពុងដំឡើង...'
+                : 'Installing...'
+              : t('phpInstallBtn')
+          }}
         </button>
       </div>
     </div>
 
     <!-- Install PHP Extensions -->
-    <div class="bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-xl p-5 shadow-sm hover:shadow-md transition-all">
+    <div
+      class="bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-xl p-5 shadow-sm hover:shadow-md transition-all"
+    >
       <h4 class="font-semibold text-gray-800 dark:text-gray-200 mb-4 flex items-center gap-2">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -226,7 +252,9 @@
           viewBox="0 0 20 20"
           fill="currentColor"
         >
-          <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+          <path
+            d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
+          />
         </svg>
         {{ t('phpExtTitle') }}
       </h4>
@@ -264,7 +292,7 @@
               'w-full px-4 py-2 border rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-colors',
               validationErrors.extensions
                 ? 'border-red-500 focus:ring-red-500'
-                : 'border-gray-300 dark:border-gray-600 focus:ring-purple-500'
+                : 'border-gray-300 dark:border-gray-600 focus:ring-purple-500',
             ]"
             @blur="validateExtensions"
           >
@@ -278,9 +306,11 @@
 
         <InfoBox
           :title="locale === 'km' ? 'ផ្នែកបន្ថែមទូទៅ' : 'Common Extensions'"
-          :message="locale === 'km'
-            ? 'ផ្នែកបន្ថែមទូទៅសម្រាប់ Laravel៖ mbstring, curl, xml, zip, gd, mysql, pgsql, bcmath, intl'
-            : 'Common extensions for Laravel: mbstring, curl, xml, zip, gd, mysql, pgsql, bcmath, intl'"
+          :message="
+            locale === 'km'
+              ? 'ផ្នែកបន្ថែមទូទៅសម្រាប់ Laravel៖ mbstring, curl, xml, zip, gd, mysql, pgsql, bcmath, intl'
+              : 'Common extensions for Laravel: mbstring, curl, xml, zip, gd, mysql, pgsql, bcmath, intl'
+          "
           type="info"
         />
 
@@ -320,16 +350,16 @@ const installProgress = ref(0)
 const props = defineProps({
   installedTools: {
     type: Object,
-    required: true
+    required: true,
   },
   onInstallPHP: {
     type: Function,
-    required: true
+    required: true,
   },
   onInstallPHPExtensions: {
     type: Function,
-    required: true
-  }
+    required: true,
+  },
 })
 
 const phpInstallVersion = ref('8.3')
@@ -341,12 +371,16 @@ const phpVersionOptions = [
   { value: '8.3', label: 'PHP 8.3 (Recommended)', icon: phpIcon },
   { value: '8.2', label: 'PHP 8.2', icon: phpIcon },
   { value: '8.1', label: 'PHP 8.1', icon: phpIcon },
-  { value: '8.0', label: 'PHP 8.0', icon: phpIcon }
+  { value: '8.0', label: 'PHP 8.0', icon: phpIcon },
 ]
 
 // Computed properties
 const hasInstalledVersions = computed(() => {
-  return props.installedTools && props.installedTools.php.installed && props.installedTools.php.versions.length > 0
+  return (
+    props.installedTools &&
+    props.installedTools.php.installed &&
+    props.installedTools.php.versions.length > 0
+  )
 })
 
 const latestInstalledVersion = computed(() => {
@@ -356,7 +390,15 @@ const latestInstalledVersion = computed(() => {
 })
 
 const commonExtensions = [
-  'mbstring', 'curl', 'xml', 'zip', 'gd', 'mysql', 'pgsql', 'bcmath', 'intl'
+  'mbstring',
+  'curl',
+  'xml',
+  'zip',
+  'gd',
+  'mysql',
+  'pgsql',
+  'bcmath',
+  'intl',
 ]
 
 // Validation functions
@@ -381,10 +423,7 @@ async function handleInstallPHP() {
   isInstalling.value = true
   installProgress.value = 0
 
-  status.showStatus(
-    locale.value === 'km' ? 'កំពុងដំឡើង PHP...' : 'Installing PHP...',
-    'info'
-  )
+  status.showStatus(locale.value === 'km' ? 'កំពុងដំឡើង PHP...' : 'Installing PHP...', 'info')
 
   // Simulate progress (in real implementation, this would come from IPC events)
   const progressInterval = setInterval(() => {
@@ -442,9 +481,7 @@ async function handleInstallPHPExtensions() {
 
   if (Object.keys(validationErrors.value).length > 0) {
     status.showStatus(
-      locale.value === 'km'
-        ? 'សូមពិនិត្យកំហុសនៅក្នុងទម្រង់'
-        : 'Please fix validation errors',
+      locale.value === 'km' ? 'សូមពិនិត្យកំហុសនៅក្នុងទម្រង់' : 'Please fix validation errors',
       'error'
     )
     return
@@ -458,9 +495,7 @@ async function handleInstallPHPExtensions() {
   try {
     await props.onInstallPHPExtensions(phpExtVersion.value, phpExtName.value)
     status.showStatus(
-      locale.value === 'km'
-        ? 'ផ្នែកបន្ថែមបានដំឡើងជោគជ័យ'
-        : 'Extensions installed successfully',
+      locale.value === 'km' ? 'ផ្នែកបន្ថែមបានដំឡើងជោគជ័យ' : 'Extensions installed successfully',
       'success'
     )
 
