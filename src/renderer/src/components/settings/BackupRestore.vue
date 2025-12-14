@@ -1,6 +1,6 @@
 <template>
   <div class="backup-restore">
-    <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
+    <p class="text-sm text-gray-600 dark:text-gray-300 mb-4">
       {{ t('settings.backupDesc') }}
     </p>
 
@@ -15,7 +15,7 @@
       <div class="backup-card">
         <div class="flex items-center mb-3">
           <svg
-            class="w-6 h-6 mr-2"
+            class="w-6 h-6 mr-2 text-gray-700 dark:text-gray-300"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -27,11 +27,11 @@
               d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
             />
           </svg>
-          <h4 class="font-medium">
+          <h4 class="font-medium text-gray-900 dark:text-white">
             {{ t('settings.export') }}
           </h4>
         </div>
-        <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
+        <p class="text-sm text-gray-600 dark:text-gray-300 mb-4">
           {{ t('settings.exportDesc') }}
         </p>
         <button
@@ -46,7 +46,7 @@
       <div class="backup-card">
         <div class="flex items-center mb-3">
           <svg
-            class="w-6 h-6 mr-2"
+            class="w-6 h-6 mr-2 text-gray-700 dark:text-gray-300"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -58,11 +58,11 @@
               d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"
             />
           </svg>
-          <h4 class="font-medium">
+          <h4 class="font-medium text-gray-900 dark:text-white">
             {{ t('settings.import') }}
           </h4>
         </div>
-        <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
+        <p class="text-sm text-gray-600 dark:text-gray-300 mb-4">
           {{ t('settings.importDesc') }}
         </p>
         <button
@@ -77,12 +77,12 @@
 
     <div
       v-if="lastBackupInfo"
-      class="mt-4 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg"
+      class="mt-4 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600"
     >
-      <p class="text-sm font-medium mb-2">
+      <p class="text-sm font-medium mb-2 text-gray-900 dark:text-white">
         {{ t('settings.lastBackup') }}
       </p>
-      <div class="text-xs space-y-1">
+      <div class="text-xs space-y-1 text-gray-600 dark:text-gray-300">
         <div v-if="lastBackupInfo.timestamp">
           <span class="font-medium">{{ t('settings.timestamp') }}:</span>
           {{ formatDate(lastBackupInfo.timestamp) }}
@@ -157,7 +157,7 @@ const formatDate = (dateString) => {
 
 <style scoped>
 .backup-card {
-  @apply p-5 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800;
+  @apply p-5 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700;
 }
 
 .alert {
@@ -173,10 +173,22 @@ const formatDate = (dateString) => {
   color: #166534;
 }
 
+.dark .alert-success {
+  background: #14532d;
+  border-color: #22c55e;
+  color: #dcfce7;
+}
+
 .alert-error {
   background: #fee2e2;
   border-color: #ef4444;
   color: #991b1b;
+}
+
+.dark .alert-error {
+  background: #7f1d1d;
+  border-color: #ef4444;
+  color: #fee2e2;
 }
 
 .btn {
@@ -202,6 +214,15 @@ const formatDate = (dateString) => {
   background: #2563eb;
 }
 
+.dark .btn-primary {
+  background: #2563eb;
+  color: white;
+}
+
+.dark .btn-primary:hover:not(:disabled) {
+  background: #1d4ed8;
+}
+
 .btn-secondary {
   background: #6b7280;
   color: white;
@@ -209,5 +230,14 @@ const formatDate = (dateString) => {
 
 .btn-secondary:hover:not(:disabled) {
   background: #4b5563;
+}
+
+.dark .btn-secondary {
+  background: #4b5563;
+  color: white;
+}
+
+.dark .btn-secondary:hover:not(:disabled) {
+  background: #374151;
 }
 </style>

@@ -137,16 +137,34 @@ const formatBytes = (bytes) => {
   color: #1e40af;
 }
 
+.dark .alert-info {
+  background: #1e3a8a;
+  border-color: #3b82f6;
+  color: #dbeafe;
+}
+
 .alert-success {
   background: #dcfce7;
   border-color: #22c55e;
   color: #166534;
 }
 
+.dark .alert-success {
+  background: #14532d;
+  border-color: #22c55e;
+  color: #dcfce7;
+}
+
 .alert-error {
   background: #fee2e2;
   border-color: #ef4444;
   color: #991b1b;
+}
+
+.dark .alert-error {
+  background: #7f1d1d;
+  border-color: #ef4444;
+  color: #fee2e2;
 }
 
 .progress-bar {
@@ -186,6 +204,15 @@ const formatBytes = (bytes) => {
   background: #2563eb;
 }
 
+.dark .btn-primary {
+  background: #2563eb;
+  color: white;
+}
+
+.dark .btn-primary:hover:not(:disabled) {
+  background: #1d4ed8;
+}
+
 .btn-secondary {
   background: #6b7280;
   color: white;
@@ -193,6 +220,15 @@ const formatBytes = (bytes) => {
 
 .btn-secondary:hover:not(:disabled) {
   background: #4b5563;
+}
+
+.dark .btn-secondary {
+  background: #4b5563;
+  color: white;
+}
+
+.dark .btn-secondary:hover:not(:disabled) {
+  background: #374151;
 }
 
 .btn-sm {
