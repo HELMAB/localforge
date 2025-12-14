@@ -76,6 +76,30 @@
           v-model:node-version="nodeVersion"
         />
 
+        <!-- Section Divider -->
+        <div class="relative py-4">
+          <div class="absolute inset-0 flex items-center">
+            <div class="w-full border-t border-gray-200 dark:border-gray-600" />
+          </div>
+          <div class="relative flex justify-center text-sm">
+            <span class="px-3 bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400 font-medium flex items-center gap-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+              {{ t('projectDetails') }}
+            </span>
+          </div>
+        </div>
+
         <!-- Project Preview -->
         <ProjectPreview
           v-if="projectName && projectPath"

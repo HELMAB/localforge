@@ -6,6 +6,7 @@ export default {
   tabManage: 'Manage Services',
   createTitle: 'Create New Project',
   createSubtitle: 'Configure your new project',
+  projectDetails: 'Project Details',
   projectTypeLabel: 'Project Type',
   phpVersionLabel: 'PHP Version',
   laravelVersionLabel: 'Laravel Version',
