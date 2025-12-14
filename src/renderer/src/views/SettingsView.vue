@@ -6,7 +6,9 @@
         <div
           class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700"
         >
-          <div class="px-6 py-4 bg-gray-50 dark:bg-gray-700/50 border-b border-gray-200 dark:border-gray-700">
+          <div
+            class="px-6 py-4 bg-gray-50 dark:bg-gray-700/50 border-b border-gray-200 dark:border-gray-700"
+          >
             <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
               {{ t('settingsTitle') }}
             </h2>
@@ -184,7 +186,9 @@
               <button
                 :class="[
                   'relative inline-flex h-7 w-12 items-center rounded-full transition-colors',
-                  localSettings.showKeyboardHints ? 'bg-blue-600 dark:bg-blue-500' : 'bg-gray-300 dark:bg-gray-600',
+                  localSettings.showKeyboardHints
+                    ? 'bg-blue-600 dark:bg-blue-500'
+                    : 'bg-gray-300 dark:bg-gray-600',
                 ]"
                 @click="localSettings.showKeyboardHints = !localSettings.showKeyboardHints"
               >
@@ -228,7 +232,9 @@
         <div
           class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700"
         >
-          <div class="px-6 py-4 bg-gray-50 dark:bg-gray-700/50 border-b border-gray-200 dark:border-gray-700">
+          <div
+            class="px-6 py-4 bg-gray-50 dark:bg-gray-700/50 border-b border-gray-200 dark:border-gray-700"
+          >
             <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
               {{ t('settings.autoUpdate') }}
             </h2>
@@ -242,7 +248,9 @@
         <div
           class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700"
         >
-          <div class="px-6 py-4 bg-gray-50 dark:bg-gray-700/50 border-b border-gray-200 dark:border-gray-700">
+          <div
+            class="px-6 py-4 bg-gray-50 dark:bg-gray-700/50 border-b border-gray-200 dark:border-gray-700"
+          >
             <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
               {{ t('settings.backupRestore') }}
             </h2>
@@ -256,7 +264,9 @@
         <div
           class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700"
         >
-          <div class="px-6 py-4 bg-gray-50 dark:bg-gray-700/50 border-b border-gray-200 dark:border-gray-700">
+          <div
+            class="px-6 py-4 bg-gray-50 dark:bg-gray-700/50 border-b border-gray-200 dark:border-gray-700"
+          >
             <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
               {{ t('settings.appInfo') }}
             </h2>
@@ -281,7 +291,9 @@
                 </svg>
               </div>
               <div>
-                <div class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">
+                <div
+                  class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide"
+                >
                   {{ t('settings.version') }}
                 </div>
                 <div class="text-lg font-bold text-gray-900 dark:text-white">
@@ -311,7 +323,9 @@
                 </svg>
               </div>
               <div>
-                <div class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">
+                <div
+                  class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide"
+                >
                   {{ t('settings.platform') }}
                 </div>
                 <div class="text-sm font-semibold text-gray-900 dark:text-white">

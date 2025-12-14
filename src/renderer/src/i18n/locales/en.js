@@ -234,7 +234,6 @@ export default {
   generatingSsl: 'Generating SSL',
   installingTool: 'Installing Tool',
   // Settings
-  tabSettings: 'Settings',
   settings: {
     title: 'Settings',
     autoUpdate: 'Auto-Update',
@@ -257,7 +256,8 @@ export default {
     upToDate: 'You are up to date!',
     updateError: 'Update error',
     devMode: 'Development Mode',
-    devModeDesc: 'Auto-updates are disabled in development mode. Build the app with "npm run electron:build" to test updates.',
+    devModeDesc:
+      'Auto-updates are disabled in development mode. Build the app with "npm run electron:build" to test updates.',
     // Backup/Restore
     backupDesc: 'Export and import your Nginx configurations and SSL certificates',
     export: 'Export Backup',
