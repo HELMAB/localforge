@@ -2,7 +2,7 @@
   <Teleport to="body">
     <Transition name="modal">
       <div
-        v-if="isVisible"
+        v-if="visible"
         class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
         @click.self="closeModal"
       >
@@ -287,8 +287,6 @@ const emit = defineEmits(['close'])
 
 const showDetails = ref(false)
 const copied = ref(false)
-
-const isVisible = ref(props.visible)
 
 function toggleDetails() {
   showDetails.value = !showDetails.value

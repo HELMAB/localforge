@@ -329,7 +329,7 @@ async function handleCreateProject() {
         title: t('checking') === 'កំពុងពិនិត្យ...' ? 'បរាជ័យក្នុងការបង្កើតគម្រោង' : 'Failed to Create Project',
         subtitle: t('checking') === 'កំពុងពិនិត្យ...' ? 'មានកំហុសកើតឡើងពេលបង្កើតគម្រោងរបស់អ្នក' : 'An error occurred while creating your project',
         suggestions: [
-          t('checking') === 'កំពុងពិនិត្យ...' 
+          t('checking') === 'កំពុងពិនិត្យ...'
             ? 'ពិនិត្យមើលថាអ្នកមានសិទ្ធិគ្រប់គ្រាន់សម្រាប់បង្កើតឯកសារនៅក្នុងថតនោះ'
             : 'Check if you have sufficient permissions to create files in that directory',
           t('checking') === 'កំពុងពិនិត្យ...'
@@ -352,13 +352,6 @@ async function handleCreateProject() {
         onRetry: handleCreateProject
       })
     }
-
-    status.showStatus(
-      t('checking') === 'កំពុងពិនិត្យ...'
-        ? `កំហុស: ${error.message}`
-        : `Error: ${error.message}`,
-      'error'
-    )
   }
 }
 </script>

@@ -1030,7 +1030,7 @@ async function handleConfigureNginx() {
         title: locale.value === 'km' ? 'បរាជ័យក្នុងការកំណត់ Nginx' : 'Failed to Configure Nginx',
         subtitle: locale.value === 'km' ? 'មានកំហុសកើតឡើងពេលកំណត់រចនាសម្ព័ន្ធ Nginx' : 'An error occurred while configuring Nginx',
         suggestions: [
-          locale.value === 'km' 
+          locale.value === 'km'
             ? 'ពិនិត្យមើលថាតើអ្នកបានបញ្ចូលពាក្យសម្ងាត់ត្រឹមត្រូវ (sudo privilege ត្រូវការ)'
             : 'Check if you entered the correct password (sudo privilege required)',
           locale.value === 'km'
@@ -1051,13 +1051,6 @@ async function handleConfigureNginx() {
         onRetry: handleConfigureNginx
       })
     }
-
-    status.showStatus(
-      locale.value === 'km'
-        ? `កំហុស: ${error.message}\n\nប្រសិនបើអ្នកមិនបានបញ្ចូលពាក្យសម្ងាត់ សូមព្យាយាមម្តងទៀត។`
-        : `Error: ${error.message}\n\nIf you didn't enter the password, please try again.`,
-      'error'
-    )
   }
 }
 </script>
