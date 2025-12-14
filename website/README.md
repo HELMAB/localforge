@@ -94,7 +94,7 @@ Add technology icons to `/assets/tech/`:
 ### Update Links
 
 Search and replace the following placeholder URLs:
-- `https://github.com/yourusername/localforge` → Your GitHub repo
+- `https://github.com/HELMAB/localforge` → Your GitHub repo
 - `https://localforge.dev` → Your actual domain
 - Social media links in footer
 
