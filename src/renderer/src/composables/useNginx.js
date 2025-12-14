@@ -97,6 +97,20 @@ export function useNginx() {
     }
   }
 
+  async function getNginxConfigDetails(configName) {
+    isLoading.value = true
+    error.value = null
+    try {
+      const result = await invoke('get-nginx-config-details', { configName })
+      return result
+    } catch (err) {
+      error.value = err.message
+      throw err
+    } finally {
+      isLoading.value = false
+    }
+  }
+
   return {
     isConfiguring,
     isLoading,
@@ -108,6 +122,7 @@ export function useNginx() {
     enableNginxConfig,
     disableNginxConfig,
     addSslToConfig,
-    removeSslFromConfig
+    removeSslFromConfig,
+    getNginxConfigDetails
   }
 }

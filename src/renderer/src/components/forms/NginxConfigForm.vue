@@ -71,12 +71,23 @@
       >
         <div class="space-y-6">
           <div class="mb-6">
-            <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">
-              {{ t('nginxCreateNew') }}
-            </h2>
-            <p class="text-sm text-gray-600 dark:text-gray-400">
-              {{ t('nginxCreateNewDesc') }}
-            </p>
+            <div class="flex items-center justify-between">
+              <div>
+                <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">
+                  {{ editMode ? (locale === 'km' ? 'កែសម្រួល Virtual Host' : 'Edit Virtual Host') : t('nginxCreateNew') }}
+                </h2>
+                <p class="text-sm text-gray-600 dark:text-gray-400">
+                  {{ editMode ? (locale === 'km' ? 'កែសម្រួលការកំណត់រចនាសម្ព័ន្ធ Nginx របស់អ្នក' : 'Edit your Nginx configuration') : t('nginxCreateNewDesc') }}
+                </p>
+              </div>
+              <button
+                v-if="editMode"
+                class="px-4 py-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                @click="cancelEdit"
+              >
+                {{ locale === 'km' ? 'បោះបង់' : 'Cancel' }}
+              </button>
+            </div>
           </div>
 
           <!-- Project Type Selector -->
@@ -208,7 +219,9 @@
             class="w-full px-6 py-3 bg-blue-500 dark:bg-blue-600 text-white rounded-lg hover:bg-blue-600 dark:hover:bg-blue-700 font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             @click="handleConfigureNginx"
           >
-            {{ isConfiguring ? t('checking') : t('configureBtn') }}
+            <span v-if="isConfiguring">{{ t('checking') }}</span>
+            <span v-else-if="editMode">{{ locale === 'km' ? 'ធ្វើបច្ចុប្បន្នភាព' : 'Update Configuration' }}</span>
+            <span v-else>{{ t('configureBtn') }}</span>
           </button>
 
           <StatusMessage
@@ -225,34 +238,160 @@
         class="p-6 overflow-y-auto h-full"
       >
         <!-- Header -->
-        <div class="mb-6 flex items-center justify-between">
-          <div>
-            <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-1">
-              {{ t('nginxManageVirtualHosts') }}
-            </h2>
-            <p class="text-sm text-gray-600 dark:text-gray-400">
-              {{ t('nginxManageVirtualHostsDesc') }}
-            </p>
-          </div>
-          <button
-            :disabled="isLoading"
-            class="px-4 py-2 bg-blue-500 dark:bg-blue-600 text-white rounded-lg hover:bg-blue-600 dark:hover:bg-blue-700 disabled:opacity-50 transition-colors flex items-center gap-2 font-medium"
-            @click="loadConfigs"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-5 w-5"
-              viewBox="0 0 20 20"
-              fill="currentColor"
+        <div class="mb-6">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-1">
+                {{ t('nginxManageVirtualHosts') }}
+              </h2>
+              <p class="text-sm text-gray-600 dark:text-gray-400">
+                {{ t('nginxManageVirtualHostsDesc') }}
+              </p>
+            </div>
+            <button
+              :disabled="isLoading"
+              class="px-4 py-2 bg-blue-500 dark:bg-blue-600 text-white rounded-lg hover:bg-blue-600 dark:hover:bg-blue-700 disabled:opacity-50 transition-colors flex items-center gap-2 font-medium"
+              @click="loadConfigs"
             >
-              <path
-                fill-rule="evenodd"
-                d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
-                clip-rule="evenodd"
-              />
-            </svg>
-            {{ t('refresh') }}
-          </button>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+              {{ t('refresh') }}
+            </button>
+          </div>
+
+          <!-- Search and Filters -->
+          <div class="space-y-3">
+            <!-- Search Box -->
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5 text-gray-400"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </div>
+              <input
+                v-model="searchQuery"
+                type="text"
+                class="w-full pl-10 pr-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
+                :placeholder="locale === 'km' ? 'ស្វែងរកគេហទំព័រ...' : 'Search sites...'"
+              >
+            </div>
+
+            <!-- Filter Buttons -->
+            <div class="flex flex-wrap gap-2">
+              <!-- Status Filters -->
+              <div class="flex gap-1 bg-gray-100 dark:bg-gray-700 p-1 rounded-lg">
+                <button
+                  :class="[
+                    'px-3 py-1.5 text-sm font-medium rounded-md transition-colors',
+                    statusFilter === 'all'
+                      ? 'bg-white dark:bg-gray-800 text-gray-900 dark:text-white shadow-sm'
+                      : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+                  ]"
+                  @click="statusFilter = 'all'"
+                >
+                  {{ locale === 'km' ? 'ទាំងអស់' : 'All' }}
+                </button>
+                <button
+                  :class="[
+                    'px-3 py-1.5 text-sm font-medium rounded-md transition-colors',
+                    statusFilter === 'active'
+                      ? 'bg-white dark:bg-gray-800 text-green-700 dark:text-green-400 shadow-sm'
+                      : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+                  ]"
+                  @click="statusFilter = 'active'"
+                >
+                  {{ t('active') }}
+                </button>
+                <button
+                  :class="[
+                    'px-3 py-1.5 text-sm font-medium rounded-md transition-colors',
+                    statusFilter === 'inactive'
+                      ? 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-400 shadow-sm'
+                      : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+                  ]"
+                  @click="statusFilter = 'inactive'"
+                >
+                  {{ t('inactive') }}
+                </button>
+              </div>
+
+              <!-- SSL Filters -->
+              <div class="flex gap-1 bg-gray-100 dark:bg-gray-700 p-1 rounded-lg">
+                <button
+                  :class="[
+                    'px-3 py-1.5 text-sm font-medium rounded-md transition-colors',
+                    sslFilter === 'all'
+                      ? 'bg-white dark:bg-gray-800 text-gray-900 dark:text-white shadow-sm'
+                      : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+                  ]"
+                  @click="sslFilter = 'all'"
+                >
+                  {{ locale === 'km' ? 'ទាំងអស់' : 'All' }}
+                </button>
+                <button
+                  :class="[
+                    'px-3 py-1.5 text-sm font-medium rounded-md transition-colors flex items-center gap-1',
+                    sslFilter === 'https'
+                      ? 'bg-white dark:bg-gray-800 text-blue-700 dark:text-blue-400 shadow-sm'
+                      : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+                  ]"
+                  @click="sslFilter = 'https'"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-3.5 w-3.5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                  HTTPS
+                </button>
+                <button
+                  :class="[
+                    'px-3 py-1.5 text-sm font-medium rounded-md transition-colors',
+                    sslFilter === 'no-https'
+                      ? 'bg-white dark:bg-gray-800 text-yellow-700 dark:text-yellow-400 shadow-sm'
+                      : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+                  ]"
+                  @click="sslFilter = 'no-https'"
+                >
+                  {{ locale === 'km' ? 'គ្មាន HTTPS' : 'No HTTPS' }}
+                </button>
+              </div>
+
+              <!-- Results count -->
+              <div
+                v-if="filteredConfigs.length !== configs.length"
+                class="flex items-center px-3 py-1.5 text-sm text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 rounded-lg"
+              >
+                {{ locale === 'km' ? 'បង្ហាញ' : 'Showing' }} {{ filteredConfigs.length }} {{ locale === 'km' ? 'ក្នុងចំណោម' : 'of' }} {{ configs.length }}
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- Loading State -->
@@ -266,7 +405,7 @@
 
         <!-- Empty State -->
         <div
-          v-else-if="configs.length === 0"
+          v-else-if="filteredConfigs.length === 0 && configs.length === 0"
           class="flex flex-col items-center justify-center py-16 text-gray-500 dark:text-gray-400"
         >
           <svg
@@ -294,6 +433,39 @@
             @click="activeMenu = 'new-site'"
           >
             {{ t('nginxCreateFirst') }}
+          </button>
+        </div>
+
+        <!-- No Results State -->
+        <div
+          v-else-if="filteredConfigs.length === 0 && configs.length > 0"
+          class="flex flex-col items-center justify-center py-16 text-gray-500 dark:text-gray-400"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-20 w-20 mb-4 text-gray-400"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            />
+          </svg>
+          <p class="text-lg font-medium mb-2">
+            {{ locale === 'km' ? 'រកមិនឃើញលទ្ធផល' : 'No results found' }}
+          </p>
+          <p class="text-sm text-gray-500 dark:text-gray-400 mb-6">
+            {{ locale === 'km' ? 'សូមព្យាយាមផ្លាស់ប្តូរការស្វែងរក ឬតម្រង' : 'Try adjusting your search or filters' }}
+          </p>
+          <button
+            class="px-4 py-2 bg-blue-500 dark:bg-blue-600 text-white rounded-lg hover:bg-blue-600 dark:hover:bg-blue-700 transition-colors text-sm"
+            @click="searchQuery = ''; statusFilter = 'all'; sslFilter = 'all'"
+          >
+            {{ locale === 'km' ? 'សម្អាតតម្រង' : 'Clear Filters' }}
           </button>
         </div>
 
@@ -338,6 +510,26 @@
                     @click="toggleSiteDetails(config.name)"
                   >
                     <div class="flex items-center gap-2 mb-1">
+                      <button
+                        class="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-colors"
+                        :title="isFavorite('nginxConfigs', config.name) ? (locale === 'km' ? 'ដកចេញពីចំណូលចិត្ត' : 'Remove from favorites') : (locale === 'km' ? 'បន្ថែមទៅចំណូលចិត្ត' : 'Add to favorites')"
+                        @click.stop="toggleFavorite('nginxConfigs', { id: config.name, name: config.name, path: config.path, type: 'nginx' })"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          class="h-4 w-4"
+                          :class="isFavorite('nginxConfigs', config.name) ? 'fill-yellow-400 text-yellow-400' : 'fill-none text-gray-400'"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          stroke-width="2"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"
+                          />
+                        </svg>
+                      </button>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         :class="['h-4 w-4 text-gray-500 dark:text-gray-400 transition-transform flex-shrink-0', { 'rotate-90': expandedSite === config.name }]"
@@ -422,6 +614,21 @@
                       v-if="openDropdown === config.name"
                       class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 py-1 z-10"
                     >
+                      <button
+                        class="w-full px-4 py-2 text-left text-sm text-blue-600 dark:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2"
+                        @click="loadConfigForEdit(config.name)"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          class="h-4 w-4"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                        </svg>
+                        {{ locale === 'km' ? 'កែសម្រួល' : 'Edit' }}
+                      </button>
+                      <div class="border-t border-gray-200 dark:border-gray-700 my-1" />
                       <button
                         class="w-full px-4 py-2 text-left text-sm text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2"
                         @click="handleDisableConfig(config.name)"
@@ -650,6 +857,21 @@
                   >
                     <button
                       class="w-full px-4 py-2 text-left text-sm text-blue-600 dark:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2"
+                      @click="loadConfigForEdit(config.name)"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-4 w-4"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                      </svg>
+                      {{ locale === 'km' ? 'កែសម្រួល' : 'Edit' }}
+                    </button>
+                    <div class="border-t border-gray-200 dark:border-gray-700 my-1" />
+                    <button
+                      class="w-full px-4 py-2 text-left text-sm text-blue-600 dark:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2"
                       @click="handleAddSsl(config.name)"
                     >
                       <svg
@@ -813,6 +1035,21 @@
                     class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 py-1 z-10"
                   >
                     <button
+                      class="w-full px-4 py-2 text-left text-sm text-blue-600 dark:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2"
+                      @click="loadConfigForEdit(config.name)"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-4 w-4"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                      </svg>
+                      {{ locale === 'km' ? 'កែសម្រួល' : 'Edit' }}
+                    </button>
+                    <div class="border-t border-gray-200 dark:border-gray-700 my-1" />
+                    <button
                       class="w-full px-4 py-2 text-left text-sm text-green-600 dark:text-green-400 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2"
                       @click="handleEnableConfig(config.name)"
                     >
@@ -904,6 +1141,7 @@ import { useI18n } from 'vue-i18n'
 import { useNginx } from '../../composables/useNginx'
 import { useStatus } from '../../composables/useStatus'
 import { useTools } from '../../composables/useTools'
+import { useFavorites } from '../../composables/useFavorites'
 import { domainSchema, pathSchema, validateField } from '../../utils/validation'
 import DirectorySelector from '../common/DirectorySelector.vue'
 import StatusMessage from '../common/StatusMessage.vue'
@@ -917,9 +1155,10 @@ import reactIcon from '@/assets/svg/react.svg'
 import htmlIcon from '@/assets/svg/html5.svg'
 
 const { t, locale } = useI18n()
-const { configureNginx, isConfiguring, listNginxConfigs, deleteNginxConfig, enableNginxConfig, disableNginxConfig, addSslToConfig, removeSslFromConfig, isLoading } = useNginx()
+const { configureNginx, isConfiguring, listNginxConfigs, deleteNginxConfig, enableNginxConfig, disableNginxConfig, addSslToConfig, removeSslFromConfig, getNginxConfigDetails, isLoading } = useNginx()
 const status = useStatus()
 const { installedTools, checkInstalledTools } = useTools()
+const { toggleFavorite, isFavorite } = useFavorites()
 const errorModal = inject('errorModal', null)
 
 const projectType = ref('php')
@@ -933,11 +1172,46 @@ const activeMenu = ref('new-site')
 const openDropdown = ref(null)
 const validationErrors = ref({})
 const expandedSite = ref(null)
+const searchQuery = ref('')
+const statusFilter = ref('all')
+const sslFilter = ref('all')
+const editMode = ref(false)
+const editingConfigName = ref(null)
 
-// Computed properties to separate sites by status and SSL
-const activeSitesWithSSL = computed(() => configs.value.filter(config => config.enabled && config.hasSSL))
-const activeSitesWithoutSSL = computed(() => configs.value.filter(config => config.enabled && !config.hasSSL))
-const inactiveSites = computed(() => configs.value.filter(config => !config.enabled))
+// Computed property for filtered configs
+const filteredConfigs = computed(() => {
+  let result = configs.value
+
+  // Apply search filter
+  if (searchQuery.value) {
+    const query = searchQuery.value.toLowerCase()
+    result = result.filter(config =>
+      config.name.toLowerCase().includes(query) ||
+      config.path.toLowerCase().includes(query)
+    )
+  }
+
+  // Apply status filter
+  if (statusFilter.value === 'active') {
+    result = result.filter(config => config.enabled)
+  } else if (statusFilter.value === 'inactive') {
+    result = result.filter(config => !config.enabled)
+  }
+
+  // Apply SSL filter
+  if (sslFilter.value === 'https') {
+    result = result.filter(config => config.hasSSL)
+  } else if (sslFilter.value === 'no-https') {
+    result = result.filter(config => !config.hasSSL)
+  }
+
+  return result
+})
+
+// Computed properties to separate sites by status and SSL (using filtered configs)
+const activeSitesWithSSL = computed(() => filteredConfigs.value.filter(config => config.enabled && config.hasSSL))
+const activeSitesWithoutSSL = computed(() => filteredConfigs.value.filter(config => config.enabled && !config.hasSSL))
+const inactiveSites = computed(() => filteredConfigs.value.filter(config => !config.enabled))
 
 onMounted(async () => {
   await checkInstalledTools()
@@ -951,6 +1225,50 @@ async function loadConfigs() {
     // eslint-disable-next-line no-console
     console.error('Failed to load configs:', error)
   }
+}
+
+async function loadConfigForEdit(configName) {
+  closeDropdown()
+  try {
+    const details = await getNginxConfigDetails(configName)
+
+    // Populate form with existing values
+    domain.value = details.domain || ''
+    nginxProjectPath.value = details.projectPath || ''
+    projectType.value = details.projectType || 'php'
+    port.value = details.port || 80
+    phpVersion.value = details.phpVersion || ''
+    enableSSL.value = details.hasSSL || false
+
+    // Set edit mode
+    editMode.value = true
+    editingConfigName.value = configName
+
+    // Switch to new-site menu
+    activeMenu.value = 'new-site'
+  } catch (error) {
+    status.showStatus(
+      locale.value === 'km'
+        ? `កំហុសក្នុងការផ្ទុកការកំណត់: ${error.message}`
+        : `Error loading config: ${error.message}`,
+      'error'
+    )
+  }
+}
+
+function cancelEdit() {
+  // Reset form
+  domain.value = ''
+  nginxProjectPath.value = ''
+  projectType.value = 'php'
+  port.value = 80
+  phpVersion.value = ''
+  enableSSL.value = false
+  validationErrors.value = {}
+
+  // Exit edit mode
+  editMode.value = false
+  editingConfigName.value = null
 }
 
 function toggleDropdown(configName) {
@@ -1172,6 +1490,21 @@ async function handleConfigureNginx() {
     return
   }
 
+  // If in edit mode, delete the old config first
+  if (editMode.value && editingConfigName.value) {
+    try {
+      await deleteNginxConfig(editingConfigName.value)
+    } catch (error) {
+      status.showStatus(
+        locale.value === 'km'
+          ? `កំហុសក្នុងការលុបការកំណត់ចាស់: ${error.message}`
+          : `Error deleting old config: ${error.message}`,
+        'error'
+      )
+      return
+    }
+  }
+
   status.showStatus(
     locale.value === 'km'
       ? 'កំពុងកំណត់រចនាសម្ព័ន្ធ... (អ្នកប្រហែលជាត្រូវបញ្ចូលពាក្យសម្ងាត់)'
@@ -1193,13 +1526,20 @@ async function handleConfigureNginx() {
     const sslInfo = result.sslGenerated ? `\n✓ ${t('sslGenerated')}` : ''
     const hostsInfo = result.hostsUpdated ? `\n✓ ${t('hostsUpdated')}` : ''
 
+    const actionText = editMode.value
+      ? (locale.value === 'km' ? 'បានធ្វើបច្ចុប្បន្នភាព' : 'updated')
+      : (locale.value === 'km' ? 'បានកំណត់រចនាសម្ព័ន្ធ' : 'configured')
+
     status.showStatus(
       locale.value === 'km'
-        ? `Nginx បានកំណត់រចនាសម្ព័ន្ធជោគជ័យ!${phpInfo}${sslInfo}${hostsInfo}\n\nអ្នកអាចចូលប្រើគេហទំព័ររបស់អ្នកតាមរយៈ៖\nhttp://${domain.value}`
-        : `Nginx configured successfully!${phpInfo}${sslInfo}${hostsInfo}\n\nYou can now access your site at:\nhttp://${domain.value}`,
+        ? `Nginx ${actionText}ជោគជ័យ!${phpInfo}${sslInfo}${hostsInfo}\n\nអ្នកអាចចូលប្រើគេហទំព័ររបស់អ្នកតាមរយៈ៖\nhttp://${domain.value}`
+        : `Nginx ${actionText} successfully!${phpInfo}${sslInfo}${hostsInfo}\n\nYou can now access your site at:\nhttp://${domain.value}`,
       'success'
     )
-    
+
+    // Reset form and exit edit mode
+    cancelEdit()
+
     // Reload configs list and switch to Sites view
     await loadConfigs()
     activeMenu.value = 'sites'

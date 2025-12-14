@@ -5,6 +5,7 @@ const { exec } = require('child_process');
 const fs = require('fs');
 const os = require('os');
 const sudo = require('sudo-prompt');
+const operationRollback = require('./operationRollback');
 
 let mainWindow;
 
@@ -1187,6 +1188,83 @@ ipcMain.handle('remove-ssl-from-config', async (event, { configName }) => {
   });
 });
 
+// Get Nginx configuration details for editing
+ipcMain.handle('get-nginx-config-details', async (event, { configName }) => {
+  return new Promise((resolve, reject) => {
+    const availablePath = `/etc/nginx/sites-available/${configName}`;
+
+    fs.readFile(availablePath, 'utf8', (readErr, content) => {
+      if (readErr) {
+        reject(new Error(`Failed to read config: ${readErr.message}`));
+        return;
+      }
+
+      try {
+        // Extract configuration details from the file
+        const details = {
+          name: configName,
+          domain: null,
+          projectPath: null,
+          port: 80,
+          projectType: 'php',
+          phpVersion: null,
+          hasSSL: content.includes('listen 443 ssl')
+        };
+
+        // Extract domain from server_name
+        const domainMatch = content.match(/server_name\s+([^;]+);/);
+        if (domainMatch) {
+          details.domain = domainMatch[1].trim();
+        }
+
+        // Extract port from listen directive (non-SSL)
+        const portMatch = content.match(/listen\s+(\d+);/);
+        if (portMatch) {
+          details.port = parseInt(portMatch[1]);
+        }
+
+        // Extract root path
+        const rootMatch = content.match(/root\s+([^;]+);/);
+        if (rootMatch) {
+          let rootPath = rootMatch[1].trim();
+          // Remove /public or /dist from the end if present
+          rootPath = rootPath.replace(/\/(public|dist)$/, '');
+          details.projectPath = rootPath;
+        }
+
+        // Determine project type based on config content
+        if (content.includes('index.php')) {
+          if (content.includes('try_files $uri $uri/ /index.php?$query_string;')) {
+            details.projectType = 'laravel';
+          } else if (content.includes('wp-admin') || content.includes('wp-includes')) {
+            details.projectType = 'wordpress';
+          } else {
+            details.projectType = 'php';
+          }
+        } else if (content.includes('/dist')) {
+          if (content.includes('# Vue SPA') || content.includes('# React SPA')) {
+            details.projectType = content.includes('Vue') ? 'static-vue' : 'react';
+          } else {
+            details.projectType = 'static-html';
+          }
+        } else {
+          details.projectType = 'static-html';
+        }
+
+        // Extract PHP version from fastcgi_pass
+        const phpMatch = content.match(/fastcgi_pass\s+unix:\/run\/php\/php([\d.]+)-fpm\.sock;/);
+        if (phpMatch) {
+          details.phpVersion = phpMatch[1];
+        }
+
+        resolve(details);
+      } catch (parseError) {
+        reject(new Error(`Failed to parse config: ${parseError.message}`));
+      }
+    });
+  });
+});
+
 ipcMain.handle('check-requirements', async () => {
   const checks = {
     composer: false,
@@ -1218,6 +1296,83 @@ ipcMain.handle('check-requirements', async () => {
       resolve(checks);
     });
   });
+});
+
+// Validate system state before operations
+ipcMain.handle('validate-system-state', async (event, { checks }) => {
+  const validationChecks = {};
+
+  // Port availability check
+  if (checks.portAvailable) {
+    validationChecks.portAvailable = () => {
+      return new Promise((resolve) => {
+        const port = checks.portAvailable;
+        exec(`lsof -i :${port}`, (error) => {
+          resolve({ valid: !!error, port, inUse: !error });
+        });
+      });
+    };
+  }
+
+  // Directory exists check
+  if (checks.directoryExists) {
+    validationChecks.directoryExists = () => {
+      return new Promise((resolve) => {
+        const dir = checks.directoryExists;
+        resolve({ valid: fs.existsSync(dir), path: dir });
+      });
+    };
+  }
+
+  // Disk space check
+  if (checks.diskSpace) {
+    validationChecks.diskSpace = () => {
+      return new Promise((resolve) => {
+        exec('df -h /', (error, stdout) => {
+          if (error) {
+            resolve({ valid: true }); // Skip if can't check
+            return;
+          }
+          const lines = stdout.trim().split('\n');
+          const data = lines[1].split(/\s+/);
+          const usedPercent = parseInt(data[4]);
+          resolve({ valid: usedPercent < 90, usedPercent });
+        });
+      });
+    };
+  }
+
+  // Nginx running check
+  if (checks.nginxRunning) {
+    validationChecks.nginxRunning = () => {
+      return new Promise((resolve) => {
+        exec('systemctl is-active nginx', (error, stdout) => {
+          const isRunning = stdout.trim() === 'active';
+          resolve({ valid: isRunning, running: isRunning });
+        });
+      });
+    };
+  }
+
+  return await operationRollback.validatePreConditions(validationChecks);
+});
+
+// Backup file before modification
+ipcMain.handle('backup-file', async (event, { filePath }) => {
+  try {
+    return await operationRollback.backupFile(filePath);
+  } catch (error) {
+    throw new Error(`Backup failed: ${error.message}`);
+  }
+});
+
+// Restore file from backup
+ipcMain.handle('restore-backup', async (event, { backupPath, originalPath }) => {
+  try {
+    return await operationRollback.restoreFile(backupPath, originalPath);
+  } catch (error) {
+    throw new Error(`Restore failed: ${error.message}`);
+  }
 });
 
 // Helper function to detect Linux distribution

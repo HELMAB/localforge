@@ -46,6 +46,8 @@
       :on-retry="errorModal.onRetry.value"
       @close="errorModal.hideError"
     />
+
+    <CommandPalette v-model="showCommandPalette" />
   </div>
 </template>
 
@@ -58,6 +60,7 @@ import AppFooter from './components/layout/AppFooter.vue'
 import SettingsModal from './components/common/SettingsModal.vue'
 import ProgressBar from './components/common/ProgressBar.vue'
 import ErrorModal from './components/common/ErrorModal.vue'
+import CommandPalette from './components/common/CommandPalette.vue'
 import { useDarkMode } from './composables/useDarkMode'
 import { useSettings } from './composables/useSettings'
 import { useKeyboardShortcuts } from './composables/useKeyboardShortcuts'
@@ -70,6 +73,7 @@ const { settings } = useSettings()
 const progress = useProgress()
 const errorModal = useErrorModal()
 const showSettings = ref(false)
+const showCommandPalette = ref(false)
 
 useKeyboardShortcuts()
 
@@ -83,13 +87,21 @@ const handleLanguageChange = (lang) => {
 
 onMounted(() => {
   locale.value = settings.value.language || 'km'
-  
+
   window.addEventListener('toggle-dark-mode', toggleDarkMode)
   window.addEventListener('toggle-language', () => {
     locale.value = locale.value === 'km' ? 'en' : 'km'
   })
   window.addEventListener('open-settings', () => {
     showSettings.value = true
+  })
+
+  // Command Palette shortcut (Cmd/Ctrl+K)
+  window.addEventListener('keydown', (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+      e.preventDefault()
+      showCommandPalette.value = !showCommandPalette.value
+    }
   })
 })
 
