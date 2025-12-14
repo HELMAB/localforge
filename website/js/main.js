@@ -53,35 +53,72 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Active navigation highlighting for docs page
   if (window.location.pathname.includes('docs.html')) {
+    let activeSection = null
+    
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            const id = entry.target.getAttribute('id')
-            
-            // Remove active class from all links
-            document.querySelectorAll('.doc-sidebar a').forEach((link) => {
-              link.classList.remove('active', 'text-blue-600', 'bg-blue-50')
-              link.classList.add('text-gray-700')
-            })
-            
-            // Add active class to current link
-            const activeLink = document.querySelector(`.doc-sidebar a[href="#${id}"]`)
-            if (activeLink) {
-              activeLink.classList.add('active', 'text-blue-600', 'bg-blue-50')
-              activeLink.classList.remove('text-gray-700')
-            }
+            activeSection = entry.target.getAttribute('id')
           }
         })
+        
+        // Update active link
+        if (activeSection) {
+          // Remove active class from all links
+          document.querySelectorAll('.doc-sidebar a').forEach((link) => {
+            link.classList.remove('text-blue-600', 'bg-blue-50', 'font-medium')
+            link.classList.add('text-gray-700')
+          })
+          
+          // Add active class to current link
+          const activeLink = document.querySelector(`.doc-sidebar a[href="#${activeSection}"]`)
+          if (activeLink) {
+            activeLink.classList.add('text-blue-600', 'bg-blue-50', 'font-medium')
+            activeLink.classList.remove('text-gray-700')
+          }
+        }
       },
       {
-        rootMargin: '-100px 0px -66%',
+        rootMargin: '-20% 0px -70% 0px',
+        threshold: [0, 0.25, 0.5, 0.75, 1]
       }
     )
     
     // Observe all sections
     document.querySelectorAll('section[id]').forEach((section) => {
       observer.observe(section)
+    })
+    
+    // Handle initial page load with hash
+    if (window.location.hash) {
+      const initialId = window.location.hash.substring(1)
+      const initialLink = document.querySelector(`.doc-sidebar a[href="#${initialId}"]`)
+      if (initialLink) {
+        document.querySelectorAll('.doc-sidebar a').forEach((link) => {
+          link.classList.remove('text-blue-600', 'bg-blue-50', 'font-medium')
+          link.classList.add('text-gray-700')
+        })
+        initialLink.classList.add('text-blue-600', 'bg-blue-50', 'font-medium')
+        initialLink.classList.remove('text-gray-700')
+      }
+    }
+    
+    // Update active state on manual click
+    document.querySelectorAll('.doc-sidebar a').forEach((link) => {
+      link.addEventListener('click', function(e) {
+        const href = this.getAttribute('href')
+        if (href && href.startsWith('#')) {
+          // Remove active from all
+          document.querySelectorAll('.doc-sidebar a').forEach((l) => {
+            l.classList.remove('text-blue-600', 'bg-blue-50', 'font-medium')
+            l.classList.add('text-gray-700')
+          })
+          // Add active to clicked
+          this.classList.add('text-blue-600', 'bg-blue-50', 'font-medium')
+          this.classList.remove('text-gray-700')
+        }
+      })
     })
   }
   
@@ -105,18 +142,75 @@ document.addEventListener('DOMContentLoaded', function() {
     (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          entry.target.classList.add('fade-in')
+          entry.target.style.opacity = '0'
+          entry.target.style.transform = 'translateY(20px)'
+          
+          setTimeout(() => {
+            entry.target.style.transition = 'all 0.6s ease-out'
+            entry.target.style.opacity = '1'
+            entry.target.style.transform = 'translateY(0)'
+          }, 100)
+          
           animateOnScroll.unobserve(entry.target)
         }
       })
     },
     {
       threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
     }
   )
   
-  document.querySelectorAll('.animate-on-scroll').forEach((el) => {
-    animateOnScroll.observe(el)
+  // Auto-animate elements on scroll
+  document.querySelectorAll('section > div > div').forEach((el, index) => {
+    el.style.opacity = '0'
+    el.style.transform = 'translateY(20px)'
+    setTimeout(() => {
+      animateOnScroll.observe(el)
+    }, index * 50)
+  })
+  
+  // Parallax effect for hero section
+  window.addEventListener('scroll', () => {
+    const scrolled = window.pageYOffset
+    const heroElements = document.querySelectorAll('.animate-float')
+    heroElements.forEach((el, index) => {
+      const speed = 0.5 + (index * 0.1)
+      el.style.transform = `translateY(${scrolled * speed}px)`
+    })
+  })
+  
+  // Interactive floating tech logos
+  const floatingLogos = document.querySelectorAll('.floating-tech-logo')
+  floatingLogos.forEach((logo) => {
+    logo.addEventListener('click', function(e) {
+      // Add a pulse animation on click
+      this.style.animation = 'none'
+      setTimeout(() => {
+        this.style.animation = ''
+      }, 10)
+      
+      // Create ripple effect
+      const ripple = document.createElement('div')
+      ripple.className = 'absolute inset-0 bg-blue-400 rounded-2xl opacity-50 animate-ping'
+      this.appendChild(ripple)
+      setTimeout(() => ripple.remove(), 600)
+    })
+    
+    // Add subtle rotation on mouse move
+    logo.addEventListener('mousemove', function(e) {
+      const rect = this.getBoundingClientRect()
+      const x = e.clientX - rect.left - rect.width / 2
+      const y = e.clientY - rect.top - rect.height / 2
+      const rotateX = (y / rect.height) * 10
+      const rotateY = -(x / rect.width) * 10
+      
+      this.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`
+    })
+    
+    logo.addEventListener('mouseleave', function() {
+      this.style.transform = ''
+    })
   })
   
   // Copy code to clipboard
