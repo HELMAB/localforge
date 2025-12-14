@@ -193,5 +193,5 @@ This website is part of the LocalForge project. Check the main project license.
 ## 🆘 Support
 
 - Documentation: https://localforge.dev/docs.html
-- Issues: https://github.com/yourusername/localforge/issues
-- Email: support@localforge.dev
+- Issues: https://github.com/HELMAB/localforge/issues
+- Email: mabhelitc@gmail.com
