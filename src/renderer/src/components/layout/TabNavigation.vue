@@ -30,6 +30,7 @@ const tabs = [
   { path: '/create', label: 'tabCreate', dataTour: 'create-project' },
   { path: '/nginx', label: 'tabNginx', dataTour: 'nginx-config' },
   { path: '/manage', label: 'tabManage', dataTour: 'manage-tools' },
+  { path: '/settings', label: 'tabSettings', dataTour: 'settings' },
 ]
 
 function tabButtonClass(isActive) {

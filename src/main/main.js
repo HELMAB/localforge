@@ -5,6 +5,7 @@ const { exec, spawn } = require('child_process')
 const fs = require('fs')
 const os = require('os')
 const sudo = require('sudo-prompt')
+const { autoUpdater } = require('electron-updater')
 const operationRollback = require('./operationRollback')
 
 let mainWindow
@@ -31,7 +32,39 @@ function createWindow() {
   }
 }
 
-app.whenReady().then(createWindow)
+app.whenReady().then(() => {
+  createWindow()
+
+  // Auto-updater configuration
+  autoUpdater.autoDownload = false
+  autoUpdater.autoInstallOnAppQuit = true
+
+  // Check for updates after app starts
+  if (process.env.NODE_ENV !== 'development') {
+    autoUpdater.checkForUpdates()
+  }
+
+  // Auto-updater events
+  autoUpdater.on('update-available', (info) => {
+    mainWindow.webContents.send('update-available', info)
+  })
+
+  autoUpdater.on('update-not-available', (info) => {
+    mainWindow.webContents.send('update-not-available', info)
+  })
+
+  autoUpdater.on('download-progress', (progressObj) => {
+    mainWindow.webContents.send('download-progress', progressObj)
+  })
+
+  autoUpdater.on('update-downloaded', (info) => {
+    mainWindow.webContents.send('update-downloaded', info)
+  })
+
+  autoUpdater.on('error', (err) => {
+    mainWindow.webContents.send('update-error', err)
+  })
+})
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
@@ -1842,5 +1875,192 @@ ipcMain.handle('check-installed-tools', async () => {
     Promise.all(checks).then(() => {
       resolve(results)
     })
+  })
+})
+
+// Auto-updater IPC handlers
+ipcMain.handle('check-for-updates', async () => {
+  if (process.env.NODE_ENV === 'development') {
+    // In development, simulate a response showing that updates are disabled
+    setTimeout(() => {
+      mainWindow.webContents.send('update-not-available', {
+        version: app.getVersion(),
+        isDevelopment: true,
+      })
+    }, 500)
+    return { isDevelopment: true, message: 'Development mode - updates disabled' }
+  }
+  try {
+    return await autoUpdater.checkForUpdates()
+  } catch (error) {
+    console.error('Update check failed:', error)
+    throw error
+  }
+})
+
+ipcMain.handle('download-update', async () => {
+  return await autoUpdater.downloadUpdate()
+})
+
+ipcMain.handle('install-update', async () => {
+  autoUpdater.quitAndInstall()
+})
+
+// Backup/Restore IPC handlers
+ipcMain.handle('export-backup', async () => {
+  return new Promise((resolve, reject) => {
+    dialog
+      .showSaveDialog(mainWindow, {
+        title: 'Export Backup',
+        defaultPath: path.join(os.homedir(), `localforge-backup-${Date.now()}.tar.gz`),
+        filters: [{ name: 'Backup Files', extensions: ['tar.gz'] }],
+      })
+      .then((result) => {
+        if (result.canceled) {
+          resolve({ success: false, canceled: true })
+          return
+        }
+
+        const backupPath = result.filePath
+        const tempDir = path.join(os.tmpdir(), `localforge-backup-${Date.now()}`)
+
+        // Create temp directory structure
+        const nginxDir = path.join(tempDir, 'nginx')
+        const sslDir = path.join(tempDir, 'ssl')
+
+        fs.mkdirSync(tempDir, { recursive: true })
+        fs.mkdirSync(nginxDir, { recursive: true })
+        fs.mkdirSync(sslDir, { recursive: true })
+
+        // Copy Nginx configs
+        exec(`cp -r /etc/nginx/sites-available/* ${nginxDir}/ 2>/dev/null`, (nginxErr) => {
+          // Copy SSL certificates
+          exec(`cp -r /etc/nginx/ssl/* ${sslDir}/ 2>/dev/null`, (sslErr) => {
+            // Create metadata file
+            const metadata = {
+              timestamp: new Date().toISOString(),
+              hostname: os.hostname(),
+              version: app.getVersion(),
+            }
+            fs.writeFileSync(path.join(tempDir, 'metadata.json'), JSON.stringify(metadata, null, 2))
+
+            // Create tarball
+            exec(
+              `tar -czf "${backupPath}" -C "${tempDir}" .`,
+              { maxBuffer: 1024 * 1024 * 50 },
+              (tarErr) => {
+                // Cleanup temp directory
+                exec(`rm -rf "${tempDir}"`, () => {
+                  if (tarErr) {
+                    reject(new Error(`Failed to create backup: ${tarErr.message}`))
+                  } else {
+                    resolve({
+                      success: true,
+                      path: backupPath,
+                      nginxCopied: !nginxErr,
+                      sslCopied: !sslErr,
+                    })
+                  }
+                })
+              }
+            )
+          })
+        })
+      })
+      .catch((err) => {
+        reject(err)
+      })
+  })
+})
+
+ipcMain.handle('import-backup', async () => {
+  return new Promise((resolve, reject) => {
+    dialog
+      .showOpenDialog(mainWindow, {
+        title: 'Import Backup',
+        filters: [{ name: 'Backup Files', extensions: ['tar.gz'] }],
+        properties: ['openFile'],
+      })
+      .then((result) => {
+        if (result.canceled) {
+          resolve({ success: false, canceled: true })
+          return
+        }
+
+        const backupFile = result.filePaths[0]
+        const tempDir = path.join(os.tmpdir(), `localforge-restore-${Date.now()}`)
+
+        fs.mkdirSync(tempDir, { recursive: true })
+
+        // Extract tarball
+        exec(
+          `tar -xzf "${backupFile}" -C "${tempDir}"`,
+          { maxBuffer: 1024 * 1024 * 50 },
+          (tarErr) => {
+            if (tarErr) {
+              exec(`rm -rf "${tempDir}"`, () => {})
+              reject(new Error(`Failed to extract backup: ${tarErr.message}`))
+              return
+            }
+
+            // Read metadata
+            let metadata = null
+            try {
+              const metadataPath = path.join(tempDir, 'metadata.json')
+              if (fs.existsSync(metadataPath)) {
+                metadata = JSON.parse(fs.readFileSync(metadataPath, 'utf8'))
+              }
+            } catch (e) {
+              console.error('Could not read metadata:', e)
+            }
+
+            // Restore Nginx configs
+            const nginxDir = path.join(tempDir, 'nginx')
+            const sslDir = path.join(tempDir, 'ssl')
+
+            const options = { name: 'LocalForge' }
+
+            // Build restore commands
+            let restoreCommand = ''
+
+            if (fs.existsSync(nginxDir)) {
+              restoreCommand += `cp -r ${nginxDir}/* /etc/nginx/sites-available/ && `
+            }
+
+            if (fs.existsSync(sslDir)) {
+              restoreCommand += `mkdir -p /etc/nginx/ssl && cp -r ${sslDir}/* /etc/nginx/ssl/ && `
+            }
+
+            // Enable all restored configs
+            if (fs.existsSync(nginxDir)) {
+              const configs = fs.readdirSync(nginxDir).filter((f) => f !== 'default')
+              configs.forEach((config) => {
+                restoreCommand += `ln -sf /etc/nginx/sites-available/${config} /etc/nginx/sites-enabled/${config} && `
+              })
+            }
+
+            restoreCommand += 'nginx -t && systemctl reload nginx'
+
+            sudo.exec(restoreCommand, options, (restoreErr, stdout, stderr) => {
+              // Cleanup temp directory
+              exec(`rm -rf "${tempDir}"`, () => {
+                if (restoreErr) {
+                  reject(new Error(stderr || restoreErr.message))
+                } else {
+                  resolve({
+                    success: true,
+                    metadata,
+                    nginxRestored: fs.existsSync(nginxDir),
+                    sslRestored: fs.existsSync(sslDir),
+                  })
+                }
+              })
+            })
+          }
+        )
+      })
+      .catch((err) => {
+        reject(err)
+      })
   })
 })

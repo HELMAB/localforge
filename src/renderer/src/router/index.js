@@ -20,6 +20,11 @@ const routes = [
     name: 'manage',
     component: () => import('../views/ManageToolsView.vue'),
   },
+  {
+    path: '/settings',
+    name: 'settings',
+    component: () => import('../views/SettingsView.vue'),
+  },
 ]
 
 export default createRouter({
