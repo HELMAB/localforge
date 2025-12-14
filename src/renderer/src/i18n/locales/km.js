@@ -1,5 +1,6 @@
 export default {
   appTitle: 'LocalForge',
+  appTagline: 'ឧបករណ៍អភិវឌ្ឍន៍គេហទំព័រក្នុងតំបន់',
   tabCreate: 'គម្រោងថ្មី',
   tabNginx: 'គ្រប់គ្រង Virtual Host',
   tabSsl: 'បង្កើត SSL',
