@@ -196,7 +196,7 @@ import RecentProjects from './RecentProjects.vue'
 import ProjectPreview from './ProjectPreview.vue'
 import PostCreationActions from './PostCreationActions.vue'
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 const { createProject, isCreating } = useProject()
 const status = useStatus()
 const toast = useToast()

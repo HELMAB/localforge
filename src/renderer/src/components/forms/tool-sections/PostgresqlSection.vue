@@ -83,7 +83,7 @@ const props = defineProps({
     type: Object,
     required: true,
   },
-  onInstallPostgreSQL: {
+  onInstallPostgresql: {
     type: Function,
     required: true,
   },
@@ -98,7 +98,7 @@ async function handleInstallPostgreSQL() {
   )
 
   try {
-    await props.onInstallPostgreSQL(postgresVersion.value || null)
+    await props.onInstallPostgresql(postgresVersion.value || null)
     status.showStatus(
       locale.value === 'km' ? 'PostgreSQL បានដំឡើងជោគជ័យ' : 'PostgreSQL installed successfully',
       'success'

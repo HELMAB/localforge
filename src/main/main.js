@@ -1592,6 +1592,112 @@ ipcMain.handle('install-php-extensions', async (event, { version, extensions }) 
   }
 })
 
+// Get PHP INI file path
+ipcMain.handle('get-php-ini-path', async (event, { version, type = 'cli' }) => {
+  return new Promise((resolve, reject) => {
+    const command = type === 'fpm' 
+      ? `php-fpm${version} -i 2>/dev/null | grep "Loaded Configuration File" | awk '{print $5}'`
+      : `php${version} -i 2>/dev/null | grep "Loaded Configuration File" | awk '{print $5}'`
+    
+    exec(command, (error, stdout) => {
+      if (error || !stdout.trim()) {
+        // Fallback to common paths
+        const commonPaths = type === 'fpm'
+          ? [`/etc/php/${version}/fpm/php.ini`, `/etc/php${version}/fpm/php.ini`]
+          : [`/etc/php/${version}/cli/php.ini`, `/etc/php${version}/cli/php.ini`]
+        
+        for (const path of commonPaths) {
+          if (fs.existsSync(path)) {
+            resolve(path)
+            return
+          }
+        }
+        reject(new Error('PHP INI file not found'))
+      } else {
+        resolve(stdout.trim())
+      }
+    })
+  })
+})
+
+// Read PHP INI file
+ipcMain.handle('read-php-ini', async (event, { filePath }) => {
+  return new Promise((resolve, reject) => {
+    fs.readFile(filePath, 'utf8', (error, data) => {
+      if (error) {
+        reject(new Error(`Cannot read file: ${error.message}`))
+      } else {
+        resolve(data)
+      }
+    })
+  })
+})
+
+// Write PHP INI file
+ipcMain.handle('write-php-ini', async (event, { filePath, content }) => {
+  const command = `echo '${content.replace(/'/g, "'\\''")}' > ${filePath}`
+  return execSudo(command)
+})
+
+// List available PHP extensions
+ipcMain.handle('list-php-extensions', async (event, { version }) => {
+  const distro = await detectDistro()
+  
+  return new Promise((resolve, reject) => {
+    let command = ''
+    
+    if (distro === 'debian') {
+      command = `apt-cache search php${version}- | grep "^php${version}-" | awk '{print $1}' | sed 's/php${version}-//' | sort`
+    } else if (distro === 'redhat') {
+      command = `dnf search php${version}- 2>/dev/null | grep "^php${version}-" | awk '{print $1}' | sed 's/php${version}-//' | sort`
+    } else if (distro === 'arch') {
+      command = `pacman -Ss php- | grep "^extra/php-" | awk '{print $1}' | sed 's/extra\\/php-//' | sort`
+    } else {
+      reject(new Error('Unsupported distribution'))
+      return
+    }
+    
+    exec(command, { maxBuffer: 1024 * 1024 * 10 }, (error, stdout) => {
+      if (error) {
+        resolve([]) // Return empty array if command fails
+      } else {
+        const extensions = stdout.trim().split('\n').filter(e => e)
+        resolve(extensions)
+      }
+    })
+  })
+})
+
+// Get installed PHP extensions
+ipcMain.handle('get-installed-php-extensions', async (event, { version }) => {
+  return new Promise((resolve) => {
+    const command = `php${version} -m 2>/dev/null`
+    
+    exec(command, (error, stdout) => {
+      if (error) {
+        resolve([]) // Return empty array if command fails
+      } else {
+        // Parse output, skip header lines and empty lines
+        const lines = stdout.trim().split('\n')
+        const extensions = []
+        let inModules = false
+        
+        for (const line of lines) {
+          if (line.startsWith('[') && line.includes('Modules]')) {
+            inModules = true
+            continue
+          }
+          if (line.trim() && inModules && !line.startsWith('[')) {
+            extensions.push(line.trim().toLowerCase())
+          }
+        }
+        
+        resolve(extensions)
+      }
+    })
+  })
+})
+
 // Install Node.js Version
 ipcMain.handle('install-node', async (event, { version }) => {
   return new Promise((resolve, reject) => {
@@ -1730,30 +1836,20 @@ ipcMain.handle('check-installed-tools', async () => {
     // Check PHP versions
     checks.push(
       new Promise((res) => {
-        exec('php -v 2>/dev/null', (error, stdout) => {
-          if (!error && stdout) {
-            results.php.installed = true
-            const match = stdout.match(/PHP (\d+\.\d+\.\d+)/)
-            if (match) {
-              results.php.versions.push(match[1])
+        exec(
+          'ls /usr/bin/php* 2>/dev/null | grep -E "php[0-9]" | sed "s/.*php//" | sort -Vr',
+          (err, out) => {
+            if (!err && out) {
+              const versions = out
+                .trim()
+                .split('\n')
+                .filter((v) => v && v.match(/^\d+\.\d+$/))
+              results.php.versions = [...new Set(versions)]
+              results.php.installed = results.php.versions.length > 0
             }
+            res()
           }
-
-          exec(
-            'ls /usr/bin/php* 2>/dev/null | grep -E "php[0-9]" | sed "s/.*php//" | sort -u',
-            (err, out) => {
-              if (!err && out) {
-                const versions = out
-                  .trim()
-                  .split('\n')
-                  .filter((v) => v)
-                results.php.versions = [...new Set([...results.php.versions, ...versions])]
-                results.php.installed = results.php.versions.length > 0
-              }
-              res()
-            }
-          )
-        })
+        )
       })
     )
 

@@ -117,6 +117,51 @@ export function useTools() {
     }
   }
 
+  async function getPhpIniPath(version, type = 'cli') {
+    try {
+      return await invoke('get-php-ini-path', { version, type })
+    } catch (err) {
+      error.value = err.message
+      throw err
+    }
+  }
+
+  async function readPhpIni(filePath) {
+    try {
+      return await invoke('read-php-ini', { filePath })
+    } catch (err) {
+      error.value = err.message
+      throw err
+    }
+  }
+
+  async function writePhpIni(filePath, content) {
+    try {
+      return await invoke('write-php-ini', { filePath, content })
+    } catch (err) {
+      error.value = err.message
+      throw err
+    }
+  }
+
+  async function listPhpExtensions(version) {
+    try {
+      return await invoke('list-php-extensions', { version })
+    } catch (err) {
+      error.value = err.message
+      throw err
+    }
+  }
+
+  async function getInstalledPhpExtensions(version) {
+    try {
+      return await invoke('get-installed-php-extensions', { version })
+    } catch (err) {
+      error.value = err.message
+      throw err
+    }
+  }
+
   return {
     isLoading,
     installedTools,
@@ -130,5 +175,10 @@ export function useTools() {
     installComposer,
     installPostgreSQL,
     installMySQL,
+    getPhpIniPath,
+    readPhpIni,
+    writePhpIni,
+    listPhpExtensions,
+    getInstalledPhpExtensions,
   }
 }

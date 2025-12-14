@@ -72,7 +72,7 @@ const props = defineProps({
     type: Object,
     required: true,
   },
-  onInstallMySQL: {
+  onInstallMysql: {
     type: Function,
     required: true,
   },
@@ -82,7 +82,7 @@ async function handleInstallMySQL() {
   status.showStatus(locale.value === 'km' ? 'កំពុងដំឡើង MySQL...' : 'Installing MySQL...', 'info')
 
   try {
-    await props.onInstallMySQL()
+    await props.onInstallMysql()
     status.showStatus(
       locale.value === 'km' ? 'MySQL បានដំឡើងជោគជ័យ' : 'MySQL installed successfully',
       'success'

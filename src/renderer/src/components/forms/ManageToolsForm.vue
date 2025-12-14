@@ -20,8 +20,8 @@
         <PhpSection
           v-if="selectedTool === 'php'"
           :installed-tools="installedTools"
-          :on-install-p-h-p="installPHP"
-          :on-install-p-h-p-extensions="installPHPExtensions"
+          :on-install-php="installPHP"
+          :on-install-php-extensions="installPHPExtensions"
         />
 
         <ComposerSection
@@ -46,13 +46,13 @@
         <PostgresqlSection
           v-if="selectedTool === 'postgresql'"
           :installed-tools="installedTools"
-          :on-install-postgre-s-q-l="installPostgreSQL"
+          :on-install-postgresql="installPostgreSQL"
         />
 
         <MysqlSection
           v-if="selectedTool === 'mysql'"
           :installed-tools="installedTools"
-          :on-install-my-s-q-l="installMySQL"
+          :on-install-mysql="installMySQL"
         />
       </div>
     </div>
