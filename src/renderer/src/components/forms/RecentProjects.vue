@@ -172,7 +172,7 @@ import wordpressIcon from '@/assets/svg/wordpress.svg'
 const { t } = useI18n()
 const { recentProjects, removeRecentProject, loadRecentProjects, clearRecentProjects } = useRecentProjects()
 const status = useStatus()
-const isExpanded = ref(true)
+const isExpanded = ref(false)
 
 defineEmits(['clone-config'])
 
