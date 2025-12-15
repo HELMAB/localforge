@@ -241,10 +241,7 @@ ipcMain.handle(
               const sudoCommand = `chown -R ${username}:www-data "${path.join(
                 fullPath,
                 'storage'
-              )}" "${path.join(
-                fullPath,
-                'bootstrap/cache'
-              )}" && chmod -R 775 "${path.join(
+              )}" "${path.join(fullPath, 'bootstrap/cache')}" && chmod -R 775 "${path.join(
                 fullPath,
                 'storage'
               )}" "${path.join(fullPath, 'bootstrap/cache')}"`
@@ -1665,17 +1662,19 @@ ipcMain.handle('install-php-extensions', async (event, { version, extensions }) 
 // Get PHP INI file path
 ipcMain.handle('get-php-ini-path', async (event, { version, type = 'cli' }) => {
   return new Promise((resolve, reject) => {
-    const command = type === 'fpm' 
-      ? `php-fpm${version} -i 2>/dev/null | grep "Loaded Configuration File" | awk '{print $5}'`
-      : `php${version} -i 2>/dev/null | grep "Loaded Configuration File" | awk '{print $5}'`
-    
+    const command =
+      type === 'fpm'
+        ? `php-fpm${version} -i 2>/dev/null | grep "Loaded Configuration File" | awk '{print $5}'`
+        : `php${version} -i 2>/dev/null | grep "Loaded Configuration File" | awk '{print $5}'`
+
     exec(command, (error, stdout) => {
       if (error || !stdout.trim()) {
         // Fallback to common paths
-        const commonPaths = type === 'fpm'
-          ? [`/etc/php/${version}/fpm/php.ini`, `/etc/php${version}/fpm/php.ini`]
-          : [`/etc/php/${version}/cli/php.ini`, `/etc/php${version}/cli/php.ini`]
-        
+        const commonPaths =
+          type === 'fpm'
+            ? [`/etc/php/${version}/fpm/php.ini`, `/etc/php${version}/fpm/php.ini`]
+            : [`/etc/php/${version}/cli/php.ini`, `/etc/php${version}/cli/php.ini`]
+
         for (const path of commonPaths) {
           if (fs.existsSync(path)) {
             resolve(path)
@@ -1712,10 +1711,10 @@ ipcMain.handle('write-php-ini', async (event, { filePath, content }) => {
 // List available PHP extensions
 ipcMain.handle('list-php-extensions', async (event, { version }) => {
   const distro = await detectDistro()
-  
+
   return new Promise((resolve, reject) => {
     let command = ''
-    
+
     if (distro === 'debian') {
       command = `apt-cache search php${version}- | grep "^php${version}-" | awk '{print $1}' | sed 's/php${version}-//' | sort`
     } else if (distro === 'redhat') {
@@ -1726,12 +1725,15 @@ ipcMain.handle('list-php-extensions', async (event, { version }) => {
       reject(new Error('Unsupported distribution'))
       return
     }
-    
+
     exec(command, { maxBuffer: 1024 * 1024 * 10 }, (error, stdout) => {
       if (error) {
         resolve([]) // Return empty array if command fails
       } else {
-        const extensions = stdout.trim().split('\n').filter(e => e)
+        const extensions = stdout
+          .trim()
+          .split('\n')
+          .filter((e) => e)
         resolve(extensions)
       }
     })
@@ -1742,7 +1744,7 @@ ipcMain.handle('list-php-extensions', async (event, { version }) => {
 ipcMain.handle('get-installed-php-extensions', async (event, { version }) => {
   return new Promise((resolve) => {
     const command = `php${version} -m 2>/dev/null`
-    
+
     exec(command, (error, stdout) => {
       if (error) {
         resolve([]) // Return empty array if command fails
@@ -1751,7 +1753,7 @@ ipcMain.handle('get-installed-php-extensions', async (event, { version }) => {
         const lines = stdout.trim().split('\n')
         const extensions = []
         let inModules = false
-        
+
         for (const line of lines) {
           if (line.startsWith('[') && line.includes('Modules]')) {
             inModules = true
@@ -1761,7 +1763,7 @@ ipcMain.handle('get-installed-php-extensions', async (event, { version }) => {
             extensions.push(line.trim().toLowerCase())
           }
         }
-        
+
         resolve(extensions)
       }
     })

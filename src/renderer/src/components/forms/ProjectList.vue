@@ -78,7 +78,9 @@
     <ConfirmationModal
       :visible="isRemoveModalVisible"
       :title="t('deleteProjectTitle')"
-      :message="t('deleteProjectMessage', { projectName: projectToRemove ? projectToRemove.name : '' })"
+      :message="
+        t('deleteProjectMessage', { projectName: projectToRemove ? projectToRemove.name : '' })
+      "
       :confirm-text="t('delete')"
       level="danger"
       @close="isRemoveModalVisible = false"
@@ -101,11 +103,7 @@ import reactIcon from '@/assets/svg/react.svg'
 import wordpressIcon from '@/assets/svg/wordpress.svg'
 
 const { t } = useI18n()
-const {
-  recentProjects,
-  removeProjectWithConfigs,
-  loadRecentProjects,
-} = useRecentProjects()
+const { recentProjects, removeProjectWithConfigs, loadRecentProjects } = useRecentProjects()
 const toast = useToast()
 
 const isRemoveModalVisible = ref(false)
@@ -116,7 +114,7 @@ const filteredProjects = computed(() => {
   if (!searchQuery.value) {
     return recentProjects.value
   }
-  return recentProjects.value.filter(p =>
+  return recentProjects.value.filter((p) =>
     p.name.toLowerCase().includes(searchQuery.value.toLowerCase())
   )
 })

@@ -1,5 +1,7 @@
 <template>
-  <div class="flex bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+  <div
+    class="flex bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700"
+  >
     <!-- Sidebar Menu -->
     <div
       class="bg-gray-50 dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 py-4 px-3 flex flex-col rounded-l-lg"
@@ -62,15 +64,15 @@
     </div>
 
     <!-- Main Content Area -->
-    <div
-      class="flex-1 overflow-y-auto bg-gray-50 dark:bg-gray-800"
-    >
+    <div class="flex-1 overflow-y-auto bg-gray-50 dark:bg-gray-800">
       <!-- New Site Form -->
       <div
         v-if="activeMenu === 'new-site'"
         class="p-6 overflow-y-auto h-full"
       >
-        <div class="space-y-6 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
+        <div
+          class="space-y-6 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6"
+        >
           <div class="mb-6">
             <div class="flex items-center justify-between">
               <div>
@@ -267,7 +269,9 @@
         v-else-if="activeMenu === 'sites'"
         class="p-6 overflow-y-auto h-full"
       >
-        <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
+        <div
+          class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6"
+        >
           <!-- Header -->
           <div class="mb-6">
             <div class="flex items-center justify-between mb-4">
@@ -500,9 +504,9 @@
             <button
               class="px-4 py-2 bg-blue-500 dark:bg-blue-600 text-white rounded-lg hover:bg-blue-600 dark:hover:bg-blue-700 transition-colors text-sm"
               @click="
-                searchQuery = '';
-                statusFilter = 'all';
-                sslFilter = 'all';
+                searchQuery = ''
+                statusFilter = 'all'
+                sslFilter = 'all'
               "
             >
               {{ locale === 'km' ? 'សម្អាតតម្រង' : 'Clear Filters' }}
@@ -1030,7 +1034,9 @@
               v-if="inactiveSites.length > 0"
               class="bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 rounded-lg p-4"
             >
-              <h4 class="font-semibold text-gray-700 dark:text-gray-300 mb-3 flex items-center gap-2">
+              <h4
+                class="font-semibold text-gray-700 dark:text-gray-300 mb-3 flex items-center gap-2"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   class="h-5 w-5"

@@ -42,9 +42,7 @@
               </div>
             </div>
           </div>
-          <div
-            class="bg-gray-50 dark:bg-gray-700 px-6 py-4 flex justify-end gap-3 rounded-b-lg"
-          >
+          <div class="bg-gray-50 dark:bg-gray-700 px-6 py-4 flex justify-end gap-3 rounded-b-lg">
             <button
               class="px-4 py-2 text-sm font-medium text-gray-700 bg-white dark:bg-gray-600 dark:text-gray-200 border border-gray-300 dark:border-gray-500 rounded-md shadow-sm hover:bg-gray-50 dark:hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               @click="$emit('close')"
@@ -123,10 +121,8 @@ const iconColorClass = computed(() => {
 
 const confirmButtonClass = computed(() => {
   return {
-    danger:
-      'bg-red-600 hover:bg-red-700 focus:ring-red-500',
-    warning:
-      'bg-yellow-500 hover:bg-yellow-600 focus:ring-yellow-500',
+    danger: 'bg-red-600 hover:bg-red-700 focus:ring-red-500',
+    warning: 'bg-yellow-500 hover:bg-yellow-600 focus:ring-yellow-500',
     info: 'bg-blue-600 hover:bg-blue-700 focus:ring-blue-500',
   }[props.level]
 })

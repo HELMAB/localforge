@@ -291,7 +291,7 @@ export default {
   // Project List
   searchProjects: 'Search projects...',
   noProjectsFound: 'No Projects Found',
-  noProjectsFoundDesc: 'No projects match your search, or you haven\'t created any projects yet.',
+  noProjectsFoundDesc: "No projects match your search, or you haven't created any projects yet.",
   projectTypeLaravel: 'Laravel',
   projectTypeVue: 'Vue.js',
   projectTypeNuxt: 'Nuxt.js',

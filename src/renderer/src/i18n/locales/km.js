@@ -272,37 +272,35 @@ export default {
     importing: 'កំពុងនាំចូល...',
     importSuccess: 'ការបម្រុងទុកត្រូវបានស្តារដោយជោគជ័យ!',
     lastBackup: 'ព័ត៌មានការបម្រុងទុកចុងក្រោយ',
-  },// Recent Projects Deletion
-  deleteProjectTitle: "លុបគម្រោង",
+  }, // Recent Projects Deletion
+  deleteProjectTitle: 'លុបគម្រោង',
   deleteProjectMessage:
-    "តើអ្នកប្រាកដថាចង់លុបគម្រោង \"{projectName}\" មែនទេ? វានឹងលុបការកំណត់រចនាសម្ព័ន្ធ Nginx និងធាតុ host ដែលពាក់ព័ន្ធទាំងអស់ផងដែរ។ សកម្មភាពនេះមិនអាចត្រឡប់វិញបានទេ។",
-  clearAllProjectsTitle: "លុបគម្រោងថ្មីៗទាំងអស់",
+    'តើអ្នកប្រាកដថាចង់លុបគម្រោង "{projectName}" មែនទេ? វានឹងលុបការកំណត់រចនាសម្ព័ន្ធ Nginx និងធាតុ host ដែលពាក់ព័ន្ធទាំងអស់ផងដែរ។ សកម្មភាពនេះមិនអាចត្រឡប់វិញបានទេ។',
+  clearAllProjectsTitle: 'លុបគម្រោងថ្មីៗទាំងអស់',
   clearAllProjectsMessage:
-    "តើអ្នកប្រាកដថាចង់លុបគម្រោងថ្មីៗទាំងអស់មែនទេ? វានឹងមិនលុបឯកសារ ឬការកំណត់រចនាសម្ព័ន្ធគម្រោងទេ។",
+    'តើអ្នកប្រាកដថាចង់លុបគម្រោងថ្មីៗទាំងអស់មែនទេ? វានឹងមិនលុបឯកសារ ឬការកំណត់រចនាសម្ព័ន្ធគម្រោងទេ។',
   projectRemovedAndConfigsDeleted:
-    "គម្រោងត្រូវបានលុប និងការកំណត់រចនាសម្ព័ន្ធដែលពាក់ព័ន្ធត្រូវបានលុបរួចរាល់។",
-  errorDeletingProjectConfigs:
-    "មានកំហុសក្នុងការលុបការកំណត់រចនាសម្ព័ន្ធគម្រោង៖ {error}",
-  allRecentProjectsCleared:
-    "គម្រោងថ្មីៗទាំងអស់ត្រូវបានលុបរួចរាល់។",
+    'គម្រោងត្រូវបានលុប និងការកំណត់រចនាសម្ព័ន្ធដែលពាក់ព័ន្ធត្រូវបានលុបរួចរាល់។',
+  errorDeletingProjectConfigs: 'មានកំហុសក្នុងការលុបការកំណត់រចនាសម្ព័ន្ធគម្រោង៖ {error}',
+  allRecentProjectsCleared: 'គម្រោងថ្មីៗទាំងអស់ត្រូវបានលុបរួចរាល់។',
 
   // Project view sidebar
-  menu: "ម៉ឺនុយ",
-  newProject: "គម្រោងថ្មី",
-  projects: "គម្រោង",
+  menu: 'ម៉ឺនុយ',
+  newProject: 'គម្រោងថ្មី',
+  projects: 'គម្រោង',
 
   // Project List
-  searchProjects: "ស្វែងរកគម្រោង...",
-  noProjectsFound: "រកមិនឃើញគម្រោង",
+  searchProjects: 'ស្វែងរកគម្រោង...',
+  noProjectsFound: 'រកមិនឃើញគម្រោង',
   noProjectsFoundDesc:
-    "មិនមានគម្រោងណាដែលត្រូវនឹងការស្វែងរករបស់អ្នក ឬអ្នកមិនទាន់បានបង្កើតគម្រោងណាមួយនៅឡើយទេ។",
-  projectTypeLaravel: "Laravel",
-  projectTypeVue: "Vue.js",
-  projectTypeNuxt: "Nuxt.js",
-  projectTypeReact: "React",
-  projectTypeWordpress: "WordPress",
+    'មិនមានគម្រោងណាដែលត្រូវនឹងការស្វែងរករបស់អ្នក ឬអ្នកមិនទាន់បានបង្កើតគម្រោងណាមួយនៅឡើយទេ។',
+  projectTypeLaravel: 'Laravel',
+  projectTypeVue: 'Vue.js',
+  projectTypeNuxt: 'Nuxt.js',
+  projectTypeReact: 'React',
+  projectTypeWordpress: 'WordPress',
 
   // Project Actions
-  fileManager: "កម្មវិធីគ្រប់គ្រងឯកសារ",
-  remove: "លុប",
+  fileManager: 'កម្មវិធីគ្រប់គ្រងឯកសារ',
+  remove: 'លុប',
 }

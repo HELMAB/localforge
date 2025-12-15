@@ -230,10 +230,14 @@
       class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
       @click.self="closeIniEditor"
     >
-      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col">
+      <div
+        class="bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col"
+      >
         <div class="flex items-center justify-between p-5 border-b dark:border-gray-700">
           <h3 class="text-xl font-semibold dark:text-white">
-            {{ locale === 'km' ? 'កែសម្រួល' : 'Edit' }} {{ iniEditorType === 'fpm' ? 'PHP-FPM' : 'PHP' }} {{ locale === 'km' ? 'ការកំណត់' : 'Configuration' }} ({{ iniEditorVersion }})
+            {{ locale === 'km' ? 'កែសម្រួល' : 'Edit' }}
+            {{ iniEditorType === 'fpm' ? 'PHP-FPM' : 'PHP' }}
+            {{ locale === 'km' ? 'ការកំណត់' : 'Configuration' }} ({{ iniEditorVersion }})
           </h3>
           <button
             class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
@@ -254,7 +258,7 @@
             </svg>
           </button>
         </div>
-        
+
         <div class="p-5 flex-1 overflow-auto">
           <div
             v-if="isLoadingIni"
@@ -266,7 +270,8 @@
           </div>
           <div v-else>
             <div class="mb-2 text-sm text-gray-600 dark:text-gray-400">
-              {{ locale === 'km' ? 'ឯកសារ' : 'File' }}: <code class="bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded">{{ iniFilePath }}</code>
+              {{ locale === 'km' ? 'ឯកសារ' : 'File' }}:
+              <code class="bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded">{{ iniFilePath }}</code>
             </div>
             <textarea
               v-model="iniContent"
@@ -275,7 +280,7 @@
             />
           </div>
         </div>
-        
+
         <div class="flex items-center justify-end gap-3 p-5 border-t dark:border-gray-700">
           <button
             class="px-5 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
@@ -288,7 +293,15 @@
             class="px-5 py-2 bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-lg hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             @click="saveIniFile"
           >
-            {{ isSavingIni ? (locale === 'km' ? 'កំពុងរក្សាទុក...' : 'Saving...') : (locale === 'km' ? 'រក្សាទុក' : 'Save') }}
+            {{
+              isSavingIni
+                ? locale === 'km'
+                  ? 'កំពុងរក្សាទុក...'
+                  : 'Saving...'
+                : locale === 'km'
+                  ? 'រក្សាទុក'
+                  : 'Save'
+            }}
           </button>
         </div>
       </div>
@@ -300,10 +313,14 @@
       class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
       @click.self="closeExtensionsManager"
     >
-      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col">
+      <div
+        class="bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col"
+      >
         <div class="flex items-center justify-between p-5 border-b dark:border-gray-700">
           <h3 class="text-xl font-semibold dark:text-white">
-            {{ locale === 'km' ? 'គ្រប់គ្រងផ្នែកបន្ថែម PHP' : 'Manage PHP Extensions' }} ({{ extManagerVersion }})
+            {{ locale === 'km' ? 'គ្រប់គ្រងផ្នែកបន្ថែម PHP' : 'Manage PHP Extensions' }} ({{
+              extManagerVersion
+            }})
           </h3>
           <button
             class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
@@ -324,7 +341,7 @@
             </svg>
           </button>
         </div>
-        
+
         <div class="p-5 flex-1 overflow-auto">
           <div
             v-if="isLoadingExtensions"
@@ -341,7 +358,9 @@
             <!-- Installed Extensions Section -->
             <div v-if="installedExtensionsList.length > 0">
               <div class="flex items-center justify-between mb-3">
-                <h4 class="text-sm font-semibold text-green-700 dark:text-green-300 flex items-center gap-2">
+                <h4
+                  class="text-sm font-semibold text-green-700 dark:text-green-300 flex items-center gap-2"
+                >
                   <svg
                     class="w-4 h-4"
                     fill="currentColor"
@@ -354,7 +373,9 @@
                     />
                   </svg>
                   {{ locale === 'km' ? 'បានដំឡើងរួចហើយ' : 'Installed Extensions' }}
-                  <span class="px-2 py-0.5 bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 rounded text-xs">
+                  <span
+                    class="px-2 py-0.5 bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 rounded text-xs"
+                  >
                     {{ installedExtensionsList.length }}
                   </span>
                 </h4>
@@ -384,7 +405,9 @@
             <!-- Not Installed Extensions Section -->
             <div v-if="notInstalledExtensionsList.length > 0">
               <div class="flex items-center justify-between mb-3">
-                <h4 class="text-sm font-semibold text-gray-700 dark:text-gray-300 flex items-center gap-2">
+                <h4
+                  class="text-sm font-semibold text-gray-700 dark:text-gray-300 flex items-center gap-2"
+                >
                   <svg
                     class="w-4 h-4"
                     fill="currentColor"
@@ -397,7 +420,9 @@
                     />
                   </svg>
                   {{ locale === 'km' ? 'មិនទាន់បានដំឡើង' : 'Not Installed' }}
-                  <span class="px-2 py-0.5 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded text-xs">
+                  <span
+                    class="px-2 py-0.5 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded text-xs"
+                  >
                     {{ notInstalledExtensionsList.length }}
                   </span>
                 </h4>
@@ -405,7 +430,15 @@
                   class="text-xs text-purple-600 dark:text-purple-400 hover:underline font-medium"
                   @click="toggleCheckAll"
                 >
-                  {{ isAllChecked ? (locale === 'km' ? 'មិនជ្រើសរើសទាំងអស់' : 'Uncheck All') : (locale === 'km' ? 'ជ្រើសរើសទាំងអស់' : 'Check All') }}
+                  {{
+                    isAllChecked
+                      ? locale === 'km'
+                        ? 'មិនជ្រើសរើសទាំងអស់'
+                        : 'Uncheck All'
+                      : locale === 'km'
+                        ? 'ជ្រើសរើសទាំងអស់'
+                        : 'Check All'
+                  }}
                 </button>
               </div>
               <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -413,7 +446,11 @@
                   v-for="ext in notInstalledExtensionsList"
                   :key="`not-installed-${ext}`"
                   class="flex items-center gap-3 p-3 border dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
-                  :class="selectedExtensions.includes(ext) ? 'bg-blue-50 dark:bg-blue-900/20 border-blue-300 dark:border-blue-700' : ''"
+                  :class="
+                    selectedExtensions.includes(ext)
+                      ? 'bg-blue-50 dark:bg-blue-900/20 border-blue-300 dark:border-blue-700'
+                      : ''
+                  "
                 >
                   <input
                     :id="`ext-${ext}`"
@@ -431,13 +468,15 @@
                 </div>
               </div>
             </div>
-            
+
             <div
               v-if="selectedExtensions.length > 0"
               class="p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg"
             >
               <p class="text-sm text-blue-700 dark:text-blue-300">
-                {{ locale === 'km' ? 'បានជ្រើសរើស' : 'Selected' }}: <strong>{{ selectedExtensions.length }}</strong> {{ locale === 'km' ? 'ផ្នែកបន្ថែម' : 'extension(s)' }}
+                {{ locale === 'km' ? 'បានជ្រើសរើស' : 'Selected' }}:
+                <strong>{{ selectedExtensions.length }}</strong>
+                {{ locale === 'km' ? 'ផ្នែកបន្ថែម' : 'extension(s)' }}
               </p>
             </div>
 
@@ -449,7 +488,7 @@
             </div>
           </div>
         </div>
-        
+
         <div class="flex items-center justify-end gap-3 p-5 border-t dark:border-gray-700">
           <button
             class="px-5 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
@@ -462,7 +501,15 @@
             class="px-5 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             @click="installSelectedExtensions"
           >
-            {{ isInstallingExtensions ? (locale === 'km' ? 'កំពុងដំឡើង...' : 'Installing...') : (locale === 'km' ? 'ដំឡើង' : 'Install Selected') }}
+            {{
+              isInstallingExtensions
+                ? locale === 'km'
+                  ? 'កំពុងដំឡើង...'
+                  : 'Installing...'
+                : locale === 'km'
+                  ? 'ដំឡើង'
+                  : 'Install Selected'
+            }}
           </button>
         </div>
       </div>
@@ -474,7 +521,9 @@
       class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
       @click.self="closeInstallLog"
     >
-      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-3xl max-h-[90vh] flex flex-col">
+      <div
+        class="bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-3xl max-h-[90vh] flex flex-col"
+      >
         <div class="flex items-center justify-between p-5 border-b dark:border-gray-700">
           <h3 class="text-xl font-semibold dark:text-white flex items-center gap-2">
             <svg
@@ -517,7 +566,7 @@
             </svg>
           </button>
         </div>
-        
+
         <div class="p-5 flex-1 overflow-auto bg-gray-900 dark:bg-black">
           <div class="font-mono text-sm space-y-1">
             <div
@@ -535,7 +584,7 @@
             </div>
           </div>
         </div>
-        
+
         <div class="p-5 border-t dark:border-gray-700">
           <div class="flex items-center justify-between">
             <div class="flex-1">
@@ -575,7 +624,8 @@ import InfoBox from '../../common/InfoBox.vue'
 
 const { t, locale } = useI18n()
 const status = useStatus()
-const { getPhpIniPath, readPhpIni, writePhpIni, listPhpExtensions, getInstalledPhpExtensions } = useTools()
+const { getPhpIniPath, readPhpIni, writePhpIni, listPhpExtensions, getInstalledPhpExtensions } =
+  useTools()
 const isInstalling = ref(false)
 const installProgress = ref(0)
 
@@ -619,8 +669,6 @@ const showInstallLog = ref(false)
 const installLogVersion = ref('')
 const installLogs = ref([])
 
-
-
 // Computed properties
 const hasInstalledVersions = computed(() => {
   return (
@@ -637,20 +685,22 @@ const latestInstalledVersion = computed(() => {
 })
 
 const installedExtensionsList = computed(() => {
-  return availableExtensions.value.filter(ext => 
+  return availableExtensions.value.filter((ext) =>
     installedExtensions.value.includes(ext.toLowerCase())
   )
 })
 
 const notInstalledExtensionsList = computed(() => {
-  return availableExtensions.value.filter(ext => 
-    !installedExtensions.value.includes(ext.toLowerCase())
+  return availableExtensions.value.filter(
+    (ext) => !installedExtensions.value.includes(ext.toLowerCase())
   )
 })
 
 const isAllChecked = computed(() => {
-  return notInstalledExtensionsList.value.length > 0 && 
-         notInstalledExtensionsList.value.every(ext => selectedExtensions.value.includes(ext))
+  return (
+    notInstalledExtensionsList.value.length > 0 &&
+    notInstalledExtensionsList.value.every((ext) => selectedExtensions.value.includes(ext))
+  )
 })
 
 async function handleInstallPHP() {
@@ -665,7 +715,9 @@ async function handleInstallPHP() {
   // Validate version format (e.g., 8.3, 8.2)
   if (!/^\d+\.\d+$/.test(phpInstallVersion.value)) {
     status.showStatus(
-      locale.value === 'km' ? 'កំណែមិនត្រឹមត្រូវ (ឧទាហរណ៍: 8.3)' : 'Invalid version format (example: 8.3)',
+      locale.value === 'km'
+        ? 'កំណែមិនត្រឹមត្រូវ (ឧទាហរណ៍: 8.3)'
+        : 'Invalid version format (example: 8.3)',
       'error'
     )
     return
@@ -678,14 +730,16 @@ async function handleInstallPHP() {
   installLogs.value = []
 
   // Add initial log
-  installLogs.value.push(`[${new Date().toLocaleTimeString()}] Starting PHP ${phpInstallVersion.value} installation...`)
+  installLogs.value.push(
+    `[${new Date().toLocaleTimeString()}] Starting PHP ${phpInstallVersion.value} installation...`
+  )
   installLogs.value.push(`[${new Date().toLocaleTimeString()}] Adding repository...`)
 
   // Simulate progress (in real implementation, this would come from IPC events)
   const progressInterval = setInterval(() => {
     if (installProgress.value < 90) {
       installProgress.value += 10
-      
+
       // Add simulated logs
       const logs = [
         'Updating package lists...',
@@ -694,7 +748,7 @@ async function handleInstallPHP() {
         'Installing PHP extensions...',
         'Configuring PHP-FPM...',
         'Setting up symbolic links...',
-        'Reloading services...'
+        'Reloading services...',
       ]
       const randomLog = logs[Math.floor(Math.random() * logs.length)]
       installLogs.value.push(`[${new Date().toLocaleTimeString()}] ${randomLog}`)
@@ -705,7 +759,9 @@ async function handleInstallPHP() {
     await props.onInstallPhp(phpInstallVersion.value)
     clearInterval(progressInterval)
     installProgress.value = 100
-    installLogs.value.push(`[${new Date().toLocaleTimeString()}] ✓ PHP ${phpInstallVersion.value} installed successfully!`)
+    installLogs.value.push(
+      `[${new Date().toLocaleTimeString()}] ✓ PHP ${phpInstallVersion.value} installed successfully!`
+    )
 
     status.showStatus(
       locale.value === 'km'
@@ -723,7 +779,7 @@ async function handleInstallPHP() {
   } catch (error) {
     clearInterval(progressInterval)
     installLogs.value.push(`[${new Date().toLocaleTimeString()}] ✗ Error: ${error.message}`)
-    
+
     setTimeout(() => {
       isInstalling.value = false
       installProgress.value = 0
@@ -747,7 +803,7 @@ async function openIniEditor(version, type = 'cli') {
   iniEditorType.value = type
   showIniEditor.value = true
   isLoadingIni.value = true
-  
+
   try {
     const path = await getPhpIniPath(version, type)
     iniFilePath.value = path
@@ -765,13 +821,10 @@ async function openIniEditor(version, type = 'cli') {
 
 async function saveIniFile() {
   isSavingIni.value = true
-  
+
   try {
     await writePhpIni(iniFilePath.value, iniContent.value)
-    status.showStatus(
-      locale.value === 'km' ? 'រក្សាទុកជោគជ័យ' : 'Saved successfully',
-      'success'
-    )
+    status.showStatus(locale.value === 'km' ? 'រក្សាទុកជោគជ័យ' : 'Saved successfully', 'success')
   } catch (error) {
     status.showStatus(
       locale.value === 'km' ? `កំហុស: ${error.message}` : `Error: ${error.message}`,
@@ -794,11 +847,11 @@ async function openExtensionsManager(version) {
   showExtensionsManager.value = true
   isLoadingExtensions.value = true
   selectedExtensions.value = []
-  
+
   try {
     const [available, installed] = await Promise.all([
       listPhpExtensions(version),
-      getInstalledPhpExtensions(version)
+      getInstalledPhpExtensions(version),
     ])
     availableExtensions.value = available
     installedExtensions.value = installed
@@ -820,9 +873,9 @@ async function installSelectedExtensions() {
     )
     return
   }
-  
+
   isInstallingExtensions.value = true
-  
+
   try {
     const extensions = selectedExtensions.value.join(', ')
     await props.onInstallPhpExtensions(extManagerVersion.value, extensions)
@@ -830,7 +883,7 @@ async function installSelectedExtensions() {
       locale.value === 'km' ? 'ផ្នែកបន្ថែមបានដំឡើងជោគជ័យ' : 'Extensions installed successfully',
       'success'
     )
-    
+
     // Refresh installed extensions
     installedExtensions.value = await getInstalledPhpExtensions(extManagerVersion.value)
     selectedExtensions.value = []

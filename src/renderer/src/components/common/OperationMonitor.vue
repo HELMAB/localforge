@@ -53,9 +53,7 @@
           </div>
 
           <!-- Operations list -->
-          <div
-            class="max-h-[70vh] overflow-y-auto"
-          >
+          <div class="max-h-[70vh] overflow-y-auto">
             <div
               v-for="[id, operation] in operations.activeOperations.value"
               :key="id"
