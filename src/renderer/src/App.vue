@@ -24,12 +24,6 @@
       <AppFooter />
     </div>
 
-    <ProgressBar
-      :is-loading="progress.isLoading.value"
-      :progress="progress.progress.value"
-      :message="progress.message.value"
-    />
-
     <ErrorModal
       :visible="errorModal.visible.value"
       :title="errorModal.title.value"
@@ -62,7 +56,6 @@ import { useI18n } from 'vue-i18n'
 import AppHeader from './components/layout/AppHeader.vue'
 import TabNavigation from './components/layout/TabNavigation.vue'
 import AppFooter from './components/layout/AppFooter.vue'
-import ProgressBar from './components/common/ProgressBar.vue'
 import ErrorModal from './components/common/ErrorModal.vue'
 import CommandPalette from './components/common/CommandPalette.vue'
 import WelcomeDialog from './components/common/WelcomeDialog.vue'
@@ -71,7 +64,6 @@ import OperationMonitor from './components/common/OperationMonitor.vue'
 import { useDarkMode } from './composables/useDarkMode'
 import { useSettings } from './composables/useSettings'
 import { useKeyboardShortcuts } from './composables/useKeyboardShortcuts'
-import { useProgress } from './composables/useProgress'
 import { useErrorModal } from './composables/useErrorModal'
 import { useOnboarding } from './composables/useOnboarding'
 import { useOperationControl } from './composables/useOperationControl'
@@ -79,7 +71,6 @@ import { useOperationControl } from './composables/useOperationControl'
 const { locale } = useI18n()
 const { toggleDarkMode: toggle } = useDarkMode()
 const { settings } = useSettings()
-const progress = useProgress()
 const errorModal = useErrorModal()
 const onboarding = useOnboarding()
 const operations = useOperationControl()
@@ -124,7 +115,6 @@ onMounted(() => {
   })
 })
 
-provide('progress', progress)
 provide('errorModal', errorModal)
 provide('operations', operations)
 </script>

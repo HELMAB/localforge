@@ -144,7 +144,7 @@
             <button
               class="p-2 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/30 rounded transition-colors"
               :title="t('removeFromList')"
-              @click="handleRemove(project.path)"
+              @click="handleRemove(project)"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -164,13 +164,38 @@
       </div>
     </Transition>
   </div>
+
+  <ConfirmationModal
+    :visible="isRemoveModalVisible"
+    :title="t('deleteProjectTitle')"
+    :message="
+      t('deleteProjectMessage', {
+        projectName: projectToRemove ? projectToRemove.name : '',
+      })
+    "
+    :confirm-text="t('delete')"
+    level="danger"
+    @close="isRemoveModalVisible = false"
+    @confirm="confirmRemove"
+  />
+
+  <ConfirmationModal
+    :visible="isClearAllModalVisible"
+    :title="t('clearAllProjectsTitle')"
+    :message="t('clearAllProjectsMessage')"
+    :confirm-text="t('clearAll')"
+    level="danger"
+    @close="isClearAllModalVisible = false"
+    @confirm="confirmClearAll"
+  />
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRecentProjects } from '../../composables/useRecentProjects'
-import { useStatus } from '../../composables/useStatus'
+import { useToast } from '../../composables/useToast'
+import ConfirmationModal from '../common/ConfirmationModal.vue'
 import laravelIcon from '@/assets/svg/laravel.svg'
 import vuejsIcon from '@/assets/svg/vuejs.svg'
 import nuxtjsIcon from '@/assets/svg/nuxtjs.svg'
@@ -178,24 +203,48 @@ import reactIcon from '@/assets/svg/react.svg'
 import wordpressIcon from '@/assets/svg/wordpress.svg'
 
 const { t } = useI18n()
-const { recentProjects, removeRecentProject, loadRecentProjects, clearRecentProjects } =
+const { recentProjects, removeProjectWithConfigs, loadRecentProjects, clearRecentProjects } =
   useRecentProjects()
-const status = useStatus()
+const toast = useToast()
 const isExpanded = ref(false)
+
+const isRemoveModalVisible = ref(false)
+const projectToRemove = ref(null)
+
+const isClearAllModalVisible = ref(false)
 
 defineEmits(['clone-config'])
 
 onMounted(() => {
-  // Force reload from localStorage
   loadRecentProjects()
-  // eslint-disable-next-line no-console
-  console.log('Recent projects loaded:', recentProjects.value.length)
 })
 
 function handleClearAll() {
-  if (confirm('Are you sure you want to clear all recent projects?')) {
-    clearRecentProjects()
-    status.showStatus('All recent projects cleared', 'success')
+  isClearAllModalVisible.value = true
+}
+
+async function confirmClearAll() {
+  clearRecentProjects()
+  isClearAllModalVisible.value = false
+  toast.showToast(t('allRecentProjectsCleared'), 'success')
+}
+
+function handleRemove(project) {
+  projectToRemove.value = project
+  isRemoveModalVisible.value = true
+}
+
+async function confirmRemove() {
+  if (!projectToRemove.value) return
+
+  try {
+    await removeProjectWithConfigs(projectToRemove.value.path)
+    toast.showToast(t('projectRemovedAndConfigsDeleted'), 'success')
+  } catch (error) {
+    toast.showToast(t('errorDeletingProjectConfigs', { error: error.message }), 'error')
+  } finally {
+    isRemoveModalVisible.value = false
+    projectToRemove.value = null
   }
 }
 
@@ -250,7 +299,7 @@ function openInIDE(path) {
   const { exec } = require('child_process')
   exec(`code "${path}"`, (error) => {
     if (error) {
-      status.showStatus('VS Code not found or not in PATH', 'error')
+      toast.showToast('VS Code not found or not in PATH', 'error')
     }
   })
 }
@@ -265,11 +314,6 @@ function openInFileManager(path) {
         ? `open "${path}"`
         : `xdg-open "${path}"`
   exec(command)
-}
-
-function handleRemove(path) {
-  removeRecentProject(path)
-  status.showStatus(t('projectDeleted'), 'success')
 }
 
 // Transition hooks for smooth expand/collapse

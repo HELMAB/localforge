@@ -51,6 +51,12 @@ export function useOperationControl() {
       operation.status = success ? 'completed' : 'failed'
       operation.endTime = Date.now()
       operation.duration = operation.endTime - operation.startTime
+
+      if (success) {
+        setTimeout(() => {
+          removeOperation(id)
+        }, 3000)
+      }
     }
   }
 

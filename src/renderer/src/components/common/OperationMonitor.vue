@@ -2,12 +2,12 @@
   <Teleport to="body">
     <Transition name="fade">
       <div
-        v-if="hasActiveOperations"
-        class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+        v-if="hasActiveOperations && expanded"
+        class="fixed inset-0 z-50 flex items-end justify-center bg-black bg-opacity-50 sm:items-center"
         @click.self="expanded = false"
       >
         <div
-          class="w-full max-w-3xl mx-4 bg-white dark:bg-gray-800 rounded-lg shadow-2xl overflow-hidden"
+          class="w-full max-w-5xl mx-auto sm:mx-4 bg-white dark:bg-gray-800 rounded-t-lg sm:rounded-lg shadow-2xl overflow-hidden"
         >
           <!-- Header -->
           <div
@@ -97,12 +97,13 @@
                 <!-- Full output -->
                 <div
                   v-if="operation.output.length > 0"
+                  ref="outputContainer"
                   class="bg-gray-900 text-gray-100 text-xs font-mono p-3 rounded max-h-64 overflow-y-auto"
                 >
                   <div
                     v-for="(line, index) in operation.output"
                     :key="index"
-                    class="whitespace-pre-wrap break-all leading-relaxed"
+                    class="whitespace-pre-wrap break-words leading-relaxed"
                   >
                     {{ line.text }}
                   </div>
@@ -125,7 +126,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch, nextTick } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useOperationControl } from '@/composables/useOperationControl'
 
@@ -133,6 +134,7 @@ const { t } = useI18n()
 const operations = useOperationControl()
 
 const expanded = ref(true)
+const outputContainer = ref(null)
 
 const hasActiveOperations = computed(() => {
   return operations.activeOperations.value.size > 0
@@ -148,6 +150,24 @@ const hasCompleted = computed(() => {
   }
   return false
 })
+
+watch(
+  () => operations.activeOperations.value,
+  async (newOperations) => {
+    if (newOperations.size > 0) {
+      expanded.value = true
+      await nextTick()
+      if (outputContainer.value && outputContainer.value.length > 0) {
+        outputContainer.value.forEach((container) => {
+          if (container) {
+            container.scrollTop = container.scrollHeight
+          }
+        })
+      }
+    }
+  },
+  { deep: true }
+)
 
 const getOperationTitle = (type) => {
   const titles = {

@@ -99,7 +99,6 @@ ipcMain.handle(
       nodeVersion,
       vueOptions,
       nuxtVersion,
-      nuxtTemplate,
       operationId,
     }
   ) => {
@@ -160,16 +159,18 @@ ipcMain.handle(
         }
 
         case 'nuxt': {
-          const version = nuxtVersion || '4'
+          const version = nuxtVersion || '3' // Default to Nuxt 3
           let nuxtCmd = ''
 
           if (version === '2') {
-            nuxtCmd = `yes "" | npm init nuxt-app ${name}`
+            // Nuxt 2 uses create-nuxt-app, which is interactive. `yes` is a workaround.
+            nuxtCmd = `yes "" | npx create-nuxt-app@latest ${name}`
           } else if (version === '3') {
-            nuxtCmd = `yes "" | npm create nuxt@latest ${name} -- -t v3`
+            // Nuxt 3 uses nuxi, which is non-interactive by default.
+            nuxtCmd = `npx nuxi@3 init ${name}`
           } else {
-            const template = nuxtTemplate || 'minimal'
-            nuxtCmd = `yes "" | npm create nuxt@latest ${name} -- -t ${template}`
+            // Nuxt 4 is on the edge channel
+            nuxtCmd = `npx nuxi@edge init ${name}`
           }
 
           if (nodeVersion) {
@@ -189,7 +190,7 @@ ipcMain.handle(
         }
 
         case 'wordpress':
-          command = `cd "${projectPath}" && mkdir -p ${name} && cd ${name} && curl -O https://wordpress.org/latest.zip && unzip latest.zip && mv wordpress/* . && rmdir wordpress && rm latest.zip && chown -R $USER:$USER . && find . -type d -exec chmod 755 {} \\; && find . -type f -exec chmod 644 {} \\;`
+          command = `cd "${projectPath}" && mkdir -p ${name} && cd ${name} && curl -O https://wordpress.org/latest.zip && unzip latest.zip && mv wordpress/* . && rmdir wordpress && rm latest.zip`
           break
 
         default:
@@ -227,43 +228,72 @@ ipcMain.handle(
         }
 
         if (code === 0) {
-          // For Laravel projects, set ownership and permissions
+          const username = require('os').userInfo().username
           if (type === 'laravel') {
-            const username = require('os').userInfo().username
-
-            // Set ownership and permissions for Laravel
-            const permissionCommands = [
+            const userCommands = [
               `chown -R ${username}:${username} "${fullPath}"`,
               `chmod -R 755 "${fullPath}"`,
-              `chmod -R 775 "${fullPath}/storage"`,
-              `chmod -R 775 "${fullPath}/bootstrap/cache"`,
-            ]
+            ].join(' && ')
 
-            // Check if using SQLite and set proper permissions
-            const envPath = path.join(fullPath, '.env')
-            if (fs.existsSync(envPath)) {
-              const envContent = fs.readFileSync(envPath, 'utf8')
-              if (envContent.includes('DB_CONNECTION=sqlite')) {
-                const dbPath = path.join(fullPath, 'database/database.sqlite')
-                // Create SQLite file if it doesn't exist
-                if (!fs.existsSync(dbPath)) {
-                  fs.writeFileSync(dbPath, '')
-                }
-                permissionCommands.push(
-                  `chown ${username}:${username} "${dbPath}"`,
-                  `chmod 664 "${dbPath}"`,
-                  `chmod 775 "${path.join(fullPath, 'database')}"`
-                )
-              }
-            }
+            exec(userCommands, (userErr) => {
+              if (userErr) console.error('Laravel user permission change failed:', userErr)
 
-            const permissionCommand = permissionCommands.join(' && ')
-            exec(permissionCommand, (permError) => {
-              if (permError) {
-                // eslint-disable-next-line no-console
-                console.error('Failed to set permissions:', permError)
-              }
-              resolve({ success: true, path: fullPath, output })
+              const sudoCommand = `chown -R ${username}:www-data "${path.join(
+                fullPath,
+                'storage'
+              )}" "${path.join(
+                fullPath,
+                'bootstrap/cache'
+              )}" && chmod -R 775 "${path.join(
+                fullPath,
+                'storage'
+              )}" "${path.join(fullPath, 'bootstrap/cache')}"`
+
+              execSudo(sudoCommand)
+                .then(() => {
+                  // Check if using SQLite and set proper permissions
+                  const envPath = path.join(fullPath, '.env')
+                  if (fs.existsSync(envPath)) {
+                    const envContent = fs.readFileSync(envPath, 'utf8')
+                    if (envContent.includes('DB_CONNECTION=sqlite')) {
+                      const dbPath = path.join(fullPath, 'database/database.sqlite')
+                      if (!fs.existsSync(dbPath)) {
+                        fs.writeFileSync(dbPath, '')
+                      }
+                      const sqliteCommand = `chown ${username}:www-data "${dbPath}" && chmod 664 "${dbPath}" && chmod 775 "${path.join(
+                        fullPath,
+                        'database'
+                      )}"`
+                      execSudo(sqliteCommand)
+                        .then(() => resolve({ success: true, path: fullPath, output }))
+                        .catch((sqliteErr) => {
+                          console.error('SQLite permission change failed:', sqliteErr)
+                          resolve({ success: true, path: fullPath, output })
+                        })
+                      return
+                    }
+                  }
+                  resolve({ success: true, path: fullPath, output })
+                })
+                .catch((sudoErr) => {
+                  console.error('Laravel sudo permission change failed:', sudoErr)
+                  resolve({ success: true, path: fullPath, output })
+                })
+            })
+          } else if (type === 'wordpress') {
+            const userCommand = `chown -R ${username}:${username} "${fullPath}" && find "${fullPath}" -type d -exec chmod 755 {} \\; && find "${fullPath}" -type f -exec chmod 644 {} \\;`
+            exec(userCommand, (err) => {
+              if (err) console.error('WordPress user permission change failed:', err)
+              const sudoCommand = `chown -R ${username}:www-data "${path.join(
+                fullPath,
+                'wp-content'
+              )}"`
+              execSudo(sudoCommand)
+                .then(() => resolve({ success: true, path: fullPath, output }))
+                .catch((sudoErr) => {
+                  console.error('WordPress sudo permission change failed:', sudoErr)
+                  resolve({ success: true, path: fullPath, output })
+                })
             })
           } else {
             resolve({ success: true, path: fullPath, output })
@@ -1997,6 +2027,60 @@ ipcMain.handle('check-installed-tools', async () => {
       resolve(results)
     })
   })
+})
+
+ipcMain.handle('check-directory-exists', async (event, { dirPath }) => {
+  return fs.existsSync(dirPath)
+})
+
+ipcMain.handle('delete-project-and-configs', async (event, { projectPath }) => {
+  const sitesAvailableDir = '/etc/nginx/sites-available/'
+  try {
+    const files = await fs.promises.readdir(sitesAvailableDir)
+    for (const file of files) {
+      if (file === 'default') continue
+      const configPath = path.join(sitesAvailableDir, file)
+      const content = await fs.promises.readFile(configPath, 'utf8')
+
+      const rootMatch = content.match(/root\s+([^;]+);/)
+      if (rootMatch) {
+        let rootPath = rootMatch[1].trim()
+        // Normalize path by removing trailing slashes or /public, /dist
+        rootPath = rootPath.replace(/\/$/, '').replace(/\/(public|dist)$/, '')
+        const normalizedProjectPath = projectPath.replace(/\/$/, '')
+
+        if (rootPath === normalizedProjectPath) {
+          // Found a matching config file. Now delete it.
+          const configName = file
+          const availablePath = `/etc/nginx/sites-available/${configName}`
+          const enabledPath = `/etc/nginx/sites-enabled/${configName}`
+          let domain = null
+          const domainMatch = content.match(/server_name\s+([^;]+);/)
+          if (domainMatch) {
+            domain = domainMatch[1].trim().split(' ')[0] // get first domain
+          }
+
+          let command = `rm -f "${enabledPath}" && rm -f "${availablePath}"`
+          if (domain) {
+            command += ` && sed -i.bak '/127\\.0\\.0\\.1[[:space:]]\\+${domain.replace(
+              /\./g,
+              '\\.'
+            )}/d' /etc/hosts`
+            command += ` && rm -f "/etc/nginx/ssl/${domain}.pem" "/etc/nginx/ssl/${domain}-key.pem"`
+          }
+          command += ' && nginx -t && systemctl reload nginx'
+
+          await execSudo(command)
+          // We assume one project has one config. So we can break here.
+          break
+        }
+      }
+    }
+    return { success: true }
+  } catch (err) {
+    console.error('Error deleting project configs:', err)
+    throw err
+  }
 })
 
 // Auto-updater IPC handlers

@@ -272,4 +272,14 @@ export default {
     importSuccess: 'Backup restored successfully!',
     lastBackup: 'Last Backup Information',
   },
+  // Recent Projects Deletion
+  deleteProjectTitle: 'Delete Project',
+  deleteProjectMessage:
+    'Are you sure you want to delete the project "{projectName}"? This will also remove any associated Nginx configurations and host entries. This action cannot be undone.',
+  clearAllProjectsTitle: 'Clear All Projects',
+  clearAllProjectsMessage:
+    'Are you sure you want to clear all recent projects? This will not delete project files or configurations.',
+  projectRemovedAndConfigsDeleted: 'Project removed and associated configurations deleted.',
+  errorDeletingProjectConfigs: 'Error deleting project configurations: {error}',
+  allRecentProjectsCleared: 'All recent projects cleared',
 }

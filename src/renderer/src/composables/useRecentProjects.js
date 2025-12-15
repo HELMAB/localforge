@@ -1,4 +1,5 @@
 import { ref, computed } from 'vue'
+import { useIpc } from './useIpc'
 
 const STORAGE_KEY = 'localforge_recent_projects'
 const MAX_RECENT_PROJECTS = 10
@@ -6,11 +7,22 @@ const MAX_RECENT_PROJECTS = 10
 const recentProjects = ref([])
 
 export function useRecentProjects() {
-  function loadRecentProjects() {
+  const { invoke } = useIpc()
+
+  async function loadRecentProjects() {
     try {
       const stored = localStorage.getItem(STORAGE_KEY)
       if (stored) {
-        recentProjects.value = JSON.parse(stored)
+        const projects = JSON.parse(stored)
+        const verifiedProjects = []
+        for (const project of projects) {
+          const exists = await invoke('check-directory-exists', { dirPath: project.path })
+          if (exists) {
+            verifiedProjects.push(project)
+          }
+        }
+        recentProjects.value = verifiedProjects
+        saveRecentProjects()
       }
     } catch (error) {
       // eslint-disable-next-line no-console
@@ -72,6 +84,17 @@ export function useRecentProjects() {
     saveRecentProjects()
   }
 
+  async function removeProjectWithConfigs(path) {
+    try {
+      await invoke('delete-project-and-configs', { projectPath: path })
+      removeRecentProject(path)
+      return { success: true }
+    } catch (error) {
+      removeRecentProject(path)
+      throw error
+    }
+  }
+
   function clearRecentProjects() {
     recentProjects.value = []
     saveRecentProjects()
@@ -92,6 +115,7 @@ export function useRecentProjects() {
     recentProjects: sortedProjects,
     addRecentProject,
     removeRecentProject,
+    removeProjectWithConfigs,
     clearRecentProjects,
     loadRecentProjects,
   }
