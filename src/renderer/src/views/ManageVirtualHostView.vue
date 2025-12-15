@@ -4,69 +4,12 @@
       class="flex bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700"
     >
       <!-- Sidebar Menu -->
-      <div
-        class="bg-gray-50 dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 py-4 px-3 flex flex-col rounded-l-lg"
-        style="width: 180px; min-width: 180px"
-      >
-        <nav class="space-y-2 flex-1 overflow-y-auto">
-          <button
-            :class="[
-              'w-full px-3 py-2.5 rounded-lg text-sm font-medium transition-colors',
-              activeMenu === 'new-site'
-                ? 'bg-blue-500 dark:bg-blue-600 text-white hover:bg-blue-600 dark:hover:bg-blue-700'
-                : 'hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300',
-            ]"
-            @click="activeMenu = 'new-site'"
-          >
-            <div class="flex items-center gap-3">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-5 w-5"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
-                  clip-rule="evenodd"
-                />
-              </svg>
-              <span class="text-sm">{{ t('nginxNewSite') }}</span>
-            </div>
-          </button>
-
-          <button
-            :class="[
-              'w-full px-3 py-2.5 rounded-lg text-sm font-medium transition-colors',
-              activeMenu === 'sites'
-                ? 'bg-blue-500 dark:bg-blue-600 text-white hover:bg-blue-600 dark:hover:bg-blue-700'
-                : 'hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300',
-            ]"
-            @click="activeMenu = 'sites'"
-          >
-            <div class="flex items-center gap-3">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-5 w-5"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a1 1 0 110 2h-3a1 1 0 01-1-1v-2a1 1 0 00-1-1H9a1 1 0 00-1 1v2a1 1 0 01-1 1H4a1 1 0 110-2V4zm3 1h2v2H7V5zm2 4H7v2h2V9zm2-4h2v2h-2V5zm2 4h-2v2h2V9z"
-                  clip-rule="evenodd"
-                />
-              </svg>
-              <span class="text-sm">{{ t('nginxSites') }}</span>
-              <span
-                class="ml-auto px-2 py-0.5 text-xs rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200"
-              >
-                {{ configs.length }}
-              </span>
-            </div>
-          </button>
-        </nav>
-      </div>
+      <VirtualHostSidebar
+        :active-menu="activeMenu"
+        :configs="configs"
+        :t="t"
+        @update:active-menu="(menu) => (activeMenu = menu)"
+      />
 
       <!-- Main Content Area -->
       <div class="flex-1 overflow-y-auto bg-gray-50 dark:bg-gray-800">
@@ -1264,6 +1207,7 @@ import DirectorySelector from '../components/common/DirectorySelector.vue'
 import AlertNotification from '../components/common/AlertNotification.vue'
 import CustomSelect from '../components/common/CustomSelect.vue'
 import InfoBox from '../components/common/InfoBox.vue'
+import VirtualHostSidebar from '../components/virtual-host/VirtualHostSidebar.vue'
 import phpIcon from '@/assets/svg/php.svg'
 import laravelIcon from '@/assets/svg/laravel.svg'
 import wordpressIcon from '@/assets/svg/wordpress.svg'
