@@ -503,11 +503,7 @@
             </p>
             <button
               class="px-4 py-2 bg-blue-500 dark:bg-blue-600 text-white rounded-lg hover:bg-blue-600 dark:hover:bg-blue-700 transition-colors text-sm"
-              @click="
-                searchQuery = '';
-                statusFilter = 'all';
-                sslFilter = 'all';
-              "
+              @click="clearFilters"
             >
               {{ locale === 'km' ? 'សម្អាតតម្រង' : 'Clear Filters' }}
             </button>
@@ -1591,6 +1587,12 @@ const phpVersionOptions = computed(() => {
 
   return options
 })
+
+function clearFilters() {
+  searchQuery.value = ''
+  statusFilter.value = 'all'
+  sslFilter.value = 'all'
+}
 
 async function handleConfigureNginx() {
   // Validate form fields
