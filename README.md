@@ -479,7 +479,7 @@ localforge/
 │           │   │                      # - tool-sections/ (PHP, Node, etc.)
 │           │   └── settings/         # BackupRestore, UpdateChecker
 │           ├── 📂 views/              # Route wrappers (thin components)
-│           ├── 📂 composables/        # 19 composables for business logic
+│           ├── 📂 composables/        # 18 composables for business logic
 │           ├── 📂 router/             # Vue Router (hash mode, 4 routes)
 │           ├── 📂 i18n/               # Vue I18n setup + locales (km/en)
 │           ├── 📂 utils/              # Utility functions
