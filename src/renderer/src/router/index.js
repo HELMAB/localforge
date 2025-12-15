@@ -8,7 +8,7 @@ const routes = [
   {
     path: '/create',
     name: 'create',
-    component: () => import('../views/CreateProjectView.vue'),
+    component: () => import('../views/ManageProjectView.vue'),
   },
   {
     path: '/nginx',
