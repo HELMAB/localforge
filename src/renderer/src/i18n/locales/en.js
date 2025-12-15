@@ -282,4 +282,20 @@ export default {
   projectRemovedAndConfigsDeleted: 'Project removed and associated configurations deleted.',
   errorDeletingProjectConfigs: 'Error deleting project configurations: {error}',
   allRecentProjectsCleared: 'All recent projects cleared',
+  // Project view sidebar
+  menu: 'Menu',
+  newProject: 'New Project',
+  projects: 'Projects',
+  // Project List
+  searchProjects: 'Search projects...',
+  noProjectsFound: 'No Projects Found',
+  noProjectsFoundDesc: 'No projects match your search, or you haven\'t created any projects yet.',
+  projectTypeLaravel: 'Laravel',
+  projectTypeVue: 'Vue.js',
+  projectTypeNuxt: 'Nuxt.js',
+  projectTypeReact: 'React',
+  projectTypeWordpress: 'WordPress',
+  // Project Actions
+  fileManager: 'File Manager',
+  remove: 'Remove',
 }

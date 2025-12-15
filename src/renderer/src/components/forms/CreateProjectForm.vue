@@ -1,8 +1,5 @@
 <template>
   <div class="space-y-4">
-    <!-- Recent Projects -->
-    <RecentProjects @clone-config="handleCloneConfig" />
-
     <!-- Post Creation Success -->
     <PostCreationActions
       v-if="showPostCreation"
@@ -115,8 +112,8 @@
           :vue-options="vueOptions"
         />
 
-        <!-- 2-Column Grid Layout -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- 1-Column Grid Layout -->
+        <div class="grid grid-cols-1 gap-4">
           <div>
             <label class="block text-sm font-medium mb-2 dark:text-gray-300">
               {{ t('projectNameLabel') }} <span class="text-red-500">*</span>
@@ -192,7 +189,6 @@ import NuxtOptions from './NuxtOptions.vue'
 import NodeOptions from './NodeOptions.vue'
 import DirectorySelector from '../common/DirectorySelector.vue'
 import AlertNotification from '../common/AlertNotification.vue'
-import RecentProjects from './RecentProjects.vue'
 import ProjectPreview from './ProjectPreview.vue'
 import PostCreationActions from './PostCreationActions.vue'
 
@@ -237,25 +233,6 @@ const validateProjectName = () => {
   } else {
     delete validationErrors.value.projectName
   }
-}
-
-function handleCloneConfig(config) {
-  // Clone configuration from recent project
-  if (config.phpVersion) {
-    if (projectType.value === 'laravel') {
-      phpVersion.value = config.phpVersion
-    } else {
-      wpPhpVersion.value = config.phpVersion
-    }
-  }
-  if (config.nodeVersion) nodeVersion.value = config.nodeVersion
-  if (config.laravelVersion) laravelVersion.value = config.laravelVersion
-  if (config.laravelStarter) laravelStarter.value = config.laravelStarter
-  if (config.nuxtVersion) nuxtVersion.value = config.nuxtVersion
-  if (config.nuxtTemplate) nuxtTemplate.value = config.nuxtTemplate
-  if (config.vueOptions) vueOptions.value = { ...config.vueOptions }
-
-  toast.success(t('configCloned'))
 }
 
 async function handleCreateProject() {
