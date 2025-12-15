@@ -216,7 +216,7 @@ const commands = computed(() => [
         : 'Create Laravel, Vue, React, or WordPress project',
     icon: PlusIcon,
     iconColor: 'bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400',
-    action: () => router.push('/create'),
+    action: () => router.push('/projects'),
     keywords: ['create', 'new', 'project', 'laravel', 'vue', 'react', 'បង្កើត'],
   },
   {
@@ -228,7 +228,7 @@ const commands = computed(() => [
         : 'Create virtual host configuration',
     icon: ServerIcon,
     iconColor: 'bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400',
-    action: () => router.push('/nginx'),
+    action: () => router.push('/virtual-hosts'),
     keywords: ['nginx', 'server', 'virtual host', 'config', 'configuration'],
   },
   {
@@ -240,7 +240,7 @@ const commands = computed(() => [
         : 'Generate SSL certificate with mkcert',
     icon: LockIcon,
     iconColor: 'bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400',
-    action: () => router.push('/ssl'),
+    action: () => router.push('/services'),
     keywords: ['ssl', 'certificate', 'https', 'mkcert', 'security'],
   },
   {

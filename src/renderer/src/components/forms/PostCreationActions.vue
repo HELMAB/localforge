@@ -272,10 +272,10 @@ function openFileInIDE(filename) {
 }
 
 function goToNginxConfig() {
-  router.push('/nginx')
+  router.push('/virtual-hosts')
 }
 
 function goToSslGenerator() {
-  router.push('/ssl')
+  router.push('/services')
 }
 </script>

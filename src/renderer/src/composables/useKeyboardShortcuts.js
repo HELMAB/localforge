@@ -5,10 +5,10 @@ export function useKeyboardShortcuts() {
   const router = useRouter()
 
   const shortcuts = {
-    'ctrl+1': () => router.push('/create'),
-    'ctrl+2': () => router.push('/nginx'),
-    'ctrl+3': () => router.push('/ssl'),
-    'ctrl+4': () => router.push('/manage'),
+    'ctrl+1': () => router.push('/projects'),
+    'ctrl+2': () => router.push('/virtual-hosts'),
+    'ctrl+3': () => router.push('/services'),
+    'ctrl+4': () => router.push('/settings'),
     'ctrl+d': (e) => {
       e.preventDefault()
       const event = new CustomEvent('toggle-dark-mode')
