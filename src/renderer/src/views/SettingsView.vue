@@ -343,6 +343,12 @@
         </div>
       </div>
     </div>
+    <SuccessModal
+      :visible="showSuccessModal"
+      :title="t('settings.successTitle')"
+      :message="t('settings.successMessage')"
+      @close="showSuccessModal = false"
+    />
   </div>
 </template>
 
@@ -354,6 +360,7 @@ import { useSettings } from '@/composables/useSettings'
 import CustomSelect from '@/components/common/CustomSelect.vue'
 import UpdateChecker from '@/components/settings/UpdateChecker.vue'
 import BackupRestore from '@/components/settings/BackupRestore.vue'
+import SuccessModal from '@/components/common/SuccessModal.vue'
 
 const { t, locale } = useI18n()
 const { isDark, toggleDarkMode } = useDarkMode()
@@ -363,6 +370,7 @@ const currentLanguage = ref(locale.value)
 const localSettings = ref({ ...settings.value })
 const appVersion = '1.0.0'
 const platform = typeof process !== 'undefined' ? `${process.platform} ${process.arch}` : 'Unknown'
+const showSuccessModal = ref(false)
 
 const languageOptions = [
   { value: 'km', label: 'ភាសាខ្មែរ (Khmer)' },
@@ -378,6 +386,6 @@ const saveSettings = () => {
   Object.keys(localSettings.value).forEach((key) => {
     updateSetting(key, localSettings.value[key])
   })
-  alert(t('saveBtn') + ' ✓')
+  showSuccessModal.value = true
 }
 </script>

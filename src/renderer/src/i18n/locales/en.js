@@ -243,6 +243,8 @@ export default {
     platform: 'Platform',
     hostname: 'Hostname',
     timestamp: 'Timestamp',
+    successTitle: 'Settings Saved',
+    successMessage: 'Your settings have been saved successfully.',
     // Auto-Update
     checkUpdates: 'Check for Updates',
     checking: 'Checking for updates...',

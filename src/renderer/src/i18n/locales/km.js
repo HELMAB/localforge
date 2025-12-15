@@ -242,6 +242,8 @@ export default {
     platform: 'វេទិកា',
     hostname: 'ឈ្មោះម៉ាស៊ីន',
     timestamp: 'ពេលវេលា',
+    successTitle: 'បានរក្សាទុកការកំណត់',
+    successMessage: 'ការកំណត់របស់អ្នកត្រូវបានរក្សាទុកដោយជោគជ័យ។',
     // Auto-Update
     checkUpdates: 'ពិនិត្យមើលការធ្វើបច្ចុប្បន្នភាព',
     checking: 'កំពុងពិនិត្យមើលការធ្វើបច្ចុប្បន្នភាព...',
