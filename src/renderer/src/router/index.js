@@ -18,7 +18,7 @@ const routes = [
   {
     path: '/manage',
     name: 'manage',
-    component: () => import('../views/ManageToolsView.vue'),
+    component: () => import('../views/ManageServicesView.vue'),
   },
   {
     path: '/settings',
