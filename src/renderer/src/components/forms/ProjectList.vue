@@ -73,6 +73,26 @@
       <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
         {{ t('noProjectsFoundDesc') }}
       </p>
+
+      <!-- add new project button -->
+      <button
+        class="mt-6 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors flex items-center gap-2 mx-auto"
+        @click="$emit('update:activeView', 'new')"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-5 w-5"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+            clip-rule="evenodd"
+          />
+        </svg>
+        <span>{{ t('newProject') }}</span>
+      </button>
     </div>
 
     <ConfirmationModal
@@ -109,6 +129,13 @@ const toast = useToast()
 const isRemoveModalVisible = ref(false)
 const projectToRemove = ref(null)
 const searchQuery = ref('')
+
+defineProps({
+  activeView: {
+    type: String,
+    required: true,
+  },
+})
 
 const filteredProjects = computed(() => {
   if (!searchQuery.value) {
@@ -207,4 +234,6 @@ function openInFileManager(path) {
         : `xdg-open "${path}"`
   exec(command)
 }
+
+defineEmits(['update:activeView'])
 </script>

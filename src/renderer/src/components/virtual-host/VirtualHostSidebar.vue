@@ -7,32 +7,6 @@
       <button
         :class="[
           'w-full px-3 py-2.5 rounded-lg text-sm font-medium transition-colors',
-          activeMenu === 'new-site'
-            ? 'bg-blue-500 dark:bg-blue-600 text-white hover:bg-blue-600 dark:hover:bg-blue-700'
-            : 'hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300',
-        ]"
-        @click="$emit('update:activeMenu', 'new-site')"
-      >
-        <div class="flex items-center gap-3">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-5 w-5"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
-              clip-rule="evenodd"
-            />
-          </svg>
-          <span class="text-sm">{{ t('nginxNewSite') }}</span>
-        </div>
-      </button>
-
-      <button
-        :class="[
-          'w-full px-3 py-2.5 rounded-lg text-sm font-medium transition-colors',
           activeMenu === 'sites'
             ? 'bg-blue-500 dark:bg-blue-600 text-white hover:bg-blue-600 dark:hover:bg-blue-700'
             : 'hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300',
@@ -60,6 +34,31 @@
           </span>
         </div>
       </button>
+      <button
+        :class="[
+          'w-full px-3 py-2.5 rounded-lg text-sm font-medium transition-colors',
+          activeMenu === 'new-site'
+            ? 'bg-blue-500 dark:bg-blue-600 text-white hover:bg-blue-600 dark:hover:bg-blue-700'
+            : 'hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300',
+        ]"
+        @click="$emit('update:activeMenu', 'new-site')"
+      >
+        <div class="flex items-center gap-3">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+              clip-rule="evenodd"
+            />
+          </svg>
+          <span class="text-sm">{{ t('nginxNewSite') }}</span>
+        </div>
+      </button>
     </nav>
   </div>
 </template>
@@ -84,7 +83,3 @@ defineProps({
 
 defineEmits(['update:activeMenu'])
 </script>
-
-<style scoped>
-/* Add any specific styles for the sidebar here if necessary */
-</style>

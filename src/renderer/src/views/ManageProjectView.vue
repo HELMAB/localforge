@@ -6,7 +6,6 @@
       <!-- Sidebar -->
       <ProjectSidebar
         v-model:active-view="activeView"
-        :has-projects="hasProjects"
       />
 
       <!-- Main Content -->
@@ -14,6 +13,7 @@
         <CreateProjectForm v-if="activeView === 'new'" />
         <ProjectList
           v-if="activeView === 'recent'"
+          v-model:active-view="activeView"
           @projects-loaded="handleProjectsLoaded"
         />
       </div>
@@ -27,7 +27,7 @@ import ProjectSidebar from '../components/forms/ProjectSidebar.vue'
 import CreateProjectForm from '../components/forms/CreateProjectForm.vue'
 import ProjectList from '../components/forms/ProjectList.vue'
 
-const activeView = ref('new')
+const activeView = ref('recent')
 const hasProjects = ref(false)
 
 function handleProjectsLoaded(count) {
