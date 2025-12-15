@@ -19,7 +19,11 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
+      devTools: false,
     },
+    autoHideMenuBar: true,
+    fullscreen: false,
+    kiosk: true,
   })
 
   // In development, load from Vite dev server
