@@ -3,11 +3,11 @@
     id="app"
     class="min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-200"
   >
-    <div class="max-w-[980px] mx-auto p-6">
+    <div>
       <AppHeader />
 
       <div
-        class="bg-white dark:bg-gray-800 rounded-lg shadow-md mb-6 transition-colors duration-200"
+        class="bg-white dark:bg-gray-800 rounded-lg shadow-md mb-6 transition-colors duration-200 m-6 min-h-screen"
       >
         <TabNavigation />
 

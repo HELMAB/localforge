@@ -23,7 +23,9 @@ function createWindow() {
     },
     autoHideMenuBar: true,
     fullscreen: false,
-    kiosk: true,
+    resizable: false,
+    maximizable: false,
+    fullscreenable: false,
   })
 
   // In development, load from Vite dev server

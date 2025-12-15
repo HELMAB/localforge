@@ -1,6 +1,6 @@
 <template>
   <div
-    class="relative bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-700 dark:to-indigo-700 rounded-lg shadow-lg p-6 mb-6 overflow-hidden"
+    class="relative bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-700 dark:to-indigo-700 shadow-lg p-6 mb-6 overflow-hidden"
   >
     <!-- Background Pattern -->
     <div class="absolute inset-0 opacity-10">
