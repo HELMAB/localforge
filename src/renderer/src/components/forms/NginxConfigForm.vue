@@ -259,7 +259,7 @@
             <span v-else>{{ t('configureBtn') }}</span>
           </button>
 
-          <StatusMessage
+          <AlertNotification
             :message="status.message.value"
             :type="status.type.value"
             :visible="status.visible.value"
@@ -1256,7 +1256,7 @@ import { useTools } from '../../composables/useTools'
 import { useFavorites } from '../../composables/useFavorites'
 import { domainSchema, pathSchema, validateField } from '../../utils/validation'
 import DirectorySelector from '../common/DirectorySelector.vue'
-import StatusMessage from '../common/StatusMessage.vue'
+import AlertNotification from '../common/AlertNotification.vue'
 import CustomSelect from '../common/CustomSelect.vue'
 import InfoBox from '../common/InfoBox.vue'
 import phpIcon from '@/assets/svg/php.svg'

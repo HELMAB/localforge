@@ -130,11 +130,9 @@ const laravelStarterOptions = computed(() => {
   // Laravel 12 - New template-based stacks (shadcn/ui)
   if (version === '12') {
     options.push(
-      { value: 'template-react', label: 'React Stack (shadcn/ui)', icon: laravelIcon },
-      { value: 'template-vue', label: 'Vue Stack (shadcn/ui)', icon: laravelIcon },
-      { value: 'template-livewire', label: 'Livewire Stack (shadcn/ui)', icon: laravelIcon },
-      { value: 'breeze-manual', label: 'Laravel Breeze (Manual Install)', icon: laravelIcon },
-      { value: 'jetstream-manual', label: 'Laravel Jetstream (Manual Install)', icon: laravelIcon }
+      { value: 'template-react', label: 'React Starter Kit', icon: laravelIcon },
+      { value: 'template-vue', label: 'Vue Starter Kit', icon: laravelIcon },
+      { value: 'template-livewire', label: 'Livewire Starter Kit', icon: laravelIcon }
     )
   }
   // Laravel 8-11 supports Breeze and Jetstream

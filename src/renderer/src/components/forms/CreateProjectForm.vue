@@ -164,7 +164,7 @@
           {{ isCreating ? t('checking') : t('createBtn') }}
         </button>
 
-        <StatusMessage
+        <AlertNotification
           :message="status.message.value"
           :type="status.type.value"
           :visible="status.visible.value"
@@ -191,7 +191,7 @@ import VueOptions from './VueOptions.vue'
 import NuxtOptions from './NuxtOptions.vue'
 import NodeOptions from './NodeOptions.vue'
 import DirectorySelector from '../common/DirectorySelector.vue'
-import StatusMessage from '../common/StatusMessage.vue'
+import AlertNotification from '../common/AlertNotification.vue'
 import RecentProjects from './RecentProjects.vue'
 import ProjectPreview from './ProjectPreview.vue'
 import PostCreationActions from './PostCreationActions.vue'
@@ -362,6 +362,28 @@ async function handleCreateProject() {
         ? `គម្រោងបានបង្កើតជោគជ័យ: ${projectName.value}`
         : `Project created successfully: ${projectName.value}`
     )
+
+    // Reset form except project path
+    projectName.value = ''
+    projectType.value = 'laravel'
+    laravelVersion.value = '11'
+    phpVersion.value = settings.value.defaultPhpVersion || '8.2'
+    laravelStarter.value = 'none'
+    wpPhpVersion.value = settings.value.defaultPhpVersion || '8.2'
+    nodeVersion.value = settings.value.defaultNodeVersion || '18'
+    vueOptions.value = {
+      typescript: false,
+      jsx: false,
+      router: false,
+      pinia: false,
+      vitest: false,
+      playwright: false,
+      eslint: false,
+      prettier: false,
+    }
+    nuxtVersion.value = '4'
+    nuxtTemplate.value = 'minimal'
+    validationErrors.value = {}
   } catch (error) {
     if (progress) {
       progress.failProgress(t('checking') === 'កំពុងពិនិត្យ...' ? 'បរាជ័យ' : 'Failed')

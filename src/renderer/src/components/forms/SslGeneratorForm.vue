@@ -26,7 +26,7 @@
       {{ isGenerating ? t('checking') : t('generateBtn') }}
     </button>
 
-    <StatusMessage
+    <AlertNotification
       :message="status.message.value"
       :type="status.type.value"
       :visible="status.visible.value"
@@ -40,7 +40,7 @@ import { useI18n } from 'vue-i18n'
 import { useSsl } from '../../composables/useSsl'
 import { useStatus } from '../../composables/useStatus'
 import InfoBox from '../common/InfoBox.vue'
-import StatusMessage from '../common/StatusMessage.vue'
+import AlertNotification from '../common/AlertNotification.vue'
 
 const { t, locale } = useI18n()
 const { generateSSL, isGenerating } = useSsl()

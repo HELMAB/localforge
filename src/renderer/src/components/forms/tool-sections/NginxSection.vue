@@ -51,7 +51,7 @@
       </button>
     </div>
 
-    <StatusMessage
+    <AlertNotification
       :message="status.message.value"
       :type="status.type.value"
       :visible="status.visible.value"
@@ -62,7 +62,7 @@
 <script setup>
 import { useI18n } from 'vue-i18n'
 import { useStatus } from '../../../composables/useStatus'
-import StatusMessage from '../../common/StatusMessage.vue'
+import AlertNotification from '../../common/AlertNotification.vue'
 
 const { t, locale } = useI18n()
 const status = useStatus()

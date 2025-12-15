@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Update active state on manual click
     document.querySelectorAll('.doc-sidebar a').forEach((link) => {
-      link.addEventListener('click', function(e) {
+      link.addEventListener('click', function(_e) {
         const href = this.getAttribute('href')
         if (href && href.startsWith('#')) {
           // Remove active from all
@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Lazy load images
   const images = document.querySelectorAll('img[data-src]')
-  const imageObserver = new IntersectionObserver((entries, observer) => {
+  const imageObserver = new IntersectionObserver((entries, _observer) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         const img = entry.target
@@ -183,7 +183,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // Interactive floating tech logos
   const floatingLogos = document.querySelectorAll('.floating-tech-logo')
   floatingLogos.forEach((logo) => {
-    logo.addEventListener('click', function(e) {
+    logo.addEventListener('click', function(_e) {
       // Add a pulse animation on click
       this.style.animation = 'none'
       setTimeout(() => {
@@ -266,7 +266,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Helper function to detect OS
 function detectOS() {
-  const userAgent = window.navigator.userAgent
   const platform = window.navigator.platform
   const macosPlatforms = ['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K']
   const windowsPlatforms = ['Win32', 'Win64', 'Windows', 'WinCE']
@@ -327,6 +326,7 @@ if (contactForm) {
         alert('Failed to send message. Please try again.')
       }
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error('Error:', error)
       alert('An error occurred. Please try again later.')
     }
@@ -337,6 +337,7 @@ if (contactForm) {
 document.querySelectorAll('a[target="_blank"]').forEach(link => {
   link.addEventListener('click', () => {
     // Track external link click (replace with your analytics)
+    // eslint-disable-next-line no-console
     console.log('External link clicked:', link.href)
   })
 })

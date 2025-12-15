@@ -227,7 +227,47 @@ ipcMain.handle(
         }
 
         if (code === 0) {
-          resolve({ success: true, path: fullPath, output })
+          // For Laravel projects, set ownership and permissions
+          if (type === 'laravel') {
+            const username = require('os').userInfo().username
+
+            // Set ownership and permissions for Laravel
+            const permissionCommands = [
+              `chown -R ${username}:${username} "${fullPath}"`,
+              `chmod -R 755 "${fullPath}"`,
+              `chmod -R 775 "${fullPath}/storage"`,
+              `chmod -R 775 "${fullPath}/bootstrap/cache"`,
+            ]
+
+            // Check if using SQLite and set proper permissions
+            const envPath = path.join(fullPath, '.env')
+            if (fs.existsSync(envPath)) {
+              const envContent = fs.readFileSync(envPath, 'utf8')
+              if (envContent.includes('DB_CONNECTION=sqlite')) {
+                const dbPath = path.join(fullPath, 'database/database.sqlite')
+                // Create SQLite file if it doesn't exist
+                if (!fs.existsSync(dbPath)) {
+                  fs.writeFileSync(dbPath, '')
+                }
+                permissionCommands.push(
+                  `chown ${username}:${username} "${dbPath}"`,
+                  `chmod 664 "${dbPath}"`,
+                  `chmod 775 "${path.join(fullPath, 'database')}"`
+                )
+              }
+            }
+
+            const permissionCommand = permissionCommands.join(' && ')
+            exec(permissionCommand, (permError) => {
+              if (permError) {
+                // eslint-disable-next-line no-console
+                console.error('Failed to set permissions:', permError)
+              }
+              resolve({ success: true, path: fullPath, output })
+            })
+          } else {
+            resolve({ success: true, path: fullPath, output })
+          }
         } else {
           reject(new Error(`Process exited with code ${code}\n${output}`))
         }
@@ -1863,33 +1903,18 @@ ipcMain.handle('check-installed-tools', async () => {
               results.node.installed = true
               const versions = stdout.match(/v\d+\.\d+\.\d+/g)
               if (versions) {
-                // Remove duplicates
+                // Remove duplicates and remove 'v' prefix
                 const uniqueVersions = [...new Set(versions.map((v) => v.substring(1)))]
 
-                // Group by major version and keep only the latest version
-                const versionMap = new Map()
-                uniqueVersions.forEach((version) => {
-                  const [major, minor, patch] = version.split('.').map(Number)
-                  const existing = versionMap.get(major)
+                // Sort in descending order (newest first)
+                results.node.versions = uniqueVersions.sort((a, b) => {
+                  const [aMajor, aMinor, aPatch] = a.split('.').map(Number)
+                  const [bMajor, bMinor, bPatch] = b.split('.').map(Number)
 
-                  // Keep the version with highest minor.patch
-                  if (
-                    !existing ||
-                    minor > existing.minor ||
-                    (minor === existing.minor && patch > existing.patch)
-                  ) {
-                    versionMap.set(major, { major, minor, patch, version })
-                  }
+                  if (aMajor !== bMajor) return bMajor - aMajor
+                  if (aMinor !== bMinor) return bMinor - aMinor
+                  return bPatch - aPatch
                 })
-
-                // Convert to array and sort in descending order (newest first)
-                results.node.versions = Array.from(versionMap.values())
-                  .sort((a, b) => {
-                    if (a.major !== b.major) return b.major - a.major
-                    if (a.minor !== b.minor) return b.minor - a.minor
-                    return b.patch - a.patch
-                  })
-                  .map((v) => v.version)
               }
 
               const defaultMatch = stdout.match(/default -> (v\d+\.\d+\.\d+)/)

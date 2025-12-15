@@ -1,7 +1,7 @@
 import { ref, computed } from 'vue'
 
 const ONBOARDING_KEY = 'localforge-onboarding-completed'
-const ONBOARDING_VERSION = '1.0'
+const ONBOARDING_VERSION = '1.1'
 
 const currentStep = ref(0)
 const isActive = ref(false)
@@ -31,6 +31,14 @@ const steps = [
     titleKm: 'កំណត់ Virtual Hosts',
     content: 'Set up Nginx virtual hosts for your projects with SSL support',
     contentKm: 'រៀបចំ Nginx virtual hosts សម្រាប់គម្រោងរបស់អ្នកជាមួយការគាំទ្រ SSL',
+    position: 'right',
+  },
+  {
+    target: '[data-tour="ssl-generate"]',
+    title: 'SSL Certificates',
+    titleKm: 'វិញ្ញាបនប័ត្រ SSL',
+    content: 'Generate SSL certificates for secure HTTPS connections using mkcert',
+    contentKm: 'បង្កើតវិញ្ញាបនប័ត្រ SSL សម្រាប់ការភ្ជាប់ HTTPS ដែលមានសុវត្ថិភាពដោយប្រើ mkcert',
     position: 'right',
   },
   {

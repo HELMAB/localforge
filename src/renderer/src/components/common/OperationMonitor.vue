@@ -1,66 +1,67 @@
 <template>
   <Teleport to="body">
-    <Transition name="slide-up">
+    <Transition name="fade">
       <div
         v-if="hasActiveOperations"
-        class="fixed bottom-6 right-6 w-96 bg-white dark:bg-gray-800 rounded-lg shadow-2xl z-40 overflow-hidden"
+        class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+        @click.self="expanded = false"
       >
-        <!-- Header -->
         <div
-          class="bg-gray-50 dark:bg-gray-700 px-4 py-3 flex items-center justify-between border-b border-gray-200 dark:border-gray-600"
+          class="w-full max-w-3xl mx-4 bg-white dark:bg-gray-800 rounded-lg shadow-2xl overflow-hidden"
         >
-          <div class="flex items-center gap-2">
-            <div
-              class="animate-spin h-4 w-4 border-2 border-blue-600 border-t-transparent rounded-full"
-            />
-            <h3 class="text-sm font-semibold text-gray-900 dark:text-white">
-              {{ t('activeOperations') }} ({{ operationCount }})
-            </h3>
-          </div>
-
-          <div class="flex items-center gap-2">
-            <button
-              v-if="hasCompleted"
-              class="text-xs text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
-              @click="operations.clearCompleted"
-            >
-              {{ t('clearCompleted') }}
-            </button>
-
-            <button
-              class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
-              @click="expanded = !expanded"
-            >
-              <svg
-                class="w-5 h-5 transition-transform"
-                :class="{ 'rotate-180': expanded }"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M19 9l-7 7-7-7"
-                />
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        <!-- Operations list -->
-        <Transition name="expand">
+          <!-- Header -->
           <div
-            v-if="expanded"
-            class="max-h-96 overflow-y-auto"
+            class="bg-gray-50 dark:bg-gray-700 px-6 py-4 flex items-center justify-between border-b border-gray-200 dark:border-gray-600"
+          >
+            <div class="flex items-center gap-3">
+              <div
+                class="animate-spin h-5 w-5 border-2 border-blue-600 border-t-transparent rounded-full"
+              />
+              <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                {{ t('activeOperations') }} ({{ operationCount }})
+              </h3>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <button
+                v-if="hasCompleted"
+                class="px-3 py-1.5 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600 rounded transition-colors"
+                @click="operations.clearCompleted"
+              >
+                {{ t('clearCompleted') }}
+              </button>
+
+              <button
+                class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
+                @click="expanded = false"
+              >
+                <svg
+                  class="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Operations list -->
+          <div
+            class="max-h-[70vh] overflow-y-auto"
           >
             <div
               v-for="[id, operation] in operations.activeOperations.value"
               :key="id"
               class="border-b border-gray-200 dark:border-gray-600 last:border-b-0"
             >
-              <div class="p-4">
+              <div class="p-6">
                 <!-- Operation header -->
                 <div class="flex items-start justify-between mb-2">
                   <div class="flex-1">
@@ -93,15 +94,15 @@
                   </button>
                 </div>
 
-                <!-- Output preview (last 3 lines) -->
+                <!-- Full output -->
                 <div
                   v-if="operation.output.length > 0"
-                  class="bg-gray-900 text-gray-100 text-xs font-mono p-2 rounded max-h-24 overflow-y-auto"
+                  class="bg-gray-900 text-gray-100 text-xs font-mono p-3 rounded max-h-64 overflow-y-auto"
                 >
                   <div
-                    v-for="(line, index) in operation.output.slice(-3)"
+                    v-for="(line, index) in operation.output"
                     :key="index"
-                    class="whitespace-pre-wrap break-all"
+                    class="whitespace-pre-wrap break-all leading-relaxed"
                   >
                     {{ line.text }}
                   </div>
@@ -117,7 +118,7 @@
               </div>
             </div>
           </div>
-        </Transition>
+        </div>
       </div>
     </Transition>
   </Teleport>
@@ -179,26 +180,13 @@ const handleCancel = async (id) => {
 </script>
 
 <style scoped>
-.slide-up-enter-active,
-.slide-up-leave-active {
-  transition: all 0.3s ease;
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
 }
 
-.slide-up-enter-from,
-.slide-up-leave-to {
-  transform: translateY(100%);
-  opacity: 0;
-}
-
-.expand-enter-active,
-.expand-leave-active {
-  transition: all 0.3s ease;
-  overflow: hidden;
-}
-
-.expand-enter-from,
-.expand-leave-to {
-  max-height: 0;
+.fade-enter-from,
+.fade-leave-to {
   opacity: 0;
 }
 

@@ -557,7 +557,7 @@
       </div>
     </div>
 
-    <StatusMessage
+    <AlertNotification
       :message="status.message.value"
       :type="status.type.value"
       :visible="status.visible.value"
@@ -570,7 +570,7 @@ import { ref, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useStatus } from '../../../composables/useStatus'
 import { useTools } from '../../../composables/useTools'
-import StatusMessage from '../../common/StatusMessage.vue'
+import AlertNotification from '../../common/AlertNotification.vue'
 import InfoBox from '../../common/InfoBox.vue'
 
 const { t, locale } = useI18n()
