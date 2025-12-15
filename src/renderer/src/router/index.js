@@ -3,27 +3,27 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 const routes = [
   {
     path: '/',
-    redirect: '/create',
+    redirect: '/projects',
   },
   {
-    path: '/create',
-    name: 'create',
+    path: '/projects',
+    name: 'projects',
     component: () => import('../views/ManageProjectView.vue'),
   },
   {
-    path: '/nginx',
-    name: 'nginx',
-    component: () => import('../views/NginxConfigView.vue'),
+    path: '/virtual-hosts',
+    name: 'virtual-hosts',
+    component: () => import('../views/ManageVirtualHostView.vue'),
   },
   {
-    path: '/manage',
-    name: 'manage',
+    path: '/services',
+    name: 'services',
     component: () => import('../views/ManageServicesView.vue'),
   },
   {
     path: '/settings',
     name: 'settings',
-    component: () => import('../views/SettingsView.vue'),
+    component: () => import('../views/ManageSettingsView.vue'),
   },
 ]
 

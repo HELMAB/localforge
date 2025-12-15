@@ -27,10 +27,10 @@ import KeyboardHint from '../common/KeyboardHint.vue'
 const { t } = useI18n()
 
 const tabs = [
-  { path: '/create', label: 'tabCreate', dataTour: 'create-project' },
-  { path: '/nginx', label: 'tabNginx', dataTour: 'nginx-config' },
-  { path: '/manage', label: 'tabManage', dataTour: 'manage-tools' },
-  { path: '/settings', label: 'tabSettings', dataTour: 'settings' },
+  { path: '/projects', label: 'tabCreate', dataTour: 'manage-projects' },
+  { path: '/virtual-hosts', label: 'tabNginx', dataTour: 'manage-virtual-hosts' },
+  { path: '/services', label: 'tabManage', dataTour: 'manage-services' },
+  { path: '/settings', label: 'tabSettings', dataTour: 'manage-settings' },
 ]
 
 function tabButtonClass(isActive) {
