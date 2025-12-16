@@ -15,10 +15,6 @@ jobs:
         include:
           - os: ubuntu-latest
             platform: linux
-          - os: windows-latest
-            platform: windows
-          - os: macos-latest
-            platform: mac
     
     steps:
       - name: Checkout code
@@ -40,13 +36,7 @@ jobs:
         if: matrix.platform == 'linux'
         run: npm run build:linux
       
-      - name: Build Electron app (Windows)
-        if: matrix.platform == 'windows'
-        run: npm run build:win
       
-      - name: Build Electron app (macOS)
-        if: matrix.platform == 'mac'
-        run: npm run build:mac
       
       - name: Upload artifacts (Linux)
         if: matrix.platform == 'linux'
@@ -55,19 +45,7 @@ jobs:
           name: localforge-linux
           path: dist-builder/*.deb
       
-      - name: Upload artifacts (Windows)
-        if: matrix.platform == 'windows'
-        uses: actions/upload-artifact@v4
-        with:
-          name: localforge-windows
-          path: dist-builder/*.exe
       
-      - name: Upload artifacts (macOS)
-        if: matrix.platform == 'mac'
-        uses: actions/upload-artifact@v4
-        with:
-          name: localforge-mac
-          path: dist-builder/*.dmg
       
       - name: Release
         uses: softprops/action-gh-release@v1
@@ -75,8 +53,6 @@ jobs:
         with:
           files: |
             dist-builder/*.deb
-            dist-builder/*.exe
-            dist-builder/*.dmg
             dist-builder/*.AppImage
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
