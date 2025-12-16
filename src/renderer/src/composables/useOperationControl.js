@@ -37,6 +37,9 @@ export function useOperationControl() {
     try {
       await invoke('cancel-operation', { operationId: id })
       operation.status = 'cancelled'
+      setTimeout(() => {
+        removeOperation(id)
+      }, 3000)
       return true
     } catch (error) {
       // eslint-disable-next-line no-console
@@ -52,11 +55,9 @@ export function useOperationControl() {
       operation.endTime = Date.now()
       operation.duration = operation.endTime - operation.startTime
 
-      if (success) {
-        setTimeout(() => {
-          removeOperation(id)
-        }, 3000)
-      }
+      setTimeout(() => {
+        removeOperation(id)
+      }, 3000)
     }
   }
 

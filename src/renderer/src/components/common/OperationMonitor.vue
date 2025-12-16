@@ -96,7 +96,7 @@
                 <div
                   v-if="operation.output.length > 0"
                   ref="outputContainer"
-                  class="bg-gray-900 text-gray-100 text-xs font-mono p-3 rounded max-h-64 overflow-y-auto"
+                  class="bg-gray-900 text-green-400 text-xs font-mono p-3 rounded max-h-[50vh] overflow-y-auto"
                 >
                   <div
                     v-for="(line, index) in operation.output"
