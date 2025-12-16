@@ -94,16 +94,6 @@ const laravelVersionOptions = [
   { value: '8', label: 'Laravel 8.x', icon: laravelIcon },
   { value: '7', label: 'Laravel 7.x', icon: laravelIcon },
   { value: '6', label: 'Laravel 6.x (LTS)', icon: laravelIcon },
-  { value: '5.8', label: 'Laravel 5.8 (LTS)', icon: laravelIcon },
-  { value: '5.7', label: 'Laravel 5.7', icon: laravelIcon },
-  { value: '5.6', label: 'Laravel 5.6', icon: laravelIcon },
-  { value: '5.5', label: 'Laravel 5.5 (LTS)', icon: laravelIcon },
-  { value: '5.4', label: 'Laravel 5.4', icon: laravelIcon },
-  { value: '5.3', label: 'Laravel 5.3', icon: laravelIcon },
-  { value: '5.2', label: 'Laravel 5.2', icon: laravelIcon },
-  { value: '5.1', label: 'Laravel 5.1 (LTS)', icon: laravelIcon },
-  { value: '5.0', label: 'Laravel 5.0', icon: laravelIcon },
-  { value: '4.2', label: 'Laravel 4.2', icon: laravelIcon },
 ]
 
 const phpVersionOptions = computed(() => {
@@ -152,10 +142,6 @@ const laravelStarterOptions = computed(() => {
       { value: 'ui-react', label: 'Laravel UI (React)', icon: laravelIcon }
     )
   }
-  // Laravel 5.1-5.8 have built-in auth
-  else if (parseFloat(version) >= 5.1 && parseFloat(version) <= 5.8) {
-    options.push({ value: 'make-auth', label: 'Built-in Auth (make:auth)', icon: laravelIcon })
-  }
 
   return options
 })
@@ -169,16 +155,6 @@ function getPhpCompatibilityMessage() {
     8: 'PHP 7.3 - 8.1',
     7: 'PHP 7.2.5 - 8.0',
     6: 'PHP 7.2 - 8.0',
-    5.8: 'PHP 7.1 - 7.4',
-    5.7: 'PHP 7.1 - 7.3',
-    5.6: 'PHP 7.1 - 7.3',
-    5.5: 'PHP 7.0 - 7.3',
-    5.4: 'PHP 5.6.4 - 7.2',
-    5.3: 'PHP 5.6.4 - 7.1',
-    5.2: 'PHP 5.5.9 - 7.0',
-    5.1: 'PHP 5.5.9 - 7.0',
-    '5.0': 'PHP 5.4 - 5.6',
-    4.2: 'PHP 5.4 - 5.6',
   }
 
   const required = phpRequirements[props.laravelVersion]

@@ -7,7 +7,7 @@
         @click.self="closeModal"
       >
         <div
-          class="bg-white dark:bg-gray-800 rounded-lg shadow-2xl max-w-3xl w-full max-h-[90vh] flex flex-col"
+          class="bg-white dark:bg-gray-800 rounded-lg shadow-2xl max-w-[90vw] w-full max-h-[90vh] flex flex-col"
         >
           <!-- Header -->
           <div

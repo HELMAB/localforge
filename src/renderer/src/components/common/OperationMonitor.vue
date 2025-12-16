@@ -7,7 +7,7 @@
         @click.self="expanded = false"
       >
         <div
-          class="w-full max-w-5xl mx-auto sm:mx-4 bg-white dark:bg-gray-800 rounded-t-lg sm:rounded-lg shadow-2xl overflow-hidden"
+          class="w-full max-w-[80vw] mx-auto sm:mx-4 bg-white dark:bg-gray-800 rounded-t-lg sm:rounded-lg shadow-2xl overflow-hidden"
         >
           <!-- Header -->
           <div
@@ -53,7 +53,7 @@
           </div>
 
           <!-- Operations list -->
-          <div class="max-h-[70vh] overflow-y-auto">
+          <div class="max-h-[100vh] overflow-y-auto">
             <div
               v-for="[id, operation] in operations.activeOperations.value"
               :key="id"
@@ -161,6 +161,13 @@ watch(
             container.scrollTop = container.scrollHeight
           }
         })
+      }
+    }
+    // Auto-close if any project creation fails
+    for (const operation of newOperations.values()) {
+      if (operation.type === 'create-project' && operation.status === 'failed') {
+        expanded.value = false
+        break
       }
     }
   },
