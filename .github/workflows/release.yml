@@ -58,5 +58,6 @@ jobs:
           files: |
             dist-builder/*.deb
             dist-builder/*.AppImage
+            dist-builder/*.yml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
