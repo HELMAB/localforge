@@ -1,7 +1,40 @@
 // Main JavaScript for LocalForge Website
 
+// Load and inject version from package.json
+async function loadVersion() {
+  try {
+    const response = await fetch('/package.json')
+    if (response.ok) {
+      const packageData = await response.json()
+      const version = packageData.version
+
+      // Update all elements with data-version attribute
+      document.querySelectorAll('[data-version]').forEach(element => {
+        element.textContent = element.textContent.replace('{{VERSION}}', version)
+      })
+
+      // Update all href attributes with version placeholder
+      document.querySelectorAll('[data-version-url]').forEach(element => {
+        element.href = element.href.replace('{{VERSION}}', version)
+      })
+
+      // Update all code blocks with version placeholder
+      document.querySelectorAll('code').forEach(element => {
+        if (element.textContent.includes('{{VERSION}}')) {
+          element.textContent = element.textContent.replace(/\{\{VERSION\}\}/g, version)
+        }
+      })
+    }
+  } catch (error) {
+    console.error('Failed to load version:', error)
+  }
+}
+
 // Mobile menu toggle
 document.addEventListener('DOMContentLoaded', function() {
+  // Load version first
+  loadVersion()
+
   const mobileMenuButton = document.getElementById('mobile-menu-button')
   const mobileMenu = document.getElementById('mobile-menu')
   
