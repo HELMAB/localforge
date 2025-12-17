@@ -1,7 +1,7 @@
 import { ref, computed } from 'vue'
 
 const ONBOARDING_KEY = 'localforge-onboarding-completed'
-const ONBOARDING_VERSION = '1.1'
+const ONBOARDING_VERSION = 'laravel2'
 
 const currentStep = ref(0)
 const isActive = ref(false)
@@ -18,45 +18,37 @@ const steps = [
     position: 'bottom',
   },
   {
-    target: '[data-tour="create-project"]',
-    title: 'Create Projects',
-    titleKm: 'បង្កើតគម្រោង',
-    content: 'Start by creating a new project. Supports Laravel, Vue, Nuxt, React, and WordPress',
-    contentKm: 'ចាប់ផ្តើមដោយការបង្កើតគម្រោងថ្មី។ គាំទ្រ Laravel, Vue, Nuxt, React និង WordPress',
+    target: '[data-tour="manage-projects"]',
+    title: 'Manage Projects',
+    titleKm: 'គ្រប់គ្រងគម្រោង',
+    content: 'Create and manage your projects. Supports Laravel, Vue, Nuxt, React, and WordPress',
+    contentKm: 'បង្កើត និងគ្រប់គ្រងគម្រោងរបស់អ្នក។ គាំទ្រ Laravel, Vue, Nuxt, React និង WordPress',
     position: 'right',
   },
   {
-    target: '[data-tour="nginx-config"]',
-    title: 'Configure Virtual Hosts',
-    titleKm: 'កំណត់ Virtual Hosts',
-    content: 'Set up Nginx virtual hosts for your projects with SSL support',
-    contentKm: 'រៀបចំ Nginx virtual hosts សម្រាប់គម្រោងរបស់អ្នកជាមួយការគាំទ្រ SSL',
+    target: '[data-tour="manage-virtual-hosts"]',
+    title: 'Manage Virtual Hosts',
+    titleKm: 'គ្រប់គ្រង Virtual Hosts',
+    content: 'Set up and manage Nginx virtual hosts for your projects with SSL support',
+    contentKm: 'រៀបចំ និងគ្រប់គ្រង Nginx virtual hosts សម្រាប់គម្រោងរបស់អ្នកជាមួយការគាំទ្រ SSL',
     position: 'right',
   },
   {
-    target: '[data-tour="ssl-generate"]',
-    title: 'SSL Certificates',
-    titleKm: 'វិញ្ញាបនប័ត្រ SSL',
-    content: 'Generate SSL certificates for secure HTTPS connections using mkcert',
-    contentKm: 'បង្កើតវិញ្ញាបនប័ត្រ SSL សម្រាប់ការភ្ជាប់ HTTPS ដែលមានសុវត្ថិភាពដោយប្រើ mkcert',
+    target: '[data-tour="manage-services"]',
+    title: 'Manage Services',
+    titleKm: 'គ្រប់គ្រងសេវាកម្ម',
+    content: 'Install and manage PHP, Node.js, Composer, Nginx, PostgreSQL, and MySQL',
+    contentKm: 'ដំឡើង និងគ្រប់គ្រង PHP, Node.js, Composer, Nginx, PostgreSQL និង MySQL',
     position: 'right',
   },
   {
-    target: '[data-tour="manage-tools"]',
-    title: 'Manage Development Tools',
-    titleKm: 'គ្រប់គ្រងឧបករណ៍អភិវឌ្ឍន៍',
-    content: 'Install and manage PHP, Node.js, Composer, Nginx, and databases',
-    contentKm: 'ដំឡើង និងគ្រប់គ្រង PHP, Node.js, Composer, Nginx និងមូលដ្ឋានទិន្នន័យ',
-    position: 'right',
-  },
-  {
-    target: '.settings-button',
-    title: 'Settings & Preferences',
-    titleKm: 'ការកំណត់ និងចំណូលចិត្ត',
+    target: '[data-tour="manage-settings"]',
+    title: 'Settings',
+    titleKm: 'ការកំណត់',
     content:
       'Customize your experience. Toggle dark mode (Ctrl+D), change language (Ctrl+L), and more',
     contentKm: 'ប្តូរបទពិសោធន៍របស់អ្នក។ បិទបើក dark mode (Ctrl+D), ប្តូរភាសា (Ctrl+L) និងច្រើនទៀត',
-    position: 'bottom',
+    position: 'right',
   },
 ]
 
