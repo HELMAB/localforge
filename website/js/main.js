@@ -26,6 +26,7 @@ async function loadVersion() {
       })
     }
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error('Failed to load version:', error)
   }
 }
