@@ -104,7 +104,7 @@ ipcMain.handle(
       laravelStarter,
       nodeVersion,
       vueOptions,
-      nuxtVersion,
+      nuxtTemplate,
       operationId,
     }
   ) => {
@@ -165,19 +165,9 @@ ipcMain.handle(
         }
 
         case 'nuxt': {
-          const version = nuxtVersion || '3' // Default to Nuxt 3
-          let nuxtCmd = ''
-
-          if (version === '2') {
-            // Nuxt 2 uses create-nuxt-app, which is interactive. `yes` is a workaround.
-            nuxtCmd = `yes "" | npx create-nuxt-app@latest ${name}`
-          } else if (version === '3') {
-            // Nuxt 3 uses nuxi, which is non-interactive by default.
-            nuxtCmd = `npx nuxi@3 init ${name}`
-          } else {
-            // Nuxt 4 is on the edge channel
-            nuxtCmd = `npx nuxi@edge init ${name}`
-          }
+          // Nuxt 4 (latest) - requires Node 20+
+          const template = nuxtTemplate || 'minimal'
+          let nuxtCmd = `npx nuxi@latest init ${name} -t ${template} --packageManager=npm --no-gitInit --no-modules`
 
           if (nodeVersion) {
             nuxtCmd = `export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" && nvm use ${nodeVersion} && ${nuxtCmd}`
@@ -361,7 +351,96 @@ ipcMain.handle(
       }
 
       // Generate configuration based on project type
-      if (projectType === 'static-vue' || projectType === 'react') {
+      if (projectType === 'nuxt' || projectType === 'static-nuxt') {
+        // Nuxt SPA configuration - serves from /.output/public with SPA routing
+        nginxConfig = `
+server {
+    listen ${port};
+    listen [::]:${port};
+    server_name ${domain};
+    root ${projectPath}/.output/public;
+
+    add_header X-Frame-Options "SAMEORIGIN";
+    add_header X-Content-Type-Options "nosniff";
+
+    index index.html;
+
+    charset utf-8;
+
+    # Enable gzip compression
+    gzip on;
+    gzip_vary on;
+    gzip_min_length 1024;
+    gzip_types text/plain text/css text/xml text/javascript application/x-javascript application/xml+rss application/javascript application/json;
+
+    location / {
+        # SPA fallback - always serve index.html for Nuxt Router history mode
+        try_files $uri $uri/ /index.html;
+    }
+
+    # Cache static assets
+    location ~* \\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+    }
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location = /robots.txt  { access_log off; log_not_found off; }
+
+    # Deny access to hidden files
+    location ~ /\\. {
+        deny all;
+    }
+}
+${
+  enableSSL
+    ? `
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    server_name ${domain};
+    root ${projectPath}/.output/public;
+
+    ssl_certificate /etc/nginx/ssl/${domain}.pem;
+    ssl_certificate_key /etc/nginx/ssl/${domain}-key.pem;
+
+    add_header X-Frame-Options "SAMEORIGIN";
+    add_header X-Content-Type-Options "nosniff";
+
+    index index.html;
+
+    charset utf-8;
+
+    # Enable gzip compression
+    gzip on;
+    gzip_vary on;
+    gzip_min_length 1024;
+    gzip_types text/plain text/css text/xml text/javascript application/x-javascript application/xml+rss application/javascript application/json;
+
+    location / {
+        # SPA fallback - always serve index.html for Nuxt Router history mode
+        try_files $uri $uri/ /index.html;
+    }
+
+    # Cache static assets
+    location ~* \\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+    }
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location = /robots.txt  { access_log off; log_not_found off; }
+
+    # Deny access to hidden files
+    location ~ /\\. {
+        deny all;
+    }
+}
+`
+    : ''
+}
+`
+      } else if (projectType === 'static-vue' || projectType === 'react') {
         // Static Vue/React SPA configuration - serves from /dist with SPA routing
         nginxConfig = `
 server {
@@ -1431,8 +1510,8 @@ ipcMain.handle('get-nginx-config-details', async (event, { configName }) => {
         const rootMatch = content.match(/root\s+([^;]+);/)
         if (rootMatch) {
           let rootPath = rootMatch[1].trim()
-          // Remove /public or /dist from the end if present
-          rootPath = rootPath.replace(/\/(public|dist)$/, '')
+          // Remove /public, /dist, or /.output/public from the end if present
+          rootPath = rootPath.replace(/\/(public|dist|\.output\/public)$/, '')
           details.projectPath = rootPath
         }
 
@@ -1445,6 +1524,8 @@ ipcMain.handle('get-nginx-config-details', async (event, { configName }) => {
           } else {
             details.projectType = 'php'
           }
+        } else if (content.includes('/.output/public')) {
+          details.projectType = 'nuxt'
         } else if (content.includes('/dist')) {
           if (content.includes('# Vue SPA') || content.includes('# React SPA')) {
             details.projectType = content.includes('Vue') ? 'static-vue' : 'react'

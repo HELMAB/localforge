@@ -206,7 +206,7 @@ const props = defineProps({
     type: String,
     default: '',
   },
-  nuxtVersion: {
+  nuxtTemplate: {
     type: String,
     default: '',
   },
@@ -238,7 +238,8 @@ const installItems = computed(() => {
       if (props.vueOptions.pinia) items.push('Pinia')
     }
   } else if (props.projectType === 'nuxt') {
-    items.push(`Nuxt ${props.nuxtVersion}`)
+    items.push('Nuxt 4 (latest)')
+    if (props.nuxtTemplate) items.push(`Template: ${props.nuxtTemplate}`)
     if (props.nodeVersion) items.push(`Node.js ${props.nodeVersion}`)
     items.push('npm dependencies')
   } else if (props.projectType === 'react') {
@@ -327,7 +328,8 @@ const command = computed(() => {
   } else if (props.projectType === 'vue') {
     return `npm create vue@latest ${props.projectName}`
   } else if (props.projectType === 'nuxt') {
-    return `npx nuxi@latest init ${props.projectName}`
+    const template = props.nuxtTemplate || 'minimal'
+    return `npx nuxi@latest init ${props.projectName} -t ${template} --packageManager=npm --no-gitInit --no-modules`
   } else if (props.projectType === 'react') {
     return `npx create-react-app ${props.projectName}`
   } else if (props.projectType === 'wordpress') {

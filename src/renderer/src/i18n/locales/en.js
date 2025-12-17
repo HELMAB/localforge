@@ -31,9 +31,9 @@ export default {
   nodeInfo:
     'Select Node.js version. LTS versions are recommended for production. NVM required for version switching.',
   nuxtInfoTitle: 'Nuxt.js Project',
-  nuxtInfo:
-    'Select Nuxt version and template. Nuxt 4.x is the latest and recommended for new projects.',
-  nuxtVersionLabel: 'Nuxt Version',
+  nuxtInfo: 'Creates a Nuxt 4 project with your selected template. Latest version with modern features.',
+  nuxtRequirementsTitle: 'Requirements',
+  nuxtRequirementsMessage: 'Nuxt 4 requires Node.js 20 or higher. Please ensure you have Node 20+ installed or selected.',
   nuxtTemplateLabel: 'Nuxt Template',
   vueInfoTitle: 'Vue.js Project',
   vueInfo:

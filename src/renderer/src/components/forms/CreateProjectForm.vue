@@ -64,7 +64,6 @@
 
         <NuxtOptions
           v-if="projectType === 'nuxt'"
-          v-model:nuxt-version="nuxtVersion"
           v-model:nuxt-template="nuxtTemplate"
         />
 
@@ -108,7 +107,7 @@
           :node-version="nodeVersion"
           :laravel-version="laravelVersion"
           :laravel-starter="laravelStarter"
-          :nuxt-version="nuxtVersion"
+          :nuxt-template="nuxtTemplate"
           :vue-options="vueOptions"
         />
 
@@ -220,7 +219,6 @@ const vueOptions = ref({
   eslint: false,
   prettier: false,
 })
-const nuxtVersion = ref('4')
 const nuxtTemplate = ref('minimal')
 const validationErrors = ref({})
 const showPostCreation = ref(false)
@@ -311,7 +309,6 @@ async function handleCreateProject() {
       projectData.vueOptions = JSON.parse(JSON.stringify(vueOptions.value))
     } else if (projectType.value === 'nuxt') {
       projectData.nodeVersion = nodeVersion.value
-      projectData.nuxtVersion = nuxtVersion.value
       projectData.nuxtTemplate = nuxtTemplate.value
     } else if (projectType.value === 'react') {
       projectData.nodeVersion = nodeVersion.value
@@ -358,7 +355,6 @@ async function handleCreateProject() {
       eslint: false,
       prettier: false,
     }
-    nuxtVersion.value = '4'
     nuxtTemplate.value = 'minimal'
     validationErrors.value = {}
   } catch (error) {
@@ -398,7 +394,7 @@ async function handleCreateProject() {
           }),
           ...(projectType.value === 'vue' && { 'Node Version': nodeVersion.value }),
           ...(projectType.value === 'nuxt' && {
-            'Nuxt Version': nuxtVersion.value,
+            'Nuxt Template': nuxtTemplate.value,
             'Node Version': nodeVersion.value,
           }),
           ...(projectType.value === 'react' && { 'Node Version': nodeVersion.value }),

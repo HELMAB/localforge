@@ -30,9 +30,9 @@ export default {
   nodeInfo:
     'ជ្រើសរើសកំណែ Node.js។ កំណែ LTS ត្រូវបានណែនាំសម្រាប់ផលិតកម្ម។ ត្រូវការ NVM ដើម្បីប្តូរកំណែ។',
   nuxtInfoTitle: 'គម្រោង Nuxt.js',
-  nuxtInfo:
-    'ជ្រើសរើសកំណែ Nuxt និង template។ Nuxt 4.x គឺជាកំណែចុងក្រោយបំផុតហើយត្រូវបានណែនាំសម្រាប់គម្រោងថ្មី។',
-  nuxtVersionLabel: 'កំណែ Nuxt',
+  nuxtInfo: 'បង្កើតគម្រោង Nuxt 4 ជាមួយ template ដែលអ្នកបានជ្រើសរើស។ កំណែចុងក្រោយបំផុតជាមួយមុខងារទំនើប។',
+  nuxtRequirementsTitle: 'តម្រូវការ',
+  nuxtRequirementsMessage: 'Nuxt 4 ត្រូវការ Node.js 20 ឬខ្ពស់ជាងនេះ។ សូមប្រាកដថាអ្នកបានដំឡើងឬជ្រើសរើស Node 20+។',
   nuxtTemplateLabel: 'Nuxt Template',
   vueInfoTitle: 'គម្រោង Vue.js',
   vueInfo: 'ជ្រើសរើសមុខងារដែលអ្នកចង់បញ្ចូលក្នុងគម្រោង Vue របស់អ្នក។ អ្នកអាចជ្រើសរើសច្រើនជម្រើស។',

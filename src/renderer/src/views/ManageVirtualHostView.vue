@@ -1212,6 +1212,7 @@ import phpIcon from '@/assets/svg/php.svg'
 import laravelIcon from '@/assets/svg/laravel.svg'
 import wordpressIcon from '@/assets/svg/wordpress.svg'
 import vueIcon from '@/assets/svg/vuejs.svg'
+import nuxtIcon from '@/assets/svg/nuxtjs.svg'
 import reactIcon from '@/assets/svg/react.svg'
 import htmlIcon from '@/assets/svg/html5.svg'
 
@@ -1517,6 +1518,7 @@ const projectTypeOptions = [
   { value: 'laravel', label: 'Laravel', icon: laravelIcon },
   { value: 'wordpress', label: 'WordPress', icon: wordpressIcon },
   { value: 'static-vue', label: 'Vue', icon: vueIcon },
+  { value: 'nuxt', label: 'Nuxt', icon: nuxtIcon },
   { value: 'react', label: 'React', icon: reactIcon },
   { value: 'static-html', label: 'HTML', icon: htmlIcon },
 ]
