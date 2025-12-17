@@ -1,7 +1,7 @@
 import { ref, computed } from 'vue'
 
 const ONBOARDING_KEY = 'localforge-onboarding-completed'
-const ONBOARDING_VERSION = 'laravel2'
+const ONBOARDING_VERSION = '1.0.1'
 
 const currentStep = ref(0)
 const isActive = ref(false)

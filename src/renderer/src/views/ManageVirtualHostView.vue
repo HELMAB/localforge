@@ -618,7 +618,10 @@
                           <span class="truncate">{{ config.path }}</span>
                         </div>
                       </button>
-                      <div class="ml-4 relative flex-shrink-0">
+                      <div
+                        :ref="(el) => setDropdownRef(el, config.name)"
+                        class="ml-4 relative flex-shrink-0"
+                      >
                         <button
                           class="px-3 py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
                           :title="locale === 'km' ? 'សកម្មភាព' : 'Actions'"
@@ -637,7 +640,8 @@
                         </button>
                         <div
                           v-if="openDropdown === config.name"
-                          class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 py-1 z-10"
+                          :class="getDropdownClasses(config.name)"
+                          class="absolute right-0 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 py-1 z-10"
                         >
                           <button
                             class="w-full px-4 py-2 text-left text-sm text-blue-600 dark:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2"
@@ -875,7 +879,10 @@
                         <span class="truncate">{{ config.path }}</span>
                       </div>
                     </div>
-                    <div class="ml-4 relative flex-shrink-0">
+                    <div
+                      :ref="(el) => setDropdownRef(el, config.name)"
+                      class="ml-4 relative flex-shrink-0"
+                    >
                       <button
                         class="px-3 py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
                         :title="locale === 'km' ? 'សកម្មភាព' : 'Actions'"
@@ -894,7 +901,8 @@
                       </button>
                       <div
                         v-if="openDropdown === config.name"
-                        class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 py-1 z-10"
+                        :class="getDropdownClasses(config.name)"
+                        class="absolute right-0 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 py-1 z-10"
                       >
                         <button
                           class="w-full px-4 py-2 text-left text-sm text-blue-600 dark:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2"
@@ -1070,7 +1078,10 @@
                         <span class="truncate">{{ config.path }}</span>
                       </div>
                     </div>
-                    <div class="ml-4 relative flex-shrink-0">
+                    <div
+                      :ref="(el) => setDropdownRef(el, config.name)"
+                      class="ml-4 relative flex-shrink-0"
+                    >
                       <button
                         class="px-3 py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
                         :title="locale === 'km' ? 'សកម្មភាព' : 'Actions'"
@@ -1089,7 +1100,8 @@
                       </button>
                       <div
                         v-if="openDropdown === config.name"
-                        class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 py-1 z-10"
+                        :class="getDropdownClasses(config.name)"
+                        class="absolute right-0 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 py-1 z-10"
                       >
                         <button
                           class="w-full px-4 py-2 text-left text-sm text-blue-600 dark:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2"
@@ -1197,7 +1209,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, inject } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount, inject, nextTick } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useNginx } from '../composables/useNginx'
 import { useStatus } from '../composables/useStatus'
@@ -1244,6 +1256,8 @@ const enableSSL = ref(false)
 const configs = ref([])
 const activeMenu = ref('sites')
 const openDropdown = ref(null)
+const dropdownRefs = ref({})
+const dropdownPositions = ref({})
 const validationErrors = ref({})
 const expandedSite = ref(null)
 const searchQuery = ref('')
@@ -1294,6 +1308,11 @@ const inactiveSites = computed(() => filteredConfigs.value.filter((config) => !c
 onMounted(async () => {
   await checkInstalledTools()
   await loadConfigs()
+  document.addEventListener('click', handleClickOutside)
+})
+
+onBeforeUnmount(() => {
+  document.removeEventListener('click', handleClickOutside)
 })
 
 async function loadConfigs() {
@@ -1349,16 +1368,50 @@ function cancelEdit() {
   editingConfigName.value = null
 }
 
-function toggleDropdown(configName) {
+async function toggleDropdown(configName) {
   if (openDropdown.value === configName) {
     openDropdown.value = null
   } else {
     openDropdown.value = configName
+    await nextTick()
+    checkDropdownPosition(configName)
   }
 }
 
 function closeDropdown() {
   openDropdown.value = null
+}
+
+function checkDropdownPosition(configName) {
+  const dropdownElement = dropdownRefs.value[configName]
+  if (!dropdownElement) return
+
+  const rect = dropdownElement.getBoundingClientRect()
+  const dropdownHeight = 250
+  const spaceBelow = window.innerHeight - rect.bottom
+  const spaceAbove = rect.top
+
+  dropdownPositions.value[configName] = spaceBelow < dropdownHeight && spaceAbove > spaceBelow ? 'up' : 'down'
+}
+
+function handleClickOutside(event) {
+  if (openDropdown.value) {
+    const dropdownElement = dropdownRefs.value[openDropdown.value]
+    if (dropdownElement && !dropdownElement.contains(event.target)) {
+      closeDropdown()
+    }
+  }
+}
+
+function getDropdownClasses(configName) {
+  const position = dropdownPositions.value[configName]
+  return position === 'up' ? 'bottom-full mb-2' : 'mt-2'
+}
+
+function setDropdownRef(el, configName) {
+  if (el) {
+    dropdownRefs.value[configName] = el
+  }
 }
 
 function toggleSiteDetails(configName) {

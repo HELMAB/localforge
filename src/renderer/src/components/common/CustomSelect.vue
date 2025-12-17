@@ -35,7 +35,8 @@
 
     <div
       v-if="isOpen"
-      class="absolute z-10 w-full mt-1 bg-white dark:bg-gray-700 border dark:border-gray-600 rounded-lg shadow-lg max-h-60 overflow-auto"
+      :class="dropdownClasses"
+      class="absolute z-10 w-full bg-white dark:bg-gray-700 border dark:border-gray-600 rounded-lg shadow-lg max-h-60 overflow-auto"
     >
       <button
         v-for="option in options"
@@ -58,7 +59,8 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { computed } from 'vue'
+import { useDropdown } from '@/composables/useDropdown'
 
 const props = defineProps({
   modelValue: {
@@ -82,35 +84,25 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue'])
 
-const isOpen = ref(false)
-const dropdownRef = ref(null)
+const { isOpen, dropdownRef, dropdownClasses: baseDropdownClasses, toggleDropdown: baseToggleDropdown, closeDropdown } = useDropdown(240)
 
 const selectedOption = computed(() => {
   return props.options.find((opt) => opt.value === props.modelValue)
 })
 
+const dropdownClasses = computed(() => ({
+  'bottom-full mb-1': baseDropdownClasses.value['bottom-full mb-2'],
+  'mt-1': baseDropdownClasses.value['mt-2'],
+}))
+
 function toggleDropdown() {
   if (!props.disabled) {
-    isOpen.value = !isOpen.value
+    baseToggleDropdown()
   }
 }
 
 function selectOption(value) {
   emit('update:modelValue', value)
-  isOpen.value = false
+  closeDropdown()
 }
-
-function handleClickOutside(event) {
-  if (dropdownRef.value && !dropdownRef.value.contains(event.target)) {
-    isOpen.value = false
-  }
-}
-
-onMounted(() => {
-  document.addEventListener('click', handleClickOutside)
-})
-
-onUnmounted(() => {
-  document.removeEventListener('click', handleClickOutside)
-})
 </script>

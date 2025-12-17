@@ -1,8 +1,11 @@
 <template>
-  <div class="relative">
+  <div
+    ref="dropdownRef"
+    class="relative"
+  >
     <button
       class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700"
-      @click="isOpen = !isOpen"
+      @click="toggleDropdown"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -19,7 +22,8 @@
     <Transition name="fade">
       <div
         v-if="isOpen"
-        class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg border border-gray-200 dark:border-gray-700 z-10"
+        :class="dropdownClasses"
+        class="absolute right-0 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg border border-gray-200 dark:border-gray-700 z-10"
       >
         <div class="py-1">
           <a
@@ -83,8 +87,8 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useDropdown } from '@/composables/useDropdown'
 
 const { t } = useI18n()
 
@@ -97,7 +101,7 @@ defineProps({
 
 defineEmits(['remove', 'open-in-ide', 'open-in-file-manager'])
 
-const isOpen = ref(false)
+const { isOpen, dropdownRef, dropdownClasses, toggleDropdown } = useDropdown(200)
 </script>
 
 <style scoped>
