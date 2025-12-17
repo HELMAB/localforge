@@ -11,6 +11,17 @@ const operationRollback = require('./operationRollback')
 let mainWindow
 const activeOperations = new Map()
 
+/**
+ * Strip ANSI escape codes from string
+ * Custom implementation to avoid compromised npm packages
+ * @param {string} str - String with ANSI codes
+ * @returns {string} Clean string
+ */
+function stripAnsi(str) {
+  // eslint-disable-next-line no-control-regex
+  return str.replace(/\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])/g, '')
+}
+
 function createWindow() {
   mainWindow = new BrowserWindow({
     width: 1200,
@@ -203,17 +214,19 @@ ipcMain.handle(
       let output = ''
 
       process.stdout.on('data', (data) => {
-        const line = data.toString()
+        const rawLine = data.toString()
+        const line = stripAnsi(rawLine)
         output += line
-        if (operationId) {
+        if (operationId && line.trim()) {
           event.sender.send('operation-output', { operationId, line })
         }
       })
 
       process.stderr.on('data', (data) => {
-        const line = data.toString()
+        const rawLine = data.toString()
+        const line = stripAnsi(rawLine)
         output += line
-        if (operationId) {
+        if (operationId && line.trim()) {
           event.sender.send('operation-output', { operationId, line })
         }
       })

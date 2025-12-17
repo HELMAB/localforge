@@ -216,9 +216,12 @@ const handleCancel = async (id) => {
 }
 
 .operation-output {
-  font-family: 'Fira Code', 'Courier New', Courier, monospace;
+  font-family: 'Fira Code', 'Consolas', 'Monaco', 'Liberation Mono', 'Courier New', monospace;
   font-weight: 400;
   font-variant-ligatures: common-ligatures;
+  font-feature-settings: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 @keyframes progress {
