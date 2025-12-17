@@ -1,6 +1,6 @@
 {
   "name": "localforge",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "LocalForge - Desktop application for managing development projects with Laravel, Vue, Nuxt, React, WordPress support",
   "main": "src/main/main.js",
   "scripts": {
