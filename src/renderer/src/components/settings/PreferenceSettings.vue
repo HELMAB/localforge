@@ -36,7 +36,7 @@
               {{ t('languageLabel') }}
             </label>
             <p class="text-xs text-gray-500 dark:text-gray-400">
-              Choose your preferred language
+              {{ t('chooseLanguageDesc') }}
             </p>
           </div>
         </div>
@@ -89,7 +89,7 @@
               {{ t('darkModeLabel') }}
             </label>
             <p class="text-xs text-gray-500 dark:text-gray-400">
-              {{ isDark ? 'Dark theme enabled' : 'Light theme enabled' }}
+              {{ isDark ? t('darkThemeEnabled') : t('lightThemeEnabled') }}
             </p>
           </div>
         </div>
@@ -136,7 +136,7 @@
               {{ t('defaultProjectPath') }}
             </label>
             <p class="text-xs text-gray-500 dark:text-gray-400">
-              Default location for new projects
+              {{ t('defaultLocationDesc') }}
             </p>
           </div>
         </div>
@@ -175,7 +175,7 @@
               {{ t('showKeyboardHints') }}
             </label>
             <p class="text-xs text-gray-500 dark:text-gray-400">
-              Display keyboard shortcuts
+              {{ t('displayKeyboardShortcuts') }}
             </p>
           </div>
         </div>
