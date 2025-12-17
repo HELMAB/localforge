@@ -55,6 +55,7 @@
       :message="status.message.value"
       :type="status.type.value"
       :visible="status.visible.value"
+      @close="status.hideStatus"
     />
   </div>
 </template>

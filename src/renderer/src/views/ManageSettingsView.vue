@@ -1,6 +1,6 @@
 <template>
   <div class="p-6">
-    <div class="max-w-4xl mx-auto">
+    <div class="w-full mx-auto">
       <div class="space-y-6">
         <PreferenceSettings />
 

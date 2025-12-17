@@ -79,9 +79,10 @@
 
 <script setup>
 import { useI18n } from 'vue-i18n'
+import packageJson from '../../../../../package.json'
 
 const { t } = useI18n()
 
-const appVersion = '1.0.0'
+const appVersion = packageJson.version
 const platform = typeof process !== 'undefined' ? `${process.platform} ${process.arch}` : 'Unknown'
 </script>
