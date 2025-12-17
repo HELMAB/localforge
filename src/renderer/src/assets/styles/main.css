@@ -1,3 +1,6 @@
+/* Import Fira Code font */
+@import url('../fonts/FiraCode/fira_code.css');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

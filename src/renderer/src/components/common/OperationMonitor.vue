@@ -96,7 +96,7 @@
                 <div
                   v-if="operation.output.length > 0"
                   ref="outputContainer"
-                  class="bg-gray-900 text-green-400 text-xs font-mono p-3 rounded max-h-[50vh] overflow-y-auto"
+                  class="bg-gray-900 text-green-400 text-xs p-3 rounded max-h-[50vh] overflow-y-auto operation-output"
                 >
                   <div
                     v-for="(line, index) in operation.output"
@@ -213,6 +213,12 @@ const handleCancel = async (id) => {
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+}
+
+.operation-output {
+  font-family: 'Fira Code', 'Courier New', Courier, monospace;
+  font-weight: 400;
+  font-variant-ligatures: common-ligatures;
 }
 
 @keyframes progress {
