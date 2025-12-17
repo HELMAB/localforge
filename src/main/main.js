@@ -167,7 +167,7 @@ ipcMain.handle(
         case 'nuxt': {
           // Nuxt 4 (latest) - requires Node 20+
           const template = nuxtTemplate || 'minimal'
-          let nuxtCmd = `npx nuxi@latest init ${name} -t ${template} --packageManager=npm --no-gitInit --no-modules`
+          let nuxtCmd = `npx nuxi@latest init ${name} -t ${template} --packageManager=npm --no-gitInit --no-modules && cd ${name} && npm run generate`
 
           if (nodeVersion) {
             nuxtCmd = `export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" && nvm use ${nodeVersion} && ${nuxtCmd}`
