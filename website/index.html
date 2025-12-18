@@ -73,80 +73,83 @@
 </head>
 <body class="font-inter antialiased bg-gray-50 text-gray-900">
   
-  <!-- Navigation -->
-  <nav class="fixed w-full bg-white/70 backdrop-blur-lg shadow-sm z-50 border-b border-gray-100">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between items-center h-16">
-        <div class="flex items-center gap-2 group cursor-pointer">
-          <img src="/assets/logo.svg" alt="LocalForge Logo" class="h-10 w-10 transition-transform group-hover:scale-110">
-          <span class="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">LocalForge</span>
-        </div>
-        
-        <div class="hidden md:flex items-center gap-8">
-          <a href="/" class="text-gray-900 font-medium hover:text-blue-600 transition-all relative group">
-            Home
-            <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 transition-all group-hover:w-full"></span>
-          </a>
-          <a href="/docs.html" class="text-gray-600 hover:text-blue-600 transition-all relative group">
-            Docs
-            <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 transition-all group-hover:w-full"></span>
-          </a>
-          <a href="/download.html" class="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:shadow-lg hover:scale-105 transition-all font-medium">Download</a>
-        </div>
-        
-        <!-- Mobile Menu Button -->
-        <button id="mobile-menu-button" class="md:hidden p-2 rounded-lg hover:bg-gray-100">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-          </svg>
-        </button>
-      </div>
-    </div>
-    
-    <!-- Mobile Menu -->
-    <div id="mobile-menu" class="hidden md:hidden bg-white border-t">
-      <div class="px-4 py-4 space-y-3">
-        <a href="/" class="block text-gray-900 font-medium hover:text-blue-600 transition">Home</a>
-        <a href="/docs.html" class="block text-gray-600 hover:text-blue-600 transition">Docs</a>
-        <a href="/download.html" class="block px-5 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium text-center">Download</a>
-      </div>
-    </div>
-  </nav>
+  <!-- Fixed Header Container -->
+  <div class="fixed top-0 left-0 right-0 z-50 w-full">
+    <!-- Peace & Support Banner -->
+    <div
+      class="w-full shadow-lg flex-shrink-0"
+      style="background: linear-gradient(135deg, #032ea1 0%, #1e40af 50%, #032ea1 100%)"
+    >
+      <!-- Red top stripe (Cambodian flag inspired) -->
+      <div class="w-full h-1.5 bg-red-600"></div>
 
-  <!-- Peace & Support Banner -->
-  <div
-    class="fixed top-16 left-0 right-0 z-40 w-full shadow-lg flex-shrink-0"
-    style="background: linear-gradient(135deg, #032ea1 0%, #1e40af 50%, #032ea1 100%)"
-  >
-    <!-- Red top stripe (Cambodian flag inspired) -->
-    <div class="w-full h-1.5 bg-red-600"></div>
-
-    <div class="py-3 px-4 text-white">
-      <div class="max-w-full mx-auto text-center">
-        <!-- Main message -->
-        <div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 justify-center">
-          <div class="flex items-center gap-2 justify-center">
-            <span class="text-lg sm:text-xl font-bold">🕊️ កម្ពុជាត្រូវការសន្តិភាព</span>
+      <div class="py-3 px-4 text-white">
+        <div class="max-w-full mx-auto text-center">
+          <!-- Main message -->
+          <div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 justify-center">
+            <div class="flex items-center gap-2 justify-center">
+              <span class="text-lg sm:text-xl font-bold">🕊️ កម្ពុជាត្រូវការសន្តិភាព</span>
+            </div>
+            <span class="hidden sm:inline text-white/60">•</span>
+            <div class="flex items-center gap-2 justify-center">
+              <span class="text-base sm:text-lg font-semibold">CAMBODIA NEEDS PEACE 🇰🇭</span>
+            </div>
           </div>
-          <span class="hidden sm:inline text-white/60">•</span>
-          <div class="flex items-center gap-2 justify-center">
-            <span class="text-base sm:text-lg font-semibold">CAMBODIA NEEDS PEACE 🇰🇭</span>
-          </div>
-        </div>
 
-        <!-- Support message -->
-        <p class="text-xs sm:text-sm text-white/90 mt-1">
-          យើងគាំទ្រដល់ទាហានខ្មែរទាំងអស់ដែលការពារទឹកដីជាតិ • We stand with our brave soldiers defending our homeland
-        </p>
+          <!-- Support message -->
+          <p class="text-xs sm:text-sm text-white/90 mt-1">
+            យើងគាំទ្រដល់ទាហានខ្មែរទាំងអស់ដែលការពារទឹកដីជាតិ • We stand with our brave soldiers defending our homeland
+          </p>
+        </div>
       </div>
+
+      <!-- Red bottom stripe -->
+      <div class="w-full h-1.5 bg-red-600"></div>
     </div>
 
-    <!-- Red bottom stripe -->
-    <div class="w-full h-1.5 bg-red-600"></div>
+    <!-- Navigation -->
+    <nav class="w-full bg-white/70 backdrop-blur-lg shadow-sm border-b border-gray-100">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+          <div class="flex items-center gap-2 group cursor-pointer">
+            <img src="/assets/logo.svg" alt="LocalForge Logo" class="h-10 w-10 transition-transform group-hover:scale-110">
+            <span class="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">LocalForge</span>
+          </div>
+
+          <div class="hidden md:flex items-center gap-8">
+            <a href="/" class="text-gray-900 font-medium hover:text-blue-600 transition-all relative group">
+              Home
+              <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 transition-all group-hover:w-full"></span>
+            </a>
+            <a href="/docs.html" class="text-gray-600 hover:text-blue-600 transition-all relative group">
+              Docs
+              <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 transition-all group-hover:w-full"></span>
+            </a>
+            <a href="/download.html" class="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:shadow-lg hover:scale-105 transition-all font-medium">Download</a>
+          </div>
+
+          <!-- Mobile Menu Button -->
+          <button id="mobile-menu-button" class="md:hidden p-2 rounded-lg hover:bg-gray-100">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Menu -->
+      <div id="mobile-menu" class="hidden md:hidden bg-white border-t">
+        <div class="px-4 py-4 space-y-3">
+          <a href="/" class="block text-gray-900 font-medium hover:text-blue-600 transition">Home</a>
+          <a href="/docs.html" class="block text-gray-600 hover:text-blue-600 transition">Docs</a>
+          <a href="/download.html" class="block px-5 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium text-center">Download</a>
+        </div>
+      </div>
+    </nav>
   </div>
 
   <!-- Hero Section -->
-  <section class="relative pt-48 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
+  <section class="relative pt-56 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
     <!-- Animated Background Elements -->
     <div class="absolute inset-0 -z-10">
       <div class="absolute top-20 left-10 w-72 h-72 bg-blue-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-float"></div>
