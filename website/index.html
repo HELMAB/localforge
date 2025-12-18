@@ -114,25 +114,35 @@
   </nav>
 
   <!-- Peace & Support Banner -->
-  <div class="fixed top-16 left-0 right-0 z-40 bg-gradient-to-r from-red-600 via-blue-600 to-red-600 text-white shadow-lg border-b-2 border-yellow-400">
-    <div class="max-w-7xl mx-auto px-4 py-3">
-      <div class="flex flex-col md:flex-row items-center justify-center gap-3 text-center">
-        <div class="flex items-center gap-2">
-          <svg class="w-6 h-6 animate-pulse" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-          </svg>
-          <span class="text-lg font-bold">🇰🇭 Stand with Cambodia</span>
+  <div
+    class="fixed top-16 left-0 right-0 z-40 w-full shadow-lg flex-shrink-0"
+    style="background: linear-gradient(135deg, #032ea1 0%, #1e40af 50%, #032ea1 100%)"
+  >
+    <!-- Red top stripe (Cambodian flag inspired) -->
+    <div class="w-full h-1.5 bg-red-600"></div>
+
+    <div class="py-3 px-4 text-white">
+      <div class="max-w-full mx-auto text-center">
+        <!-- Main message -->
+        <div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 justify-center">
+          <div class="flex items-center gap-2 justify-center">
+            <span class="text-lg sm:text-xl font-bold">🕊️ កម្ពុជាត្រូវការសន្តិភាព</span>
+          </div>
+          <span class="hidden sm:inline text-white/60">•</span>
+          <div class="flex items-center gap-2 justify-center">
+            <span class="text-base sm:text-lg font-semibold">CAMBODIA NEEDS PEACE 🇰🇭</span>
+          </div>
         </div>
-        <div class="flex flex-col md:flex-row items-center gap-2 md:gap-4">
-          <span class="font-semibold text-base md:text-lg">We stand with our brave soldiers defending our homeland</span>
-          <span class="hidden md:block text-yellow-300">|</span>
-          <span class="font-bold text-yellow-300 text-base md:text-lg animate-pulse">🕊️ Cambodia Needs Peace 🕊️</span>
-        </div>
-      </div>
-      <div class="text-center mt-2 text-sm opacity-90">
-        <span class="font-khmer">🙏 កម្ពុជាត្រូវការសន្តិភាព • Together we stand for peace and sovereignty</span>
+
+        <!-- Support message -->
+        <p class="text-xs sm:text-sm text-white/90 mt-1">
+          យើងគាំទ្រដល់ទាហានខ្មែរទាំងអស់ដែលការពារទឹកដីជាតិ • We stand with our brave soldiers defending our homeland
+        </p>
       </div>
     </div>
+
+    <!-- Red bottom stripe -->
+    <div class="w-full h-1.5 bg-red-600"></div>
   </div>
 
   <!-- Hero Section -->
