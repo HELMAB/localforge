@@ -22,7 +22,7 @@
 
 <div align="center">
 
-## 🇰🇭 Stand with Cambodia • កម្ពុជា 🇰🇭
+## 🇰🇭 Stand with Cambodia • កម្ពុជា
 
 ### 🕊️ **Cambodia Needs Peace** 🕊️
 
