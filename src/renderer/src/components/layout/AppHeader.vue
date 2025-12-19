@@ -1,4 +1,37 @@
 <template>
+  <!-- Peace & Support Banner -->
+  <div
+    class="sticky top-0 w-full shadow-lg flex-shrink-0 z-50"
+    style="background: linear-gradient(135deg, #032ea1 0%, #1e40af 50%, #032ea1 100%)"
+  >
+    <!-- Red top stripe (Cambodian flag inspired) -->
+    <div class="w-full h-1.5 bg-red-600" />
+
+    <div class="py-3 px-4 text-white">
+      <div class="max-w-full mx-auto text-center">
+        <!-- Main message -->
+        <div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 justify-center">
+          <div class="flex items-center gap-2 justify-center">
+            <span class="text-lg sm:text-xl font-bold">🕊️ កម្ពុជាត្រូវការសន្តិភាព</span>
+          </div>
+          <span class="hidden sm:inline text-white/60">•</span>
+          <div class="flex items-center gap-2 justify-center">
+            <span class="text-base sm:text-lg font-semibold">CAMBODIA NEEDS PEACE 🇰🇭</span>
+          </div>
+        </div>
+
+        <!-- Support message -->
+        <p class="text-xs sm:text-sm text-white/90 mt-1">
+          យើងគាំទ្រដល់ទាហានខ្មែរទាំងអស់ដែលការពារទឹកដីជាតិ • We stand with our brave soldiers defending our homeland
+        </p>
+      </div>
+    </div>
+
+    <!-- Red bottom stripe -->
+    <div class="w-full h-1.5 bg-red-600" />
+  </div>
+
+  <!-- Main Header -->
   <div
     class="relative bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-700 dark:to-indigo-700 shadow-lg p-6 mb-6 overflow-hidden"
   >
@@ -7,8 +40,8 @@
       <div
         class="absolute inset-0"
         style="
-          background-image: url(&quot;data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E&quot;);
-        "
+            background-image: url(&quot;data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E&quot;);
+          "
       />
     </div>
 
