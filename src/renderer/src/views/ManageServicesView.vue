@@ -35,6 +35,7 @@
           :installed-tools="installedTools"
           :on-install-node="installNode"
           :on-set-default-node="setDefaultNode"
+          :on-uninstall-node="uninstallNode"
         />
 
         <NginxSection
@@ -79,6 +80,7 @@ const {
   installPHPExtensions,
   installNode,
   setDefaultNode,
+  uninstallNode,
   installNginx,
   installComposer,
   installPostgreSQL,

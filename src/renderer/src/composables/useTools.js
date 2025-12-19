@@ -6,7 +6,7 @@ export function useTools() {
   const isLoading = ref(false)
   const installedTools = ref({
     php: { installed: false, versions: [] },
-    node: { installed: false, versions: [], default: null },
+    node: { installed: false, versions: [], default: null, current: null },
     nginx: { installed: false, version: null },
     composer: { installed: false, version: null },
     postgresql: { installed: false, version: null },
@@ -65,6 +65,17 @@ export function useTools() {
   async function setDefaultNode(version) {
     try {
       const result = await invoke('set-default-node', { version })
+      await checkInstalledTools()
+      return result
+    } catch (err) {
+      error.value = err.message
+      throw err
+    }
+  }
+
+  async function uninstallNode(version) {
+    try {
+      const result = await invoke('uninstall-node', { version })
       await checkInstalledTools()
       return result
     } catch (err) {
@@ -171,6 +182,7 @@ export function useTools() {
     installPHPExtensions,
     installNode,
     setDefaultNode,
+    uninstallNode,
     installNginx,
     installComposer,
     installPostgreSQL,
