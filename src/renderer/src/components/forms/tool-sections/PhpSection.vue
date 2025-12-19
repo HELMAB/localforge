@@ -4,7 +4,7 @@
     <div class="flex items-center justify-between">
       <h3 class="text-2xl font-bold flex items-center gap-3 text-gray-900 dark:text-white">
         <div
-          class="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-xl flex items-center justify-center"
+          class="w-12 h-12 bg-indigo-100 dark:bg-indigo-500/20 rounded-xl flex items-center justify-center"
         >
           <img
             src="@/assets/svg/php.svg"
@@ -15,13 +15,13 @@
         <span>{{ t('sectionPhpTitle') }}</span>
         <span
           v-if="hasInstalledVersions"
-          class="px-3 py-1 text-sm font-medium bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-full"
+          class="px-3 py-1 text-sm font-medium bg-indigo-100 dark:bg-indigo-500/20 text-indigo-700 dark:text-indigo-300 rounded-full"
         >
           {{ installedTools.php.versions.length }} {{ locale === 'km' ? 'កំណែ' : 'versions' }}
         </span>
       </h3>
       <button
-        class="px-4 py-2 bg-gradient-to-r from-purple-500 to-purple-600 dark:from-purple-600 dark:to-purple-700 text-white rounded-lg hover:shadow-lg transition-all flex items-center gap-2 font-medium"
+        class="px-4 py-2 bg-gradient-to-r from-indigo-600 to-indigo-700 dark:from-indigo-500 dark:to-indigo-600 text-white rounded-lg hover:shadow-lg hover:from-indigo-700 hover:to-indigo-800 dark:hover:from-indigo-600 dark:hover:to-indigo-700 transition-all flex items-center gap-2 font-medium"
         @click="openInstallModal"
       >
         <svg
@@ -43,10 +43,10 @@
     <!-- Installed PHP Versions - Enhanced Cards -->
     <div
       v-if="hasInstalledVersions"
-      class="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 border border-green-200 dark:border-green-700/50 rounded-xl p-5 backdrop-blur-sm"
+      class="bg-gradient-to-br from-indigo-50 to-indigo-100/50 dark:from-indigo-950/40 dark:to-indigo-900/20 border border-indigo-200 dark:border-indigo-800/50 rounded-xl p-5 backdrop-blur-sm"
     >
       <div class="flex items-center justify-between mb-4">
-        <h4 class="font-semibold text-green-800 dark:text-green-300 flex items-center gap-2">
+        <h4 class="font-semibold text-indigo-900 dark:text-indigo-300 flex items-center gap-2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             class="h-5 w-5"
@@ -61,7 +61,7 @@
           </svg>
           {{ t('phpInstalledTitle') }}
         </h4>
-        <span class="text-xs text-green-600 dark:text-green-400 font-medium">
+        <span class="text-xs text-indigo-700 dark:text-indigo-400 font-medium">
           {{
             latestInstalledVersion
               ? `${locale === 'km' ? 'ចុងក្រោយបំផុត' : 'Latest'}: ${latestInstalledVersion}`
@@ -73,11 +73,11 @@
         <div
           v-for="version in installedTools.php.versions"
           :key="version"
-          class="group flex items-center justify-between bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm p-4 rounded-lg border border-green-300 dark:border-green-700 hover:shadow-md transition-all"
+          class="group flex items-center justify-between bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm p-4 rounded-lg border border-indigo-200 dark:border-indigo-800/50 hover:border-indigo-300 dark:hover:border-indigo-700 hover:shadow-md transition-all"
         >
           <div class="flex items-center gap-3">
             <div
-              class="w-10 h-10 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center"
+              class="w-10 h-10 bg-indigo-100 dark:bg-indigo-500/20 rounded-lg flex items-center justify-center"
             >
               <img
                 src="@/assets/svg/php.svg"
@@ -89,13 +89,13 @@
               <span class="font-semibold text-gray-900 dark:text-gray-100">PHP {{ version }}</span>
               <div class="flex items-center gap-2 mt-0.5">
                 <span
-                  class="text-xs px-2 py-0.5 bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 rounded"
+                  class="text-xs px-2 py-0.5 bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-300 rounded"
                 >
                   {{ t('installed') }}
                 </span>
                 <span
                   v-if="version === latestInstalledVersion"
-                  class="text-xs px-2 py-0.5 bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 rounded"
+                  class="text-xs px-2 py-0.5 bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 rounded"
                 >
                   {{ locale === 'km' ? 'ចុងក្រោយ' : 'Latest' }}
                 </span>
@@ -104,21 +104,21 @@
           </div>
           <div class="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
             <button
-              class="px-3 py-1.5 text-xs bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-800 rounded transition-colors"
+              class="px-3 py-1.5 text-xs bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-200 dark:hover:bg-indigo-800/70 rounded transition-colors"
               :title="locale === 'km' ? 'គ្រប់គ្រងផ្នែកបន្ថែម' : 'Manage Extensions'"
               @click="openExtensionsManager(version)"
             >
               {{ locale === 'km' ? 'ផ្នែកបន្ថែម' : 'Extensions' }}
             </button>
             <button
-              class="px-3 py-1.5 text-xs bg-purple-100 dark:bg-purple-900 text-purple-700 dark:text-purple-300 hover:bg-purple-200 dark:hover:bg-purple-800 rounded transition-colors"
+              class="px-3 py-1.5 text-xs bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-200 dark:hover:bg-indigo-800/70 rounded transition-colors"
               :title="locale === 'km' ? 'កែសម្រួល php.ini' : 'Edit php.ini'"
               @click="openIniEditor(version, 'cli')"
             >
               {{ locale === 'km' ? 'php.ini' : 'php.ini' }}
             </button>
             <button
-              class="px-3 py-1.5 text-xs bg-indigo-100 dark:bg-indigo-900 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-200 dark:hover:bg-indigo-800 rounded transition-colors"
+              class="px-3 py-1.5 text-xs bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-200 dark:hover:bg-indigo-800/70 rounded transition-colors"
               :title="locale === 'km' ? 'កែសម្រួល php-fpm.conf' : 'Edit php-fpm.conf'"
               @click="openIniEditor(version, 'fpm')"
             >
@@ -132,14 +132,14 @@
     <!-- Empty State -->
     <div
       v-else
-      class="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl p-8 text-center"
+      class="bg-gradient-to-br from-indigo-50 to-indigo-100/30 dark:from-indigo-950/30 dark:to-indigo-900/10 border-2 border-dashed border-indigo-300 dark:border-indigo-700/50 rounded-xl p-8 text-center"
     >
       <div
-        class="w-16 h-16 bg-purple-100 dark:bg-purple-900/30 rounded-full flex items-center justify-center mx-auto mb-4"
+        class="w-16 h-16 bg-indigo-100 dark:bg-indigo-500/20 rounded-full flex items-center justify-center mx-auto mb-4"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          class="h-8 w-8 text-purple-600 dark:text-purple-400"
+          class="h-8 w-8 text-indigo-600 dark:text-indigo-400"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -177,7 +177,7 @@
           <h3 class="text-xl font-semibold dark:text-white flex items-center gap-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="h-6 w-6 text-purple-600 dark:text-purple-400"
+              class="h-6 w-6 text-indigo-600 dark:text-indigo-400"
               viewBox="0 0 20 20"
               fill="currentColor"
             >
@@ -219,7 +219,7 @@
               type="text"
               placeholder="8.3"
               :disabled="isInstalling"
-              class="w-full px-4 py-2 border dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-purple-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              class="w-full px-4 py-2 border dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
             <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
               {{ locale === 'km' ? 'ឧទាហរណ៍: 8.3, 8.2, 8.1' : 'Example: 8.3, 8.2, 8.1' }}
@@ -246,7 +246,7 @@
           </button>
           <button
             :disabled="isInstalling"
-            class="px-6 py-2 bg-gradient-to-r from-purple-500 to-purple-600 dark:from-purple-600 dark:to-purple-700 text-white rounded-lg hover:shadow-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+            class="px-6 py-2 bg-gradient-to-r from-indigo-600 to-indigo-700 dark:from-indigo-500 dark:to-indigo-600 text-white rounded-lg hover:shadow-lg hover:from-indigo-700 hover:to-indigo-800 dark:hover:from-indigo-600 dark:hover:to-indigo-700 font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-all"
             @click="handleInstallPHP"
           >
             {{ t('phpInstallBtn') }}
@@ -306,7 +306,7 @@
             </div>
             <textarea
               v-model="iniContent"
-              class="w-full h-96 px-4 py-3 border dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white font-mono text-sm focus:ring-2 focus:ring-purple-500 resize-none"
+              class="w-full h-96 px-4 py-3 border dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white font-mono text-sm focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-600 resize-none"
               spellcheck="false"
             />
           </div>
@@ -321,7 +321,7 @@
           </button>
           <button
             :disabled="isSavingIni || isLoadingIni"
-            class="px-5 py-2 bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-lg hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            class="px-5 py-2 bg-gradient-to-r from-indigo-600 to-indigo-700 dark:from-indigo-500 dark:to-indigo-600 text-white rounded-lg hover:shadow-lg hover:from-indigo-700 hover:to-indigo-800 dark:hover:from-indigo-600 dark:hover:to-indigo-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             @click="saveIniFile"
           >
             {{
@@ -458,7 +458,7 @@
                   </span>
                 </h4>
                 <button
-                  class="text-xs text-purple-600 dark:text-purple-400 hover:underline font-medium"
+                  class="text-xs text-indigo-600 dark:text-indigo-400 hover:underline font-medium"
                   @click="toggleCheckAll"
                 >
                   {{
@@ -479,7 +479,7 @@
                   class="flex items-center gap-3 p-3 border dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
                   :class="
                     selectedExtensions.includes(ext)
-                      ? 'bg-blue-50 dark:bg-blue-900/20 border-blue-300 dark:border-blue-700'
+                      ? 'bg-indigo-50 dark:bg-indigo-900/20 border-indigo-300 dark:border-indigo-700'
                       : ''
                   "
                 >
@@ -487,7 +487,7 @@
                     :id="`ext-${ext}`"
                     type="checkbox"
                     :checked="selectedExtensions.includes(ext)"
-                    class="w-4 h-4 text-purple-600 rounded focus:ring-purple-500"
+                    class="w-4 h-4 text-indigo-600 rounded focus:ring-indigo-500"
                     @change="toggleExtension(ext)"
                   >
                   <label
@@ -502,9 +502,9 @@
 
             <div
               v-if="selectedExtensions.length > 0"
-              class="p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg"
+              class="p-3 bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-200 dark:border-indigo-700 rounded-lg"
             >
-              <p class="text-sm text-blue-700 dark:text-blue-300">
+              <p class="text-sm text-indigo-700 dark:text-indigo-300">
                 {{ locale === 'km' ? 'បានជ្រើសរើស' : 'Selected' }}:
                 <strong>{{ selectedExtensions.length }}</strong>
                 {{ locale === 'km' ? 'ផ្នែកបន្ថែម' : 'extension(s)' }}
@@ -529,7 +529,7 @@
           </button>
           <button
             :disabled="isInstallingExtensions || selectedExtensions.length === 0"
-            class="px-5 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            class="px-5 py-2 bg-gradient-to-r from-indigo-600 to-indigo-700 dark:from-indigo-500 dark:to-indigo-600 text-white rounded-lg hover:shadow-lg hover:from-indigo-700 hover:to-indigo-800 dark:hover:from-indigo-600 dark:hover:to-indigo-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             @click="installSelectedExtensions"
           >
             {{
@@ -558,7 +558,7 @@
         <div class="flex items-center justify-between p-5 border-b dark:border-gray-700">
           <h3 class="text-xl font-semibold dark:text-white flex items-center gap-2">
             <svg
-              class="w-6 h-6 text-purple-600 dark:text-purple-400 animate-spin"
+              class="w-6 h-6 text-indigo-600 dark:text-indigo-400 animate-spin"
               fill="none"
               viewBox="0 0 24 24"
             >
@@ -623,11 +623,11 @@
                 <span class="text-gray-700 dark:text-gray-300 font-medium">
                   {{ locale === 'km' ? 'វឌ្ឍនភាព' : 'Progress' }}
                 </span>
-                <span class="text-purple-600 dark:text-purple-400 font-semibold">{{ installProgress }}%</span>
+                <span class="text-indigo-600 dark:text-indigo-400 font-semibold">{{ installProgress }}%</span>
               </div>
               <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5 overflow-hidden">
                 <div
-                  class="bg-gradient-to-r from-purple-500 to-purple-600 h-2.5 rounded-full transition-all duration-300 ease-out"
+                  class="bg-gradient-to-r from-indigo-600 to-indigo-700 dark:from-indigo-500 dark:to-indigo-600 h-2.5 rounded-full transition-all duration-300 ease-out"
                   :style="{ width: `${installProgress}%` }"
                 />
               </div>

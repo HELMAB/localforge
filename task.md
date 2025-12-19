@@ -15,3 +15,12 @@ I want to improve the PHP in "Manage Services" tab.
 - Don't create any unnecessary markdown files.
 - Don't asking to write tests or run build
 - Optimize the code for better performance and readability.
+
+## Proposed Enhancement 2
+
+- Background color, border color, button color isn't matching with the PHP theme. Please Update the colors to match the PHP theme.
+- Improve UI in the dark mode
+- Don't asking to run "npm run lint"
+- Don't create any unnecessary markdown files.
+- Don't asking to write tests or run build
+- Optimize the code for better performance and readability.
