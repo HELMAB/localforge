@@ -21,9 +21,8 @@
         </span>
       </h3>
       <button
-        v-if="!hasInstalledVersions"
         class="px-4 py-2 bg-gradient-to-r from-purple-500 to-purple-600 dark:from-purple-600 dark:to-purple-700 text-white rounded-lg hover:shadow-lg transition-all flex items-center gap-2 font-medium"
-        @click="installRecommendedPHP"
+        @click="openInstallModal"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -37,7 +36,7 @@
             clip-rule="evenodd"
           />
         </svg>
-        {{ locale === 'km' ? 'ដំឡើង PHP ណែនាំ' : 'Install Recommended' }}
+        {{ t('phpInstallTitle') }}
       </button>
     </div>
 
@@ -165,62 +164,94 @@
       </p>
     </div>
 
-    <!-- Install PHP Version -->
+    <!-- Install PHP Modal -->
     <div
-      class="bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-xl p-5 shadow-sm hover:shadow-md transition-all"
+      v-if="showInstallModal"
+      class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+      @click.self="closeInstallModal"
     >
-      <div class="flex items-center justify-between mb-4">
-        <h4 class="font-semibold text-gray-800 dark:text-gray-200 flex items-center gap-2">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-5 w-5 text-purple-600 dark:text-purple-400"
-            viewBox="0 0 20 20"
-            fill="currentColor"
+      <div
+        class="bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-lg flex flex-col"
+      >
+        <div class="flex items-center justify-between p-5 border-b dark:border-gray-700">
+          <h3 class="text-xl font-semibold dark:text-white flex items-center gap-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6 text-purple-600 dark:text-purple-400"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v3.586L7.707 9.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 10.586V7z"
+                clip-rule="evenodd"
+              />
+            </svg>
+            {{ t('phpInstallTitle') }}
+          </h3>
+          <button
+            class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
+            @click="closeInstallModal"
           >
-            <path
-              fill-rule="evenodd"
-              d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v3.586L7.707 9.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 10.586V7z"
-              clip-rule="evenodd"
-            />
-          </svg>
-          {{ t('phpInstallTitle') }}
-        </h4>
-      </div>
-
-      <div class="space-y-4">
-        <div>
-          <label class="block text-sm font-medium mb-2 dark:text-gray-300">
-            {{ t('phpInstallLabel') }}
-          </label>
-          <input
-            v-model="phpInstallVersion"
-            type="text"
-            placeholder="8.3"
-            :disabled="isInstalling"
-            class="w-full px-4 py-2 border dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-purple-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-          <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
-            {{ locale === 'km' ? 'ឧទាហរណ៍: 8.3, 8.2, 8.1' : 'Example: 8.3, 8.2, 8.1' }}
-          </p>
+            <svg
+              class="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
         </div>
 
-        <InfoBox
-          :title="locale === 'km' ? 'ណែនាំកំណែ' : 'Version Recommendation'"
-          :message="
-            locale === 'km'
-              ? 'PHP 8.3 គឺជាកំណែចុងក្រោយបំផុតដែលមានស្ថេរភាព និងត្រូវបានណែនាំសម្រាប់គម្រោងថ្មី។ PHP 8.4 គឺជាកំណែចុងក្រោយបំផុតប៉ុន្តែអាចមានបញ្ហាឆបគ្នា។'
-              : 'PHP 8.3 is the latest stable version and recommended for new projects. PHP 8.4 is the newest but may have compatibility issues.'
-          "
-          type="info"
-        />
+        <div class="p-5 space-y-4">
+          <div>
+            <label class="block text-sm font-medium mb-2 dark:text-gray-300">
+              {{ t('phpInstallLabel') }}
+            </label>
+            <input
+              v-model="phpInstallVersion"
+              type="text"
+              placeholder="8.3"
+              :disabled="isInstalling"
+              class="w-full px-4 py-2 border dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-purple-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+            <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
+              {{ locale === 'km' ? 'ឧទាហរណ៍: 8.3, 8.2, 8.1' : 'Example: 8.3, 8.2, 8.1' }}
+            </p>
+          </div>
 
-        <button
-          :disabled="isInstalling"
-          class="w-full px-6 py-3 bg-gradient-to-r from-purple-500 to-purple-600 dark:from-purple-600 dark:to-purple-700 text-white rounded-lg hover:shadow-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-all"
-          @click="handleInstallPHP"
-        >
-          {{ t('phpInstallBtn') }}
-        </button>
+          <InfoBox
+            :title="locale === 'km' ? 'ណែនាំកំណែ' : 'Version Recommendation'"
+            :message="
+              locale === 'km'
+                ? 'PHP 8.3 គឺជាកំណែចុងក្រោយបំផុតដែលមានស្ថេរភាព និងត្រូវបានណែនាំសម្រាប់គម្រោងថ្មី។ PHP 8.4 គឺជាកំណែចុងក្រោយបំផុតប៉ុន្តែអាចមានបញ្ហាឆបគ្នា។'
+                : 'PHP 8.3 is the latest stable version and recommended for new projects. PHP 8.4 is the newest but may have compatibility issues.'
+            "
+            type="info"
+          />
+        </div>
+
+        <div class="flex items-center justify-end gap-3 p-5 border-t dark:border-gray-700">
+          <button
+            class="px-5 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+            @click="closeInstallModal"
+          >
+            {{ locale === 'km' ? 'បោះបង់' : 'Cancel' }}
+          </button>
+          <button
+            :disabled="isInstalling"
+            class="px-6 py-2 bg-gradient-to-r from-purple-500 to-purple-600 dark:from-purple-600 dark:to-purple-700 text-white rounded-lg hover:shadow-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+            @click="handleInstallPHP"
+          >
+            {{ t('phpInstallBtn') }}
+          </button>
+        </div>
       </div>
     </div>
 
@@ -647,6 +678,9 @@ const props = defineProps({
 
 const phpInstallVersion = ref('8.3')
 
+// Install modal state
+const showInstallModal = ref(false)
+
 // INI Editor state
 const showIniEditor = ref(false)
 const iniEditorVersion = ref('')
@@ -730,6 +764,9 @@ async function handleInstallPHP() {
   installLogVersion.value = phpInstallVersion.value
   installLogs.value = []
 
+  // Close install modal and show log modal
+  showInstallModal.value = false
+
   // Add initial log
   installLogs.value.push(
     `[${new Date().toLocaleTimeString()}] Starting PHP ${phpInstallVersion.value} installation...`
@@ -793,9 +830,15 @@ async function handleInstallPHP() {
   }
 }
 
-async function installRecommendedPHP() {
+function openInstallModal() {
+  showInstallModal.value = true
   phpInstallVersion.value = '8.3'
-  await handleInstallPHP()
+}
+
+function closeInstallModal() {
+  if (!isInstalling.value) {
+    showInstallModal.value = false
+  }
 }
 
 // INI Editor functions

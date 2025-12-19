@@ -2,6 +2,7 @@ import { ref } from 'vue'
 import { useIpc } from './useIpc'
 
 const NODEJS_CACHE_KEY = 'localforge_nodejs_versions'
+const PHP_CACHE_KEY = 'localforge_php_versions'
 
 export function useTools() {
   const { invoke } = useIpc()
@@ -49,10 +50,44 @@ export function useTools() {
     }
   }
 
+  // Load PHP versions from localStorage
+  function loadPhpVersionsFromCache() {
+    try {
+      const cached = localStorage.getItem(PHP_CACHE_KEY)
+      if (cached) {
+        const data = JSON.parse(cached)
+        installedTools.value.php = data
+        return true
+      }
+    } catch (err) {
+      // Silent fail - cache is optional
+    }
+    return false
+  }
+
+  // Save PHP versions to localStorage
+  function savePhpVersionsToCache(phpData) {
+    try {
+      localStorage.setItem(PHP_CACHE_KEY, JSON.stringify(phpData))
+    } catch (err) {
+      // Silent fail - cache is optional
+    }
+  }
+
+  // Clear PHP cache
+  function clearPhpVersionsCache() {
+    try {
+      localStorage.removeItem(PHP_CACHE_KEY)
+    } catch (err) {
+      // Silent fail - cache is optional
+    }
+  }
+
   async function checkInstalledTools(useCache = true) {
     // Try to load from cache first
     if (useCache) {
       loadNodeVersionsFromCache()
+      loadPhpVersionsFromCache()
     }
 
     isLoading.value = true
@@ -62,8 +97,9 @@ export function useTools() {
       const result = await invoke('check-installed-tools')
       installedTools.value = result
 
-      // Save Node.js data to cache
+      // Save Node.js and PHP data to cache
       saveNodeVersionsToCache(result.node)
+      savePhpVersionsToCache(result.php)
 
       return result
     } catch (err) {
@@ -77,7 +113,8 @@ export function useTools() {
   async function installPHP(version) {
     try {
       const result = await invoke('install-php', { version })
-      await checkInstalledTools()
+      // Refresh tools and update cache
+      await checkInstalledTools(false) // Don't use cache when refreshing
       return result
     } catch (err) {
       error.value = err.message
@@ -251,5 +288,8 @@ export function useTools() {
     loadNodeVersionsFromCache,
     saveNodeVersionsToCache,
     clearNodeVersionsCache,
+    loadPhpVersionsFromCache,
+    savePhpVersionsToCache,
+    clearPhpVersionsCache,
   }
 }
