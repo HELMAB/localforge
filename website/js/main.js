@@ -370,9 +370,6 @@ if (contactForm) {
 // Track external links
 document.querySelectorAll('a[target="_blank"]').forEach(link => {
   link.addEventListener('click', () => {
-    // Track external link click (replace with your analytics)
-    // eslint-disable-next-line no-console
-    console.log('External link clicked:', link.href)
   })
 })
 
@@ -399,9 +396,6 @@ document.addEventListener('keydown', (e) => {
 // Service Worker registration (for PWA - optional)
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    // Uncomment to enable service worker
-    // navigator.serviceWorker.register('/sw.js')
-    //   .then(registration => console.log('SW registered:', registration))
-    //   .catch(error => console.log('SW registration failed:', error))
+    
   })
 }

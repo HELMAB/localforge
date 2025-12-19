@@ -2076,10 +2076,6 @@ ipcMain.handle('check-installed-tools', async () => {
           'export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" && nvm ls 2>/dev/null',
           (error, stdout) => {
             if (!error && stdout) {
-              console.log('=== NVM LIST OUTPUT ===')
-              console.log(stdout)
-              console.log('=== END NVM OUTPUT ===')
-
               results.node.installed = true
               const versionSet = new Set()
 
@@ -2097,12 +2093,8 @@ ipcMain.handle('check-installed-tools', async () => {
                 if (match && !line.includes('(')) {  // Exclude lines with parentheses (alias references)
                   const version = match[1].substring(1) // Remove 'v' prefix
                   versionSet.add(version)
-                  console.log(`Found version: ${version} from line: ${line.trim()}`)
                 }
               })
-
-              console.log(`Total unique versions found: ${versionSet.size}`)
-              console.log('Versions:', Array.from(versionSet))
 
               if (versionSet.size > 0) {
                 // Convert to array and sort in descending order (newest first)
@@ -2120,7 +2112,6 @@ ipcMain.handle('check-installed-tools', async () => {
               const defaultMatch = stdout.match(/default\s*->\s*(v\d+\.\d+\.\d+)/)
               if (defaultMatch) {
                 results.node.default = defaultMatch[1].substring(1)
-                console.log(`Default version: ${results.node.default}`)
               }
             }
 
@@ -2132,7 +2123,6 @@ ipcMain.handle('check-installed-tools', async () => {
                   const currentVersion = out.trim()
                   if (currentVersion && currentVersion.startsWith('v') && !currentVersion.includes('system')) {
                     results.node.current = currentVersion.substring(1)
-                    console.log(`Current version: ${results.node.current}`)
                   }
                 }
                 res()

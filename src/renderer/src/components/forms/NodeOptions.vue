@@ -54,12 +54,26 @@ const nodeVersionOptions = computed(() => {
 
   // Add installed Node versions
   if (installedTools.value.node.installed && installedTools.value.node.versions.length > 0) {
-    installedTools.value.node.versions.forEach((version) => {
-      const isDefault = version === installedTools.value.node.default
-      const label = isDefault ? `Node.js ${version} (Default - Recommended)` : `Node.js ${version}`
+    const versions = installedTools.value.node.versions
+    const majorVersionMap = new Map()
+
+    // Group by major version and keep the latest (first one due to sorted order)
+    versions.forEach((version) => {
+      const major = version.split('.')[0]
+      if (!majorVersionMap.has(major)) {
+        majorVersionMap.set(major, version)
+      }
+    })
+
+    // Convert to array of objects with major and full version
+    Array.from(majorVersionMap.entries()).forEach(([major, full]) => {
+      const isDefault = full === installedTools.value.node.default
+      const label = isDefault
+        ? `Node.js ${major} (Default - Recommended)`
+        : `Node.js ${major}`
 
       options.push({
-        value: version,
+        value: full,
         label: label,
         icon: nodejsIcon,
       })
