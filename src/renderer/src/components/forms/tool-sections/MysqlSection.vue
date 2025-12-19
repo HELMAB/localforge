@@ -10,18 +10,18 @@
     </h3>
 
     <div
-      class="mb-6 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700 rounded-lg p-4"
+      class="mb-6 bg-sky-50 dark:bg-sky-900/20 border border-sky-200 dark:border-sky-700 rounded-lg p-4"
     >
-      <h4 class="font-semibold text-green-800 dark:text-green-300 mb-3">
+      <h4 class="font-semibold text-sky-800 dark:text-sky-300 mb-3">
         {{ t('mysqlInstalledTitle') }}
       </h4>
       <div v-if="installedTools && installedTools.mysql.installed">
         <div
-          class="flex items-center justify-between bg-white dark:bg-gray-800 p-3 rounded border border-green-300 dark:border-green-700"
+          class="flex items-center justify-between bg-white dark:bg-gray-800 p-3 rounded border border-sky-300 dark:border-sky-700"
         >
-          <span class="font-medium text-green-700 dark:text-green-400">MySQL {{ installedTools.mysql.version || '' }}</span>
+          <span class="font-medium text-sky-700 dark:text-sky-400">MySQL {{ installedTools.mysql.version || '' }}</span>
           <span
-            class="text-xs px-2 py-1 bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 rounded"
+            class="text-xs px-2 py-1 bg-sky-100 dark:bg-sky-900/50 text-sky-700 dark:text-sky-300 rounded"
           >{{ t('installed') }}</span>
         </div>
       </div>
@@ -34,9 +34,9 @@
     </div>
 
     <div
-      class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4"
+      class="bg-sky-50 dark:bg-gray-800 border border-sky-200 dark:border-sky-700 rounded-lg p-4"
     >
-      <h4 class="font-semibold text-gray-800 dark:text-gray-200 mb-3">
+      <h4 class="font-semibold text-sky-800 dark:text-sky-300 mb-3">
         {{ t('mysqlInstallTitle') }}
       </h4>
       <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">
@@ -44,7 +44,7 @@
       </p>
       <button
         :disabled="installedTools && installedTools.mysql.installed"
-        class="px-6 py-2 bg-orange-500 dark:bg-orange-600 text-white rounded-lg hover:bg-orange-600 dark:hover:bg-orange-700 font-medium disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+        class="px-6 py-2 bg-sky-600 dark:bg-sky-700 text-white rounded-lg hover:bg-sky-700 dark:hover:bg-sky-800 font-medium disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         @click="handleInstallMySQL"
       >
         {{ t('mysqlBtn') }}
