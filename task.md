@@ -1,6 +1,6 @@
 # Improvements to Node.js Management Section
 
-## Proposed Enhancements
+## Proposed Enhancements 1
 I want to improve the “Manage Services” → Node.js section with the following enhancements:
 
 - Display which Node.js version is currently set as the default.
@@ -12,6 +12,12 @@ I want to improve the “Manage Services” → Node.js section with the followi
 - Add an action to remove or delete an installed Node.js version.
 - Move the “Install Node.js” button to the right side of the “Manage Node.js” title.
     - When clicked, display a modal that allows the user to input the Node.js version to install.
+
+## Proposed Enhancements 2
+- Store the nodejs versions to local storage so that they persist across sessions.
+- Make sure that everywhere used the nodejs version list, needs to fetch from local storage
+- Update nodejs version list after any install or delete action to reflect the current state.
+
 
 ## Feedback
 - Group actions (Set Default, Delete) into a dropdown menu to save space.
