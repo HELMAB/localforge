@@ -10,17 +10,17 @@ async function loadVersion() {
 
       // Update all elements with data-version attribute
       document.querySelectorAll('[data-version]').forEach(element => {
-        element.textContent = element.textContent.replace('1.0.2', version)
+        element.textContent = element.textContent.replace('1.0.3', version)
       })
 
       // Update all href attributes with version placeholder
       document.querySelectorAll('[data-version-url]').forEach(element => {
-        element.href = element.href.replace('1.0.2', version)
+        element.href = element.href.replace('1.0.3', version)
       })
 
       // Update all code blocks with version placeholder
       document.querySelectorAll('code').forEach(element => {
-        if (element.textContent.includes('1.0.2')) {
+        if (element.textContent.includes('1.0.3')) {
           element.textContent = element.textContent.replace(/\{\{VERSION\}\}/g, version)
         }
       })
