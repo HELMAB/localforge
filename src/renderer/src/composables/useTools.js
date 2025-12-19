@@ -1,12 +1,14 @@
 import { ref } from 'vue'
 import { useIpc } from './useIpc'
 
+const NODEJS_CACHE_KEY = 'localforge_nodejs_versions'
+
 export function useTools() {
   const { invoke } = useIpc()
   const isLoading = ref(false)
   const installedTools = ref({
     php: { installed: false, versions: [] },
-    node: { installed: false, versions: [], default: null },
+    node: { installed: false, versions: [], default: null, current: null },
     nginx: { installed: false, version: null },
     composer: { installed: false, version: null },
     postgresql: { installed: false, version: null },
@@ -14,13 +16,55 @@ export function useTools() {
   })
   const error = ref(null)
 
-  async function checkInstalledTools() {
+  // Load Node.js versions from localStorage
+  function loadNodeVersionsFromCache() {
+    try {
+      const cached = localStorage.getItem(NODEJS_CACHE_KEY)
+      if (cached) {
+        const data = JSON.parse(cached)
+        installedTools.value.node = data
+        return true
+      }
+    } catch (err) {
+      // Silent fail - cache is optional
+    }
+    return false
+  }
+
+  // Save Node.js versions to localStorage
+  function saveNodeVersionsToCache(nodeData) {
+    try {
+      localStorage.setItem(NODEJS_CACHE_KEY, JSON.stringify(nodeData))
+    } catch (err) {
+      // Silent fail - cache is optional
+    }
+  }
+
+  // Clear Node.js cache
+  function clearNodeVersionsCache() {
+    try {
+      localStorage.removeItem(NODEJS_CACHE_KEY)
+    } catch (err) {
+      // Silent fail - cache is optional
+    }
+  }
+
+  async function checkInstalledTools(useCache = true) {
+    // Try to load from cache first
+    if (useCache) {
+      loadNodeVersionsFromCache()
+    }
+
     isLoading.value = true
     error.value = null
 
     try {
       const result = await invoke('check-installed-tools')
       installedTools.value = result
+
+      // Save Node.js data to cache
+      saveNodeVersionsToCache(result.node)
+
       return result
     } catch (err) {
       error.value = err.message
@@ -54,7 +98,8 @@ export function useTools() {
   async function installNode(version) {
     try {
       const result = await invoke('install-node', { version })
-      await checkInstalledTools()
+      // Refresh tools and update cache
+      await checkInstalledTools(false) // Don't use cache when refreshing
       return result
     } catch (err) {
       error.value = err.message
@@ -65,7 +110,29 @@ export function useTools() {
   async function setDefaultNode(version) {
     try {
       const result = await invoke('set-default-node', { version })
-      await checkInstalledTools()
+      // Update the default version in cache immediately
+      installedTools.value.node.default = version
+      installedTools.value.node.current = version
+      saveNodeVersionsToCache(installedTools.value.node)
+
+      // Also refresh from server to get accurate state
+      await checkInstalledTools(false) // Don't use cache when refreshing
+      return result
+    } catch (err) {
+      error.value = err.message
+      throw err
+    }
+  }
+
+  async function uninstallNode(version) {
+    try {
+      const result = await invoke('uninstall-node', { version })
+      // Remove version from cache immediately
+      installedTools.value.node.versions = installedTools.value.node.versions.filter(v => v !== version)
+      saveNodeVersionsToCache(installedTools.value.node)
+
+      // Also refresh from server to get accurate state
+      await checkInstalledTools(false) // Don't use cache when refreshing
       return result
     } catch (err) {
       error.value = err.message
@@ -171,6 +238,7 @@ export function useTools() {
     installPHPExtensions,
     installNode,
     setDefaultNode,
+    uninstallNode,
     installNginx,
     installComposer,
     installPostgreSQL,
@@ -180,5 +248,8 @@ export function useTools() {
     writePhpIni,
     listPhpExtensions,
     getInstalledPhpExtensions,
+    loadNodeVersionsFromCache,
+    saveNodeVersionsToCache,
+    clearNodeVersionsCache,
   }
 }

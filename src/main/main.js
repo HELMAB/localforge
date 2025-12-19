@@ -1875,12 +1875,34 @@ ipcMain.handle('install-node', async (event, { version }) => {
   return new Promise((resolve, reject) => {
     const command = `export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" && nvm install ${version}`
 
-    exec(command, { maxBuffer: 1024 * 1024 * 10 }, (error, stdout, stderr) => {
-      if (error) {
-        reject(new Error(stderr || error.message))
+    const childProcess = spawn('bash', ['-c', command])
+    let output = ''
+    let errorOutput = ''
+
+    childProcess.stdout.on('data', (data) => {
+      const text = data.toString()
+      output += text
+      // Send real-time updates to renderer
+      event.sender.send('install-node-output', { type: 'stdout', data: text })
+    })
+
+    childProcess.stderr.on('data', (data) => {
+      const text = data.toString()
+      errorOutput += text
+      // Send real-time updates to renderer
+      event.sender.send('install-node-output', { type: 'stderr', data: text })
+    })
+
+    childProcess.on('close', (code) => {
+      if (code !== 0) {
+        reject(new Error(errorOutput || `Installation failed with code ${code}`))
       } else {
-        resolve({ success: true, stdout })
+        resolve({ success: true, output: output + errorOutput })
       }
+    })
+
+    childProcess.on('error', (err) => {
+      reject(new Error(err.message))
     })
   })
 })
@@ -1893,6 +1915,28 @@ ipcMain.handle('set-default-node', async (event, { version }) => {
     exec(command, { maxBuffer: 1024 * 1024 * 10 }, (error, stdout, stderr) => {
       if (error) {
         reject(new Error(stderr || error.message))
+      } else {
+        resolve({ success: true, stdout })
+      }
+    })
+  })
+})
+
+// Uninstall Node.js Version
+ipcMain.handle('uninstall-node', async (event, { version }) => {
+  return new Promise((resolve, reject) => {
+    // Ensure version has 'v' prefix for NVM
+    const versionWithPrefix = version.startsWith('v') ? version : `v${version}`
+    const command = `export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" && nvm uninstall ${versionWithPrefix} && nvm cache clear`
+
+    exec(command, { maxBuffer: 1024 * 1024 * 10 }, (error, stdout, stderr) => {
+      if (error) {
+        // Check if the error is because version is not installed
+        if (stderr.includes('not installed') || stderr.includes('not found')) {
+          resolve({ success: true, message: 'Version was not installed or already removed' })
+        } else {
+          reject(new Error(stderr || error.message))
+        }
       } else {
         resolve({ success: true, stdout })
       }
@@ -1995,7 +2039,7 @@ ipcMain.handle('install-mysql', async () => {
 ipcMain.handle('check-installed-tools', async () => {
   const results = {
     php: { installed: false, versions: [] },
-    node: { installed: false, versions: [], default: null },
+    node: { installed: false, versions: [], default: null, current: null },
     nginx: { installed: false, version: null },
     composer: { installed: false, version: null },
     postgresql: { installed: false, version: null },
@@ -2029,17 +2073,32 @@ ipcMain.handle('check-installed-tools', async () => {
     checks.push(
       new Promise((res) => {
         exec(
-          'export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" && nvm list 2>/dev/null',
+          'export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" && nvm ls 2>/dev/null',
           (error, stdout) => {
             if (!error && stdout) {
               results.node.installed = true
-              const versions = stdout.match(/v\d+\.\d+\.\d+/g)
-              if (versions) {
-                // Remove duplicates and remove 'v' prefix
-                const uniqueVersions = [...new Set(versions.map((v) => v.substring(1)))]
+              const versionSet = new Set()
 
-                // Sort in descending order (newest first)
-                results.node.versions = uniqueVersions.sort((a, b) => {
+              // Split into lines and only process lines that contain actual version numbers
+              const lines = stdout.split('\n')
+              lines.forEach(line => {
+                // Skip lines that are aliases or not installed (contain "-> N/A")
+                if (line.includes('-> N/A') || line.includes('lts/') || line.includes('default ->') || line.includes('iojs ->') || line.includes('node ->') || line.includes('stable ->') || line.includes('unstable ->') || line.trim() === 'system') {
+                  return
+                }
+
+                // Match version number anywhere in the line (handles console prefixes like [1])
+                // Only on lines that look like actual version entries (whitespace before version)
+                const match = line.match(/(?:^|\s+)(?:->)?\s*\*?\s*(v\d+\.\d+\.\d+)/)
+                if (match && !line.includes('(')) {  // Exclude lines with parentheses (alias references)
+                  const version = match[1].substring(1) // Remove 'v' prefix
+                  versionSet.add(version)
+                }
+              })
+
+              if (versionSet.size > 0) {
+                // Convert to array and sort in descending order (newest first)
+                results.node.versions = Array.from(versionSet).sort((a, b) => {
                   const [aMajor, aMinor, aPatch] = a.split('.').map(Number)
                   const [bMajor, bMinor, bPatch] = b.split('.').map(Number)
 
@@ -2049,12 +2108,26 @@ ipcMain.handle('check-installed-tools', async () => {
                 })
               }
 
-              const defaultMatch = stdout.match(/default -> (v\d+\.\d+\.\d+)/)
+              // Get default version
+              const defaultMatch = stdout.match(/default\s*->\s*(v\d+\.\d+\.\d+)/)
               if (defaultMatch) {
                 results.node.default = defaultMatch[1].substring(1)
               }
             }
-            res()
+
+            // Get the current active version
+            exec(
+              'export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" && nvm current 2>/dev/null',
+              (err, out) => {
+                if (!err && out) {
+                  const currentVersion = out.trim()
+                  if (currentVersion && currentVersion.startsWith('v') && !currentVersion.includes('system')) {
+                    results.node.current = currentVersion.substring(1)
+                  }
+                }
+                res()
+              }
+            )
           }
         )
       })

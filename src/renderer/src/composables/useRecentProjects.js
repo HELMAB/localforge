@@ -74,9 +74,6 @@ export function useRecentProjects() {
     }
 
     saveRecentProjects()
-
-    // eslint-disable-next-line no-console
-    console.log('Project saved to recent:', projectData)
   }
 
   function removeRecentProject(path) {
