@@ -1,11 +1,5 @@
 <template>
   <div class="space-y-4">
-    <InfoBox
-      :title="t('nodeInfoTitle')"
-      :message="t('nodeInfo')"
-      type="info"
-    />
-
     <div>
       <label class="block text-sm font-medium mb-2 dark:text-gray-300">{{
         t('nodeVersionLabel')
@@ -29,15 +23,18 @@
 import { computed, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useTools } from '../../composables/useTools'
-import InfoBox from '../common/InfoBox.vue'
 import CustomSelect from '../common/CustomSelect.vue'
 import nodejsIcon from '@/assets/svg/nodejs.svg'
 
 const { t } = useI18n()
 const { installedTools, checkInstalledTools } = useTools()
 
-defineProps({
+const props = defineProps({
   nodeVersion: {
+    type: String,
+    default: '',
+  },
+  projectType: {
     type: String,
     default: '',
   },
@@ -52,25 +49,34 @@ onMounted(async () => {
 const nodeVersionOptions = computed(() => {
   const options = []
 
-  // Add installed Node versions
   if (installedTools.value.node.installed && installedTools.value.node.versions.length > 0) {
     const versions = installedTools.value.node.versions
     const majorVersionMap = new Map()
 
-    // Group by major version and keep the latest (first one due to sorted order)
     versions.forEach((version) => {
-      const major = version.split('.')[0]
+      const major = parseInt(version.split('.')[0])
+      
+      // For Nuxt projects, only show Node 20+
+      if (props.projectType === 'nuxt' && major < 20) {
+        return
+      }
+      
       if (!majorVersionMap.has(major)) {
         majorVersionMap.set(major, version)
       }
     })
 
-    // Convert to array of objects with major and full version
     Array.from(majorVersionMap.entries()).forEach(([major, full]) => {
       const isDefault = full === installedTools.value.node.default
-      const label = isDefault
-        ? `Node.js ${major} (Default - Recommended)`
-        : `Node.js ${major}`
+      const isRecommended = major >= 20
+      
+      let label = `Node.js ${major}`
+      if (isDefault) {
+        label += ' (Default)'
+      }
+      if (isRecommended && props.projectType === 'nuxt') {
+        label += isDefault ? '' : ' (Recommended)'
+      }
 
       options.push({
         value: full,
@@ -80,7 +86,6 @@ const nodeVersionOptions = computed(() => {
     })
   }
 
-  // Add "Current Node Version" option as fallback
   options.push({
     value: '',
     label: 'Current Node Version',
@@ -90,3 +95,4 @@ const nodeVersionOptions = computed(() => {
   return options
 })
 </script>
+

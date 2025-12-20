@@ -70,6 +70,7 @@
         <NodeOptions
           v-if="['vue', 'nuxt', 'react'].includes(projectType)"
           v-model:node-version="nodeVersion"
+          :project-type="projectType"
         />
 
         <!-- Section Divider -->
@@ -172,7 +173,7 @@
 </template>
 
 <script setup>
-import { ref, inject } from 'vue'
+import { ref, inject, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useProject } from '../../composables/useProject'
 import { useStatus } from '../../composables/useStatus'
@@ -224,6 +225,16 @@ const nuxtTemplate = ref('minimal')
 const validationErrors = ref({})
 const showPostCreation = ref(false)
 const createdProjectPath = ref('')
+
+// Set Node.js 20 as default for Nuxt projects
+watch(projectType, (newType) => {
+  if (newType === 'nuxt') {
+    const currentMajor = parseInt((nodeVersion.value || '').split('.')[0])
+    if (!currentMajor || currentMajor < 20) {
+      nodeVersion.value = '20'
+    }
+  }
+})
 
 const validateProjectName = () => {
   const result = validateField(projectNameSchema, 'projectName', projectName.value)

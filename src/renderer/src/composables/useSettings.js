@@ -5,7 +5,7 @@ const SETTINGS_KEY = 'localforge-settings'
 const defaultSettings = {
   language: 'en',
   darkMode: false,
-  defaultProjectPath: '',
+  defaultProjectPath: `/home/${process.env.USER || process.env.USERNAME || 'user'}/projects`,
   defaultPhpVersion: '8.3',
   defaultNodeVersion: '22',
   autoDetectPhp: true,
