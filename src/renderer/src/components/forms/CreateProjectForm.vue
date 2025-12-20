@@ -173,7 +173,7 @@
 </template>
 
 <script setup>
-import { ref, inject, watch, onMounted } from 'vue'
+import { ref, inject, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useProject } from '../../composables/useProject'
 import { useStatus } from '../../composables/useStatus'

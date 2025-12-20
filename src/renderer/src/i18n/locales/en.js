@@ -381,16 +381,5 @@ export default {
   sortByModified: 'Last Modified',
   sortAscending: 'Ascending',
   sortDescending: 'Descending',
-  // Wizard
-  selectProjectType: 'Select Project Type',
-  configureProject: 'Configure Project',
-  details: 'Project Details',
-  review: 'Review',
-  reviewAndCreate: 'Review & Create',
-  previous: 'Previous',
-  creating: 'Creating...',
-  createProject: 'Create Project',
-  configuration: 'Configuration',
-  setupWizard: 'Setup Wizard',
-  quickSetup: 'Quick Setup',
+  quickSetup: 'New Project',
 }

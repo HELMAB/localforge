@@ -388,15 +388,5 @@ export default {
   sortByModified: 'កែប្រែចុងក្រោយ',
   sortAscending: 'ឡើង',
   sortDescending: 'ចុះ',
-  // Wizard
-  selectProjectType: 'ជ្រើសរើសប្រភេទគម្រោង',
-  configureProject: 'កំណត់រចនាសម្ព័ន្ធគម្រោង',
-  details: 'ព័ត៌មានលម្អិតគម្រោង',
-  review: 'ពិនិត្យ',
-  reviewAndCreate: 'ពិនិត្យ និងបង្កើត',
-  previous: 'មុន',
-  creating: 'កំពុងបង្កើត...',
-  createProject: 'បង្កើតគម្រោង',
-  setupWizard: 'មេដឹកនាំដំឡើង',
-  quickSetup: 'ដំឡើងរហ័ស',
+  quickSetup: 'គម្រោងថ្មី',
 }

@@ -22,8 +22,8 @@
     <Transition name="fade">
       <div
         v-if="isOpen"
-        :class="dropdownClasses"
-        class="absolute right-0 w-56 bg-white dark:bg-gray-800 rounded-md shadow-lg border border-gray-200 dark:border-gray-700 z-10"
+        :class="openUpward ? 'bottom-full mb-2' : 'top-full mt-2'"
+        class="absolute right-0 w-56 bg-white dark:bg-gray-800 rounded-md shadow-lg border border-gray-200 dark:border-gray-700 z-40"
       >
         <div class="py-1">
           <a
@@ -140,7 +140,7 @@ defineProps({
 
 const emit = defineEmits(['remove', 'open-in-ide', 'open-in-file-manager', 'view-details', 'open-in-browser'])
 
-const { isOpen, dropdownRef, dropdownClasses, toggleDropdown } = useDropdown(200)
+const { isOpen, dropdownRef, openUpward, toggleDropdown } = useDropdown(300)
 
 function handleViewDetails() {
   emit('view-details')

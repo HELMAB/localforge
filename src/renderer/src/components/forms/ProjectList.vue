@@ -62,17 +62,17 @@
       v-if="recentProjects.length > 0"
       class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
     >
-      <div class="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 rounded-xl p-4 border border-blue-200 dark:border-blue-800">
+      <div class="bg-gradient-to-br from-indigo-50 to-indigo-100 dark:from-indigo-900/20 dark:to-indigo-800/20 rounded-xl p-4 border border-indigo-200 dark:border-indigo-800">
         <div class="flex items-center justify-between">
           <div>
-            <p class="text-blue-600 dark:text-blue-400 text-sm font-medium">
+            <p class="text-indigo-600 dark:text-indigo-400 text-sm font-medium">
               Total Projects
             </p>
-            <p class="text-2xl font-bold text-blue-900 dark:text-blue-100 mt-1">
+            <p class="text-2xl font-bold text-indigo-900 dark:text-indigo-100 mt-1">
               {{ recentProjects.length }}
             </p>
           </div>
-          <div class="w-12 h-12 bg-blue-500 dark:bg-blue-600 rounded-lg flex items-center justify-center">
+          <div class="w-12 h-12 bg-indigo-500 dark:bg-indigo-600 rounded-lg flex items-center justify-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="h-6 w-6 text-white"
@@ -91,60 +91,60 @@
         </div>
       </div>
 
-      <div class="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 rounded-xl p-4 border border-green-200 dark:border-green-800">
+      <div class="bg-gradient-to-br from-red-50 to-red-100 dark:from-red-900/20 dark:to-red-800/20 rounded-xl p-4 border border-red-200 dark:border-red-800">
         <div class="flex items-center justify-between">
           <div>
-            <p class="text-green-600 dark:text-green-400 text-sm font-medium">
+            <p class="text-red-600 dark:text-red-400 text-sm font-medium">
               Laravel
             </p>
-            <p class="text-2xl font-bold text-green-900 dark:text-green-100 mt-1">
+            <p class="text-2xl font-bold text-red-900 dark:text-red-100 mt-1">
               {{ recentProjects.filter(p => p.type === 'laravel').length }}
             </p>
           </div>
-          <div class="w-12 h-12 bg-green-500 dark:bg-green-600 rounded-lg flex items-center justify-center">
+          <div class="w-12 h-12 bg-red-500 dark:bg-red-600 rounded-lg flex items-center justify-center">
             <img
               :src="laravelIcon"
-              class="h-6 w-6"
+              class="h-6 w-6 brightness-0 invert"
               alt="Laravel"
             >
           </div>
         </div>
       </div>
 
-      <div class="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20 rounded-xl p-4 border border-purple-200 dark:border-purple-800">
+      <div class="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 rounded-xl p-4 border border-green-200 dark:border-green-800">
         <div class="flex items-center justify-between">
           <div>
-            <p class="text-purple-600 dark:text-purple-400 text-sm font-medium">
+            <p class="text-green-600 dark:text-green-400 text-sm font-medium">
               Vue/Nuxt
             </p>
-            <p class="text-2xl font-bold text-purple-900 dark:text-purple-100 mt-1">
+            <p class="text-2xl font-bold text-green-900 dark:text-green-100 mt-1">
               {{ recentProjects.filter(p => ['vue', 'nuxt'].includes(p.type)).length }}
             </p>
           </div>
-          <div class="w-12 h-12 bg-purple-500 dark:bg-purple-600 rounded-lg flex items-center justify-center">
+          <div class="w-12 h-12 bg-green-500 dark:bg-green-600 rounded-lg flex items-center justify-center">
             <img
               :src="vuejsIcon"
-              class="h-6 w-6"
+              class="h-6 w-6 brightness-0 invert"
               alt="Vue"
             >
           </div>
         </div>
       </div>
 
-      <div class="bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-900/20 dark:to-orange-800/20 rounded-xl p-4 border border-orange-200 dark:border-orange-800">
+      <div class="bg-gradient-to-br from-cyan-50 to-cyan-100 dark:from-cyan-900/20 dark:to-cyan-800/20 rounded-xl p-4 border border-cyan-200 dark:border-cyan-800">
         <div class="flex items-center justify-between">
           <div>
-            <p class="text-orange-600 dark:text-orange-400 text-sm font-medium">
+            <p class="text-cyan-600 dark:text-cyan-400 text-sm font-medium">
               React/WP
             </p>
-            <p class="text-2xl font-bold text-orange-900 dark:text-orange-100 mt-1">
+            <p class="text-2xl font-bold text-cyan-900 dark:text-cyan-100 mt-1">
               {{ recentProjects.filter(p => ['react', 'wordpress'].includes(p.type)).length }}
             </p>
           </div>
-          <div class="w-12 h-12 bg-orange-500 dark:bg-orange-600 rounded-lg flex items-center justify-center">
+          <div class="w-12 h-12 bg-cyan-500 dark:bg-cyan-600 rounded-lg flex items-center justify-center">
             <img
               :src="reactIcon"
-              class="h-6 w-6"
+              class="h-6 w-6 brightness-0 invert"
               alt="React"
             >
           </div>
@@ -162,7 +162,7 @@
         <div
           v-for="project in paginatedProjects"
           :key="project.path"
-          class="group bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden hover:border-blue-300 dark:hover:border-blue-600"
+          class="group bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-xl transition-all duration-300 overflow-visible hover:border-blue-300 dark:hover:border-blue-600"
         >
           <div class="p-6">
             <div class="flex items-start justify-between mb-4">
@@ -172,7 +172,7 @@
                   :class="getProjectIconRing(project.type)"
                 >
                   <div
-                    class="absolute inset-0 rounded-xl opacity-20"
+                    class="absolute inset-0 rounded-xl"
                     :class="getProjectIconBg(project.type)"
                   />
                   <img
@@ -578,13 +578,13 @@ function getProjectIcon(type) {
 
 function getProjectIconBg(type) {
   const colors = {
-    laravel: 'bg-red-100 dark:bg-red-900/20',
-    vue: 'bg-green-100 dark:bg-green-900/20',
-    nuxt: 'bg-green-100 dark:bg-green-900/20',
-    react: 'bg-blue-100 dark:bg-blue-900/20',
-    wordpress: 'bg-blue-100 dark:bg-blue-900/20',
+    laravel: 'bg-white dark:bg-white/10',
+    vue: 'bg-white dark:bg-white/10',
+    nuxt: 'bg-white dark:bg-white/10',
+    react: 'bg-white dark:bg-white/10',
+    wordpress: 'bg-white dark:bg-white/10',
   }
-  return colors[type] || 'bg-gray-100 dark:bg-gray-700'
+  return colors[type] || 'bg-white dark:bg-white/10'
 }
 
 function getProjectIconRing(type) {
@@ -600,13 +600,13 @@ function getProjectIconRing(type) {
 
 function getProjectTypeBadge(type) {
   const colors = {
-    laravel: 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300',
-    vue: 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300',
-    nuxt: 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300',
-    react: 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300',
-    wordpress: 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300',
+    laravel: 'bg-red-50 dark:bg-red-900/50 text-red-800 dark:text-red-200',
+    vue: 'bg-green-50 dark:bg-green-900/50 text-green-800 dark:text-green-200',
+    nuxt: 'bg-green-50 dark:bg-green-900/50 text-green-800 dark:text-green-200',
+    react: 'bg-blue-50 dark:bg-blue-900/50 text-blue-800 dark:text-blue-200',
+    wordpress: 'bg-purple-50 dark:bg-purple-900/50 text-purple-800 dark:text-purple-200',
   }
-  return colors[type] || 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
+  return colors[type] || 'bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-200'
 }
 
 function getProjectTypeLabel(type) {
