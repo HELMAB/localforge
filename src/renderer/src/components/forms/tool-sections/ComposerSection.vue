@@ -11,18 +11,18 @@
 
     <!-- Installed Composer -->
     <div
-      class="mb-6 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700 rounded-lg p-4"
+      class="mb-6 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700 rounded-lg p-4"
     >
-      <h4 class="font-semibold text-green-800 dark:text-green-300 mb-3">
+      <h4 class="font-semibold text-amber-800 dark:text-amber-300 mb-3">
         {{ t('composerInstalledTitle') }}
       </h4>
       <div v-if="installedTools && installedTools.composer.installed">
         <div
-          class="flex items-center justify-between bg-white dark:bg-gray-800 p-3 rounded border border-green-300 dark:border-green-700"
+          class="flex items-center justify-between bg-white dark:bg-gray-800 p-3 rounded border border-amber-300 dark:border-amber-700"
         >
-          <span class="font-medium text-green-700 dark:text-green-400">Composer {{ installedTools.composer.version || '' }}</span>
+          <span class="font-medium text-amber-700 dark:text-amber-400">Composer {{ installedTools.composer.version || '' }}</span>
           <span
-            class="text-xs px-2 py-1 bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 rounded"
+            class="text-xs px-2 py-1 bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-300 rounded"
           >{{ t('installed') }}</span>
         </div>
       </div>
@@ -36,9 +36,9 @@
 
     <!-- Install Composer -->
     <div
-      class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4"
+      class="bg-amber-50 dark:bg-gray-800 border border-amber-200 dark:border-amber-700 rounded-lg p-4"
     >
-      <h4 class="font-semibold text-gray-800 dark:text-gray-200 mb-3">
+      <h4 class="font-semibold text-amber-800 dark:text-amber-300 mb-3">
         {{ t('composerInstallTitle') }}
       </h4>
       <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">
@@ -46,7 +46,7 @@
       </p>
       <button
         :disabled="installedTools && installedTools.composer.installed"
-        class="px-6 py-2 bg-blue-500 dark:bg-blue-600 text-white rounded-lg hover:bg-blue-600 dark:hover:bg-blue-700 font-medium disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+        class="px-6 py-2 bg-amber-600 dark:bg-amber-700 text-white rounded-lg hover:bg-amber-700 dark:hover:bg-amber-800 font-medium disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         @click="handleInstallComposer"
       >
         {{ t('composerInstallBtn') }}

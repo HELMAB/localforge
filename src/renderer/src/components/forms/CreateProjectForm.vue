@@ -1,5 +1,5 @@
 <template>
-  <div class="space-y-4">
+  <div class="space-y-3">
     <!-- Post Creation Success -->
     <PostCreationActions
       v-if="showPostCreation"
@@ -12,30 +12,9 @@
     <!-- Project Form -->
     <div
       v-else
-      class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6"
+      class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4"
     >
-      <div class="mb-6">
-        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 flex items-center gap-2">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-5 w-5 text-blue-500"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
-              clip-rule="evenodd"
-            />
-          </svg>
-          {{ t('createTitle') }}
-        </h3>
-        <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
-          {{ t('createSubtitle') }}
-        </p>
-      </div>
-
-      <div class="space-y-4">
+      <div class="space-y-3">
         <ProjectTypeSelector v-model="projectType" />
 
         <LaravelOptions
@@ -43,11 +22,13 @@
           v-model:laravel-version="laravelVersion"
           v-model:php-version="phpVersion"
           v-model:laravel-starter="laravelStarter"
+          :validation-error="validationErrors.phpVersion"
         />
 
         <WordPressOptions
           v-if="projectType === 'wordpress'"
           v-model:php-version="wpPhpVersion"
+          :validation-error="validationErrors.phpVersion"
         />
 
         <VueOptions
@@ -70,33 +51,9 @@
         <NodeOptions
           v-if="['vue', 'nuxt', 'react'].includes(projectType)"
           v-model:node-version="nodeVersion"
+          :project-type="projectType"
+          :validation-error="validationErrors.nodeVersion"
         />
-
-        <!-- Section Divider -->
-        <div class="relative py-4">
-          <div class="absolute inset-0 flex items-center">
-            <div class="w-full border-t border-gray-200 dark:border-gray-600" />
-          </div>
-          <div class="relative flex justify-center text-sm">
-            <span
-              class="px-3 bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400 font-medium flex items-center gap-2"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-4 w-4"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"
-                  clip-rule="evenodd"
-                />
-              </svg>
-              {{ t('projectDetails') }}
-            </span>
-          </div>
-        </div>
 
         <!-- Project Preview -->
         <ProjectPreview
@@ -112,16 +69,16 @@
         />
 
         <!-- 1-Column Grid Layout -->
-        <div class="grid grid-cols-1 gap-4">
+        <div class="grid grid-cols-1 gap-3">
           <div>
-            <label class="block text-sm font-medium mb-2 dark:text-gray-300">
+            <label class="block text-xs font-medium mb-1.5 dark:text-gray-300">
               {{ t('projectNameLabel') }} <span class="text-red-500">*</span>
             </label>
             <input
               v-model="projectName"
               type="text"
               :class="[
-                'w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2',
+                'w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 text-sm',
                 validationErrors.projectName
                   ? 'border-red-500 focus:ring-red-500'
                   : 'border-gray-300 dark:border-gray-600 focus:ring-blue-500',
@@ -130,31 +87,59 @@
               :placeholder="locale === 'km' ? 'ឈ្មោះគម្រោងរបស់អ្នក' : 'my-awesome-project'"
               @blur="validateProjectName"
             >
-            <p
+            <div
               v-if="validationErrors.projectName"
-              class="text-red-500 text-sm mt-1"
+              class="flex items-start gap-1.5 mt-1.5 p-2 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md"
             >
-              {{ validationErrors.projectName }}
-            </p>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4 text-red-500 dark:text-red-400 flex-shrink-0 mt-0.5"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+              <p class="text-red-700 dark:text-red-300 text-xs leading-tight">
+                {{ validationErrors.projectName }}
+              </p>
+            </div>
           </div>
 
           <div>
-            <label class="block text-sm font-medium mb-2 dark:text-gray-300">
+            <label class="block text-xs font-medium mb-1.5 dark:text-gray-300">
               {{ t('projectPathLabel') }} <span class="text-red-500">*</span>
             </label>
             <DirectorySelector v-model="projectPath" />
-            <p
+            <div
               v-if="validationErrors.path"
-              class="text-red-500 text-sm mt-1"
+              class="flex items-start gap-1.5 mt-1.5 p-2 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md"
             >
-              {{ validationErrors.path }}
-            </p>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4 text-red-500 dark:text-red-400 flex-shrink-0 mt-0.5"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+              <p class="text-red-700 dark:text-red-300 text-xs leading-tight">
+                {{ validationErrors.path }}
+              </p>
+            </div>
           </div>
         </div>
 
         <button
           :disabled="isCreating"
-          class="w-full px-6 py-3 bg-blue-500 dark:bg-blue-600 text-white rounded-lg hover:bg-blue-600 dark:hover:bg-blue-700 font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          class="w-full px-4 py-2.5 bg-blue-500 dark:bg-blue-600 text-white rounded-lg hover:bg-blue-600 dark:hover:bg-blue-700 font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm"
           @click="handleCreateProject"
         >
           {{ isCreating ? t('checking') : t('createBtn') }}
@@ -172,7 +157,7 @@
 </template>
 
 <script setup>
-import { ref, inject } from 'vue'
+import { ref, inject, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useProject } from '../../composables/useProject'
 import { useStatus } from '../../composables/useStatus'
@@ -205,11 +190,11 @@ const { addRecentProject } = useRecentProjects()
 const projectType = ref('laravel')
 const projectName = ref('')
 const projectPath = ref(settings.value.defaultProjectPath || '')
-const laravelVersion = ref('11')
+const laravelVersion = ref('12')
 const phpVersion = ref(settings.value.defaultPhpVersion || '8.2')
 const laravelStarter = ref('none')
 const wpPhpVersion = ref(settings.value.defaultPhpVersion || '8.2')
-const nodeVersion = ref(settings.value.defaultNodeVersion || '18')
+const nodeVersion = ref(settings.value.defaultNodeVersion || '22')
 const vueOptions = ref({
   typescript: false,
   jsx: false,
@@ -224,6 +209,16 @@ const nuxtTemplate = ref('minimal')
 const validationErrors = ref({})
 const showPostCreation = ref(false)
 const createdProjectPath = ref('')
+
+// Set Node.js 22 as default for Vue, React, and Nuxt projects
+watch(projectType, (newType) => {
+  if (['vue', 'react', 'nuxt'].includes(newType)) {
+    const currentMajor = parseInt((nodeVersion.value || '').split('.')[0])
+    if (!currentMajor || currentMajor < 22) {
+      nodeVersion.value = '22'
+    }
+  }
+})
 
 const validateProjectName = () => {
   const result = validateField(projectNameSchema, 'projectName', projectName.value)
@@ -242,6 +237,29 @@ async function handleCreateProject() {
     validationErrors.value.path = pathResult.error
   } else {
     delete validationErrors.value.path
+  }
+
+  // Validate PHP version is required for Laravel and WordPress
+  if (['laravel', 'wordpress'].includes(projectType.value)) {
+    const phpVer = projectType.value === 'laravel' ? phpVersion.value : wpPhpVersion.value
+    if (!phpVer) {
+      validationErrors.value.phpVersion = t('checking') === 'កំពុងពិនិត្យ...'
+        ? 'សូមជ្រើសរើសកំណែ PHP'
+        : 'Please select a PHP version'
+    } else {
+      delete validationErrors.value.phpVersion
+    }
+  }
+
+  // Validate Node.js version is required for Vue, Nuxt, and React
+  if (['vue', 'nuxt', 'react'].includes(projectType.value)) {
+    if (!nodeVersion.value) {
+      validationErrors.value.nodeVersion = t('checking') === 'កំពុងពិនិត្យ...'
+        ? 'សូមជ្រើសរើសកំណែ Node.js'
+        : 'Please select a Node.js version'
+    } else {
+      delete validationErrors.value.nodeVersion
+    }
   }
 
   // Validate Node.js version for Node-based projects
@@ -341,11 +359,11 @@ async function handleCreateProject() {
     // Reset form except project path
     projectName.value = ''
     projectType.value = 'laravel'
-    laravelVersion.value = '11'
+    laravelVersion.value = '12'
     phpVersion.value = settings.value.defaultPhpVersion || '8.2'
     laravelStarter.value = 'none'
     wpPhpVersion.value = settings.value.defaultPhpVersion || '8.2'
-    nodeVersion.value = settings.value.defaultNodeVersion || '18'
+    nodeVersion.value = settings.value.defaultNodeVersion || '22'
     vueOptions.value = {
       typescript: false,
       jsx: false,

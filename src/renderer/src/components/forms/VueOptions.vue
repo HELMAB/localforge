@@ -1,11 +1,5 @@
 <template>
   <div class="space-y-4">
-    <InfoBox
-      :title="t('vueInfoTitle')"
-      :message="t('vueInfo')"
-      type="info"
-    />
-
     <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg space-y-3">
       <label class="block text-sm font-medium mb-2 dark:text-gray-300">
         {{ t('vueOptionsLabel') }}
@@ -98,7 +92,6 @@
 
 <script setup>
 import { useI18n } from 'vue-i18n'
-import InfoBox from '../common/InfoBox.vue'
 
 const { t } = useI18n()
 

@@ -48,10 +48,60 @@ export function useProject() {
     }
   }
 
+  async function detectProject(projectPath) {
+    try {
+      return await invoke('detect-project', { projectPath })
+    } catch (err) {
+      error.value = err.message
+      throw err
+    }
+  }
+
+  async function openInBrowser(url) {
+    try {
+      return await invoke('open-in-browser', { url })
+    } catch (err) {
+      error.value = err.message
+      throw err
+    }
+  }
+
+  async function openInEditor(projectPath, editor = 'code') {
+    try {
+      return await invoke('open-in-editor', { path: projectPath, editor })
+    } catch (err) {
+      error.value = err.message
+      throw err
+    }
+  }
+
+  async function openInFileManager(projectPath) {
+    try {
+      return await invoke('open-in-file-manager', { path: projectPath })
+    } catch (err) {
+      error.value = err.message
+      throw err
+    }
+  }
+
+  async function getProjectDetails(projectPath) {
+    try {
+      return await invoke('get-project-details', { projectPath })
+    } catch (err) {
+      error.value = err.message
+      throw err
+    }
+  }
+
   return {
     isCreating,
     error,
     selectDirectory,
     createProject,
+    detectProject,
+    openInBrowser,
+    openInEditor,
+    openInFileManager,
+    getProjectDetails,
   }
 }

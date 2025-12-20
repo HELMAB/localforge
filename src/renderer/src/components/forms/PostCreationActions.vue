@@ -139,23 +139,6 @@ const FolderIcon = () =>
     [h('path', { d: 'M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z' })]
   )
 
-const DatabaseIcon = () =>
-  h(
-    'svg',
-    {
-      xmlns: 'http://www.w3.org/2000/svg',
-      viewBox: '0 0 20 20',
-      fill: 'currentColor',
-    },
-    [
-      h('path', {
-        d: 'M3 12v3c0 1.657 3.134 3 7 3s7-1.343 7-3v-3c0 1.657-3.134 3-7 3s-7-1.343-7-3z',
-      }),
-      h('path', { d: 'M3 7v3c0 1.657 3.134 3 7 3s7-1.343 7-3V7c0 1.657-3.134 3-7 3S3 8.657 3 7z' }),
-      h('path', { d: 'M17 5c0 1.657-3.134 3-7 3S3 6.657 3 5s3.134-3 7-3 7 1.343 7 3z' }),
-    ]
-  )
-
 const ServerIcon = () =>
   h(
     'svg',
@@ -213,18 +196,6 @@ const availableActions = computed(() => {
     handler: openInFileManager,
   })
 
-  // PHP-based projects
-  if (['laravel', 'wordpress'].includes(props.projectType)) {
-    actions.push({
-      title: t('setupDatabase'),
-      description: 'Configure database connection',
-      icon: DatabaseIcon,
-      iconBg: 'bg-purple-100 dark:bg-purple-900/30',
-      iconColor: 'text-purple-600 dark:text-purple-400',
-      handler: () => openFileInIDE('.env'),
-    })
-  }
-
   // Create Nginx Config
   actions.push({
     title: t('createNginxConfig'),
@@ -262,13 +233,6 @@ function openInFileManager() {
         ? `open "${props.projectPath}"`
         : `xdg-open "${props.projectPath}"`
   exec(command)
-}
-
-function openFileInIDE(filename) {
-  const { exec } = require('child_process')
-  const path = require('path')
-  const filePath = path.join(props.projectPath, props.projectName, filename)
-  exec(`code "${filePath}"`)
 }
 
 function goToNginxConfig() {
