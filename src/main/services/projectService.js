@@ -68,7 +68,7 @@ function buildVueCommand(projectPath, name, options, nodeVersion) {
   }
 
   const vueFlags = flags.length > 0 ? flags.join(' ') : '--default'
-  let vueCmd = `npm create vue@latest ${name} -- ${vueFlags}`
+  let vueCmd = `npm create vue@latest ${name} -- ${vueFlags} && cd ${name} && npm install && npm run build`
 
   if (nodeVersion) {
     vueCmd = `export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" && nvm use ${nodeVersion} && ${vueCmd}`
