@@ -549,8 +549,10 @@ async function handleOpenInBrowser(project) {
     const projectName = project.name.toLowerCase().replace(/\s+/g, '-')
     const url = `http://${projectName}.local`
     await openInBrowser(url)
-  } catch (error) {
-    toast.showToast(error.message, 'error')
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.error('Error opening in browser:', err)
+    toast.error(err.message || err.toString() || 'Failed to open in browser')
   }
 }
 
@@ -559,9 +561,11 @@ async function confirmRemove() {
 
   try {
     await removeProjectWithConfigs(projectToRemove.value.path)
-    toast.showToast(t('projectRemovedAndConfigsDeleted'), 'success')
-  } catch (error) {
-    toast.showToast(t('errorDeletingProjectConfigs', { error: error.message }), 'error')
+    toast.success(t('projectRemovedAndConfigsDeleted'))
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.error('Error deleting project configs:', err)
+    toast.error(t('errorDeletingProjectConfigs', { error: err.message || err.toString() }))
   } finally {
     isRemoveModalVisible.value = false
     projectToRemove.value = null
@@ -644,16 +648,20 @@ function formatDate(dateString) {
 async function openInIDE(path) {
   try {
     await openInEditor(path)
-  } catch (error) {
-    toast.showToast(error.message, 'error')
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.error('Error opening in IDE:', err)
+    toast.error(err.message || err.toString() || 'Failed to open in editor')
   }
 }
 
 async function handleOpenInFileManager(path) {
   try {
     await openInFileManager(path)
-  } catch (error) {
-    toast.showToast(error.message, 'error')
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.error('Error opening in file manager:', err)
+    toast.error(err.message || err.toString() || 'Failed to open in file manager')
   }
 }
 </script>

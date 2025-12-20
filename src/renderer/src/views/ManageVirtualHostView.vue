@@ -81,12 +81,26 @@
                 ]"
                 @blur="validateDomain"
               >
-              <p
+              <div
                 v-if="validationErrors.domain"
-                class="text-red-500 text-sm mt-1"
+                class="flex items-start gap-1.5 mt-1.5 p-2 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md"
               >
-                {{ validationErrors.domain }}
-              </p>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-4 w-4 text-red-500 dark:text-red-400 flex-shrink-0 mt-0.5"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+                <p class="text-red-700 dark:text-red-300 text-xs leading-tight">
+                  {{ validationErrors.domain }}
+                </p>
+              </div>
             </div>
 
             <!-- Project Path -->
@@ -98,12 +112,26 @@
                 v-model="nginxProjectPath"
                 @update:model-value="validatePath"
               />
-              <p
+              <div
                 v-if="validationErrors.path"
-                class="text-red-500 text-sm mt-1"
+                class="flex items-start gap-1.5 mt-1.5 p-2 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md"
               >
-                {{ validationErrors.path }}
-              </p>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-4 w-4 text-red-500 dark:text-red-400 flex-shrink-0 mt-0.5"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+                <p class="text-red-700 dark:text-red-300 text-xs leading-tight">
+                  {{ validationErrors.path }}
+                </p>
+              </div>
             </div>
 
             <!-- PHP Version (only for PHP, Laravel, and WordPress projects) -->
@@ -116,16 +144,13 @@
                 :options="phpVersionOptions"
                 placeholder="Auto-detect (ស្វ័យប្រវត្តិ)"
               />
-              <InfoBox
-                :title="locale === 'km' ? 'រកឃើញស្វ័យប្រវត្តិ' : 'Auto-Detection'"
-                :message="
+              <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">
+                {{
                   locale === 'km'
-                    ? 'ប្រព័ន្ធនឹងស្វែងរក PHP-FPM socket ដែលមាននៅក្នុងថត /run/php/ ដោយស្វ័យប្រវត្តិ។ អ្នកក៏អាចជ្រើសរើសកំណែជាក់លាក់បានដែរ។'
-                    : 'The system will automatically search for available PHP-FPM sockets in /run/php/. You can also manually select a specific version.'
-                "
-                type="info"
-                class="mt-2"
-              />
+                    ? 'ប្រព័ន្ធនឹងស្វែងរក PHP-FPM socket ដែលមាននៅក្នុងថត /run/php/ ដោយស្វ័យប្រវត្តិ។'
+                    : 'The system will automatically search for available PHP-FPM sockets in /run/php/.'
+                }}
+              </p>
             </div>
 
             <!-- Port -->
@@ -179,17 +204,16 @@
                   />
                 </label>
               </div>
-              <InfoBox
+              <p
                 v-if="enableSSL"
-                :title="locale === 'km' ? 'តម្រូវការ mkcert' : 'mkcert Required'"
-                :message="
+                class="text-xs text-orange-600 dark:text-orange-400 mt-2"
+              >
+                {{
                   locale === 'km'
-                    ? 'ដើម្បីបង្កើតវិញ្ញាបនប័ត្រ SSL ត្រូវការ mkcert។ ប្រសិនបើមិនទាន់បានដំឡើង សូមដំឡើងវាជាមុនសិន៖ sudo apt install mkcert'
-                    : 'SSL certificate generation requires mkcert to be installed. If not installed yet, please install it first: sudo apt install mkcert'
-                "
-                type="warning"
-                class="mt-2"
-              />
+                    ? 'ត្រូវការ mkcert។ ប្រសិនបើមិនទាន់បានដំឡើង៖ sudo apt install mkcert'
+                    : 'Requires mkcert. If not installed: sudo apt install mkcert'
+                }}
+              </p>
             </div>
 
             <button
@@ -1219,7 +1243,6 @@ import { domainSchema, pathSchema, validateField } from '../utils/validation'
 import DirectorySelector from '../components/common/DirectorySelector.vue'
 import AlertNotification from '../components/common/AlertNotification.vue'
 import CustomSelect from '../components/common/CustomSelect.vue'
-import InfoBox from '../components/common/InfoBox.vue'
 import VirtualHostSidebar from '../components/virtual-host/VirtualHostSidebar.vue'
 import phpIcon from '@/assets/svg/php.svg'
 import laravelIcon from '@/assets/svg/laravel.svg'
@@ -1266,34 +1289,26 @@ const sslFilter = ref('all')
 const editMode = ref(false)
 const editingConfigName = ref(null)
 
-// Computed property for filtered configs
+// Optimized: single-pass filtering for better performance
 const filteredConfigs = computed(() => {
-  let result = configs.value
+  const query = searchQuery.value?.toLowerCase()
 
-  // Apply search filter
-  if (searchQuery.value) {
-    const query = searchQuery.value.toLowerCase()
-    result = result.filter(
-      (config) =>
-        config.name.toLowerCase().includes(query) || config.path.toLowerCase().includes(query)
-    )
-  }
+  return configs.value.filter((config) => {
+    // Search filter
+    if (query && !config.name.toLowerCase().includes(query) && !config.path.toLowerCase().includes(query)) {
+      return false
+    }
 
-  // Apply status filter
-  if (statusFilter.value === 'active') {
-    result = result.filter((config) => config.enabled)
-  } else if (statusFilter.value === 'inactive') {
-    result = result.filter((config) => !config.enabled)
-  }
+    // Status filter
+    if (statusFilter.value === 'active' && !config.enabled) return false
+    if (statusFilter.value === 'inactive' && config.enabled) return false
 
-  // Apply SSL filter
-  if (sslFilter.value === 'https') {
-    result = result.filter((config) => config.hasSSL)
-  } else if (sslFilter.value === 'no-https') {
-    result = result.filter((config) => !config.hasSSL)
-  }
+    // SSL filter
+    if (sslFilter.value === 'https' && !config.hasSSL) return false
+    if (sslFilter.value === 'no-https' && config.hasSSL) return false
 
-  return result
+    return true
+  })
 })
 
 // Computed properties to separate sites by status and SSL (using filtered configs)
@@ -1307,6 +1322,7 @@ const inactiveSites = computed(() => filteredConfigs.value.filter((config) => !c
 
 onMounted(async () => {
   await checkInstalledTools()
+  loadCachedConfigs()
   await loadConfigs()
   document.addEventListener('click', handleClickOutside)
 })
@@ -1315,9 +1331,32 @@ onBeforeUnmount(() => {
   document.removeEventListener('click', handleClickOutside)
 })
 
+function loadCachedConfigs() {
+  try {
+    const cached = localStorage.getItem('nginxConfigs')
+    if (cached) {
+      configs.value = JSON.parse(cached)
+    }
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error('Failed to load cached configs:', error)
+  }
+}
+
+function saveCachedConfigs() {
+  try {
+    localStorage.setItem('nginxConfigs', JSON.stringify(configs.value))
+    localStorage.setItem('nginxConfigsTimestamp', Date.now().toString())
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error('Failed to save cached configs:', error)
+  }
+}
+
 async function loadConfigs() {
   try {
     configs.value = await listNginxConfigs()
+    saveCachedConfigs()
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error('Failed to load configs:', error)
