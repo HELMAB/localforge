@@ -212,6 +212,15 @@ const phpVersion = ref('8.3')
 const enableSsl = ref(false)
 const isImporting = ref(false)
 
+// Cache project icons mapping for better performance
+const projectIcons = {
+  laravel: laravelIcon,
+  vue: vuejsIcon,
+  nuxt: nuxtjsIcon,
+  react: reactIcon,
+  wordpress: wordpressIcon,
+}
+
 watch(projectPath, async (newPath) => {
   if (newPath) {
     try {
@@ -220,8 +229,10 @@ watch(projectPath, async (newPath) => {
       const pathParts = newPath.split('/')
       projectName.value = pathParts[pathParts.length - 1]
       nginxDomain.value = `${projectName.value}.local`
-    } catch (error) {
-      toast.showToast(t('errorDetectingProject'), 'error')
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error('Error detecting project:', err)
+      toast.error(t('errorDetectingProject'))
     }
   }
 })
@@ -232,8 +243,10 @@ async function selectFolder() {
     if (path) {
       projectPath.value = path
     }
-  } catch (error) {
-    toast.showToast(t('errorSelectingDirectory'), 'error')
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.error('Error selecting directory:', err)
+    toast.error(t('errorSelectingDirectory'))
   }
 }
 
@@ -244,7 +257,7 @@ async function handleImport() {
     // Add to recent projects
     addRecentProject({
       name: projectName.value,
-      path: projectPath.value,
+      fullPath: projectPath.value, // Use fullPath since projectPath is already the complete path
       type: detectedProject.value?.type || 'unknown',
       createdAt: new Date().toISOString(),
       config: {
@@ -264,23 +277,18 @@ async function handleImport() {
       })
     }
 
-    toast.showToast(t('projectImportedSuccess'), 'success')
+    toast.success(t('projectImportedSuccess'))
     emit('imported')
-  } catch (error) {
-    toast.showToast(error.message, 'error')
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.error('Error importing project:', err)
+    toast.error(err.message || err.toString() || t('errorImportingProject'))
   } finally {
     isImporting.value = false
   }
 }
 
 function getProjectIcon(type) {
-  const icons = {
-    laravel: laravelIcon,
-    vue: vuejsIcon,
-    nuxt: nuxtjsIcon,
-    react: reactIcon,
-    wordpress: wordpressIcon,
-  }
-  return icons[type] || laravelIcon
+  return projectIcons[type] || laravelIcon
 }
 </script>
