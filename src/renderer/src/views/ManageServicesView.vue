@@ -1,13 +1,5 @@
 <template>
   <div class="p-6">
-    <div class="mb-4">
-      <p
-        class="text-sm text-yellow-700 dark:text-yellow-400 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-700 rounded px-3 py-2"
-      >
-        {{ t('manageNote') }}
-      </p>
-    </div>
-
     <div
       class="flex bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700"
     >
@@ -62,7 +54,6 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { useI18n } from 'vue-i18n'
 import { useTools } from '../composables/useTools'
 import ToolsSidebar from '../components/forms/ToolsSidebar.vue'
 import PhpSection from '../components/forms/tool-sections/PhpSection.vue'
@@ -72,7 +63,6 @@ import NginxSection from '../components/forms/tool-sections/NginxSection.vue'
 import PostgresqlSection from '../components/forms/tool-sections/PostgresqlSection.vue'
 import MysqlSection from '../components/forms/tool-sections/MysqlSection.vue'
 
-const { t } = useI18n()
 const {
   installedTools,
   checkInstalledTools,

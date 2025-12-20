@@ -1,9 +1,9 @@
 <template>
   <div class="space-y-4">
     <div>
-      <label class="block text-sm font-medium mb-2 dark:text-gray-300">{{
-        t('nodeVersionLabel')
-      }}</label>
+      <label class="block text-sm font-medium mb-2 dark:text-gray-300">
+        {{ t('nodeVersionLabel') }} <span class="text-red-500">*</span>
+      </label>
       <CustomSelect
         :model-value="nodeVersion"
         :options="nodeVersionOptions"
@@ -15,6 +15,26 @@
       >
         {{ t('noNodeVersionsInstalled') }}
       </p>
+      <div
+        v-if="validationError"
+        class="flex items-start gap-1.5 mt-1.5 p-2 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-4 w-4 text-red-500 dark:text-red-400 flex-shrink-0 mt-0.5"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+            clip-rule="evenodd"
+          />
+        </svg>
+        <p class="text-red-700 dark:text-red-300 text-xs leading-tight">
+          {{ validationError }}
+        </p>
+      </div>
     </div>
   </div>
 </template>
@@ -38,6 +58,10 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  validationError: {
+    type: String,
+    default: '',
+  },
 })
 
 defineEmits(['update:nodeVersion'])
@@ -55,12 +79,12 @@ const nodeVersionOptions = computed(() => {
 
     versions.forEach((version) => {
       const major = parseInt(version.split('.')[0])
-      
-      // For Nuxt projects, only show Node 20+
-      if (props.projectType === 'nuxt' && major < 20) {
+
+      // For Nuxt projects, only show Node 22+
+      if (props.projectType === 'nuxt' && major < 22) {
         return
       }
-      
+
       if (!majorVersionMap.has(major)) {
         majorVersionMap.set(major, version)
       }
@@ -68,7 +92,7 @@ const nodeVersionOptions = computed(() => {
 
     Array.from(majorVersionMap.entries()).forEach(([major, full]) => {
       const isDefault = full === installedTools.value.node.default
-      const isRecommended = major >= 20
+      const isRecommended = major >= 22
       
       let label = `Node.js ${major}`
       if (isDefault) {
