@@ -257,8 +257,73 @@ function cancelOperation(operationId) {
   return { success: false, message: 'Operation not found' }
 }
 
+function detectProjectType(projectPath) {
+  const files = fs.readdirSync(projectPath)
+  
+  // Laravel detection
+  if (files.includes('artisan') && files.includes('composer.json')) {
+    const composerJson = JSON.parse(fs.readFileSync(path.join(projectPath, 'composer.json'), 'utf8'))
+    const laravelVersion = composerJson.require?.['laravel/framework']?.replace(/[^0-9.]/g, '') || 'unknown'
+    return {
+      type: 'laravel',
+      framework: 'Laravel',
+      version: laravelVersion,
+      detected: true,
+    }
+  }
+  
+  // WordPress detection
+  if (files.includes('wp-config.php') || files.includes('wp-config-sample.php')) {
+    return {
+      type: 'wordpress',
+      framework: 'WordPress',
+      detected: true,
+    }
+  }
+  
+  // Vue/Nuxt/React detection via package.json
+  if (files.includes('package.json')) {
+    const packageJson = JSON.parse(fs.readFileSync(path.join(projectPath, 'package.json'), 'utf8'))
+    const deps = { ...packageJson.dependencies, ...packageJson.devDependencies }
+    
+    if (deps['nuxt'] || deps['nuxt3']) {
+      return {
+        type: 'nuxt',
+        framework: 'Nuxt.js',
+        version: deps['nuxt'] || deps['nuxt3'],
+        detected: true,
+      }
+    }
+    
+    if (deps['vue']) {
+      return {
+        type: 'vue',
+        framework: 'Vue.js',
+        version: deps['vue'],
+        detected: true,
+      }
+    }
+    
+    if (deps['react']) {
+      return {
+        type: 'react',
+        framework: 'React',
+        version: deps['react'],
+        detected: true,
+      }
+    }
+  }
+  
+  return {
+    type: 'unknown',
+    framework: 'Unknown',
+    detected: false,
+  }
+}
+
 module.exports = {
   buildProjectCommand,
   executeProject,
   cancelOperation,
+  detectProjectType,
 }

@@ -261,6 +261,9 @@ export default {
   clearCompleted: 'សម្អាតប្រតិបត្តិការបានបញ្ចប់',
   clearAll: 'សម្អាតទាំងអស់',
   cancel: 'បោះបង់',
+  importing: 'កំពុងនាំចូល...',
+  errorDetectingProject: 'មិនអាចរកប្រភេទគម្រោង',
+  errorSelectingDirectory: 'មិនអាចជ្រើសរើសថត',
   configuringNginx: 'កំពុងកំណត់រចនាសម្ព័ន្ធ Nginx',
   generatingSsl: 'កំពុងបង្កើត SSL',
   installingTool: 'កំពុងដំឡើងឧបករណ៍',
@@ -321,6 +324,7 @@ export default {
   menu: 'ម៉ឺនុយ',
   newProject: 'គម្រោងថ្មី',
   projects: 'គម្រោង',
+  importProject: 'នាំចូលគម្រោង',
 
   // Project List
   searchProjects: 'ស្វែងរកគម្រោង...',
@@ -332,8 +336,56 @@ export default {
   projectTypeNuxt: 'Nuxt.js',
   projectTypeReact: 'React',
   projectTypeWordpress: 'WordPress',
+  projectTypeUnknown: 'មិនស្គាល់',
 
   // Project Actions
   fileManager: 'កម្មវិធីគ្រប់គ្រងឯកសារ',
   remove: 'លុប',
+  viewDetails: 'មើលព័ត៌មានលម្អិត',
+  editProject: 'កែសម្រួលគម្រោង',
+  deleteProject: 'លុបគម្រោង',
+  openInBrowser: 'បើកក្នុងកម្មវិធីរុករក',
+  openInEditor: 'បើកក្នុងកម្មវិធីកែសម្រួល',
+
+  // Project Details Modal
+  projectName: 'ឈ្មោះគម្រោង',
+  projectType: 'ប្រភេទគម្រោង',
+  projectPath: 'ផ្លូវគម្រោង',
+  projectSize: 'ទំហំគម្រោង',
+  lastModified: 'កែប្រែចុងក្រោយ',
+  phpVersion: 'កំណែ PHP',
+  frameworkVersion: 'កំណែ Framework',
+  dependencies: 'Dependencies',
+  actions: 'សកម្មភាព',
+
+  // Import Project
+  importExistingProject: 'នាំចូលគម្រោងដែលមានស្រាប់',
+  importProjectDesc: 'នាំចូលគម្រោងដែលមានស្រាប់ និងភ្ជាប់ទៅការកំណត់រចនាសម្ព័ន្ធ Nginx',
+  selectProjectFolder: 'ជ្រើសរើសថតគម្រោង',
+  detectingProject: 'កំពុងរកប្រភេទគម្រោង...',
+  projectDetected: 'រកឃើញគម្រោង',
+  autoDetected: 'រកឃើញដោយស្វ័យប្រវត្តិ',
+  nginxDomain: 'ដែន Nginx',
+  nginxDomainPlaceholder: 'myproject.local',
+  linkToNginx: 'ភ្ជាប់ទៅការកំណត់រចនាសម្ព័ន្ធ Nginx',
+  importBtn: 'នាំចូលគម្រោង',
+  projectImportedSuccess: 'នាំចូលគម្រោងបានជោគជ័យ!',
+
+  // Pagination
+  showingProjects: 'បង្ហាញ {start}-{end} នៃ {total} គម្រោង',
+  page: 'ទំព័រ',
+  of: 'នៃ',
+  previousPage: 'មុន',
+  nextPage: 'បន្ទាប់',
+  itemsPerPage: 'ធាតុក្នុងមួយទំព័រ',
+
+  // Filter & Sort
+  filterByType: 'ច្រោះតាមប្រភេទ',
+  allTypes: 'ប្រភេទទាំងអស់',
+  sortBy: 'តម្រៀបតាម',
+  sortByName: 'ឈ្មោះ',
+  sortByDate: 'កាលបរិច្ឆេទបង្កើត',
+  sortByModified: 'កែប្រែចុងក្រោយ',
+  sortAscending: 'ឡើង',
+  sortDescending: 'ចុះ',
 }
