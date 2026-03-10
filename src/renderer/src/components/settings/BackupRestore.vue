@@ -19,19 +19,7 @@
         class="p-5 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700"
       >
         <div class="flex items-center mb-3">
-          <svg
-            class="w-6 h-6 mr-2 text-gray-700 dark:text-gray-300"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-            />
-          </svg>
+          <Download class="w-6 h-6 mr-2 text-gray-700 dark:text-gray-300" />
           <h4 class="font-medium text-gray-900 dark:text-white">{{ t('settings.export') }}</h4>
         </div>
         <p class="text-sm text-gray-600 dark:text-gray-300 mb-4">{{ t('settings.exportDesc') }}</p>
@@ -44,19 +32,7 @@
         class="p-5 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700"
       >
         <div class="flex items-center mb-3">
-          <svg
-            class="w-6 h-6 mr-2 text-gray-700 dark:text-gray-300"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"
-            />
-          </svg>
+          <Upload class="w-6 h-6 mr-2 text-gray-700 dark:text-gray-300" />
           <h4 class="font-medium text-gray-900 dark:text-white">{{ t('settings.import') }}</h4>
         </div>
         <p class="text-sm text-gray-600 dark:text-gray-300 mb-4">{{ t('settings.importDesc') }}</p>
@@ -94,6 +70,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { Download, Upload } from 'lucide-vue-next'
 import { useBackup } from '@/composables/useBackup'
 import { Button } from '@/components/ui/button'
 

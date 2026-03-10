@@ -4,50 +4,16 @@
   >
     <div class="flex items-center justify-between mb-3">
       <h3 class="text-sm font-semibold text-blue-900 dark:text-blue-100 flex items-center gap-2">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-5 w-5"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-        >
-          <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
-          <path
-            fill-rule="evenodd"
-            d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
-            clip-rule="evenodd"
-          />
-        </svg>
+        <Eye class="h-5 w-5" />
         {{ t('projectPreview') }}
       </h3>
       <div class="flex items-center gap-3 text-xs">
         <div class="flex items-center gap-1 text-blue-700 dark:text-blue-300">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-4 w-4"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
-              clip-rule="evenodd"
-            />
-          </svg>
+          <Clock class="h-4 w-4" />
           <span>{{ t('estimatedTime') }}: {{ estimatedTime }} {{ t('minutes') }}</span>
         </div>
         <div class="flex items-center gap-1 text-blue-700 dark:text-blue-300">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-4 w-4"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
-              clip-rule="evenodd"
-            />
-          </svg>
+          <ArrowDown class="h-4 w-4" />
           <span>{{ t('estimatedSize') }}: ~{{ estimatedSize }} MB</span>
         </div>
       </div>
@@ -64,18 +30,7 @@
           :key="item"
           class="px-2 py-1 text-xs rounded bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 flex items-center gap-1"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-3 w-3"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-              clip-rule="evenodd"
-            />
-          </svg>
+          <CheckCircle2 class="h-3 w-3" />
           {{ item }}
         </span>
       </div>
@@ -87,31 +42,9 @@
       class="flex items-start gap-2 p-2 rounded"
       :class="compatibilityClass"
     >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        class="h-5 w-5 flex-shrink-0"
-        viewBox="0 0 20 20"
-        fill="currentColor"
-      >
-        <path
-          v-if="compatibilityStatus === 'recommended'"
-          fill-rule="evenodd"
-          d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-          clip-rule="evenodd"
-        />
-        <path
-          v-else-if="compatibilityStatus === 'compatible'"
-          fill-rule="evenodd"
-          d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-          clip-rule="evenodd"
-        />
-        <path
-          v-else
-          fill-rule="evenodd"
-          d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
-          clip-rule="evenodd"
-        />
-      </svg>
+      <CheckCircle2 v-if="compatibilityStatus === 'recommended'" class="h-5 w-5 flex-shrink-0" />
+      <Info v-else-if="compatibilityStatus === 'compatible'" class="h-5 w-5 flex-shrink-0" />
+      <TriangleAlert v-else class="h-5 w-5 flex-shrink-0" />
       <div class="text-xs">
         <p class="font-semibold">
           {{ compatibilityTitle }}
@@ -129,19 +62,7 @@
         class="text-xs text-blue-600 dark:text-blue-400 h-auto p-0 flex items-center gap-1"
         @click="showCommand = !showCommand"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-4 w-4 transition-transform"
-          :class="{ 'rotate-90': showCommand }"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-        >
-          <path
-            fill-rule="evenodd"
-            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-            clip-rule="evenodd"
-          />
-        </svg>
+        <ChevronRight class="h-4 w-4 transition-transform" :class="{ 'rotate-90': showCommand }" />
         {{ showCommand ? t('hideTerminalOutput') : t('showTerminalOutput') }}
       </Button>
       <div
@@ -155,17 +76,7 @@
           :title="t('copyCommand')"
           @click="copyCommand"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-4 w-4"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z" />
-            <path
-              d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z"
-            />
-          </svg>
+          <Copy class="h-4 w-4" />
         </Button>
         <pre class="whitespace-pre-wrap break-all">{{ command }}</pre>
       </div>
@@ -178,6 +89,16 @@ import { ref, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useStatus } from '../../composables/useStatus'
 import { Button } from '@/components/ui/button'
+import {
+  Eye,
+  Clock,
+  ArrowDown,
+  CheckCircle2,
+  Info,
+  TriangleAlert,
+  ChevronRight,
+  Copy,
+} from 'lucide-vue-next'
 
 const { t } = useI18n()
 const status = useStatus()

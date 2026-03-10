@@ -8,18 +8,7 @@
           <div
             class="flex-shrink-0 w-12 h-12 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-6 w-6 text-red-600 dark:text-red-400"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                clip-rule="evenodd"
-              />
-            </svg>
+            <AlertCircle class="h-6 w-6 text-red-600 dark:text-red-400" />
           </div>
           <div>
             <DialogTitle class="text-xl">{{ title || t('errorTitle') }}</DialogTitle>
@@ -45,19 +34,10 @@
               class="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1"
               @click="toggleDetails"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
+              <ChevronDown
                 class="h-4 w-4 transition-transform"
                 :class="{ 'rotate-180': showDetails }"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                  clip-rule="evenodd"
-                />
-              </svg>
+              />
               {{ showDetails ? t('hideDetails') : t('showDetails') }}
             </button>
           </div>
@@ -71,31 +51,8 @@
               :title="t('copyError')"
               @click="copyDetails"
             >
-              <svg
-                v-if="!copied"
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-4 w-4"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z" />
-                <path
-                  d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z"
-                />
-              </svg>
-              <svg
-                v-else
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-4 w-4 text-green-400"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                  clip-rule="evenodd"
-                />
-              </svg>
+              <Copy v-if="!copied" class="h-4 w-4" />
+              <CheckCircle2 v-else class="h-4 w-4 text-green-400" />
             </button>
             <pre class="text-xs font-mono whitespace-pre-wrap break-words pr-10">{{ details }}</pre>
           </div>
@@ -108,18 +65,7 @@
           <h4
             class="text-sm font-semibold text-blue-900 dark:text-blue-100 mb-2 flex items-center gap-2"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-5 w-5"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-                clip-rule="evenodd"
-              />
-            </svg>
+            <Info class="h-5 w-5" />
             {{ t('suggestions') }}
           </h4>
           <ul class="space-y-2 text-sm text-blue-900 dark:text-blue-100">
@@ -128,18 +74,7 @@
               :key="index"
               class="flex items-start gap-2"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-5 w-5 flex-shrink-0 mt-0.5"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                  clip-rule="evenodd"
-                />
-              </svg>
+              <ChevronRight class="h-5 w-5 flex-shrink-0 mt-0.5" />
               <span>{{ suggestion }}</span>
             </li>
           </ul>
@@ -165,17 +100,7 @@
         class="flex items-center justify-between gap-3 p-6 border-t border-gray-200 dark:border-gray-700 shrink-0"
       >
         <Button variant="ghost" class="text-blue-600 dark:text-blue-400" @click="copyAllError">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-4 w-4 mr-2"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z" />
-            <path
-              d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z"
-            />
-          </svg>
+          <Copy class="h-4 w-4 mr-2" />
           {{ t('copyFullError') }}
         </Button>
         <div class="flex gap-2">
@@ -190,6 +115,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { AlertCircle, CheckCircle2, ChevronDown, ChevronRight, Copy, Info } from 'lucide-vue-next'
 import {
   Dialog,
   DialogContent,

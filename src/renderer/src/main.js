@@ -24,6 +24,29 @@ app.use(Toast, {
   transition: 'Vue-Toastification__bounce',
   maxToasts: 5,
   newestOnTop: true,
+  toastClassName: [
+    '!rounded-lg',
+    '!shadow-lg',
+    '!border',
+    '!border-gray-200',
+    'dark:!border-gray-700',
+  ],
+  bodyClassName: ['!text-sm', '!leading-snug'],
+  closeButtonClassName: [
+    '!text-gray-600',
+    'dark:!text-gray-200',
+    '!opacity-70',
+    'hover:!opacity-100',
+  ],
+  toastDefaults: {
+    default: {
+      toastClassName: ['!bg-white', 'dark:!bg-gray-800', '!text-gray-900', 'dark:!text-gray-100'],
+    },
+    success: { toastClassName: ['!bg-emerald-600', 'dark:!bg-emerald-700', '!text-white'] },
+    error: { toastClassName: ['!bg-red-600', 'dark:!bg-red-700', '!text-white'] },
+    warning: { toastClassName: ['!bg-amber-600', 'dark:!bg-amber-700', '!text-white'] },
+    info: { toastClassName: ['!bg-blue-600', 'dark:!bg-blue-700', '!text-white'] },
+  },
 })
 
 app.mount('#app')

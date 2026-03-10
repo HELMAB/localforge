@@ -3,19 +3,7 @@
     <DialogContent class="max-w-sm">
       <div class="flex flex-col items-center text-center py-2">
         <div class="bg-green-100 dark:bg-green-900 p-3 rounded-full mb-4">
-          <svg
-            class="w-8 h-8 text-green-600 dark:text-green-400"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M5 13l4 4L19 7"
-            />
-          </svg>
+          <Check class="w-8 h-8 text-green-600 dark:text-green-400" />
         </div>
         <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">{{ title }}</h3>
         <p class="text-sm text-gray-600 dark:text-gray-400 mb-6">{{ message }}</p>

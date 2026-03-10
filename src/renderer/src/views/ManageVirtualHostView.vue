@@ -78,18 +78,7 @@
                 v-if="validationErrors.domain"
                 class="flex items-start gap-1.5 mt-1.5 p-2 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-4 w-4 text-red-500 dark:text-red-400 flex-shrink-0 mt-0.5"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
+                <AlertCircle class="h-4 w-4 text-red-500 dark:text-red-400 flex-shrink-0 mt-0.5" />
                 <p class="text-red-700 dark:text-red-300 text-xs leading-tight">
                   {{ validationErrors.domain }}
                 </p>
@@ -106,18 +95,7 @@
                 v-if="validationErrors.path"
                 class="flex items-start gap-1.5 mt-1.5 p-2 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-4 w-4 text-red-500 dark:text-red-400 flex-shrink-0 mt-0.5"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
+                <AlertCircle class="h-4 w-4 text-red-500 dark:text-red-400 flex-shrink-0 mt-0.5" />
                 <p class="text-red-700 dark:text-red-300 text-xs leading-tight">
                   {{ validationErrors.path }}
                 </p>
@@ -165,18 +143,7 @@
                   <label
                     class="flex items-center gap-2 text-sm font-medium text-gray-900 dark:text-gray-100 cursor-pointer"
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="h-5 w-5 text-green-600 dark:text-green-400"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                        clip-rule="evenodd"
-                      />
-                    </svg>
+                    <Lock class="h-5 w-5 text-green-600 dark:text-green-400" />
                     {{ t('enableSSL') }}
                   </label>
                   <p class="text-xs text-gray-600 dark:text-gray-400 mt-1 ml-7">
@@ -241,18 +208,7 @@
                   class="px-4 py-2 bg-blue-500 dark:bg-blue-600 text-white rounded-lg hover:bg-blue-600 dark:hover:bg-blue-700 disabled:opacity-50 transition-colors flex items-center gap-2 font-medium"
                   @click="loadConfigs"
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-5 w-5"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
-                      clip-rule="evenodd"
-                    />
-                  </svg>
+                  <RefreshCw class="h-5 w-5" />
                   {{ t('refresh') }}
                 </button>
               </div>
@@ -262,18 +218,7 @@
                 <!-- Search Box -->
                 <div class="relative">
                   <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="h-5 w-5 text-gray-400"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                        clip-rule="evenodd"
-                      />
-                    </svg>
+                    <Search class="h-5 w-5 text-gray-400" />
                   </div>
                   <input
                     v-model="searchQuery"
@@ -344,18 +289,7 @@
                       ]"
                       @click="sslFilter = 'https'"
                     >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="h-3.5 w-3.5"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                      >
-                        <path
-                          fill-rule="evenodd"
-                          d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                          clip-rule="evenodd"
-                        />
-                      </svg>
+                      <Lock class="h-3.5 w-3.5" />
                       HTTPS
                     </button>
                     <button
@@ -397,20 +331,7 @@
               v-else-if="filteredConfigs.length === 0 && configs.length === 0"
               class="flex flex-col items-center justify-center py-16 text-gray-500 dark:text-gray-400"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-20 w-20 mb-4 text-gray-400"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                />
-              </svg>
+              <FileText class="h-20 w-20 mb-4 text-gray-400" />
               <p class="text-lg font-medium mb-2">
                 {{ t('nginxNoConfigs') }}
               </p>
@@ -430,20 +351,7 @@
               v-else-if="filteredConfigs.length === 0 && configs.length > 0"
               class="flex flex-col items-center justify-center py-16 text-gray-500 dark:text-gray-400"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-20 w-20 mb-4 text-gray-400"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                />
-              </svg>
+              <SearchX class="h-20 w-20 mb-4 text-gray-400" />
               <p class="text-lg font-medium mb-2">
                 {{ locale === 'km' ? 'រកមិនឃើញលទ្ធផល' : 'No results found' }}
               </p>
@@ -472,18 +380,7 @@
                 <h4
                   class="font-semibold text-green-800 dark:text-green-300 mb-3 flex items-center gap-2"
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-5 w-5"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                      clip-rule="evenodd"
-                    />
-                  </svg>
+                  <Lock class="h-5 w-5" />
                   {{ locale === 'km' ? 'គេហទំព័រសកម្ម (មាន HTTPS)' : 'Active Sites (HTTPS)' }}
                   <span
                     class="ml-auto px-2 py-0.5 text-xs bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 rounded-full"
@@ -524,52 +421,25 @@
                               })
                             "
                           >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
+                            <Star
                               class="h-4 w-4"
                               :class="
                                 isFavorite('nginxConfigs', config.name)
-                                  ? 'fill-yellow-400 text-yellow-400'
-                                  : 'fill-none text-gray-400'
+                                  ? 'text-yellow-400'
+                                  : 'text-gray-400'
                               "
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                              stroke-width="2"
-                            >
-                              <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"
-                              />
-                            </svg>
+                              :fill="
+                                isFavorite('nginxConfigs', config.name) ? 'currentColor' : 'none'
+                              "
+                            />
                           </button>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
+                          <ChevronRight
                             :class="[
                               'h-4 w-4 text-gray-500 dark:text-gray-400 transition-transform flex-shrink-0',
                               { 'rotate-90': expandedSite === config.name },
                             ]"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                          >
-                            <path
-                              fill-rule="evenodd"
-                              d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                              clip-rule="evenodd"
-                            />
-                          </svg>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            class="h-5 w-5 text-green-600 dark:text-green-400 flex-shrink-0"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                          >
-                            <path
-                              fill-rule="evenodd"
-                              d="M2 5a2 2 0 012-2h12a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm3.293 1.293a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 01-1.414-1.414L7.586 10 5.293 7.707a1 1 0 010-1.414zM11 12a1 1 0 100 2h3a1 1 0 100-2h-3z"
-                              clip-rule="evenodd"
-                            />
-                          </svg>
+                          />
+                          <Code2 class="h-5 w-5 text-green-600 dark:text-green-400 flex-shrink-0" />
                           <span class="font-semibold text-green-700 dark:text-green-400 truncate">{{
                             config.name
                           }}</span>
@@ -583,39 +453,14 @@
                             class="px-2 py-0.5 text-xs bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 rounded flex items-center gap-1 flex-shrink-0"
                             :title="locale === 'km' ? 'មាន SSL/HTTPS' : 'SSL/HTTPS Enabled'"
                           >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              class="h-3 w-3"
-                              viewBox="0 0 20 20"
-                              fill="currentColor"
-                            >
-                              <path
-                                fill-rule="evenodd"
-                                d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                                clip-rule="evenodd"
-                              />
-                            </svg>
+                            <Lock class="h-3 w-3" />
                             HTTPS
                           </span>
                         </div>
                         <div
                           class="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-400 ml-9"
                         >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            class="h-3.5 w-3.5 flex-shrink-0"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                          >
-                            <path
-                              fill-rule="evenodd"
-                              d="M2 6a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1H8a3 3 0 00-3 3v1.5a1.5 1.5 0 01-3 0V6z"
-                              clip-rule="evenodd"
-                            />
-                            <path
-                              d="M6 12a2 2 0 012-2h8a2 2 0 012 2v2a2 2 0 01-2 2H2h2a2 2 0 002-2v-2z"
-                            />
-                          </svg>
+                          <Folder class="h-3.5 w-3.5 flex-shrink-0" />
                           <span class="truncate">{{ config.path }}</span>
                         </div>
                       </button>
@@ -628,16 +473,7 @@
                           :title="locale === 'km' ? 'សកម្មភាព' : 'Actions'"
                           @click="toggleDropdown(config.name)"
                         >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            class="h-5 w-5"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                          >
-                            <path
-                              d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"
-                            />
-                          </svg>
+                          <MoreVertical class="h-5 w-5" />
                         </button>
                         <div
                           v-if="openDropdown === config.name"
@@ -648,16 +484,7 @@
                             class="w-full px-4 py-2 text-left text-sm text-blue-600 dark:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2"
                             @click="loadConfigForEdit(config.name)"
                           >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              class="h-4 w-4"
-                              viewBox="0 0 20 20"
-                              fill="currentColor"
-                            >
-                              <path
-                                d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"
-                              />
-                            </svg>
+                            <Pencil class="h-4 w-4" />
                             {{ locale === 'km' ? 'កែសម្រួល' : 'Edit' }}
                           </button>
                           <div class="border-t border-gray-200 dark:border-gray-700 my-1" />
@@ -665,36 +492,14 @@
                             class="w-full px-4 py-2 text-left text-sm text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2"
                             @click="handleDisableConfig(config.name)"
                           >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              class="h-4 w-4"
-                              viewBox="0 0 20 20"
-                              fill="currentColor"
-                            >
-                              <path
-                                fill-rule="evenodd"
-                                d="M13.477 14.89A6 6 0 015.11 6.524l8.367 8.368zm1.414-1.414L6.524 5.11a6 6 0 018.367 8.367zM18 10a8 8 0 11-16 0 8 8 0 0116 0z"
-                                clip-rule="evenodd"
-                              />
-                            </svg>
+                            <Ban class="h-4 w-4" />
                             {{ locale === 'km' ? 'បិទដំណើរការ' : 'Disable' }}
                           </button>
                           <button
                             class="w-full px-4 py-2 text-left text-sm text-orange-600 dark:text-orange-400 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2"
                             @click="handleRemoveSsl(config.name)"
                           >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              class="h-4 w-4"
-                              viewBox="0 0 20 20"
-                              fill="currentColor"
-                            >
-                              <path
-                                fill-rule="evenodd"
-                                d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                                clip-rule="evenodd"
-                              />
-                            </svg>
+                            <LockOpen class="h-4 w-4" />
                             {{ locale === 'km' ? 'ដក HTTPS' : 'Remove HTTPS' }}
                           </button>
                           <div class="border-t border-gray-200 dark:border-gray-700 my-1" />
@@ -702,18 +507,7 @@
                             class="w-full px-4 py-2 text-left text-sm text-gray-700 dark:text-gray-300 hover:bg-red-50 dark:hover:bg-red-900/20 flex items-center gap-2"
                             @click="handleDeleteConfig(config.name)"
                           >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              class="h-4 w-4"
-                              viewBox="0 0 20 20"
-                              fill="currentColor"
-                            >
-                              <path
-                                fill-rule="evenodd"
-                                d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
-                                clip-rule="evenodd"
-                              />
-                            </svg>
+                            <Trash2 class="h-4 w-4" />
                             {{ t('delete') }}
                           </button>
                         </div>
@@ -746,18 +540,7 @@
                                 target="_blank"
                                 class="flex items-center gap-2 text-sm text-blue-600 dark:text-blue-400 hover:underline"
                               >
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  class="h-4 w-4"
-                                  viewBox="0 0 20 20"
-                                  fill="currentColor"
-                                >
-                                  <path
-                                    fill-rule="evenodd"
-                                    d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                                    clip-rule="evenodd"
-                                  />
-                                </svg>
+                                <Lock class="h-4 w-4" />
                                 https://{{ config.name }}
                               </a>
                               <a
@@ -765,18 +548,7 @@
                                 target="_blank"
                                 class="flex items-center gap-2 text-sm text-blue-600 dark:text-blue-400 hover:underline"
                               >
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  class="h-4 w-4"
-                                  viewBox="0 0 20 20"
-                                  fill="currentColor"
-                                >
-                                  <path
-                                    fill-rule="evenodd"
-                                    d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 101.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z"
-                                    clip-rule="evenodd"
-                                  />
-                                </svg>
+                                <Link class="h-4 w-4" />
                                 http://{{ config.name }}
                               </a>
                             </div>
@@ -824,18 +596,7 @@
                 <h4
                   class="font-semibold text-yellow-800 dark:text-yellow-300 mb-3 flex items-center gap-2"
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-5 w-5"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                      clip-rule="evenodd"
-                    />
-                  </svg>
+                  <CheckCircle2 class="h-5 w-5" />
                   {{ locale === 'km' ? 'គេហទំព័រសកម្ម (គ្មាន HTTPS)' : 'Active Sites (No HTTPS)' }}
                   <span
                     class="ml-auto px-2 py-0.5 text-xs bg-yellow-100 dark:bg-yellow-900 text-yellow-700 dark:text-yellow-300 rounded-full"
@@ -851,18 +612,7 @@
                   >
                     <div class="flex-1 min-w-0">
                       <div class="flex items-center gap-2 mb-1">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          class="h-5 w-5 text-yellow-600 dark:text-yellow-400 flex-shrink-0"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            d="M2 5a2 2 0 012-2h12a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm3.293 1.293a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 01-1.414-1.414L7.586 10 5.293 7.707a1 1 0 010-1.414zM11 12a1 1 0 100 2h3a1 1 0 100-2h-3z"
-                            clip-rule="evenodd"
-                          />
-                        </svg>
+                        <Code2 class="h-5 w-5 text-yellow-600 dark:text-yellow-400 flex-shrink-0" />
                         <span class="font-semibold text-yellow-700 dark:text-yellow-400 truncate">{{
                           config.name
                         }}</span>
@@ -875,21 +625,7 @@
                       <div
                         class="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-400 ml-7"
                       >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          class="h-3.5 w-3.5 flex-shrink-0"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            d="M2 6a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1H8a3 3 0 00-3 3v1.5a1.5 1.5 0 01-3 0V6z"
-                            clip-rule="evenodd"
-                          />
-                          <path
-                            d="M6 12a2 2 0 012-2h8a2 2 0 012 2v2a2 2 0 01-2 2H2h2a2 2 0 002-2v-2z"
-                          />
-                        </svg>
+                        <Folder class="h-3.5 w-3.5 flex-shrink-0" />
                         <span class="truncate">{{ config.path }}</span>
                       </div>
                     </div>
@@ -902,16 +638,7 @@
                         :title="locale === 'km' ? 'សកម្មភាព' : 'Actions'"
                         @click="toggleDropdown(config.name)"
                       >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          class="h-5 w-5"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                        >
-                          <path
-                            d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"
-                          />
-                        </svg>
+                        <MoreVertical class="h-5 w-5" />
                       </button>
                       <div
                         v-if="openDropdown === config.name"
@@ -922,16 +649,7 @@
                           class="w-full px-4 py-2 text-left text-sm text-blue-600 dark:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2"
                           @click="loadConfigForEdit(config.name)"
                         >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            class="h-4 w-4"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                          >
-                            <path
-                              d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"
-                            />
-                          </svg>
+                          <Pencil class="h-4 w-4" />
                           {{ locale === 'km' ? 'កែសម្រួល' : 'Edit' }}
                         </button>
                         <div class="border-t border-gray-200 dark:border-gray-700 my-1" />
@@ -939,36 +657,14 @@
                           class="w-full px-4 py-2 text-left text-sm text-blue-600 dark:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2"
                           @click="handleAddSsl(config.name)"
                         >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            class="h-4 w-4"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                          >
-                            <path
-                              fill-rule="evenodd"
-                              d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                              clip-rule="evenodd"
-                            />
-                          </svg>
+                          <Lock class="h-4 w-4" />
                           {{ locale === 'km' ? 'បន្ថែម HTTPS' : 'Add HTTPS' }}
                         </button>
                         <button
                           class="w-full px-4 py-2 text-left text-sm text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2"
                           @click="handleDisableConfig(config.name)"
                         >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            class="h-4 w-4"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                          >
-                            <path
-                              fill-rule="evenodd"
-                              d="M13.477 14.89A6 6 0 015.11 6.524l8.367 8.368zm1.414-1.414L6.524 5.11a6 6 0 018.367 8.367zM18 10a8 8 0 11-16 0 8 8 0 0116 0z"
-                              clip-rule="evenodd"
-                            />
-                          </svg>
+                          <Ban class="h-4 w-4" />
                           {{ locale === 'km' ? 'បិទដំណើរការ' : 'Disable' }}
                         </button>
                         <div class="border-t border-gray-200 dark:border-gray-700 my-1" />
@@ -976,18 +672,7 @@
                           class="w-full px-4 py-2 text-left text-sm text-gray-700 dark:text-gray-300 hover:bg-red-50 dark:hover:bg-red-900/20 flex items-center gap-2"
                           @click="handleDeleteConfig(config.name)"
                         >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            class="h-4 w-4"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                          >
-                            <path
-                              fill-rule="evenodd"
-                              d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
-                              clip-rule="evenodd"
-                            />
-                          </svg>
+                          <Trash2 class="h-4 w-4" />
                           {{ t('delete') }}
                         </button>
                       </div>
@@ -1004,18 +689,7 @@
                 <h4
                   class="font-semibold text-gray-700 dark:text-gray-300 mb-3 flex items-center gap-2"
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-5 w-5"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                      clip-rule="evenodd"
-                    />
-                  </svg>
+                  <CircleX class="h-5 w-5" />
                   {{ t('nginxInactiveSites') }}
                   <span
                     class="ml-auto px-2 py-0.5 text-xs bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-full"
@@ -1031,18 +705,7 @@
                   >
                     <div class="flex-1 min-w-0">
                       <div class="flex items-center gap-2 mb-1">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          class="h-5 w-5 text-gray-500 dark:text-gray-400 flex-shrink-0"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            d="M2 5a2 2 0 012-2h12a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm3.293 1.293a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 01-1.414-1.414L7.586 10 5.293 7.707a1 1 0 010-1.414zM11 12a1 1 0 100 2h3a1 1 0 100-2h-3z"
-                            clip-rule="evenodd"
-                          />
-                        </svg>
+                        <Code2 class="h-5 w-5 text-gray-500 dark:text-gray-400 flex-shrink-0" />
                         <span class="font-semibold text-gray-700 dark:text-gray-300 truncate">{{
                           config.name
                         }}</span>
@@ -1056,39 +719,14 @@
                           class="px-2 py-0.5 text-xs bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 rounded flex items-center gap-1 flex-shrink-0"
                           :title="locale === 'km' ? 'មាន SSL/HTTPS' : 'SSL/HTTPS Enabled'"
                         >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            class="h-3 w-3"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                          >
-                            <path
-                              fill-rule="evenodd"
-                              d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                              clip-rule="evenodd"
-                            />
-                          </svg>
+                          <Lock class="h-3 w-3" />
                           HTTPS
                         </span>
                       </div>
                       <div
                         class="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-400 ml-7"
                       >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          class="h-3.5 w-3.5 flex-shrink-0"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            d="M2 6a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1H8a3 3 0 00-3 3v1.5a1.5 1.5 0 01-3 0V6z"
-                            clip-rule="evenodd"
-                          />
-                          <path
-                            d="M6 12a2 2 0 012-2h8a2 2 0 012 2v2a2 2 0 01-2 2H2h2a2 2 0 002-2v-2z"
-                          />
-                        </svg>
+                        <Folder class="h-3.5 w-3.5 flex-shrink-0" />
                         <span class="truncate">{{ config.path }}</span>
                       </div>
                     </div>
@@ -1101,16 +739,7 @@
                         :title="locale === 'km' ? 'សកម្មភាព' : 'Actions'"
                         @click="toggleDropdown(config.name)"
                       >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          class="h-5 w-5"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                        >
-                          <path
-                            d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"
-                          />
-                        </svg>
+                        <MoreVertical class="h-5 w-5" />
                       </button>
                       <div
                         v-if="openDropdown === config.name"
@@ -1121,16 +750,7 @@
                           class="w-full px-4 py-2 text-left text-sm text-blue-600 dark:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2"
                           @click="loadConfigForEdit(config.name)"
                         >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            class="h-4 w-4"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                          >
-                            <path
-                              d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"
-                            />
-                          </svg>
+                          <Pencil class="h-4 w-4" />
                           {{ locale === 'km' ? 'កែសម្រួល' : 'Edit' }}
                         </button>
                         <div class="border-t border-gray-200 dark:border-gray-700 my-1" />
@@ -1138,18 +758,7 @@
                           class="w-full px-4 py-2 text-left text-sm text-green-600 dark:text-green-400 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2"
                           @click="handleEnableConfig(config.name)"
                         >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            class="h-4 w-4"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                          >
-                            <path
-                              fill-rule="evenodd"
-                              d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                              clip-rule="evenodd"
-                            />
-                          </svg>
+                          <CheckCircle2 class="h-4 w-4" />
                           {{ locale === 'km' ? 'បើកដំណើរការ' : 'Enable' }}
                         </button>
                         <button
@@ -1157,18 +766,7 @@
                           class="w-full px-4 py-2 text-left text-sm text-blue-600 dark:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2"
                           @click="handleAddSsl(config.name)"
                         >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            class="h-4 w-4"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                          >
-                            <path
-                              fill-rule="evenodd"
-                              d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                              clip-rule="evenodd"
-                            />
-                          </svg>
+                          <Lock class="h-4 w-4" />
                           {{ locale === 'km' ? 'បន្ថែម HTTPS' : 'Add HTTPS' }}
                         </button>
                         <button
@@ -1176,18 +774,7 @@
                           class="w-full px-4 py-2 text-left text-sm text-orange-600 dark:text-orange-400 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2"
                           @click="handleRemoveSsl(config.name)"
                         >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            class="h-4 w-4"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                          >
-                            <path
-                              fill-rule="evenodd"
-                              d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                              clip-rule="evenodd"
-                            />
-                          </svg>
+                          <LockOpen class="h-4 w-4" />
                           {{ locale === 'km' ? 'ដក HTTPS' : 'Remove HTTPS' }}
                         </button>
                         <div class="border-t border-gray-200 dark:border-gray-700 my-1" />
@@ -1195,18 +782,7 @@
                           class="w-full px-4 py-2 text-left text-sm text-gray-700 dark:text-gray-300 hover:bg-red-50 dark:hover:bg-red-900/20 flex items-center gap-2"
                           @click="handleDeleteConfig(config.name)"
                         >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            class="h-4 w-4"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                          >
-                            <path
-                              fill-rule="evenodd"
-                              d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
-                              clip-rule="evenodd"
-                            />
-                          </svg>
+                          <Trash2 class="h-4 w-4" />
                           {{ t('delete') }}
                         </button>
                       </div>
@@ -1225,6 +801,26 @@
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount, inject, nextTick } from 'vue'
 import { useI18n } from 'vue-i18n'
+import {
+  AlertCircle,
+  Ban,
+  CheckCircle2,
+  ChevronRight,
+  CircleX,
+  Code2,
+  FileText,
+  Folder,
+  Link,
+  Lock,
+  LockOpen,
+  MoreVertical,
+  Pencil,
+  RefreshCw,
+  Search,
+  SearchX,
+  Star,
+  Trash2,
+} from 'lucide-vue-next'
 import { useNginx } from '../composables/useNginx'
 import { useStatus } from '../composables/useStatus'
 import { useTools } from '../composables/useTools'

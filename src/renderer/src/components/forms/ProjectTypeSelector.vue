@@ -1,18 +1,7 @@
 <template>
   <div>
     <Label class="block text-sm font-medium mb-3 dark:text-gray-300 flex items-center gap-2">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        class="h-4 w-4"
-        viewBox="0 0 20 20"
-        fill="currentColor"
-      >
-        <path
-          fill-rule="evenodd"
-          d="M2 5a2 2 0 012-2h12a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm3.293 1.293a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 01-1.414-1.414L7.586 10 5.293 7.707a1 1 0 010-1.414zM11 12a1 1 0 100 2h3a1 1 0 100-2h-3z"
-          clip-rule="evenodd"
-        />
-      </svg>
+      <Terminal class="h-4 w-4" />
       {{ t('projectTypeLabel') }}
     </Label>
     <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
@@ -55,18 +44,7 @@
           v-if="modelValue === framework.value"
           class="absolute -top-1 -right-1 w-5 h-5 bg-blue-500 rounded-full flex items-center justify-center"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-3 w-3 text-white"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-              clip-rule="evenodd"
-            />
-          </svg>
+          <Check class="h-3 w-3 text-white" />
         </div>
       </Button>
     </div>
@@ -75,6 +53,7 @@
 
 <script setup>
 import { useI18n } from 'vue-i18n'
+import { Terminal, Check } from 'lucide-vue-next'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import laravelIcon from '@/assets/svg/laravel.svg'

@@ -11,35 +11,8 @@
         :disabled="isInstalling"
         @click="showInstallModal = true"
       >
-        <svg
-          v-if="!isInstalling"
-          class="w-5 h-5"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M12 4v16m8-8H4"
-          />
-        </svg>
-        <svg v-else class="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
-          <circle
-            class="opacity-25"
-            cx="12"
-            cy="12"
-            r="10"
-            stroke="currentColor"
-            stroke-width="4"
-          />
-          <path
-            class="opacity-75"
-            fill="currentColor"
-            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-          />
-        </svg>
+        <Plus v-if="!isInstalling" class="w-5 h-5" />
+        <LoaderCircle v-else class="w-5 h-5 animate-spin" />
         {{ isInstalling ? t('nodeInstallBtn') + '...' : t('nodeInstallBtn') }}
       </Button>
     </div>
@@ -50,25 +23,7 @@
       class="mb-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg p-4"
     >
       <div class="flex items-center gap-3">
-        <svg
-          class="w-5 h-5 animate-spin text-blue-600 dark:text-blue-400"
-          fill="none"
-          viewBox="0 0 24 24"
-        >
-          <circle
-            class="opacity-25"
-            cx="12"
-            cy="12"
-            r="10"
-            stroke="currentColor"
-            stroke-width="4"
-          />
-          <path
-            class="opacity-75"
-            fill="currentColor"
-            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-          />
-        </svg>
+        <LoaderCircle class="w-5 h-5 animate-spin text-blue-600 dark:text-blue-400" />
         <div class="flex-1">
           <p class="text-sm font-medium text-blue-800 dark:text-blue-300">
             {{ locale === 'km' ? 'កំពុងដំឡើង Node.js...' : 'Installing Node.js...' }}
@@ -206,6 +161,7 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { LoaderCircle, Plus } from 'lucide-vue-next'
 import { useStatus } from '../../../composables/useStatus'
 import AlertNotification from '../../common/AlertNotification.vue'
 import ConfirmationModal from '../../common/ConfirmationModal.vue'

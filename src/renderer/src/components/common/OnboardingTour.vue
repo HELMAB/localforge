@@ -27,14 +27,7 @@
               class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
               @click="onboarding.skip"
             >
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
+              <X class="w-5 h-5" />
             </button>
           </div>
 
@@ -72,6 +65,7 @@
 <script setup>
 import { ref, computed, watch, onMounted, onUnmounted, nextTick } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { X } from 'lucide-vue-next'
 import { useOnboarding } from '@/composables/useOnboarding'
 import { Button } from '@/components/ui/button'
 

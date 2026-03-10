@@ -36,20 +36,9 @@
             :placeholder="t('searchProjects')"
             class="pr-9"
           />
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
+          <Search
             class="h-4 w-4 text-gray-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-            />
-          </svg>
+          />
         </div>
       </div>
     </div>
@@ -72,20 +61,7 @@
           <div
             class="w-9 h-9 bg-indigo-500 dark:bg-indigo-600 rounded-lg flex items-center justify-center"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-5 w-5 text-white"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
-              />
-            </svg>
+            <Folder class="h-5 w-5 text-white" />
           </div>
         </div>
       </div>
@@ -208,36 +184,14 @@
             <!-- Project Info -->
             <div class="flex items-center gap-2 flex-wrap text-xs">
               <div class="flex items-center gap-1 text-gray-600 dark:text-gray-400">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-3.5 w-3.5"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
+                <Calendar class="h-3.5 w-3.5" />
                 <span>{{ formatDate(project.createdAt) }}</span>
               </div>
               <div
                 v-if="project.config?.phpVersion"
                 class="flex items-center gap-1 px-1.5 py-0.5 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 rounded"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-3 w-3"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M2 5a2 2 0 012-2h12a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm3.293 1.293a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 01-1.414-1.414L7.586 10 5.293 7.707a1 1 0 010-1.414zM11 12a1 1 0 100 2h3a1 1 0 100-2h-3z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
+                <Code2 class="h-3 w-3" />
                 <span class="font-medium">PHP {{ project.config.phpVersion }}</span>
               </div>
               <div
@@ -251,16 +205,7 @@
                 v-if="project.config?.nodeVersion"
                 class="flex items-center gap-1 px-1.5 py-0.5 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 rounded"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-3 w-3"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"
-                  />
-                </svg>
+                <ChartColumn class="h-3 w-3" />
                 <span class="font-medium">Node {{ project.config.nodeVersion }}</span>
               </div>
             </div>
@@ -276,19 +221,7 @@
               class="h-auto px-2.5 py-1 text-xs"
               @click="handleViewDetails(project)"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-3 w-3 mr-1"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
-                <path
-                  fill-rule="evenodd"
-                  d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
-                  clip-rule="evenodd"
-                />
-              </svg>
+              <Eye class="h-3 w-3 mr-1" />
               {{ t('viewDetails') }}
             </Button>
             <Button
@@ -297,18 +230,7 @@
               class="h-auto px-2.5 py-1 text-xs text-blue-700 dark:text-blue-400 hover:text-blue-800 hover:bg-blue-50 dark:hover:bg-blue-900/20"
               @click="openInIDE(project.path)"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-3 w-3 mr-1"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M2 5a2 2 0 012-2h12a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm3.293 1.293a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 01-1.414-1.414L7.586 10 5.293 7.707a1 1 0 010-1.414zM11 12a1 1 0 100 2h3a1 1 0 100-2h-3z"
-                  clip-rule="evenodd"
-                />
-              </svg>
+              <Code2 class="h-3 w-3 mr-1" />
               {{ t('openInEditor') }}
             </Button>
           </div>
@@ -318,20 +240,7 @@
 
     <!-- Empty State -->
     <div v-else class="text-center py-12">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        class="h-16 w-16 text-gray-400 mx-auto mb-4"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"
-        />
-      </svg>
+      <Inbox class="h-16 w-16 text-gray-400 mx-auto mb-4" />
       <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
         {{ t('noProjectsFound') }}
       </h3>
@@ -340,18 +249,7 @@
       </p>
 
       <Button class="mt-6 mx-auto flex" @click="$emit('update:activeView', 'new')">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-5 w-5 mr-2"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-        >
-          <path
-            fill-rule="evenodd"
-            d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
-            clip-rule="evenodd"
-          />
-        </svg>
+        <Plus class="h-5 w-5 mr-2" />
         {{ t('newProject') }}
       </Button>
     </div>
@@ -416,6 +314,7 @@
 <script setup>
 import { ref, onMounted, computed, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { Calendar, ChartColumn, Code2, Eye, Folder, Inbox, Plus, Search } from 'lucide-vue-next'
 import { useRecentProjects } from '../../composables/useRecentProjects'
 import { useProject } from '../../composables/useProject'
 import { useToast } from '../../composables/useToast'

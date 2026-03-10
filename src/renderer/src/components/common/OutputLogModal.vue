@@ -13,54 +13,12 @@
                 : 'bg-blue-100 dark:bg-blue-900'
             "
           >
-            <svg
+            <LoaderCircle
               v-if="!isComplete"
               class="w-6 h-6 animate-spin text-blue-600 dark:text-blue-400"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <circle
-                class="opacity-25"
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                stroke-width="4"
-              />
-              <path
-                class="opacity-75"
-                fill="currentColor"
-                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-              />
-            </svg>
-            <svg
-              v-else-if="hasError"
-              class="w-6 h-6 text-red-600 dark:text-red-400"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-            <svg
-              v-else
-              class="w-6 h-6 text-green-600 dark:text-green-400"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M5 13l4 4L19 7"
-              />
-            </svg>
+            />
+            <X v-else-if="hasError" class="w-6 h-6 text-red-600 dark:text-red-400" />
+            <Check v-else class="w-6 h-6 text-green-600 dark:text-green-400" />
           </div>
           <div class="flex-1">
             <DialogTitle>{{ title }}</DialogTitle>
@@ -101,6 +59,7 @@
 
 <script setup>
 import { ref, watch, nextTick } from 'vue'
+import { Check, LoaderCircle, X } from 'lucide-vue-next'
 import {
   Dialog,
   DialogContent,

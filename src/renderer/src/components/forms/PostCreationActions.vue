@@ -6,18 +6,7 @@
       <div
         class="flex-shrink-0 w-12 h-12 rounded-full bg-green-100 dark:bg-green-900/40 flex items-center justify-center"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-6 w-6 text-green-600 dark:text-green-400"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-        >
-          <path
-            fill-rule="evenodd"
-            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-            clip-rule="evenodd"
-          />
-        </svg>
+        <CheckCircle2 class="h-6 w-6 text-green-600 dark:text-green-400" />
       </div>
       <div>
         <h3 class="text-lg font-bold text-green-900 dark:text-green-100">
@@ -57,18 +46,9 @@
               </p>
             </div>
           </div>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
+          <ChevronRight
             class="h-5 w-5 text-gray-400 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-              clip-rule="evenodd"
-            />
-          </svg>
+          />
         </Button>
       </div>
     </div>
@@ -80,9 +60,10 @@
 </template>
 
 <script setup>
-import { computed, h } from 'vue'
+import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
+import { CheckCircle2, ChevronRight, Code2, Folder, Server, Lock } from 'lucide-vue-next'
 import { Button } from '@/components/ui/button'
 
 const { t } = useI18n()
@@ -105,69 +86,6 @@ const props = defineProps({
 
 defineEmits(['close'])
 
-// Icon components as functional components
-const CodeIcon = () =>
-  h(
-    'svg',
-    {
-      xmlns: 'http://www.w3.org/2000/svg',
-      viewBox: '0 0 20 20',
-      fill: 'currentColor',
-    },
-    [
-      h('path', {
-        'fill-rule': 'evenodd',
-        d: 'M2 5a2 2 0 012-2h12a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm3.293 1.293a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 01-1.414-1.414L7.586 10 5.293 7.707a1 1 0 010-1.414zM11 12a1 1 0 100 2h3a1 1 0 100-2h-3z',
-        'clip-rule': 'evenodd',
-      }),
-    ]
-  )
-
-const FolderIcon = () =>
-  h(
-    'svg',
-    {
-      xmlns: 'http://www.w3.org/2000/svg',
-      viewBox: '0 0 20 20',
-      fill: 'currentColor',
-    },
-    [h('path', { d: 'M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z' })]
-  )
-
-const ServerIcon = () =>
-  h(
-    'svg',
-    {
-      xmlns: 'http://www.w3.org/2000/svg',
-      viewBox: '0 0 20 20',
-      fill: 'currentColor',
-    },
-    [
-      h('path', {
-        'fill-rule': 'evenodd',
-        d: 'M2 5a2 2 0 012-2h12a2 2 0 012 2v2a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm14 1a1 1 0 11-2 0 1 1 0 012 0zM2 13a2 2 0 012-2h12a2 2 0 012 2v2a2 2 0 01-2 2H4a2 2 0 01-2-2v-2zm14 1a1 1 0 11-2 0 1 1 0 012 0z',
-        'clip-rule': 'evenodd',
-      }),
-    ]
-  )
-
-const ShieldIcon = () =>
-  h(
-    'svg',
-    {
-      xmlns: 'http://www.w3.org/2000/svg',
-      viewBox: '0 0 20 20',
-      fill: 'currentColor',
-    },
-    [
-      h('path', {
-        'fill-rule': 'evenodd',
-        d: 'M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z',
-        'clip-rule': 'evenodd',
-      }),
-    ]
-  )
-
 const availableActions = computed(() => {
   const actions = []
 
@@ -175,7 +93,7 @@ const availableActions = computed(() => {
   actions.push({
     title: t('openInIDE'),
     description: 'Open project in VS Code',
-    icon: CodeIcon,
+    icon: Code2,
     iconBg: 'bg-blue-100 dark:bg-blue-900/30',
     iconColor: 'text-blue-600 dark:text-blue-400',
     handler: openInIDE,
@@ -185,7 +103,7 @@ const availableActions = computed(() => {
   actions.push({
     title: t('openInFileManager'),
     description: 'Browse project files',
-    icon: FolderIcon,
+    icon: Folder,
     iconBg: 'bg-yellow-100 dark:bg-yellow-900/30',
     iconColor: 'text-yellow-600 dark:text-yellow-400',
     handler: openInFileManager,
@@ -195,7 +113,7 @@ const availableActions = computed(() => {
   actions.push({
     title: t('createNginxConfig'),
     description: 'Setup virtual host',
-    icon: ServerIcon,
+    icon: Server,
     iconBg: 'bg-green-100 dark:bg-green-900/30',
     iconColor: 'text-green-600 dark:text-green-400',
     handler: goToNginxConfig,
@@ -205,7 +123,7 @@ const availableActions = computed(() => {
   actions.push({
     title: t('generateSSL'),
     description: 'Enable HTTPS for development',
-    icon: ShieldIcon,
+    icon: Lock,
     iconBg: 'bg-indigo-100 dark:bg-indigo-900/30',
     iconColor: 'text-indigo-600 dark:text-indigo-400',
     handler: goToSslGenerator,

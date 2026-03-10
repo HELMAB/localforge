@@ -385,4 +385,5 @@ export default {
   sortAscending: 'Ascending',
   sortDescending: 'Descending',
   quickSetup: 'New Project',
+  selectAnOption: 'Select an option',
 }

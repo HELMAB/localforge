@@ -17,19 +17,7 @@
           <div
             class="w-10 h-10 rounded-lg bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center"
           >
-            <svg
-              class="w-5 h-5 text-blue-600 dark:text-blue-400"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"
-              />
-            </svg>
+            <Languages class="w-5 h-5 text-blue-600 dark:text-blue-400" />
           </div>
           <div>
             <Label class="text-sm font-semibold text-gray-700 dark:text-gray-300">
@@ -55,34 +43,8 @@
           <div
             class="w-10 h-10 rounded-lg bg-purple-50 dark:bg-purple-900/20 flex items-center justify-center"
           >
-            <svg
-              v-if="!isDark"
-              class="w-5 h-5 text-purple-600 dark:text-purple-400"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
-              />
-            </svg>
-            <svg
-              v-else
-              class="w-5 h-5 text-purple-600 dark:text-purple-400"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
-              />
-            </svg>
+            <Moon v-if="!isDark" class="w-5 h-5 text-purple-600 dark:text-purple-400" />
+            <Sun v-else class="w-5 h-5 text-purple-600 dark:text-purple-400" />
           </div>
           <div>
             <Label class="text-sm font-semibold text-gray-700 dark:text-gray-300">
@@ -104,19 +66,7 @@
           <div
             class="w-10 h-10 rounded-lg bg-green-50 dark:bg-green-900/20 flex items-center justify-center"
           >
-            <svg
-              class="w-5 h-5 text-green-600 dark:text-green-400"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
-              />
-            </svg>
+            <Folder class="w-5 h-5 text-green-600 dark:text-green-400" />
           </div>
           <div>
             <Label class="text-sm font-semibold text-gray-700 dark:text-gray-300">
@@ -142,19 +92,7 @@
           <div
             class="w-10 h-10 rounded-lg bg-orange-50 dark:bg-orange-900/20 flex items-center justify-center"
           >
-            <svg
-              class="w-5 h-5 text-orange-600 dark:text-orange-400"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"
-              />
-            </svg>
+            <Keyboard class="w-5 h-5 text-orange-600 dark:text-orange-400" />
           </div>
           <div>
             <Label class="text-sm font-semibold text-gray-700 dark:text-gray-300">
@@ -174,14 +112,7 @@
       <!-- Save Button -->
       <div class="pt-4">
         <Button class="w-full" @click="saveSettings">
-          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M5 13l4 4L19 7"
-            />
-          </svg>
+          <Check class="w-4 h-4 mr-2" />
           {{ t('saveBtn') }}
         </Button>
       </div>
@@ -200,6 +131,7 @@ import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useDarkMode } from '@/composables/useDarkMode'
 import { useSettings } from '@/composables/useSettings'
+import { Languages, Moon, Sun, Folder, Keyboard, Check } from 'lucide-vue-next'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'

@@ -390,4 +390,5 @@ export default {
   sortAscending: 'ឡើង',
   sortDescending: 'ចុះ',
   quickSetup: 'គម្រោងថ្មី',
+  selectAnOption: 'ជ្រើសរើសជម្រើស',
 }

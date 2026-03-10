@@ -15,19 +15,7 @@
         <div
           class="w-10 h-10 rounded-lg bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center flex-shrink-0"
         >
-          <svg
-            class="w-5 h-5 text-blue-600 dark:text-blue-400"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-            />
-          </svg>
+          <RefreshCw class="w-5 h-5 text-blue-600 dark:text-blue-400" />
         </div>
         <div>
           <h3 class="text-sm font-semibold text-gray-900 dark:text-white">
@@ -49,6 +37,7 @@
 
 <script setup>
 import { useI18n } from 'vue-i18n'
+import { RefreshCw } from 'lucide-vue-next'
 import UpdateChecker from '@/components/settings/UpdateChecker.vue'
 
 const { t } = useI18n()

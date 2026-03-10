@@ -5,7 +5,7 @@
     @update:model-value="(v) => $emit('update:modelValue', fromSelectValue(v))"
   >
     <SelectTrigger class="w-full">
-      <SelectValue :placeholder="placeholder" />
+      <SelectValue :placeholder="resolvedPlaceholder" />
     </SelectTrigger>
     <SelectContent>
       <SelectItem
@@ -23,6 +23,8 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import {
   Select,
   SelectContent,
@@ -33,7 +35,7 @@ import {
 
 const EMPTY_VALUE_SENTINEL = '__empty__'
 
-defineProps({
+const props = defineProps({
   modelValue: {
     type: [String, Number],
     default: '',
@@ -44,7 +46,7 @@ defineProps({
   },
   placeholder: {
     type: String,
-    default: 'Select an option',
+    default: null,
   },
   disabled: {
     type: Boolean,
@@ -53,6 +55,10 @@ defineProps({
 })
 
 defineEmits(['update:modelValue'])
+
+const { t } = useI18n()
+
+const resolvedPlaceholder = computed(() => props.placeholder ?? t('selectAnOption'))
 
 function toSelectValue(value) {
   const str = String(value)

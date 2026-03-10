@@ -18,18 +18,7 @@
         <!-- Search Input -->
         <div class="p-4 border-b border-gray-200 dark:border-gray-700">
           <div class="relative">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                clip-rule="evenodd"
-              />
-            </svg>
+            <Search class="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
             <Input
               ref="searchInput"
               v-model="searchQuery"
@@ -134,9 +123,10 @@
 </template>
 
 <script setup>
-import { ref, computed, watch, nextTick, h } from 'vue'
+import { ref, computed, watch, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import { Lock, Plus, Search, Server, Settings } from 'lucide-vue-next'
 import { Input } from '@/components/ui/input'
 
 const props = defineProps({
@@ -159,55 +149,6 @@ const isOpen = computed({
   set: (value) => emit('update:modelValue', value),
 })
 
-// Icon components
-const PlusIcon = h(
-  'svg',
-  { xmlns: 'http://www.w3.org/2000/svg', viewBox: '0 0 20 20', fill: 'currentColor' },
-  [
-    h('path', {
-      'fill-rule': 'evenodd',
-      d: 'M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z',
-      'clip-rule': 'evenodd',
-    }),
-  ]
-)
-
-const ServerIcon = h(
-  'svg',
-  { xmlns: 'http://www.w3.org/2000/svg', viewBox: '0 0 20 20', fill: 'currentColor' },
-  [
-    h('path', {
-      'fill-rule': 'evenodd',
-      d: 'M2 5a2 2 0 012-2h12a2 2 0 012 2v2a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm14 1a1 1 0 11-2 0 1 1 0 012 0zM2 13a2 2 0 012-2h12a2 2 0 012 2v2a2 2 0 01-2 2H4a2 2 0 01-2-2v-2zm14 1a1 1 0 11-2 0 1 1 0 012 0z',
-      'clip-rule': 'evenodd',
-    }),
-  ]
-)
-
-const LockIcon = h(
-  'svg',
-  { xmlns: 'http://www.w3.org/2000/svg', viewBox: '0 0 20 20', fill: 'currentColor' },
-  [
-    h('path', {
-      'fill-rule': 'evenodd',
-      d: 'M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z',
-      'clip-rule': 'evenodd',
-    }),
-  ]
-)
-
-const CogIcon = h(
-  'svg',
-  { xmlns: 'http://www.w3.org/2000/svg', viewBox: '0 0 20 20', fill: 'currentColor' },
-  [
-    h('path', {
-      'fill-rule': 'evenodd',
-      d: 'M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z',
-      'clip-rule': 'evenodd',
-    }),
-  ]
-)
-
 // Available commands
 const commands = computed(() => [
   {
@@ -217,7 +158,7 @@ const commands = computed(() => [
       locale.value === 'km'
         ? 'បង្កើតគម្រោង Laravel, Vue, React, ឬ WordPress'
         : 'Create Laravel, Vue, React, or WordPress project',
-    icon: PlusIcon,
+    icon: Plus,
     iconColor: 'bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400',
     action: () => router.push('/projects'),
     keywords: ['create', 'new', 'project', 'laravel', 'vue', 'react', 'បង្កើត'],
@@ -229,7 +170,7 @@ const commands = computed(() => [
       locale.value === 'km'
         ? 'បង្កើតការកំណត់រចនាសម្ព័ន្ធ Virtual Host'
         : 'Create virtual host configuration',
-    icon: ServerIcon,
+    icon: Server,
     iconColor: 'bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400',
     action: () => router.push('/virtual-hosts'),
     keywords: ['nginx', 'server', 'virtual host', 'config', 'configuration'],
@@ -241,7 +182,7 @@ const commands = computed(() => [
       locale.value === 'km'
         ? 'បង្កើតវិញ្ញាបនប័ត្រ SSL ជាមួយ mkcert'
         : 'Generate SSL certificate with mkcert',
-    icon: LockIcon,
+    icon: Lock,
     iconColor: 'bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400',
     action: () => router.push('/services'),
     keywords: ['ssl', 'certificate', 'https', 'mkcert', 'security'],
@@ -253,7 +194,7 @@ const commands = computed(() => [
       locale.value === 'km'
         ? 'ដំឡើង និងគ្រប់គ្រងឧបករណ៍អភិវឌ្ឍន៍'
         : 'Install and manage development tools',
-    icon: CogIcon,
+    icon: Settings,
     iconColor: 'bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-400',
     action: () => router.push('/manage'),
     keywords: ['tools', 'install', 'php', 'node', 'nginx', 'manage', 'ឧបករណ៍'],
