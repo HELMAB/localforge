@@ -1,49 +1,46 @@
-import { useToast as useToastification } from 'vue-toastification'
+import { toast } from '@/components/ui/toast'
+
+function getDuration(options, fallback) {
+  if (!options) return fallback
+  if (typeof options.duration === 'number') return options.duration
+  if (typeof options.timeout === 'number') return options.timeout
+  return fallback
+}
 
 export function useToast() {
-  const toast = useToastification()
-
   const success = (message, options = {}) => {
-    toast.success(message, {
-      position: 'top-right',
-      timeout: 3000,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      ...options,
+    toast({
+      title: options.title ?? '',
+      description: message,
+      variant: 'success',
+      duration: getDuration(options, 3000),
     })
   }
 
   const error = (message, options = {}) => {
-    toast.error(message, {
-      position: 'top-right',
-      timeout: 5000,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      ...options,
+    toast({
+      title: options.title ?? '',
+      description: message,
+      variant: 'error',
+      duration: getDuration(options, 5000),
     })
   }
 
   const warning = (message, options = {}) => {
-    toast.warning(message, {
-      position: 'top-right',
-      timeout: 4000,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      ...options,
+    toast({
+      title: options.title ?? '',
+      description: message,
+      variant: 'warning',
+      duration: getDuration(options, 4000),
     })
   }
 
   const info = (message, options = {}) => {
-    toast.info(message, {
-      position: 'top-right',
-      timeout: 3000,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      ...options,
+    toast({
+      title: options.title ?? '',
+      description: message,
+      variant: 'info',
+      duration: getDuration(options, 3000),
     })
   }
 

@@ -43,6 +43,8 @@
     <OnboardingTour />
 
     <OperationMonitor />
+
+    <Toaster />
   </div>
 </template>
 
@@ -57,6 +59,7 @@ import CommandPalette from './components/common/CommandPalette.vue'
 import WelcomeDialog from './components/common/WelcomeDialog.vue'
 import OnboardingTour from './components/common/OnboardingTour.vue'
 import OperationMonitor from './components/common/OperationMonitor.vue'
+import { Toaster } from './components/ui/toast'
 import { useDarkMode } from './composables/useDarkMode'
 import { useSettings } from './composables/useSettings'
 import { useKeyboardShortcuts } from './composables/useKeyboardShortcuts'
