@@ -5,9 +5,13 @@
       class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
       @click.self="$emit('close')"
     >
-      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-2xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-hidden">
+      <div
+        class="bg-white dark:bg-gray-800 rounded-xl shadow-2xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-hidden"
+      >
         <!-- Header -->
-        <div class="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
+        <div
+          class="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700"
+        >
           <div>
             <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
               {{ t('projectDetails') }}
@@ -42,11 +46,7 @@
           <div class="space-y-4">
             <!-- Project Type -->
             <div class="flex items-center gap-4 p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
-              <img
-                :src="getProjectIcon(project?.type)"
-                class="h-12 w-12"
-                :alt="project?.type"
-              >
+              <img :src="getProjectIcon(project?.type)" class="h-12 w-12" :alt="project?.type" />
               <div>
                 <p class="text-sm text-gray-500 dark:text-gray-400">
                   {{ t('projectType') }}
@@ -83,40 +83,36 @@
               <p class="text-sm text-gray-500 dark:text-gray-400 mb-2">
                 {{ t('projectPath') }}
               </p>
-              <code class="text-sm text-gray-900 dark:text-white bg-gray-100 dark:bg-gray-800 px-3 py-2 rounded block overflow-x-auto">
+              <code
+                class="text-sm text-gray-900 dark:text-white bg-gray-100 dark:bg-gray-800 px-3 py-2 rounded block overflow-x-auto"
+              >
                 {{ project?.path }}
               </code>
             </div>
 
             <!-- Configuration -->
-            <div
-              v-if="project?.config"
-              class="p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg"
-            >
-              <p class="text-sm text-gray-500 dark:text-gray-400 mb-3">
-                Configuration
-              </p>
+            <div v-if="project?.config" class="p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+              <p class="text-sm text-gray-500 dark:text-gray-400 mb-3">Configuration</p>
               <div class="space-y-2">
-                <div
-                  v-if="project.config.phpVersion"
-                  class="flex justify-between"
-                >
-                  <span class="text-sm text-gray-600 dark:text-gray-400">{{ t('phpVersion') }}:</span>
-                  <span class="text-sm font-medium text-gray-900 dark:text-white">{{ project.config.phpVersion }}</span>
+                <div v-if="project.config.phpVersion" class="flex justify-between">
+                  <span class="text-sm text-gray-600 dark:text-gray-400"
+                    >{{ t('phpVersion') }}:</span
+                  >
+                  <span class="text-sm font-medium text-gray-900 dark:text-white">{{
+                    project.config.phpVersion
+                  }}</span>
                 </div>
-                <div
-                  v-if="project.config.nodeVersion"
-                  class="flex justify-between"
-                >
+                <div v-if="project.config.nodeVersion" class="flex justify-between">
                   <span class="text-sm text-gray-600 dark:text-gray-400">Node.js:</span>
-                  <span class="text-sm font-medium text-gray-900 dark:text-white">{{ project.config.nodeVersion }}</span>
+                  <span class="text-sm font-medium text-gray-900 dark:text-white">{{
+                    project.config.nodeVersion
+                  }}</span>
                 </div>
-                <div
-                  v-if="project.config.laravelVersion"
-                  class="flex justify-between"
-                >
+                <div v-if="project.config.laravelVersion" class="flex justify-between">
                   <span class="text-sm text-gray-600 dark:text-gray-400">Laravel:</span>
-                  <span class="text-sm font-medium text-gray-900 dark:text-white">{{ project.config.laravelVersion }}</span>
+                  <span class="text-sm font-medium text-gray-900 dark:text-white">{{
+                    project.config.laravelVersion
+                  }}</span>
                 </div>
               </div>
             </div>
@@ -124,7 +120,9 @@
         </div>
 
         <!-- Footer Actions -->
-        <div class="flex items-center justify-end gap-3 p-6 border-t border-gray-200 dark:border-gray-700">
+        <div
+          class="flex items-center justify-end gap-3 p-6 border-t border-gray-200 dark:border-gray-700"
+        >
           <button
             class="px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
             @click="$emit('close')"

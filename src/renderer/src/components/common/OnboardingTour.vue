@@ -1,10 +1,7 @@
 <template>
   <Teleport to="body">
     <Transition name="fade">
-      <div
-        v-if="onboarding.isActive.value"
-        class="fixed inset-0 z-50"
-      >
+      <div v-if="onboarding.isActive.value" class="fixed inset-0 z-50">
         <!-- Overlay -->
         <div class="absolute inset-0 bg-black bg-opacity-60" />
 
@@ -31,12 +28,7 @@
               class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
               @click="onboarding.skip"
             >
-              <svg
-                class="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
                   stroke-linecap="round"
                   stroke-linejoin="round"

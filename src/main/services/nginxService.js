@@ -79,7 +79,14 @@ function generateSSL(domain) {
   })
 }
 
-async function configureNginx({ domain, projectPath, port = 80, projectType = 'php', phpVersion = null, enableSSL = false }) {
+async function configureNginx({
+  domain,
+  projectPath,
+  port = 80,
+  projectType = 'php',
+  phpVersion = null,
+  enableSSL = false,
+}) {
   let phpFpmSocket = null
   const requiresPhp = ['php', 'laravel', 'wordpress'].includes(projectType)
 
@@ -431,51 +438,51 @@ async function deleteProjectAndConfigs(projectPath) {
   const sitesAvailableDir = '/etc/nginx/sites-available/'
   try {
     const files = await fs.promises.readdir(sitesAvailableDir)
-      for (const file of files) {
-        if (file === 'default') continue
-        const configPath = path.join(sitesAvailableDir, file)
-        const content = await fs.promises.readFile(configPath, 'utf8')
+    for (const file of files) {
+      if (file === 'default') continue
+      const configPath = path.join(sitesAvailableDir, file)
+      const content = await fs.promises.readFile(configPath, 'utf8')
 
-        const rootMatch = content.match(/root\s+([^;]+);/)
-        if (rootMatch) {
-          let rootPath = rootMatch[1].trim()
-          rootPath = rootPath.replace(/\/$/, '').replace(/\/(public|dist)$/, '')
-          const normalizedProjectPath = projectPath.replace(/\/$/, '')
+      const rootMatch = content.match(/root\s+([^;]+);/)
+      if (rootMatch) {
+        let rootPath = rootMatch[1].trim()
+        rootPath = rootPath.replace(/\/$/, '').replace(/\/(public|dist)$/, '')
+        const normalizedProjectPath = projectPath.replace(/\/$/, '')
 
-          if (rootPath === normalizedProjectPath) {
-            const configName = file
-            const availablePath = `/etc/nginx/sites-available/${configName}`
-            const enabledPath = `/etc/nginx/sites-enabled/${configName}`
-            let domain = null
-            const domainMatch = content.match(/server_name\s+([^;]+);/)
-            if (domainMatch) {
-              domain = domainMatch[1].trim().split(' ')[0]
-            }
-
-            let command = `rm -f "${enabledPath}" && rm -f "${availablePath}"`
-            if (domain) {
-              command += ` && sed -i.bak '/127\\.0\\.0\\.1[[:space:]]\\+${domain.replace(/\./g, '\\.')}/d' /etc/hosts`
-              command += ` && rm -f "/etc/nginx/ssl/${domain}.pem" "/etc/nginx/ssl/${domain}-key.pem"`
-            }
-            command += ' && nginx -t && systemctl reload nginx'
-
-            const options = { name: 'LocalForge' }
-            await new Promise((res, rej) => {
-              sudo.exec(command, options, (error, _stdout, stderr) => {
-                if (error) rej(new Error(stderr || error.message))
-                else res()
-              })
-            })
-            break
+        if (rootPath === normalizedProjectPath) {
+          const configName = file
+          const availablePath = `/etc/nginx/sites-available/${configName}`
+          const enabledPath = `/etc/nginx/sites-enabled/${configName}`
+          let domain = null
+          const domainMatch = content.match(/server_name\s+([^;]+);/)
+          if (domainMatch) {
+            domain = domainMatch[1].trim().split(' ')[0]
           }
+
+          let command = `rm -f "${enabledPath}" && rm -f "${availablePath}"`
+          if (domain) {
+            command += ` && sed -i.bak '/127\\.0\\.0\\.1[[:space:]]\\+${domain.replace(/\./g, '\\.')}/d' /etc/hosts`
+            command += ` && rm -f "/etc/nginx/ssl/${domain}.pem" "/etc/nginx/ssl/${domain}-key.pem"`
+          }
+          command += ' && nginx -t && systemctl reload nginx'
+
+          const options = { name: 'LocalForge' }
+          await new Promise((res, rej) => {
+            sudo.exec(command, options, (error, _stdout, stderr) => {
+              if (error) rej(new Error(stderr || error.message))
+              else res()
+            })
+          })
+          break
         }
       }
-      return { success: true }
-    } catch (err) {
-      // eslint-disable-next-line no-console
-      console.error('Error deleting project configs:', err)
-      throw err
     }
+    return { success: true }
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.error('Error deleting project configs:', err)
+    throw err
+  }
 }
 
 module.exports = {

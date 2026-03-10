@@ -43,10 +43,7 @@
           v-model:prettier="vueOptions.prettier"
         />
 
-        <NuxtOptions
-          v-if="projectType === 'nuxt'"
-          v-model:nuxt-template="nuxtTemplate"
-        />
+        <NuxtOptions v-if="projectType === 'nuxt'" v-model:nuxt-template="nuxtTemplate" />
 
         <NodeOptions
           v-if="['vue', 'nuxt', 'react'].includes(projectType)"
@@ -86,7 +83,7 @@
               ]"
               :placeholder="locale === 'km' ? 'ឈ្មោះគម្រោងរបស់អ្នក' : 'my-awesome-project'"
               @blur="validateProjectName"
-            >
+            />
             <div
               v-if="validationErrors.projectName"
               class="flex items-start gap-1.5 mt-1.5 p-2 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md"
@@ -243,9 +240,8 @@ async function handleCreateProject() {
   if (['laravel', 'wordpress'].includes(projectType.value)) {
     const phpVer = projectType.value === 'laravel' ? phpVersion.value : wpPhpVersion.value
     if (!phpVer) {
-      validationErrors.value.phpVersion = t('checking') === 'កំពុងពិនិត្យ...'
-        ? 'សូមជ្រើសរើសកំណែ PHP'
-        : 'Please select a PHP version'
+      validationErrors.value.phpVersion =
+        t('checking') === 'កំពុងពិនិត្យ...' ? 'សូមជ្រើសរើសកំណែ PHP' : 'Please select a PHP version'
     } else {
       delete validationErrors.value.phpVersion
     }
@@ -254,9 +250,10 @@ async function handleCreateProject() {
   // Validate Node.js version is required for Vue, Nuxt, and React
   if (['vue', 'nuxt', 'react'].includes(projectType.value)) {
     if (!nodeVersion.value) {
-      validationErrors.value.nodeVersion = t('checking') === 'កំពុងពិនិត្យ...'
-        ? 'សូមជ្រើសរើសកំណែ Node.js'
-        : 'Please select a Node.js version'
+      validationErrors.value.nodeVersion =
+        t('checking') === 'កំពុងពិនិត្យ...'
+          ? 'សូមជ្រើសរើសកំណែ Node.js'
+          : 'Please select a Node.js version'
     } else {
       delete validationErrors.value.nodeVersion
     }

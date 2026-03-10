@@ -6,7 +6,16 @@ const { stripAnsi } = require('../utils/helpers')
 
 const activeOperations = new Map()
 
-function buildProjectCommand({ type, name, projectPath, laravelVersion, laravelStarter, nodeVersion, vueOptions, nuxtTemplate }) {
+function buildProjectCommand({
+  type,
+  name,
+  projectPath,
+  laravelVersion,
+  laravelStarter,
+  nodeVersion,
+  vueOptions,
+  nuxtTemplate,
+}) {
   const fullPath = path.join(projectPath, name)
 
   switch (type) {
@@ -259,11 +268,14 @@ function cancelOperation(operationId) {
 
 function detectProjectType(projectPath) {
   const files = fs.readdirSync(projectPath)
-  
+
   // Laravel detection
   if (files.includes('artisan') && files.includes('composer.json')) {
-    const composerJson = JSON.parse(fs.readFileSync(path.join(projectPath, 'composer.json'), 'utf8'))
-    const laravelVersion = composerJson.require?.['laravel/framework']?.replace(/[^0-9.]/g, '') || 'unknown'
+    const composerJson = JSON.parse(
+      fs.readFileSync(path.join(projectPath, 'composer.json'), 'utf8')
+    )
+    const laravelVersion =
+      composerJson.require?.['laravel/framework']?.replace(/[^0-9.]/g, '') || 'unknown'
     return {
       type: 'laravel',
       framework: 'Laravel',
@@ -271,7 +283,7 @@ function detectProjectType(projectPath) {
       detected: true,
     }
   }
-  
+
   // WordPress detection
   if (files.includes('wp-config.php') || files.includes('wp-config-sample.php')) {
     return {
@@ -280,12 +292,12 @@ function detectProjectType(projectPath) {
       detected: true,
     }
   }
-  
+
   // Vue/Nuxt/React detection via package.json
   if (files.includes('package.json')) {
     const packageJson = JSON.parse(fs.readFileSync(path.join(projectPath, 'package.json'), 'utf8'))
     const deps = { ...packageJson.dependencies, ...packageJson.devDependencies }
-    
+
     if (deps['nuxt'] || deps['nuxt3']) {
       return {
         type: 'nuxt',
@@ -294,7 +306,7 @@ function detectProjectType(projectPath) {
         detected: true,
       }
     }
-    
+
     if (deps['vue']) {
       return {
         type: 'vue',
@@ -303,7 +315,7 @@ function detectProjectType(projectPath) {
         detected: true,
       }
     }
-    
+
     if (deps['react']) {
       return {
         type: 'react',
@@ -313,7 +325,7 @@ function detectProjectType(projectPath) {
       }
     }
   }
-  
+
   return {
     type: 'unknown',
     framework: 'Unknown',

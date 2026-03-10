@@ -3,11 +3,7 @@
     <!-- Header with Install Button -->
     <div class="flex items-center justify-between mb-6">
       <h3 class="text-2xl font-bold flex items-center gap-2 text-gray-900 dark:text-white">
-        <img
-          src="@/assets/svg/nodejs.svg"
-          alt="Node.js"
-          class="w-8 h-8"
-        >
+        <img src="@/assets/svg/nodejs.svg" alt="Node.js" class="w-8 h-8" />
         <span>{{ t('sectionNodeTitle') }}</span>
       </h3>
       <button
@@ -30,12 +26,7 @@
             d="M12 4v16m8-8H4"
           />
         </svg>
-        <svg
-          v-else
-          class="w-5 h-5 animate-spin"
-          fill="none"
-          viewBox="0 0 24 24"
-        >
+        <svg v-else class="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
           <circle
             class="opacity-25"
             cx="12"
@@ -84,7 +75,11 @@
             {{ locale === 'km' ? 'កំពុងដំឡើង Node.js...' : 'Installing Node.js...' }}
           </p>
           <p class="text-xs text-blue-600 dark:text-blue-400 mt-1">
-            {{ locale === 'km' ? 'សូមរងចាំ នេះអាចចំណាយពេលពីរបីនាទី...' : 'Please wait, this may take a few minutes...' }}
+            {{
+              locale === 'km'
+                ? 'សូមរងចាំ នេះអាចចំណាយពេលពីរបីនាទី...'
+                : 'Please wait, this may take a few minutes...'
+            }}
           </p>
         </div>
       </div>
@@ -97,17 +92,16 @@
       <h4 class="font-semibold text-green-800 dark:text-green-300 mb-3">
         {{ t('nodeInstalledTitle') }}
       </h4>
-      <div
-        v-if="installedTools && installedTools.node.installed"
-        class="space-y-2"
-      >
+      <div v-if="installedTools && installedTools.node.installed" class="space-y-2">
         <div
           v-for="version in filteredNodeVersions"
           :key="version.full"
           class="flex items-center justify-between bg-white dark:bg-gray-800 p-3 rounded border border-green-300 dark:border-green-700"
         >
           <div class="flex items-center gap-3">
-            <span class="font-medium text-green-700 dark:text-green-400">Node.js {{ version.major }}</span>
+            <span class="font-medium text-green-700 dark:text-green-400"
+              >Node.js {{ version.major }}</span
+            >
             <span
               v-if="isCurrentVersion(version.full)"
               class="text-xs px-2 py-1 rounded bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 font-semibold"
@@ -139,10 +133,7 @@
           </DropdownMenu>
         </div>
       </div>
-      <p
-        v-else
-        class="text-sm text-gray-600 dark:text-gray-400"
-      >
+      <p v-else class="text-sm text-gray-600 dark:text-gray-400">
         {{ t('notInstalled') }}
       </p>
     </div>
@@ -164,7 +155,13 @@
     <OutputLogModal
       :visible="showOutputLog"
       :title="t('nodeInstallLogTitle')"
-      :subtitle="installComplete ? (installError ? t('nodeInstallLogError') : t('nodeInstallLogComplete')) : t('nodeInstallLogSubtitle')"
+      :subtitle="
+        installComplete
+          ? installError
+            ? t('nodeInstallLogError')
+            : t('nodeInstallLogComplete')
+          : t('nodeInstallLogSubtitle')
+      "
       :output="installOutput"
       :is-complete="installComplete"
       :has-error="installError"
@@ -261,7 +258,7 @@ const filteredNodeVersions = computed(() => {
   const majorVersionMap = new Map()
 
   // Group by major version and keep the latest (first one due to sorted order)
-  versions.forEach(version => {
+  versions.forEach((version) => {
     const major = version.split('.')[0]
     if (!majorVersionMap.has(major)) {
       majorVersionMap.set(major, version)
@@ -296,7 +293,7 @@ function confirmDelete(version) {
 }
 
 function closeAllDropdowns() {
-  dropdownMenuRef.value.forEach(dropdown => {
+  dropdownMenuRef.value.forEach((dropdown) => {
     if (dropdown?.closeDropdown) {
       dropdown.closeDropdown()
     }
@@ -378,10 +375,7 @@ async function handleSetDefaultNode() {
 async function handleDeleteNode() {
   showDeleteConfirm.value = false
 
-  status.showStatus(
-    locale.value === 'km' ? 'កំពុងលុប Node.js...' : 'Deleting Node.js...',
-    'info'
-  )
+  status.showStatus(locale.value === 'km' ? 'កំពុងលុប Node.js...' : 'Deleting Node.js...', 'info')
 
   try {
     await props.onUninstallNode(selectedVersion.value)

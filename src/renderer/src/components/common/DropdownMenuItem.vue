@@ -10,13 +10,7 @@
     :disabled="disabled"
     @click="handleClick"
   >
-    <svg
-      v-if="icon"
-      class="w-4 h-4"
-      fill="none"
-      stroke="currentColor"
-      viewBox="0 0 24 24"
-    >
+    <svg v-if="icon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path
         v-if="icon === 'check'"
         stroke-linecap="round"

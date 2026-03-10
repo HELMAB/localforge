@@ -136,22 +136,29 @@ function registerSystemHandlers(mainWindow) {
                 hostname: os.hostname(),
                 version: app.getVersion(),
               }
-              fs.writeFileSync(path.join(tempDir, 'metadata.json'), JSON.stringify(metadata, null, 2))
+              fs.writeFileSync(
+                path.join(tempDir, 'metadata.json'),
+                JSON.stringify(metadata, null, 2)
+              )
 
-              exec(`tar -czf "${backupPath}" -C "${tempDir}" .`, { maxBuffer: 1024 * 1024 * 50 }, (tarErr) => {
-                exec(`rm -rf "${tempDir}"`, () => {
-                  if (tarErr) {
-                    reject(new Error(`Failed to create backup: ${tarErr.message}`))
-                  } else {
-                    resolve({
-                      success: true,
-                      path: backupPath,
-                      nginxCopied: !nginxErr,
-                      sslCopied: !sslErr,
-                    })
-                  }
-                })
-              })
+              exec(
+                `tar -czf "${backupPath}" -C "${tempDir}" .`,
+                { maxBuffer: 1024 * 1024 * 50 },
+                (tarErr) => {
+                  exec(`rm -rf "${tempDir}"`, () => {
+                    if (tarErr) {
+                      reject(new Error(`Failed to create backup: ${tarErr.message}`))
+                    } else {
+                      resolve({
+                        success: true,
+                        path: backupPath,
+                        nginxCopied: !nginxErr,
+                        sslCopied: !sslErr,
+                      })
+                    }
+                  })
+                }
+              )
             })
           })
         })
@@ -180,62 +187,66 @@ function registerSystemHandlers(mainWindow) {
 
           fs.mkdirSync(tempDir, { recursive: true })
 
-          exec(`tar -xzf "${backupFile}" -C "${tempDir}"`, { maxBuffer: 1024 * 1024 * 50 }, (tarErr) => {
-            if (tarErr) {
-              exec(`rm -rf "${tempDir}"`, () => {})
-              reject(new Error(`Failed to extract backup: ${tarErr.message}`))
-              return
-            }
-
-            let metadata = null
-            try {
-              const metadataPath = path.join(tempDir, 'metadata.json')
-              if (fs.existsSync(metadataPath)) {
-                metadata = JSON.parse(fs.readFileSync(metadataPath, 'utf8'))
+          exec(
+            `tar -xzf "${backupFile}" -C "${tempDir}"`,
+            { maxBuffer: 1024 * 1024 * 50 },
+            (tarErr) => {
+              if (tarErr) {
+                exec(`rm -rf "${tempDir}"`, () => {})
+                reject(new Error(`Failed to extract backup: ${tarErr.message}`))
+                return
               }
-            } catch (e) {
-              // eslint-disable-next-line no-console
-              console.error('Could not read metadata:', e)
-            }
 
-            const nginxDir = path.join(tempDir, 'nginx')
-            const sslDir = path.join(tempDir, 'ssl')
-
-            const options = { name: 'LocalForge' }
-            let restoreCommand = ''
-
-            if (fs.existsSync(nginxDir)) {
-              restoreCommand += `cp -r ${nginxDir}/* /etc/nginx/sites-available/ && `
-            }
-
-            if (fs.existsSync(sslDir)) {
-              restoreCommand += `mkdir -p /etc/nginx/ssl && cp -r ${sslDir}/* /etc/nginx/ssl/ && `
-            }
-
-            if (fs.existsSync(nginxDir)) {
-              const configs = fs.readdirSync(nginxDir).filter((f) => f !== 'default')
-              configs.forEach((config) => {
-                restoreCommand += `ln -sf /etc/nginx/sites-available/${config} /etc/nginx/sites-enabled/${config} && `
-              })
-            }
-
-            restoreCommand += 'nginx -t && systemctl reload nginx'
-
-            sudo.exec(restoreCommand, options, (restoreErr, _stdout, stderr) => {
-              exec(`rm -rf "${tempDir}"`, () => {
-                if (restoreErr) {
-                  reject(new Error(stderr || restoreErr.message))
-                } else {
-                  resolve({
-                    success: true,
-                    metadata,
-                    nginxRestored: fs.existsSync(nginxDir),
-                    sslRestored: fs.existsSync(sslDir),
-                  })
+              let metadata = null
+              try {
+                const metadataPath = path.join(tempDir, 'metadata.json')
+                if (fs.existsSync(metadataPath)) {
+                  metadata = JSON.parse(fs.readFileSync(metadataPath, 'utf8'))
                 }
+              } catch (e) {
+                // eslint-disable-next-line no-console
+                console.error('Could not read metadata:', e)
+              }
+
+              const nginxDir = path.join(tempDir, 'nginx')
+              const sslDir = path.join(tempDir, 'ssl')
+
+              const options = { name: 'LocalForge' }
+              let restoreCommand = ''
+
+              if (fs.existsSync(nginxDir)) {
+                restoreCommand += `cp -r ${nginxDir}/* /etc/nginx/sites-available/ && `
+              }
+
+              if (fs.existsSync(sslDir)) {
+                restoreCommand += `mkdir -p /etc/nginx/ssl && cp -r ${sslDir}/* /etc/nginx/ssl/ && `
+              }
+
+              if (fs.existsSync(nginxDir)) {
+                const configs = fs.readdirSync(nginxDir).filter((f) => f !== 'default')
+                configs.forEach((config) => {
+                  restoreCommand += `ln -sf /etc/nginx/sites-available/${config} /etc/nginx/sites-enabled/${config} && `
+                })
+              }
+
+              restoreCommand += 'nginx -t && systemctl reload nginx'
+
+              sudo.exec(restoreCommand, options, (restoreErr, _stdout, stderr) => {
+                exec(`rm -rf "${tempDir}"`, () => {
+                  if (restoreErr) {
+                    reject(new Error(stderr || restoreErr.message))
+                  } else {
+                    resolve({
+                      success: true,
+                      metadata,
+                      nginxRestored: fs.existsSync(nginxDir),
+                      sslRestored: fs.existsSync(sslDir),
+                    })
+                  }
+                })
               })
-            })
-          })
+            }
+          )
         })
         .catch((err) => {
           reject(err)

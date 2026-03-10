@@ -34,11 +34,7 @@
         <p class="text-sm text-gray-600 dark:text-gray-300 mb-4">
           {{ t('settings.exportDesc') }}
         </p>
-        <button
-          :disabled="exporting"
-          class="btn btn-primary w-full"
-          @click="handleExport"
-        >
+        <button :disabled="exporting" class="btn btn-primary w-full" @click="handleExport">
           {{ exporting ? t('settings.exporting') : t('settings.exportButton') }}
         </button>
       </div>
@@ -65,11 +61,7 @@
         <p class="text-sm text-gray-600 dark:text-gray-300 mb-4">
           {{ t('settings.importDesc') }}
         </p>
-        <button
-          :disabled="importing"
-          class="btn btn-secondary w-full"
-          @click="handleImport"
-        >
+        <button :disabled="importing" class="btn btn-secondary w-full" @click="handleImport">
           {{ importing ? t('settings.importing') : t('settings.importButton') }}
         </button>
       </div>

@@ -1,19 +1,14 @@
 <template>
-  <div
-    ref="dropdownRef"
-    class="relative inline-block text-left"
-  >
+  <div ref="dropdownRef" class="relative inline-block text-left">
     <button
       type="button"
       class="inline-flex items-center justify-center w-8 h-8 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
       @click="toggleDropdown"
     >
-      <svg
-        class="w-5 h-5"
-        fill="currentColor"
-        viewBox="0 0 20 20"
-      >
-        <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
+      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+        <path
+          d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"
+        />
       </svg>
     </button>
 

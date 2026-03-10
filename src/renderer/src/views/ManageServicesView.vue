@@ -3,10 +3,7 @@
     <div
       class="flex bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700"
     >
-      <ToolsSidebar
-        :selected-tool="selectedTool"
-        @select="selectedTool = $event"
-      />
+      <ToolsSidebar :selected-tool="selectedTool" @select="selectedTool = $event" />
 
       <div class="flex-1 overflow-y-auto bg-gray-50 dark:bg-gray-800">
         <PhpSection

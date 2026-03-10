@@ -45,11 +45,7 @@
               class="flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center"
               :class="action.iconBg"
             >
-              <component
-                :is="action.icon"
-                class="h-5 w-5"
-                :class="action.iconColor"
-              />
+              <component :is="action.icon" class="h-5 w-5" :class="action.iconColor" />
             </div>
             <div class="text-left">
               <p class="font-medium text-gray-900 dark:text-gray-100 text-sm">

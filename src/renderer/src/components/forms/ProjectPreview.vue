@@ -123,10 +123,7 @@
     </div>
 
     <!-- Command Preview (collapsible) -->
-    <div
-      v-if="command"
-      class="mt-3"
-    >
+    <div v-if="command" class="mt-3">
       <button
         class="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1"
         @click="showCommand = !showCommand"

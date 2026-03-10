@@ -12,7 +12,7 @@
             :checked="typescript"
             class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700"
             @change="$emit('update:typescript', $event.target.checked)"
-          >
+          />
           <span class="text-sm dark:text-gray-300">{{ t('vueTypeScript') }}</span>
         </label>
 
@@ -22,7 +22,7 @@
             :checked="jsx"
             class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700"
             @change="$emit('update:jsx', $event.target.checked)"
-          >
+          />
           <span class="text-sm dark:text-gray-300">{{ t('vueJsx') }}</span>
         </label>
 
@@ -32,7 +32,7 @@
             :checked="router"
             class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700"
             @change="$emit('update:router', $event.target.checked)"
-          >
+          />
           <span class="text-sm dark:text-gray-300">{{ t('vueRouter') }}</span>
         </label>
 
@@ -42,7 +42,7 @@
             :checked="pinia"
             class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700"
             @change="$emit('update:pinia', $event.target.checked)"
-          >
+          />
           <span class="text-sm dark:text-gray-300">{{ t('vuePinia') }}</span>
         </label>
 
@@ -52,7 +52,7 @@
             :checked="vitest"
             class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700"
             @change="$emit('update:vitest', $event.target.checked)"
-          >
+          />
           <span class="text-sm dark:text-gray-300">{{ t('vueVitest') }}</span>
         </label>
 
@@ -62,7 +62,7 @@
             :checked="playwright"
             class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700"
             @change="$emit('update:playwright', $event.target.checked)"
-          >
+          />
           <span class="text-sm dark:text-gray-300">{{ t('vuePlaywright') }}</span>
         </label>
 
@@ -72,7 +72,7 @@
             :checked="eslint"
             class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700"
             @change="$emit('update:eslint', $event.target.checked)"
-          >
+          />
           <span class="text-sm dark:text-gray-300">{{ t('vueEslint') }}</span>
         </label>
 
@@ -82,7 +82,7 @@
             :checked="prettier"
             class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700"
             @change="$emit('update:prettier', $event.target.checked)"
-          >
+          />
           <span class="text-sm dark:text-gray-300">{{ t('vuePrettier') }}</span>
         </label>
       </div>

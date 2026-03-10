@@ -1,44 +1,26 @@
 <template>
   <div class="update-checker">
-    <div
-      v-if="updateError"
-      class="alert alert-error mb-4"
-    >
+    <div v-if="updateError" class="alert alert-error mb-4">
       {{ t('settings.updateError') }}: {{ updateError }}
     </div>
 
-    <div
-      v-if="updateAvailable && !updateDownloaded"
-      class="alert alert-info mb-4"
-    >
+    <div v-if="updateAvailable && !updateDownloaded" class="alert alert-info mb-4">
       <div class="flex items-start justify-between">
         <div>
           <p class="font-medium">
             {{ t('settings.updateAvailable') }}
           </p>
-          <p class="text-sm mt-1">
-            {{ t('settings.newVersion') }}: {{ updateInfo?.version }}
-          </p>
+          <p class="text-sm mt-1">{{ t('settings.newVersion') }}: {{ updateInfo?.version }}</p>
         </div>
-        <button
-          :disabled="downloading"
-          class="btn btn-primary btn-sm"
-          @click="downloadUpdate"
-        >
+        <button :disabled="downloading" class="btn btn-primary btn-sm" @click="downloadUpdate">
           {{ downloading ? t('settings.downloading') : t('settings.download') }}
         </button>
       </div>
     </div>
 
-    <div
-      v-if="downloading && downloadProgress"
-      class="mb-4"
-    >
+    <div v-if="downloading && downloadProgress" class="mb-4">
       <div class="progress-bar">
-        <div
-          class="progress-bar-fill"
-          :style="{ width: downloadProgress.percent + '%' }"
-        />
+        <div class="progress-bar-fill" :style="{ width: downloadProgress.percent + '%' }" />
       </div>
       <p class="text-sm text-center mt-2">
         {{ Math.round(downloadProgress.percent) }}% -
@@ -47,10 +29,7 @@
       </p>
     </div>
 
-    <div
-      v-if="updateDownloaded"
-      class="alert alert-success mb-4"
-    >
+    <div v-if="updateDownloaded" class="alert alert-success mb-4">
       <div class="flex items-start justify-between">
         <div>
           <p class="font-medium">
@@ -60,19 +39,13 @@
             {{ t('settings.updateReadyDesc') }}
           </p>
         </div>
-        <button
-          class="btn btn-primary btn-sm"
-          @click="installUpdate"
-        >
+        <button class="btn btn-primary btn-sm" @click="installUpdate">
           {{ t('settings.restartInstall') }}
         </button>
       </div>
     </div>
 
-    <div
-      v-if="!updateAvailable && updateInfo"
-      class="alert alert-success mb-4"
-    >
+    <div v-if="!updateAvailable && updateInfo" class="alert alert-success mb-4">
       <div v-if="updateInfo.isDevelopment">
         <p class="font-medium">
           {{ t('settings.devMode') }}
@@ -86,11 +59,7 @@
       </div>
     </div>
 
-    <button
-      :disabled="checking || downloading"
-      class="btn btn-secondary"
-      @click="checkForUpdates"
-    >
+    <button :disabled="checking || downloading" class="btn btn-secondary" @click="checkForUpdates">
       {{ checking ? t('settings.checking') : t('settings.checkUpdates') }}
     </button>
   </div>

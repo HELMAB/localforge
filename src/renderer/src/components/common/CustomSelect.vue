@@ -1,8 +1,5 @@
 <template>
-  <div
-    ref="dropdownRef"
-    class="relative"
-  >
+  <div ref="dropdownRef" class="relative">
     <button
       type="button"
       :disabled="disabled"
@@ -15,21 +12,11 @@
           :src="selectedOption.icon"
           :alt="selectedOption.label"
           class="w-5 h-5"
-        >
+        />
         <span>{{ selectedOption?.label || placeholder }}</span>
       </div>
-      <svg
-        class="w-5 h-5"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M19 9l-7 7-7-7"
-        />
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
       </svg>
     </button>
 
@@ -46,12 +33,7 @@
         :class="{ 'bg-blue-50 dark:bg-blue-900': modelValue === option.value }"
         @click="selectOption(option.value)"
       >
-        <img
-          v-if="option.icon"
-          :src="option.icon"
-          :alt="option.label"
-          class="w-5 h-5"
-        >
+        <img v-if="option.icon" :src="option.icon" :alt="option.label" class="w-5 h-5" />
         <span>{{ option.label }}</span>
       </button>
     </div>
@@ -84,7 +66,13 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue'])
 
-const { isOpen, dropdownRef, dropdownClasses: baseDropdownClasses, toggleDropdown: baseToggleDropdown, closeDropdown } = useDropdown(240)
+const {
+  isOpen,
+  dropdownRef,
+  dropdownClasses: baseDropdownClasses,
+  toggleDropdown: baseToggleDropdown,
+  closeDropdown,
+} = useDropdown(240)
 
 const selectedOption = computed(() => {
   return props.options.find((opt) => opt.value === props.modelValue)

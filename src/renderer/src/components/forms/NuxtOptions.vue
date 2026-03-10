@@ -13,4 +13,3 @@ defineProps({
 
 defineEmits(['update:nuxtTemplate'])
 </script>
-

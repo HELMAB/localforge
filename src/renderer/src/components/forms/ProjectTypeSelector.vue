@@ -37,11 +37,7 @@
                 : 'bg-gray-100 dark:bg-gray-600 group-hover:bg-blue-50 dark:group-hover:bg-blue-900/20',
             ]"
           >
-            <img
-              :src="framework.icon"
-              :alt="framework.label"
-              class="w-8 h-8"
-            >
+            <img :src="framework.icon" :alt="framework.label" class="w-8 h-8" />
           </div>
           <span
             :class="[

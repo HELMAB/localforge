@@ -46,10 +46,7 @@
           {{ validationError }}
         </p>
       </div>
-      <p
-        v-if="laravelVersion && phpVersion"
-        class="text-xs text-gray-500 dark:text-gray-400 mt-1"
-      >
+      <p v-if="laravelVersion && phpVersion" class="text-xs text-gray-500 dark:text-gray-400 mt-1">
         {{ getPhpCompatibilityMessage() }}
       </p>
     </div>

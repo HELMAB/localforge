@@ -1,6 +1,8 @@
 <template>
   <div class="max-w-3xl mx-auto">
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+    <div
+      class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6"
+    >
       <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">
         {{ t('importExistingProject') }}
       </h2>
@@ -8,10 +10,7 @@
         {{ t('importProjectDesc') }}
       </p>
 
-      <form
-        class="space-y-6"
-        @submit.prevent="handleImport"
-      >
+      <form class="space-y-6" @submit.prevent="handleImport">
         <!-- Project Folder Selection -->
         <div>
           <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -24,7 +23,7 @@
               readonly
               :placeholder="t('browseBtn')"
               class="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white"
-            >
+            />
             <button
               type="button"
               class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors"
@@ -45,19 +44,18 @@
               :src="getProjectIcon(detectedProject.type)"
               class="h-10 w-10"
               :alt="detectedProject.framework"
-            >
+            />
             <div>
               <p class="font-semibold text-gray-900 dark:text-white">
                 {{ t('projectDetected') }}: {{ detectedProject.framework }}
               </p>
-              <p
-                v-if="detectedProject.version"
-                class="text-sm text-gray-600 dark:text-gray-400"
-              >
+              <p v-if="detectedProject.version" class="text-sm text-gray-600 dark:text-gray-400">
                 {{ t('frameworkVersion') }}: {{ detectedProject.version }}
               </p>
             </div>
-            <span class="ml-auto px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-xs font-medium rounded-full">
+            <span
+              class="ml-auto px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-xs font-medium rounded-full"
+            >
               {{ t('autoDetected') }}
             </span>
           </div>
@@ -74,7 +72,7 @@
             :placeholder="t('projectNameLabel')"
             class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
             required
-          >
+          />
         </div>
 
         <!-- Nginx Configuration -->
@@ -85,19 +83,13 @@
               v-model="linkToNginx"
               type="checkbox"
               class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
-            >
-            <label
-              for="linkNginx"
-              class="text-sm font-medium text-gray-700 dark:text-gray-300"
-            >
+            />
+            <label for="linkNginx" class="text-sm font-medium text-gray-700 dark:text-gray-300">
               {{ t('linkToNginx') }}
             </label>
           </div>
 
-          <div
-            v-if="linkToNginx"
-            class="space-y-4 ml-6"
-          >
+          <div v-if="linkToNginx" class="space-y-4 ml-6">
             <div>
               <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 {{ t('nginxDomain') }}
@@ -107,7 +99,7 @@
                 type="text"
                 :placeholder="t('nginxDomainPlaceholder')"
                 class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
-              >
+              />
             </div>
 
             <div>
@@ -119,7 +111,7 @@
                 type="text"
                 placeholder="8.3"
                 class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
-              >
+              />
             </div>
 
             <div class="flex items-center gap-2">
@@ -128,11 +120,8 @@
                 v-model="enableSsl"
                 type="checkbox"
                 class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
-              >
-              <label
-                for="enableSsl"
-                class="text-sm text-gray-700 dark:text-gray-300"
-              >
+              />
+              <label for="enableSsl" class="text-sm text-gray-700 dark:text-gray-300">
                 {{ t('enableSSL') }}
               </label>
             </div>

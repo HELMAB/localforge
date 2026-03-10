@@ -1,8 +1,5 @@
 <template>
-  <div
-    :class="boxClasses[type]"
-    class="border-l-4 rounded-lg p-4 shadow-sm"
-  >
+  <div :class="boxClasses[type]" class="border-l-4 rounded-lg p-4 shadow-sm">
     <div class="flex items-start gap-3">
       <!-- Icon -->
       <div class="flex-shrink-0 mt-0.5">
@@ -36,16 +33,10 @@
 
       <!-- Content -->
       <div class="flex-1 min-w-0">
-        <h4
-          class="text-sm font-semibold mb-1"
-          :class="titleClasses[type]"
-        >
+        <h4 class="text-sm font-semibold mb-1" :class="titleClasses[type]">
           {{ title }}
         </h4>
-        <p
-          class="text-sm leading-relaxed"
-          :class="messageClasses[type]"
-        >
+        <p class="text-sm leading-relaxed" :class="messageClasses[type]">
           {{ message }}
         </p>
       </div>

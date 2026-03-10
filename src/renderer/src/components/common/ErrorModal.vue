@@ -73,10 +73,7 @@
             </div>
 
             <!-- Error Details (Stack Trace) -->
-            <div
-              v-if="details"
-              class="space-y-2"
-            >
+            <div v-if="details" class="space-y-2">
               <div class="flex items-center justify-between">
                 <h4 class="text-sm font-semibold text-gray-900 dark:text-gray-100">
                   {{ t('errorDetails') }}
@@ -199,14 +196,8 @@
                 {{ t('contextInfo') }}
               </h4>
               <dl class="space-y-1 text-sm">
-                <div
-                  v-for="(value, key) in context"
-                  :key="key"
-                  class="flex gap-2"
-                >
-                  <dt class="font-medium text-gray-600 dark:text-gray-400">
-                    {{ key }}:
-                  </dt>
+                <div v-for="(value, key) in context" :key="key" class="flex gap-2">
+                  <dt class="font-medium text-gray-600 dark:text-gray-400">{{ key }}:</dt>
                   <dd class="text-gray-900 dark:text-gray-100">
                     {{ value }}
                   </dd>

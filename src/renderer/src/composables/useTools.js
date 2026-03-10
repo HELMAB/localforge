@@ -165,7 +165,9 @@ export function useTools() {
     try {
       const result = await invoke('uninstall-node', { version })
       // Remove version from cache immediately
-      installedTools.value.node.versions = installedTools.value.node.versions.filter(v => v !== version)
+      installedTools.value.node.versions = installedTools.value.node.versions.filter(
+        (v) => v !== version
+      )
       saveNodeVersionsToCache(installedTools.value.node)
 
       // Also refresh from server to get accurate state

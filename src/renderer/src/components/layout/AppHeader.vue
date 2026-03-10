@@ -22,7 +22,8 @@
 
         <!-- Support message -->
         <p class="text-xs sm:text-sm text-white/90 mt-1">
-          យើងគាំទ្រដល់ទាហានខ្មែរទាំងអស់ដែលការពារទឹកដីជាតិ • We stand with our brave soldiers defending our homeland
+          យើងគាំទ្រដល់ទាហានខ្មែរទាំងអស់ដែលការពារទឹកដីជាតិ • We stand with our brave soldiers
+          defending our homeland
         </p>
       </div>
     </div>
@@ -40,8 +41,8 @@
       <div
         class="absolute inset-0"
         style="
-            background-image: url(&quot;data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E&quot;);
-          "
+          background-image: url(&quot;data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E&quot;);
+        "
       />
     </div>
 
@@ -90,13 +91,7 @@
           :title="t('darkModeLabel')"
           @click="toggleDarkMode"
         >
-          <svg
-            v-if="!isDark"
-            class="w-5 h-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
+          <svg v-if="!isDark" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
               stroke-linecap="round"
               stroke-linejoin="round"
@@ -104,13 +99,7 @@
               d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
             />
           </svg>
-          <svg
-            v-else
-            class="w-5 h-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
+          <svg v-else class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
               stroke-linecap="round"
               stroke-linejoin="round"
@@ -124,18 +113,8 @@
         <div
           class="inline-flex items-center bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg p-1 shadow-sm"
         >
-          <button
-            :class="languageButtonClass('km')"
-            @click="changeLanguage('km')"
-          >
-            ខ្មែរ
-          </button>
-          <button
-            :class="languageButtonClass('en')"
-            @click="changeLanguage('en')"
-          >
-            English
-          </button>
+          <button :class="languageButtonClass('km')" @click="changeLanguage('km')">ខ្មែរ</button>
+          <button :class="languageButtonClass('en')" @click="changeLanguage('en')">English</button>
         </div>
       </div>
     </div>

@@ -1,11 +1,7 @@
 <template>
   <div class="p-6">
     <h3 class="text-2xl font-bold mb-6 flex items-center gap-2 text-gray-900 dark:text-white">
-      <img
-        src="@/assets/svg/composer.svg"
-        alt="Composer"
-        class="w-8 h-8"
-      >
+      <img src="@/assets/svg/composer.svg" alt="Composer" class="w-8 h-8" />
       <span>{{ t('sectionComposerTitle') }}</span>
     </h3>
 
@@ -20,16 +16,16 @@
         <div
           class="flex items-center justify-between bg-white dark:bg-gray-800 p-3 rounded border border-amber-300 dark:border-amber-700"
         >
-          <span class="font-medium text-amber-700 dark:text-amber-400">Composer {{ installedTools.composer.version || '' }}</span>
+          <span class="font-medium text-amber-700 dark:text-amber-400"
+            >Composer {{ installedTools.composer.version || '' }}</span
+          >
           <span
             class="text-xs px-2 py-1 bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-300 rounded"
-          >{{ t('installed') }}</span>
+            >{{ t('installed') }}</span
+          >
         </div>
       </div>
-      <p
-        v-else
-        class="text-sm text-gray-600 dark:text-gray-400"
-      >
+      <p v-else class="text-sm text-gray-600 dark:text-gray-400">
         {{ t('notInstalled') }}
       </p>
     </div>

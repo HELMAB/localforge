@@ -30,10 +30,7 @@
                 </svg>
               </div>
               <div class="flex-1">
-                <h3
-                  class="text-lg font-semibold text-gray-900 dark:text-white"
-                  :class="titleClass"
-                >
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white" :class="titleClass">
                   {{ title }}
                 </h3>
                 <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">

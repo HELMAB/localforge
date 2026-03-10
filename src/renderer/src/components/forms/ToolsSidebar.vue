@@ -12,11 +12,7 @@
         @click="$emit('select', tool.id)"
       >
         <div class="flex items-center gap-3">
-          <img
-            :src="tool.icon"
-            :alt="tool.id"
-            class="w-5 h-5"
-          >
+          <img :src="tool.icon" :alt="tool.id" class="w-5 h-5" />
           <span class="text-sm">{{ t(tool.label) }}</span>
         </div>
       </button>

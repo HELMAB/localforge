@@ -14,10 +14,7 @@
       <!-- Main Content Area -->
       <div class="flex-1 overflow-y-auto bg-gray-50 dark:bg-gray-800">
         <!-- New Site Form -->
-        <div
-          v-if="activeMenu === 'new-site'"
-          class="p-6 overflow-y-auto h-full"
-        >
+        <div v-if="activeMenu === 'new-site'" class="p-6 overflow-y-auto h-full">
           <div
             class="space-y-6 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6"
           >
@@ -58,10 +55,7 @@
               <label class="block text-sm font-medium mb-2 dark:text-gray-300">
                 {{ t('nginxProjectTypeLabel') }} <span class="text-red-500">*</span>
               </label>
-              <CustomSelect
-                v-model="projectType"
-                :options="projectTypeOptions"
-              />
+              <CustomSelect v-model="projectType" :options="projectTypeOptions" />
             </div>
 
             <!-- Domain Name -->
@@ -80,7 +74,7 @@
                     : 'border-gray-300 dark:border-gray-600 focus:ring-blue-500',
                 ]"
                 @blur="validateDomain"
-              >
+              />
               <div
                 v-if="validationErrors.domain"
                 class="flex items-start gap-1.5 mt-1.5 p-2 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md"
@@ -108,10 +102,7 @@
               <label class="block text-sm font-medium mb-2 dark:text-gray-300">
                 {{ t('nginxPathLabel') }} <span class="text-red-500">*</span>
               </label>
-              <DirectorySelector
-                v-model="nginxProjectPath"
-                @update:model-value="validatePath"
-              />
+              <DirectorySelector v-model="nginxProjectPath" @update:model-value="validatePath" />
               <div
                 v-if="validationErrors.path"
                 class="flex items-start gap-1.5 mt-1.5 p-2 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md"
@@ -163,7 +154,7 @@
                 type="number"
                 placeholder="3000"
                 class="w-full px-4 py-2 border dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
+              />
             </div>
 
             <!-- Enable SSL Toggle -->
@@ -194,20 +185,13 @@
                   </p>
                 </div>
                 <label class="relative inline-flex items-center cursor-pointer">
-                  <input
-                    v-model="enableSSL"
-                    type="checkbox"
-                    class="sr-only peer"
-                  >
+                  <input v-model="enableSSL" type="checkbox" class="sr-only peer" />
                   <div
                     class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"
                   />
                 </label>
               </div>
-              <p
-                v-if="enableSSL"
-                class="text-xs text-orange-600 dark:text-orange-400 mt-2"
-              >
+              <p v-if="enableSSL" class="text-xs text-orange-600 dark:text-orange-400 mt-2">
                 {{
                   locale === 'km'
                     ? 'ត្រូវការ mkcert។ ប្រសិនបើមិនទាន់បានដំឡើង៖ sudo apt install mkcert'
@@ -238,10 +222,7 @@
         </div>
 
         <!-- Sites List -->
-        <div
-          v-else-if="activeMenu === 'sites'"
-          class="p-6 overflow-y-auto h-full"
-        >
+        <div v-else-if="activeMenu === 'sites'" class="p-6 overflow-y-auto h-full">
           <div
             class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6"
           >
@@ -300,7 +281,7 @@
                     type="text"
                     class="w-full pl-10 pr-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
                     :placeholder="locale === 'km' ? 'ស្វែងរកគេហទំព័រ...' : 'Search sites...'"
-                  >
+                  />
                 </div>
 
                 <!-- Filter Buttons -->
@@ -483,10 +464,7 @@
             </div>
 
             <!-- Active Sites -->
-            <div
-              v-else
-              class="space-y-6"
-            >
+            <div v-else class="space-y-6">
               <!-- Active Sites with HTTPS -->
               <div
                 v-if="activeSitesWithSSL.length > 0"
@@ -801,20 +779,26 @@
                           <!-- Configuration Info -->
                           <div class="grid grid-cols-2 gap-3 text-xs">
                             <div class="bg-white/50 dark:bg-gray-800/50 p-2 rounded">
-                              <span class="text-gray-600 dark:text-gray-400">{{ locale === 'km' ? 'ឈ្មោះដែន' : 'Domain' }}:</span>
+                              <span class="text-gray-600 dark:text-gray-400"
+                                >{{ locale === 'km' ? 'ឈ្មោះដែន' : 'Domain' }}:</span
+                              >
                               <p class="font-mono font-semibold text-gray-900 dark:text-gray-100">
                                 {{ config.name }}
                               </p>
                             </div>
                             <div class="bg-white/50 dark:bg-gray-800/50 p-2 rounded">
-                              <span class="text-gray-600 dark:text-gray-400">{{ locale === 'km' ? 'ស្ថានភាព' : 'Status' }}:</span>
+                              <span class="text-gray-600 dark:text-gray-400"
+                                >{{ locale === 'km' ? 'ស្ថានភាព' : 'Status' }}:</span
+                              >
                               <p class="font-semibold text-green-600 dark:text-green-400">
                                 {{ config.enabled ? t('active') : t('inactive') }}
                               </p>
                             </div>
                           </div>
                           <div class="bg-white/50 dark:bg-gray-800/50 p-2 rounded text-xs">
-                            <span class="text-gray-600 dark:text-gray-400">{{ locale === 'km' ? 'ផ្លូវគម្រោង' : 'Path' }}:</span>
+                            <span class="text-gray-600 dark:text-gray-400"
+                              >{{ locale === 'km' ? 'ផ្លូវគម្រោង' : 'Path' }}:</span
+                            >
                             <p class="font-mono text-gray-900 dark:text-gray-100 break-all">
                               {{ config.path }}
                             </p>
@@ -1295,7 +1279,11 @@ const filteredConfigs = computed(() => {
 
   return configs.value.filter((config) => {
     // Search filter
-    if (query && !config.name.toLowerCase().includes(query) && !config.path.toLowerCase().includes(query)) {
+    if (
+      query &&
+      !config.name.toLowerCase().includes(query) &&
+      !config.path.toLowerCase().includes(query)
+    ) {
       return false
     }
 
@@ -1430,7 +1418,8 @@ function checkDropdownPosition(configName) {
   const spaceBelow = window.innerHeight - rect.bottom
   const spaceAbove = rect.top
 
-  dropdownPositions.value[configName] = spaceBelow < dropdownHeight && spaceAbove > spaceBelow ? 'up' : 'down'
+  dropdownPositions.value[configName] =
+    spaceBelow < dropdownHeight && spaceAbove > spaceBelow ? 'up' : 'down'
 }
 
 function handleClickOutside(event) {

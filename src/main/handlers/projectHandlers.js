@@ -1,5 +1,10 @@
 const { ipcMain, dialog, shell } = require('electron')
-const { buildProjectCommand, executeProject, cancelOperation, detectProjectType } = require('../services/projectService')
+const {
+  buildProjectCommand,
+  executeProject,
+  cancelOperation,
+  detectProjectType,
+} = require('../services/projectService')
 const fs = require('fs')
 const path = require('path')
 const { exec } = require('child_process')
@@ -72,7 +77,7 @@ function registerProjectHandlers(mainWindow) {
       const stats = fs.statSync(projectPath)
       const packageJsonPath = path.join(projectPath, 'package.json')
       const composerJsonPath = path.join(projectPath, 'composer.json')
-      
+
       const details = {
         path: projectPath,
         size: stats.size,

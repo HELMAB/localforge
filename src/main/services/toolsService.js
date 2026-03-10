@@ -219,7 +219,8 @@ async function installNginx() {
   let command = ''
 
   if (distro === 'debian') {
-    command = 'apt-get update && apt-get install -y nginx && systemctl enable nginx && systemctl start nginx'
+    command =
+      'apt-get update && apt-get install -y nginx && systemctl enable nginx && systemctl start nginx'
   } else if (distro === 'redhat') {
     command = 'dnf install -y nginx && systemctl enable nginx && systemctl start nginx'
   } else if (distro === 'arch') {
@@ -232,7 +233,8 @@ async function installNginx() {
 }
 
 function installComposer() {
-  const command = 'curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer && chmod +x /usr/local/bin/composer'
+  const command =
+    'curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer && chmod +x /usr/local/bin/composer'
   return execSudo(command)
 }
 
@@ -244,16 +246,19 @@ async function installPostgreSQL(version) {
     if (version) {
       command = `apt-get update && apt-get install -y postgresql-${version} postgresql-client-${version} && systemctl enable postgresql && systemctl start postgresql`
     } else {
-      command = 'apt-get update && apt-get install -y postgresql postgresql-contrib && systemctl enable postgresql && systemctl start postgresql'
+      command =
+        'apt-get update && apt-get install -y postgresql postgresql-contrib && systemctl enable postgresql && systemctl start postgresql'
     }
   } else if (distro === 'redhat') {
     if (version) {
       command = `dnf install -y postgresql${version}-server postgresql${version} && postgresql-setup --initdb && systemctl enable postgresql && systemctl start postgresql`
     } else {
-      command = 'dnf install -y postgresql-server postgresql && postgresql-setup --initdb && systemctl enable postgresql && systemctl start postgresql'
+      command =
+        'dnf install -y postgresql-server postgresql && postgresql-setup --initdb && systemctl enable postgresql && systemctl start postgresql'
     }
   } else if (distro === 'arch') {
-    command = 'pacman -S --noconfirm postgresql && su - postgres -c "initdb -D /var/lib/postgres/data" && systemctl enable postgresql && systemctl start postgresql'
+    command =
+      'pacman -S --noconfirm postgresql && su - postgres -c "initdb -D /var/lib/postgres/data" && systemctl enable postgresql && systemctl start postgresql'
   } else {
     throw new Error('Unsupported distribution')
   }
@@ -266,11 +271,13 @@ async function installMySQL() {
   let command = ''
 
   if (distro === 'debian') {
-    command = 'apt-get update && apt-get install -y mysql-server && systemctl enable mysql && systemctl start mysql'
+    command =
+      'apt-get update && apt-get install -y mysql-server && systemctl enable mysql && systemctl start mysql'
   } else if (distro === 'redhat') {
     command = 'dnf install -y mysql-server && systemctl enable mysqld && systemctl start mysqld'
   } else if (distro === 'arch') {
-    command = 'pacman -S --noconfirm mysql && mysqld --initialize-insecure --user=mysql --basedir=/usr --datadir=/var/lib/mysql && systemctl enable mysqld && systemctl start mysqld'
+    command =
+      'pacman -S --noconfirm mysql && mysqld --initialize-insecure --user=mysql --basedir=/usr --datadir=/var/lib/mysql && systemctl enable mysqld && systemctl start mysqld'
   } else {
     throw new Error('Unsupported distribution')
   }
@@ -293,76 +300,89 @@ function checkInstalledTools() {
 
     checks.push(
       new Promise((res) => {
-        exec('ls /usr/bin/php* 2>/dev/null | grep -E "php[0-9]" | sed "s/.*php//" | sort -Vr', (err, out) => {
-          if (!err && out) {
-            const versions = out
-              .trim()
-              .split('\n')
-              .filter((v) => v && v.match(/^\d+\.\d+$/))
-            results.php.versions = [...new Set(versions)]
-            results.php.installed = results.php.versions.length > 0
+        exec(
+          'ls /usr/bin/php* 2>/dev/null | grep -E "php[0-9]" | sed "s/.*php//" | sort -Vr',
+          (err, out) => {
+            if (!err && out) {
+              const versions = out
+                .trim()
+                .split('\n')
+                .filter((v) => v && v.match(/^\d+\.\d+$/))
+              results.php.versions = [...new Set(versions)]
+              results.php.installed = results.php.versions.length > 0
+            }
+            res()
           }
-          res()
-        })
+        )
       })
     )
 
     checks.push(
       new Promise((res) => {
-        exec('export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" && nvm ls 2>/dev/null', (error, stdout) => {
-          if (!error && stdout) {
-            results.node.installed = true
-            const versionSet = new Set()
+        exec(
+          'export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" && nvm ls 2>/dev/null',
+          (error, stdout) => {
+            if (!error && stdout) {
+              results.node.installed = true
+              const versionSet = new Set()
 
-            const lines = stdout.split('\n')
-            lines.forEach((line) => {
-              if (
-                line.includes('-> N/A') ||
-                line.includes('lts/') ||
-                line.includes('default ->') ||
-                line.includes('iojs ->') ||
-                line.includes('node ->') ||
-                line.includes('stable ->') ||
-                line.includes('unstable ->') ||
-                line.trim() === 'system'
-              ) {
-                return
-              }
+              const lines = stdout.split('\n')
+              lines.forEach((line) => {
+                if (
+                  line.includes('-> N/A') ||
+                  line.includes('lts/') ||
+                  line.includes('default ->') ||
+                  line.includes('iojs ->') ||
+                  line.includes('node ->') ||
+                  line.includes('stable ->') ||
+                  line.includes('unstable ->') ||
+                  line.trim() === 'system'
+                ) {
+                  return
+                }
 
-              const match = line.match(/(?:^|\s+)(?:->)?\s*\*?\s*(v\d+\.\d+\.\d+)/)
-              if (match && !line.includes('(')) {
-                const version = match[1].substring(1)
-                versionSet.add(version)
-              }
-            })
-
-            if (versionSet.size > 0) {
-              results.node.versions = Array.from(versionSet).sort((a, b) => {
-                const [aMajor, aMinor, aPatch] = a.split('.').map(Number)
-                const [bMajor, bMinor, bPatch] = b.split('.').map(Number)
-
-                if (aMajor !== bMajor) return bMajor - aMajor
-                if (aMinor !== bMinor) return bMinor - aMinor
-                return bPatch - aPatch
+                const match = line.match(/(?:^|\s+)(?:->)?\s*\*?\s*(v\d+\.\d+\.\d+)/)
+                if (match && !line.includes('(')) {
+                  const version = match[1].substring(1)
+                  versionSet.add(version)
+                }
               })
-            }
 
-            const defaultMatch = stdout.match(/default\s*->\s*(v\d+\.\d+\.\d+)/)
-            if (defaultMatch) {
-              results.node.default = defaultMatch[1].substring(1)
-            }
-          }
+              if (versionSet.size > 0) {
+                results.node.versions = Array.from(versionSet).sort((a, b) => {
+                  const [aMajor, aMinor, aPatch] = a.split('.').map(Number)
+                  const [bMajor, bMinor, bPatch] = b.split('.').map(Number)
 
-          exec('export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" && nvm current 2>/dev/null', (err, out) => {
-            if (!err && out) {
-              const currentVersion = out.trim()
-              if (currentVersion && currentVersion.startsWith('v') && !currentVersion.includes('system')) {
-                results.node.current = currentVersion.substring(1)
+                  if (aMajor !== bMajor) return bMajor - aMajor
+                  if (aMinor !== bMinor) return bMinor - aMinor
+                  return bPatch - aPatch
+                })
+              }
+
+              const defaultMatch = stdout.match(/default\s*->\s*(v\d+\.\d+\.\d+)/)
+              if (defaultMatch) {
+                results.node.default = defaultMatch[1].substring(1)
               }
             }
-            res()
-          })
-        })
+
+            exec(
+              'export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" && nvm current 2>/dev/null',
+              (err, out) => {
+                if (!err && out) {
+                  const currentVersion = out.trim()
+                  if (
+                    currentVersion &&
+                    currentVersion.startsWith('v') &&
+                    !currentVersion.includes('system')
+                  ) {
+                    results.node.current = currentVersion.substring(1)
+                  }
+                }
+                res()
+              }
+            )
+          }
+        )
       })
     )
 

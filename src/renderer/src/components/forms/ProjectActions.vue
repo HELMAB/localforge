@@ -1,8 +1,5 @@
 <template>
-  <div
-    ref="dropdownRef"
-    class="relative"
-  >
+  <div ref="dropdownRef" class="relative">
     <button
       class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700"
       @click="toggleDropdown"
@@ -138,7 +135,13 @@ defineProps({
   },
 })
 
-const emit = defineEmits(['remove', 'open-in-ide', 'open-in-file-manager', 'view-details', 'open-in-browser'])
+const emit = defineEmits([
+  'remove',
+  'open-in-ide',
+  'open-in-file-manager',
+  'view-details',
+  'open-in-browser',
+])
 
 const { isOpen, dropdownRef, openUpward, toggleDropdown } = useDropdown(300)
 

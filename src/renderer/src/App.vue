@@ -1,8 +1,5 @@
 <template>
-  <div
-    id="app"
-    class="min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-200"
-  >
+  <div id="app" class="min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-200">
     <div>
       <AppHeader />
 
@@ -12,10 +9,7 @@
         <TabNavigation />
 
         <router-view v-slot="{ Component }">
-          <transition
-            name="fade"
-            mode="out-in"
-          >
+          <transition name="fade" mode="out-in">
             <component :is="Component" />
           </transition>
         </router-view>
@@ -38,11 +32,7 @@
 
     <CommandPalette v-model="showCommandPalette" />
 
-    <WelcomeDialog
-      v-if="showWelcome"
-      @start-tour="handleStartTour"
-      @skip="handleSkipTour"
-    />
+    <WelcomeDialog v-if="showWelcome" @start-tour="handleStartTour" @skip="handleSkipTour" />
 
     <OnboardingTour />
 

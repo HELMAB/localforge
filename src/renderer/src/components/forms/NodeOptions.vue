@@ -93,7 +93,7 @@ const nodeVersionOptions = computed(() => {
     Array.from(majorVersionMap.entries()).forEach(([major, full]) => {
       const isDefault = full === installedTools.value.node.default
       const isRecommended = major >= 22
-      
+
       let label = `Node.js ${major}`
       if (isDefault) {
         label += ' (Default)'
@@ -119,4 +119,3 @@ const nodeVersionOptions = computed(() => {
   return options
 })
 </script>
-

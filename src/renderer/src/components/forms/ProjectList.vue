@@ -7,7 +7,8 @@
           {{ t('projects') }}
         </h2>
         <p class="text-gray-600 dark:text-gray-400 text-sm">
-          {{ filteredProjects.length }} {{ filteredProjects.length === 1 ? t('configuration') : t('configurations') }}
+          {{ filteredProjects.length }}
+          {{ filteredProjects.length === 1 ? t('configuration') : t('configurations') }}
         </p>
       </div>
 
@@ -24,11 +25,7 @@
 
         <!-- Sort -->
         <div class="w-full sm:w-48">
-          <CustomSelect
-            v-model="sortBy"
-            :options="sortOptions"
-            :placeholder="t('sortBy')"
-          />
+          <CustomSelect v-model="sortBy" :options="sortOptions" :placeholder="t('sortBy')" />
         </div>
 
         <!-- Search -->
@@ -38,7 +35,7 @@
             type="text"
             :placeholder="t('searchProjects')"
             class="w-full px-3 py-2 pr-9 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white transition-all text-sm"
-          >
+          />
           <svg
             xmlns="http://www.w3.org/2000/svg"
             class="h-4 w-4 text-gray-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none"
@@ -62,17 +59,19 @@
       v-if="recentProjects.length > 0"
       class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3"
     >
-      <div class="bg-gradient-to-br from-indigo-50 to-indigo-100 dark:from-indigo-900/20 dark:to-indigo-800/20 rounded-lg p-3 border border-indigo-200 dark:border-indigo-800">
+      <div
+        class="bg-gradient-to-br from-indigo-50 to-indigo-100 dark:from-indigo-900/20 dark:to-indigo-800/20 rounded-lg p-3 border border-indigo-200 dark:border-indigo-800"
+      >
         <div class="flex items-center justify-between">
           <div>
-            <p class="text-indigo-600 dark:text-indigo-400 text-xs font-medium">
-              Total Projects
-            </p>
+            <p class="text-indigo-600 dark:text-indigo-400 text-xs font-medium">Total Projects</p>
             <p class="text-xl font-bold text-indigo-900 dark:text-indigo-100 mt-0.5">
               {{ recentProjects.length }}
             </p>
           </div>
-          <div class="w-9 h-9 bg-indigo-500 dark:bg-indigo-600 rounded-lg flex items-center justify-center">
+          <div
+            class="w-9 h-9 bg-indigo-500 dark:bg-indigo-600 rounded-lg flex items-center justify-center"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="h-5 w-5 text-white"
@@ -91,62 +90,56 @@
         </div>
       </div>
 
-      <div class="bg-gradient-to-br from-red-50 to-red-100 dark:from-red-900/20 dark:to-red-800/20 rounded-lg p-3 border border-red-200 dark:border-red-800">
+      <div
+        class="bg-gradient-to-br from-red-50 to-red-100 dark:from-red-900/20 dark:to-red-800/20 rounded-lg p-3 border border-red-200 dark:border-red-800"
+      >
         <div class="flex items-center justify-between">
           <div>
-            <p class="text-red-600 dark:text-red-400 text-xs font-medium">
-              Laravel
-            </p>
+            <p class="text-red-600 dark:text-red-400 text-xs font-medium">Laravel</p>
             <p class="text-xl font-bold text-red-900 dark:text-red-100 mt-0.5">
               {{ projectsByType.laravel }}
             </p>
           </div>
-          <div class="w-9 h-9 bg-red-500 dark:bg-red-600 rounded-lg flex items-center justify-center">
-            <img
-              :src="laravelIcon"
-              class="h-5 w-5 brightness-0 invert"
-              alt="Laravel"
-            >
+          <div
+            class="w-9 h-9 bg-red-500 dark:bg-red-600 rounded-lg flex items-center justify-center"
+          >
+            <img :src="laravelIcon" class="h-5 w-5 brightness-0 invert" alt="Laravel" />
           </div>
         </div>
       </div>
 
-      <div class="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 rounded-lg p-3 border border-green-200 dark:border-green-800">
+      <div
+        class="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 rounded-lg p-3 border border-green-200 dark:border-green-800"
+      >
         <div class="flex items-center justify-between">
           <div>
-            <p class="text-green-600 dark:text-green-400 text-xs font-medium">
-              Vue/Nuxt
-            </p>
+            <p class="text-green-600 dark:text-green-400 text-xs font-medium">Vue/Nuxt</p>
             <p class="text-xl font-bold text-green-900 dark:text-green-100 mt-0.5">
               {{ projectsByType.vue }}
             </p>
           </div>
-          <div class="w-9 h-9 bg-green-500 dark:bg-green-600 rounded-lg flex items-center justify-center">
-            <img
-              :src="vuejsIcon"
-              class="h-5 w-5 brightness-0 invert"
-              alt="Vue"
-            >
+          <div
+            class="w-9 h-9 bg-green-500 dark:bg-green-600 rounded-lg flex items-center justify-center"
+          >
+            <img :src="vuejsIcon" class="h-5 w-5 brightness-0 invert" alt="Vue" />
           </div>
         </div>
       </div>
 
-      <div class="bg-gradient-to-br from-cyan-50 to-cyan-100 dark:from-cyan-900/20 dark:to-cyan-800/20 rounded-lg p-3 border border-cyan-200 dark:border-cyan-800">
+      <div
+        class="bg-gradient-to-br from-cyan-50 to-cyan-100 dark:from-cyan-900/20 dark:to-cyan-800/20 rounded-lg p-3 border border-cyan-200 dark:border-cyan-800"
+      >
         <div class="flex items-center justify-between">
           <div>
-            <p class="text-cyan-600 dark:text-cyan-400 text-xs font-medium">
-              React/WP
-            </p>
+            <p class="text-cyan-600 dark:text-cyan-400 text-xs font-medium">React/WP</p>
             <p class="text-xl font-bold text-cyan-900 dark:text-cyan-100 mt-0.5">
               {{ projectsByType.react }}
             </p>
           </div>
-          <div class="w-9 h-9 bg-cyan-500 dark:bg-cyan-600 rounded-lg flex items-center justify-center">
-            <img
-              :src="reactIcon"
-              class="h-5 w-5 brightness-0 invert"
-              alt="React"
-            >
+          <div
+            class="w-9 h-9 bg-cyan-500 dark:bg-cyan-600 rounded-lg flex items-center justify-center"
+          >
+            <img :src="reactIcon" class="h-5 w-5 brightness-0 invert" alt="React" />
           </div>
         </div>
       </div>
@@ -154,11 +147,7 @@
 
     <!-- Project Grid -->
     <div v-if="paginatedProjects.length > 0">
-      <TransitionGroup
-        name="project-list"
-        tag="div"
-        class="grid grid-cols-1 lg:grid-cols-2 gap-3"
-      >
+      <TransitionGroup name="project-list" tag="div" class="grid grid-cols-1 lg:grid-cols-2 gap-3">
         <div
           v-for="project in paginatedProjects"
           :key="project.path"
@@ -179,7 +168,7 @@
                     :src="getProjectIcon(project.type)"
                     class="relative h-6 w-6 z-10"
                     :alt="project.type"
-                  >
+                  />
                 </div>
                 <div class="flex-1 min-w-0">
                   <div class="flex items-center gap-2 mb-0.5">
@@ -247,11 +236,7 @@
                 v-if="project.config?.laravelVersion"
                 class="flex items-center gap-1 px-1.5 py-0.5 bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300 rounded"
               >
-                <img
-                  :src="laravelIcon"
-                  class="h-3 w-3"
-                  alt="Laravel"
-                >
+                <img :src="laravelIcon" class="h-3 w-3" alt="Laravel" />
                 <span class="font-medium">v{{ project.config.laravelVersion }}</span>
               </div>
               <div
@@ -264,7 +249,9 @@
                   viewBox="0 0 20 20"
                   fill="currentColor"
                 >
-                  <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z" />
+                  <path
+                    d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"
+                  />
                 </svg>
                 <span class="font-medium">Node {{ project.config.nodeVersion }}</span>
               </div>
@@ -272,7 +259,9 @@
           </div>
 
           <!-- Quick Actions Footer -->
-          <div class="px-4 py-2 bg-gray-50 dark:bg-gray-900/50 border-t border-gray-200 dark:border-gray-700 flex items-center justify-end gap-2">
+          <div
+            class="px-4 py-2 bg-gray-50 dark:bg-gray-900/50 border-t border-gray-200 dark:border-gray-700 flex items-center justify-end gap-2"
+          >
             <button
               class="px-2.5 py-1 text-xs font-medium text-gray-700 dark:text-gray-300 hover:bg-white dark:hover:bg-gray-800 rounded transition-colors flex items-center gap-1"
               @click="handleViewDetails(project)"
@@ -316,10 +305,7 @@
     </div>
 
     <!-- Empty State -->
-    <div
-      v-else
-      class="text-center py-12"
-    >
+    <div v-else class="text-center py-12">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         class="h-16 w-16 text-gray-400 mx-auto mb-4"
@@ -367,7 +353,9 @@
       class="flex items-center justify-between mt-6 pt-6 border-t border-gray-200 dark:border-gray-700"
     >
       <div class="text-sm text-gray-600 dark:text-gray-400">
-        {{ t('showingProjects', { start: startItem, end: endItem, total: filteredProjects.length }) }}
+        {{
+          t('showingProjects', { start: startItem, end: endItem, total: filteredProjects.length })
+        }}
       </div>
       <div class="flex items-center gap-2">
         <button
@@ -483,11 +471,10 @@ const itemsPerPageOptions = computed(() => [
   { value: 50, label: `50 ${t('itemsPerPage')}` },
 ])
 
-
 const projectsByType = computed(() => ({
-  laravel: recentProjects.value.filter(p => p.type === 'laravel').length,
-  vue: recentProjects.value.filter(p => ['vue', 'nuxt'].includes(p.type)).length,
-  react: recentProjects.value.filter(p => ['react', 'wordpress'].includes(p.type)).length,
+  laravel: recentProjects.value.filter((p) => p.type === 'laravel').length,
+  vue: recentProjects.value.filter((p) => ['vue', 'nuxt'].includes(p.type)).length,
+  react: recentProjects.value.filter((p) => ['react', 'wordpress'].includes(p.type)).length,
 }))
 
 const filteredProjects = computed(() => {
@@ -499,8 +486,8 @@ const filteredProjects = computed(() => {
 
   if (searchQuery.value) {
     const query = searchQuery.value.toLowerCase()
-    projects = projects.filter((p) =>
-      p.name.toLowerCase().includes(query) || p.path.toLowerCase().includes(query)
+    projects = projects.filter(
+      (p) => p.name.toLowerCase().includes(query) || p.path.toLowerCase().includes(query)
     )
   }
 

@@ -15,9 +15,7 @@
           />
         </div>
       </div>
-      <div class="text-sm text-gray-600 dark:text-gray-400 text-center">
-        {{ progress }}%
-      </div>
+      <div class="text-sm text-gray-600 dark:text-gray-400 text-center">{{ progress }}%</div>
     </div>
   </div>
 </template>

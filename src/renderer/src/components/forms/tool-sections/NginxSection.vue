@@ -1,11 +1,7 @@
 <template>
   <div class="p-6">
     <h3 class="text-2xl font-bold mb-6 flex items-center gap-2 text-gray-900 dark:text-white">
-      <img
-        src="@/assets/svg/nginx.svg"
-        alt="Nginx"
-        class="w-8 h-8"
-      >
+      <img src="@/assets/svg/nginx.svg" alt="Nginx" class="w-8 h-8" />
       <span>{{ t('sectionNginxTitle') }}</span>
     </h3>
 
@@ -19,16 +15,16 @@
         <div
           class="flex items-center justify-between bg-white dark:bg-gray-800 p-3 rounded border border-green-300 dark:border-green-700"
         >
-          <span class="font-medium text-green-700 dark:text-green-400">Nginx {{ installedTools.nginx.version || '' }}</span>
+          <span class="font-medium text-green-700 dark:text-green-400"
+            >Nginx {{ installedTools.nginx.version || '' }}</span
+          >
           <span
             class="text-xs px-2 py-1 bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 rounded"
-          >{{ t('installed') }}</span>
+            >{{ t('installed') }}</span
+          >
         </div>
       </div>
-      <p
-        v-else
-        class="text-sm text-gray-600 dark:text-gray-400"
-      >
+      <p v-else class="text-sm text-gray-600 dark:text-gray-400">
         {{ t('notInstalled') }}
       </p>
     </div>

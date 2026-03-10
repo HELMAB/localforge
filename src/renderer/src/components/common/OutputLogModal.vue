@@ -5,12 +5,20 @@
         v-if="visible"
         class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60"
       >
-        <div class="w-full max-w-3xl mx-4 bg-white dark:bg-gray-800 rounded-lg shadow-xl max-h-[80vh] flex flex-col">
+        <div
+          class="w-full max-w-3xl mx-4 bg-white dark:bg-gray-800 rounded-lg shadow-xl max-h-[80vh] flex flex-col"
+        >
           <div class="p-6 border-b border-gray-200 dark:border-gray-700">
             <div class="flex items-start gap-4">
               <div
                 class="flex-shrink-0 w-12 h-12 flex items-center justify-center rounded-full"
-                :class="isComplete ? (hasError ? 'bg-red-100 dark:bg-red-900' : 'bg-green-100 dark:bg-green-900') : 'bg-blue-100 dark:bg-blue-900'"
+                :class="
+                  isComplete
+                    ? hasError
+                      ? 'bg-red-100 dark:bg-red-900'
+                      : 'bg-green-100 dark:bg-green-900'
+                    : 'bg-blue-100 dark:bg-blue-900'
+                "
               >
                 <svg
                   v-if="!isComplete"
@@ -76,10 +84,13 @@
             <pre
               ref="logContainer"
               class="text-xs font-mono text-green-400 whitespace-pre-wrap break-words"
-            >{{ output || (isComplete ? 'No output' : 'Waiting for output...') }}</pre>
+              >{{ output || (isComplete ? 'No output' : 'Waiting for output...') }}</pre
+            >
           </div>
 
-          <div class="bg-gray-50 dark:bg-gray-700 px-6 py-4 flex justify-end gap-3 rounded-b-lg border-t border-gray-200 dark:border-gray-600">
+          <div
+            class="bg-gray-50 dark:bg-gray-700 px-6 py-4 flex justify-end gap-3 rounded-b-lg border-t border-gray-200 dark:border-gray-600"
+          >
             <button
               v-if="!isComplete"
               class="px-4 py-2 text-sm font-medium text-gray-700 bg-white dark:bg-gray-600 dark:text-gray-200 border border-gray-300 dark:border-gray-500 rounded-md shadow-sm hover:bg-gray-50 dark:hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -90,7 +101,11 @@
             <button
               v-else
               class="px-4 py-2 text-sm font-medium text-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2"
-              :class="hasError ? 'bg-red-600 hover:bg-red-700 focus:ring-red-500' : 'bg-green-600 hover:bg-green-700 focus:ring-green-500'"
+              :class="
+                hasError
+                  ? 'bg-red-600 hover:bg-red-700 focus:ring-red-500'
+                  : 'bg-green-600 hover:bg-green-700 focus:ring-green-500'
+              "
               @click="$emit('close')"
             >
               {{ closeText }}
@@ -144,13 +159,16 @@ defineEmits(['close', 'cancel'])
 
 const logContainer = ref(null)
 
-watch(() => props.output, () => {
-  nextTick(() => {
-    if (logContainer.value) {
-      logContainer.value.scrollTop = logContainer.value.scrollHeight
-    }
-  })
-})
+watch(
+  () => props.output,
+  () => {
+    nextTick(() => {
+      if (logContainer.value) {
+        logContainer.value.scrollTop = logContainer.value.scrollHeight
+      }
+    })
+  }
+)
 </script>
 
 <style scoped>

@@ -31,9 +31,11 @@ export default {
   nodeInfo:
     'Select Node.js version. LTS versions are recommended for production. NVM required for version switching.',
   nuxtInfoTitle: 'Nuxt.js Project',
-  nuxtInfo: 'Creates a Nuxt 4 project with your selected template. Latest version with modern features.',
+  nuxtInfo:
+    'Creates a Nuxt 4 project with your selected template. Latest version with modern features.',
   nuxtRequirementsTitle: 'Requirements',
-  nuxtRequirementsMessage: 'Nuxt 4 requires Node.js 20 or higher. Please ensure you have Node 20+ installed or selected.',
+  nuxtRequirementsMessage:
+    'Nuxt 4 requires Node.js 20 or higher. Please ensure you have Node 20+ installed or selected.',
   nuxtTemplateLabel: 'Nuxt Template',
   vueInfoTitle: 'Vue.js Project',
   vueInfo:
@@ -125,17 +127,20 @@ export default {
   nodeDefaultBadge: 'Default',
   nodeActiveBadge: 'Active',
   nodeInstallModalTitle: 'Install Node.js Version',
-  nodeInstallModalMessage: 'Enter the Node.js version you want to install (e.g., 20, 22, lts, latest)',
+  nodeInstallModalMessage:
+    'Enter the Node.js version you want to install (e.g., 20, 22, lts, latest)',
   nodeInstallModalInputLabel: 'Node.js Version',
   nodeInstallModalPlaceholder: '20, 22, lts, or latest',
   nodeInstallModalInstallBtn: 'Install',
   nodeInstallModalCancelBtn: 'Cancel',
   nodeSetDefaultConfirmTitle: 'Set Default Node.js Version',
-  nodeSetDefaultConfirmMessage: 'Are you sure you want to set Node.js {version} as the default version?',
+  nodeSetDefaultConfirmMessage:
+    'Are you sure you want to set Node.js {version} as the default version?',
   nodeSetDefaultConfirmBtn: 'Set Default',
   nodeSetDefaultConfirmCancelBtn: 'Cancel',
   nodeDeleteConfirmTitle: 'Delete Node.js Version',
-  nodeDeleteConfirmMessage: 'Are you sure you want to delete Node.js {version}? This action cannot be undone.',
+  nodeDeleteConfirmMessage:
+    'Are you sure you want to delete Node.js {version}? This action cannot be undone.',
   nodeDeleteConfirmBtn: 'Delete',
   nodeDeleteConfirmCancelBtn: 'Cancel',
   nodeActionsMenu: 'Actions',

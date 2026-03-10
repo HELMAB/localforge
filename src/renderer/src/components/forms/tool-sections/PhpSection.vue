@@ -6,11 +6,7 @@
         <div
           class="w-12 h-12 bg-indigo-100 dark:bg-indigo-500/20 rounded-xl flex items-center justify-center"
         >
-          <img
-            src="@/assets/svg/php.svg"
-            alt="PHP"
-            class="w-7 h-7"
-          >
+          <img src="@/assets/svg/php.svg" alt="PHP" class="w-7 h-7" />
         </div>
         <span>{{ t('sectionPhpTitle') }}</span>
         <span
@@ -79,11 +75,7 @@
             <div
               class="w-10 h-10 bg-indigo-100 dark:bg-indigo-500/20 rounded-lg flex items-center justify-center"
             >
-              <img
-                src="@/assets/svg/php.svg"
-                alt="PHP"
-                class="w-6 h-6"
-              >
+              <img src="@/assets/svg/php.svg" alt="PHP" class="w-6 h-6" />
             </div>
             <div>
               <span class="font-semibold text-gray-900 dark:text-gray-100">PHP {{ version }}</span>
@@ -170,9 +162,7 @@
       class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
       @click.self="closeInstallModal"
     >
-      <div
-        class="bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-lg flex flex-col"
-      >
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-lg flex flex-col">
         <div class="flex items-center justify-between p-5 border-b dark:border-gray-700">
           <h3 class="text-xl font-semibold dark:text-white flex items-center gap-2">
             <svg
@@ -193,12 +183,7 @@
             class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
             @click="closeInstallModal"
           >
-            <svg
-              class="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
@@ -220,7 +205,7 @@
               placeholder="8.3"
               :disabled="isInstalling"
               class="w-full px-4 py-2 border dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            >
+            />
             <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
               {{ locale === 'km' ? 'ឧទាហរណ៍: 8.3, 8.2, 8.1' : 'Example: 8.3, 8.2, 8.1' }}
             </p>
@@ -274,12 +259,7 @@
             class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
             @click="closeIniEditor"
           >
-            <svg
-              class="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
@@ -291,10 +271,7 @@
         </div>
 
         <div class="p-5 flex-1 overflow-auto">
-          <div
-            v-if="isLoadingIni"
-            class="flex items-center justify-center h-64"
-          >
+          <div v-if="isLoadingIni" class="flex items-center justify-center h-64">
             <div class="text-gray-500 dark:text-gray-400">
               {{ locale === 'km' ? 'កំពុងផ្ទុក...' : 'Loading...' }}
             </div>
@@ -357,12 +334,7 @@
             class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
             @click="closeExtensionsManager"
           >
-            <svg
-              class="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
@@ -374,29 +346,19 @@
         </div>
 
         <div class="p-5 flex-1 overflow-auto">
-          <div
-            v-if="isLoadingExtensions"
-            class="flex items-center justify-center h-64"
-          >
+          <div v-if="isLoadingExtensions" class="flex items-center justify-center h-64">
             <div class="text-gray-500 dark:text-gray-400">
               {{ locale === 'km' ? 'កំពុងផ្ទុក...' : 'Loading...' }}
             </div>
           </div>
-          <div
-            v-else
-            class="space-y-6"
-          >
+          <div v-else class="space-y-6">
             <!-- Installed Extensions Section -->
             <div v-if="installedExtensionsList.length > 0">
               <div class="flex items-center justify-between mb-3">
                 <h4
                   class="text-sm font-semibold text-green-700 dark:text-green-300 flex items-center gap-2"
                 >
-                  <svg
-                    class="w-4 h-4"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
+                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                     <path
                       fill-rule="evenodd"
                       d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
@@ -439,11 +401,7 @@
                 <h4
                   class="text-sm font-semibold text-gray-700 dark:text-gray-300 flex items-center gap-2"
                 >
-                  <svg
-                    class="w-4 h-4"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
+                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                     <path
                       fill-rule="evenodd"
                       d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v3.586L7.707 9.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 10.586V7z"
@@ -489,7 +447,7 @@
                     :checked="selectedExtensions.includes(ext)"
                     class="w-4 h-4 text-indigo-600 rounded focus:ring-indigo-500"
                     @change="toggleExtension(ext)"
-                  >
+                  />
                   <label
                     :for="`ext-${ext}`"
                     class="flex-1 text-sm font-medium dark:text-gray-300 cursor-pointer"
@@ -582,12 +540,7 @@
             class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
             @click="closeInstallLog"
           >
-            <svg
-              class="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
@@ -600,17 +553,10 @@
 
         <div class="p-5 flex-1 overflow-auto bg-gray-900 dark:bg-black">
           <div class="font-mono text-sm space-y-1">
-            <div
-              v-for="(log, index) in installLogs"
-              :key="index"
-              class="text-green-400"
-            >
+            <div v-for="(log, index) in installLogs" :key="index" class="text-green-400">
               {{ log }}
             </div>
-            <div
-              v-if="installLogs.length === 0"
-              class="text-gray-500"
-            >
+            <div v-if="installLogs.length === 0" class="text-gray-500">
               {{ locale === 'km' ? 'កំពុងចាប់ផ្តើម...' : 'Starting...' }}
             </div>
           </div>
@@ -623,7 +569,9 @@
                 <span class="text-gray-700 dark:text-gray-300 font-medium">
                   {{ locale === 'km' ? 'វឌ្ឍនភាព' : 'Progress' }}
                 </span>
-                <span class="text-indigo-600 dark:text-indigo-400 font-semibold">{{ installProgress }}%</span>
+                <span class="text-indigo-600 dark:text-indigo-400 font-semibold"
+                  >{{ installProgress }}%</span
+                >
               </div>
               <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5 overflow-hidden">
                 <div
