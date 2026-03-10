@@ -32,9 +32,9 @@
             </svg>
           </div>
           <div>
-            <label class="text-sm font-semibold text-gray-700 dark:text-gray-300">
+            <Label class="text-sm font-semibold text-gray-700 dark:text-gray-300">
               {{ t('languageLabel') }}
-            </label>
+            </Label>
             <p class="text-xs text-gray-500 dark:text-gray-400">
               {{ t('chooseLanguageDesc') }}
             </p>
@@ -85,28 +85,15 @@
             </svg>
           </div>
           <div>
-            <label class="text-sm font-semibold text-gray-700 dark:text-gray-300">
+            <Label class="text-sm font-semibold text-gray-700 dark:text-gray-300">
               {{ t('darkModeLabel') }}
-            </label>
+            </Label>
             <p class="text-xs text-gray-500 dark:text-gray-400">
               {{ isDark ? t('darkThemeEnabled') : t('lightThemeEnabled') }}
             </p>
           </div>
         </div>
-        <button
-          :class="[
-            'relative inline-flex h-7 w-12 items-center rounded-full transition-colors',
-            isDark ? 'bg-blue-600 dark:bg-blue-500' : 'bg-gray-300 dark:bg-gray-600',
-          ]"
-          @click="toggleDarkMode"
-        >
-          <span
-            :class="[
-              'inline-block h-5 w-5 rounded-full bg-white shadow-sm transition-transform',
-              isDark ? 'translate-x-6' : 'translate-x-1',
-            ]"
-          />
-        </button>
+        <Switch :model-value="isDark" @update:model-value="toggleDarkMode" />
       </div>
 
       <div class="border-t border-gray-200 dark:border-gray-700" />
@@ -132,18 +119,17 @@
             </svg>
           </div>
           <div>
-            <label class="text-sm font-semibold text-gray-700 dark:text-gray-300">
+            <Label class="text-sm font-semibold text-gray-700 dark:text-gray-300">
               {{ t('defaultProjectPath') }}
-            </label>
+            </Label>
             <p class="text-xs text-gray-500 dark:text-gray-400">
               {{ t('defaultLocationDesc') }}
             </p>
           </div>
         </div>
-        <input
+        <Input
           v-model="localSettings.defaultProjectPath"
           type="text"
-          class="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
           :placeholder="t('defaultProjectPathPlaceholder')"
         />
       </div>
@@ -171,50 +157,33 @@
             </svg>
           </div>
           <div>
-            <label class="text-sm font-semibold text-gray-700 dark:text-gray-300">
+            <Label class="text-sm font-semibold text-gray-700 dark:text-gray-300">
               {{ t('showKeyboardHints') }}
-            </label>
+            </Label>
             <p class="text-xs text-gray-500 dark:text-gray-400">
               {{ t('displayKeyboardShortcuts') }}
             </p>
           </div>
         </div>
-        <button
-          :class="[
-            'relative inline-flex h-7 w-12 items-center rounded-full transition-colors',
-            localSettings.showKeyboardHints
-              ? 'bg-blue-600 dark:bg-blue-500'
-              : 'bg-gray-300 dark:bg-gray-600',
-          ]"
-          @click="localSettings.showKeyboardHints = !localSettings.showKeyboardHints"
-        >
-          <span
-            :class="[
-              'inline-block h-5 w-5 rounded-full bg-white shadow-sm transition-transform',
-              localSettings.showKeyboardHints ? 'translate-x-6' : 'translate-x-1',
-            ]"
-          />
-        </button>
+        <Switch
+          :model-value="localSettings.showKeyboardHints"
+          @update:model-value="(val) => (localSettings.showKeyboardHints = val)"
+        />
       </div>
 
       <!-- Save Button -->
       <div class="pt-4">
-        <button
-          class="w-full px-4 py-3 bg-blue-600 dark:bg-blue-500 text-white font-medium rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-all transform hover:scale-[1.01] active:scale-[0.99] shadow-sm"
-          @click="saveSettings"
-        >
-          <span class="flex items-center justify-center gap-2">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M5 13l4 4L19 7"
-              />
-            </svg>
-            {{ t('saveBtn') }}
-          </span>
-        </button>
+        <Button class="w-full" @click="saveSettings">
+          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M5 13l4 4L19 7"
+            />
+          </svg>
+          {{ t('saveBtn') }}
+        </Button>
       </div>
     </div>
   </div>
@@ -231,6 +200,10 @@ import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useDarkMode } from '@/composables/useDarkMode'
 import { useSettings } from '@/composables/useSettings'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Button } from '@/components/ui/button'
+import { Switch } from '@/components/ui/switch'
 import CustomSelect from '@/components/common/CustomSelect.vue'
 import SuccessModal from '@/components/common/SuccessModal.vue'
 

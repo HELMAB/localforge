@@ -1,133 +1,47 @@
 <template>
   <div class="space-y-4">
     <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg space-y-3">
-      <label class="block text-sm font-medium mb-2 dark:text-gray-300">
+      <Label class="block text-sm font-medium dark:text-gray-300">
         {{ t('vueOptionsLabel') }}
-      </label>
+      </Label>
 
       <div class="space-y-2">
-        <label class="flex items-center space-x-3 cursor-pointer">
-          <input
-            type="checkbox"
-            :checked="typescript"
-            class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700"
-            @change="$emit('update:typescript', $event.target.checked)"
+        <div
+          v-for="option in checkboxOptions"
+          :key="option.key"
+          class="flex items-center space-x-3"
+        >
+          <Checkbox
+            :id="option.key"
+            :model-value="option.value"
+            @update:model-value="(val) => $emit(`update:${option.key}`, val)"
           />
-          <span class="text-sm dark:text-gray-300">{{ t('vueTypeScript') }}</span>
-        </label>
-
-        <label class="flex items-center space-x-3 cursor-pointer">
-          <input
-            type="checkbox"
-            :checked="jsx"
-            class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700"
-            @change="$emit('update:jsx', $event.target.checked)"
-          />
-          <span class="text-sm dark:text-gray-300">{{ t('vueJsx') }}</span>
-        </label>
-
-        <label class="flex items-center space-x-3 cursor-pointer">
-          <input
-            type="checkbox"
-            :checked="router"
-            class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700"
-            @change="$emit('update:router', $event.target.checked)"
-          />
-          <span class="text-sm dark:text-gray-300">{{ t('vueRouter') }}</span>
-        </label>
-
-        <label class="flex items-center space-x-3 cursor-pointer">
-          <input
-            type="checkbox"
-            :checked="pinia"
-            class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700"
-            @change="$emit('update:pinia', $event.target.checked)"
-          />
-          <span class="text-sm dark:text-gray-300">{{ t('vuePinia') }}</span>
-        </label>
-
-        <label class="flex items-center space-x-3 cursor-pointer">
-          <input
-            type="checkbox"
-            :checked="vitest"
-            class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700"
-            @change="$emit('update:vitest', $event.target.checked)"
-          />
-          <span class="text-sm dark:text-gray-300">{{ t('vueVitest') }}</span>
-        </label>
-
-        <label class="flex items-center space-x-3 cursor-pointer">
-          <input
-            type="checkbox"
-            :checked="playwright"
-            class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700"
-            @change="$emit('update:playwright', $event.target.checked)"
-          />
-          <span class="text-sm dark:text-gray-300">{{ t('vuePlaywright') }}</span>
-        </label>
-
-        <label class="flex items-center space-x-3 cursor-pointer">
-          <input
-            type="checkbox"
-            :checked="eslint"
-            class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700"
-            @change="$emit('update:eslint', $event.target.checked)"
-          />
-          <span class="text-sm dark:text-gray-300">{{ t('vueEslint') }}</span>
-        </label>
-
-        <label class="flex items-center space-x-3 cursor-pointer">
-          <input
-            type="checkbox"
-            :checked="prettier"
-            class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700"
-            @change="$emit('update:prettier', $event.target.checked)"
-          />
-          <span class="text-sm dark:text-gray-300">{{ t('vuePrettier') }}</span>
-        </label>
+          <Label :for="option.key" class="text-sm dark:text-gray-300 cursor-pointer font-normal">
+            {{ t(option.labelKey) }}
+          </Label>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { Checkbox } from '@/components/ui/checkbox'
+import { Label } from '@/components/ui/label'
 
 const { t } = useI18n()
 
-defineProps({
-  typescript: {
-    type: Boolean,
-    default: false,
-  },
-  jsx: {
-    type: Boolean,
-    default: false,
-  },
-  router: {
-    type: Boolean,
-    default: false,
-  },
-  pinia: {
-    type: Boolean,
-    default: false,
-  },
-  vitest: {
-    type: Boolean,
-    default: false,
-  },
-  playwright: {
-    type: Boolean,
-    default: false,
-  },
-  eslint: {
-    type: Boolean,
-    default: false,
-  },
-  prettier: {
-    type: Boolean,
-    default: false,
-  },
+const props = defineProps({
+  typescript: { type: Boolean, default: false },
+  jsx: { type: Boolean, default: false },
+  router: { type: Boolean, default: false },
+  pinia: { type: Boolean, default: false },
+  vitest: { type: Boolean, default: false },
+  playwright: { type: Boolean, default: false },
+  eslint: { type: Boolean, default: false },
+  prettier: { type: Boolean, default: false },
 })
 
 defineEmits([
@@ -139,5 +53,16 @@ defineEmits([
   'update:playwright',
   'update:eslint',
   'update:prettier',
+])
+
+const checkboxOptions = computed(() => [
+  { key: 'typescript', value: props.typescript, labelKey: 'vueTypeScript' },
+  { key: 'jsx', value: props.jsx, labelKey: 'vueJsx' },
+  { key: 'router', value: props.router, labelKey: 'vueRouter' },
+  { key: 'pinia', value: props.pinia, labelKey: 'vuePinia' },
+  { key: 'vitest', value: props.vitest, labelKey: 'vueVitest' },
+  { key: 'playwright', value: props.playwright, labelKey: 'vuePlaywright' },
+  { key: 'eslint', value: props.eslint, labelKey: 'vueEslint' },
+  { key: 'prettier', value: props.prettier, labelKey: 'vuePrettier' },
 ])
 </script>

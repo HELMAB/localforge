@@ -30,11 +30,11 @@
 
         <!-- Search -->
         <div class="relative flex-1 sm:min-w-64">
-          <input
+          <Input
             v-model="searchQuery"
             type="text"
             :placeholder="t('searchProjects')"
-            class="w-full px-3 py-2 pr-9 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white transition-all text-sm"
+            class="pr-9"
           />
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -147,7 +147,15 @@
 
     <!-- Project Grid -->
     <div v-if="paginatedProjects.length > 0">
-      <TransitionGroup name="project-list" tag="div" class="grid grid-cols-1 lg:grid-cols-2 gap-3">
+      <TransitionGroup
+        tag="div"
+        class="grid grid-cols-1 lg:grid-cols-2 gap-3"
+        move-class="transition-all duration-300 ease-in-out"
+        enter-active-class="transition-all duration-300 ease-in-out"
+        leave-active-class="absolute transition-all duration-300 ease-in-out"
+        enter-from-class="opacity-0 translate-y-2.5"
+        leave-to-class="opacity-0 -translate-y-2.5"
+      >
         <div
           v-for="project in paginatedProjects"
           :key="project.path"
@@ -262,13 +270,15 @@
           <div
             class="px-4 py-2 bg-gray-50 dark:bg-gray-900/50 border-t border-gray-200 dark:border-gray-700 flex items-center justify-end gap-2"
           >
-            <button
-              class="px-2.5 py-1 text-xs font-medium text-gray-700 dark:text-gray-300 hover:bg-white dark:hover:bg-gray-800 rounded transition-colors flex items-center gap-1"
+            <Button
+              variant="ghost"
+              size="sm"
+              class="h-auto px-2.5 py-1 text-xs"
               @click="handleViewDetails(project)"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="h-3 w-3"
+                class="h-3 w-3 mr-1"
                 viewBox="0 0 20 20"
                 fill="currentColor"
               >
@@ -280,14 +290,16 @@
                 />
               </svg>
               {{ t('viewDetails') }}
-            </button>
-            <button
-              class="px-2.5 py-1 text-xs font-medium text-blue-700 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded transition-colors flex items-center gap-1"
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              class="h-auto px-2.5 py-1 text-xs text-blue-700 dark:text-blue-400 hover:text-blue-800 hover:bg-blue-50 dark:hover:bg-blue-900/20"
               @click="openInIDE(project.path)"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="h-3 w-3"
+                class="h-3 w-3 mr-1"
                 viewBox="0 0 20 20"
                 fill="currentColor"
               >
@@ -298,7 +310,7 @@
                 />
               </svg>
               {{ t('openInEditor') }}
-            </button>
+            </Button>
           </div>
         </div>
       </TransitionGroup>
@@ -327,13 +339,10 @@
         {{ t('noProjectsFoundDesc') }}
       </p>
 
-      <button
-        class="mt-6 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors flex items-center gap-2 mx-auto"
-        @click="$emit('update:activeView', 'new')"
-      >
+      <Button class="mt-6 mx-auto flex" @click="$emit('update:activeView', 'new')">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          class="h-5 w-5"
+          class="h-5 w-5 mr-2"
           viewBox="0 0 20 20"
           fill="currentColor"
         >
@@ -343,8 +352,8 @@
             clip-rule="evenodd"
           />
         </svg>
-        <span>{{ t('newProject') }}</span>
-      </button>
+        {{ t('newProject') }}
+      </Button>
     </div>
 
     <!-- Pagination -->
@@ -358,23 +367,20 @@
         }}
       </div>
       <div class="flex items-center gap-2">
-        <button
-          :disabled="currentPage === 1"
-          class="px-3 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded hover:bg-gray-100 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-          @click="currentPage--"
-        >
+        <Button variant="outline" size="sm" :disabled="currentPage === 1" @click="currentPage--">
           {{ t('previousPage') }}
-        </button>
+        </Button>
         <span class="text-sm text-gray-600 dark:text-gray-400">
           {{ t('page') }} {{ currentPage }} {{ t('of') }} {{ totalPages }}
         </span>
-        <button
+        <Button
+          variant="outline"
+          size="sm"
           :disabled="currentPage === totalPages"
-          class="px-3 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded hover:bg-gray-100 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           @click="currentPage++"
         >
           {{ t('nextPage') }}
-        </button>
+        </Button>
       </div>
       <div class="w-32">
         <CustomSelect
@@ -417,6 +423,8 @@ import ConfirmationModal from '../common/ConfirmationModal.vue'
 import ProjectDetailsModal from '../common/ProjectDetailsModal.vue'
 import CustomSelect from '../common/CustomSelect.vue'
 import ProjectActions from './ProjectActions.vue'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 import laravelIcon from '@/assets/svg/laravel.svg'
 import vuejsIcon from '@/assets/svg/vuejs.svg'
 import nuxtjsIcon from '@/assets/svg/nuxtjs.svg'
@@ -652,26 +660,3 @@ async function handleOpenInFileManager(path) {
   }
 }
 </script>
-
-<style scoped>
-/* Project List Animations */
-.project-list-move,
-.project-list-enter-active,
-.project-list-leave-active {
-  transition: all 0.3s ease;
-}
-
-.project-list-enter-from {
-  opacity: 0;
-  transform: translateY(10px);
-}
-
-.project-list-leave-to {
-  opacity: 0;
-  transform: translateY(-10px);
-}
-
-.project-list-leave-active {
-  position: absolute;
-}
-</style>

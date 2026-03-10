@@ -16,13 +16,13 @@
           {{ installedTools.php.versions.length }} {{ locale === 'km' ? 'កំណែ' : 'versions' }}
         </span>
       </h3>
-      <button
-        class="px-4 py-2 bg-gradient-to-r from-indigo-600 to-indigo-700 dark:from-indigo-500 dark:to-indigo-600 text-white rounded-lg hover:shadow-lg hover:from-indigo-700 hover:to-indigo-800 dark:hover:from-indigo-600 dark:hover:to-indigo-700 transition-all flex items-center gap-2 font-medium"
+      <Button
+        class="bg-gradient-to-r from-indigo-600 to-indigo-700 dark:from-indigo-500 dark:to-indigo-600 hover:from-indigo-700 hover:to-indigo-800 border-0"
         @click="openInstallModal"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          class="h-5 w-5"
+          class="h-5 w-5 mr-2"
           viewBox="0 0 20 20"
           fill="currentColor"
         >
@@ -33,10 +33,10 @@
           />
         </svg>
         {{ t('phpInstallTitle') }}
-      </button>
+      </Button>
     </div>
 
-    <!-- Installed PHP Versions - Enhanced Cards -->
+    <!-- Installed PHP Versions -->
     <div
       v-if="hasInstalledVersions"
       class="bg-gradient-to-br from-indigo-50 to-indigo-100/50 dark:from-indigo-950/40 dark:to-indigo-900/20 border border-indigo-200 dark:border-indigo-800/50 rounded-xl p-5 backdrop-blur-sm"
@@ -95,27 +95,33 @@
             </div>
           </div>
           <div class="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-            <button
-              class="px-3 py-1.5 text-xs bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-200 dark:hover:bg-indigo-800/70 rounded transition-colors"
+            <Button
+              variant="outline"
+              size="sm"
+              class="text-xs h-auto py-1.5 text-indigo-700 dark:text-indigo-300 border-indigo-200 dark:border-indigo-800 hover:bg-indigo-100 dark:hover:bg-indigo-900/50"
               :title="locale === 'km' ? 'គ្រប់គ្រងផ្នែកបន្ថែម' : 'Manage Extensions'"
               @click="openExtensionsManager(version)"
             >
               {{ locale === 'km' ? 'ផ្នែកបន្ថែម' : 'Extensions' }}
-            </button>
-            <button
-              class="px-3 py-1.5 text-xs bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-200 dark:hover:bg-indigo-800/70 rounded transition-colors"
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              class="text-xs h-auto py-1.5 text-indigo-700 dark:text-indigo-300 border-indigo-200 dark:border-indigo-800 hover:bg-indigo-100 dark:hover:bg-indigo-900/50"
               :title="locale === 'km' ? 'កែសម្រួល php.ini' : 'Edit php.ini'"
               @click="openIniEditor(version, 'cli')"
             >
-              {{ locale === 'km' ? 'php.ini' : 'php.ini' }}
-            </button>
-            <button
-              class="px-3 py-1.5 text-xs bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-200 dark:hover:bg-indigo-800/70 rounded transition-colors"
+              php.ini
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              class="text-xs h-auto py-1.5 text-indigo-700 dark:text-indigo-300 border-indigo-200 dark:border-indigo-800 hover:bg-indigo-100 dark:hover:bg-indigo-900/50"
               :title="locale === 'km' ? 'កែសម្រួល php-fpm.conf' : 'Edit php-fpm.conf'"
               @click="openIniEditor(version, 'fpm')"
             >
-              {{ locale === 'km' ? 'FPM' : 'FPM' }}
-            </button>
+              FPM
+            </Button>
           </div>
         </div>
       </div>
@@ -156,15 +162,11 @@
       </p>
     </div>
 
-    <!-- Install PHP Modal -->
-    <div
-      v-if="showInstallModal"
-      class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
-      @click.self="closeInstallModal"
-    >
-      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-lg flex flex-col">
-        <div class="flex items-center justify-between p-5 border-b dark:border-gray-700">
-          <h3 class="text-xl font-semibold dark:text-white flex items-center gap-2">
+    <!-- Install PHP Dialog -->
+    <Dialog :open="showInstallModal" @update:open="(v) => !v && closeInstallModal()">
+      <DialogContent class="max-w-lg">
+        <DialogHeader>
+          <DialogTitle class="flex items-center gap-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="h-6 w-6 text-indigo-600 dark:text-indigo-400"
@@ -178,33 +180,17 @@
               />
             </svg>
             {{ t('phpInstallTitle') }}
-          </h3>
-          <button
-            class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
-            @click="closeInstallModal"
-          >
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          </button>
-        </div>
+          </DialogTitle>
+        </DialogHeader>
 
-        <div class="p-5 space-y-4">
+        <div class="space-y-4 py-2">
           <div>
-            <label class="block text-sm font-medium mb-2 dark:text-gray-300">
-              {{ t('phpInstallLabel') }}
-            </label>
-            <input
+            <Label class="block mb-2 dark:text-gray-300">{{ t('phpInstallLabel') }}</Label>
+            <Input
               v-model="phpInstallVersion"
               type="text"
               placeholder="8.3"
               :disabled="isInstalling"
-              class="w-full px-4 py-2 border dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             />
             <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
               {{ locale === 'km' ? 'ឧទាហរណ៍: 8.3, 8.2, 8.1' : 'Example: 8.3, 8.2, 8.1' }}
@@ -222,83 +208,60 @@
           />
         </div>
 
-        <div class="flex items-center justify-end gap-3 p-5 border-t dark:border-gray-700">
-          <button
-            class="px-5 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
-            @click="closeInstallModal"
-          >
+        <DialogFooter>
+          <Button variant="ghost" :disabled="isInstalling" @click="closeInstallModal">
             {{ locale === 'km' ? 'បោះបង់' : 'Cancel' }}
-          </button>
-          <button
+          </Button>
+          <Button
             :disabled="isInstalling"
-            class="px-6 py-2 bg-gradient-to-r from-indigo-600 to-indigo-700 dark:from-indigo-500 dark:to-indigo-600 text-white rounded-lg hover:shadow-lg hover:from-indigo-700 hover:to-indigo-800 dark:hover:from-indigo-600 dark:hover:to-indigo-700 font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+            class="bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 border-0"
             @click="handleInstallPHP"
           >
             {{ t('phpInstallBtn') }}
-          </button>
-        </div>
-      </div>
-    </div>
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
 
-    <!-- PHP INI Editor Modal -->
-    <div
-      v-if="showIniEditor"
-      class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
-      @click.self="closeIniEditor"
-    >
-      <div
-        class="bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col"
-      >
-        <div class="flex items-center justify-between p-5 border-b dark:border-gray-700">
-          <h3 class="text-xl font-semibold dark:text-white">
+    <!-- PHP INI Editor Dialog -->
+    <Dialog :open="showIniEditor" @update:open="(v) => !v && closeIniEditor()">
+      <DialogContent class="max-w-4xl">
+        <DialogHeader>
+          <DialogTitle>
             {{ locale === 'km' ? 'កែសម្រួល' : 'Edit' }}
             {{ iniEditorType === 'fpm' ? 'PHP-FPM' : 'PHP' }}
             {{ locale === 'km' ? 'ការកំណត់' : 'Configuration' }} ({{ iniEditorVersion }})
-          </h3>
-          <button
-            class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
-            @click="closeIniEditor"
-          >
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          </button>
-        </div>
+          </DialogTitle>
+        </DialogHeader>
 
-        <div class="p-5 flex-1 overflow-auto">
+        <div class="py-2">
           <div v-if="isLoadingIni" class="flex items-center justify-center h-64">
             <div class="text-gray-500 dark:text-gray-400">
               {{ locale === 'km' ? 'កំពុងផ្ទុក...' : 'Loading...' }}
             </div>
           </div>
-          <div v-else>
-            <div class="mb-2 text-sm text-gray-600 dark:text-gray-400">
+          <div v-else class="space-y-2">
+            <div class="text-sm text-gray-600 dark:text-gray-400">
               {{ locale === 'km' ? 'ឯកសារ' : 'File' }}:
-              <code class="bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded">{{ iniFilePath }}</code>
+              <code class="bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded text-xs">{{
+                iniFilePath
+              }}</code>
             </div>
             <textarea
               v-model="iniContent"
-              class="w-full h-96 px-4 py-3 border dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white font-mono text-sm focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-600 resize-none"
+              class="w-full h-96 px-4 py-3 border dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white font-mono text-sm focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-600 resize-none focus:outline-none"
               spellcheck="false"
             />
           </div>
         </div>
 
-        <div class="flex items-center justify-end gap-3 p-5 border-t dark:border-gray-700">
-          <button
-            class="px-5 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
-            @click="closeIniEditor"
-          >
+        <DialogFooter>
+          <Button variant="ghost" @click="closeIniEditor">
             {{ locale === 'km' ? 'បោះបង់' : 'Cancel' }}
-          </button>
-          <button
+          </Button>
+          <Button
             :disabled="isSavingIni || isLoadingIni"
-            class="px-5 py-2 bg-gradient-to-r from-indigo-600 to-indigo-700 dark:from-indigo-500 dark:to-indigo-600 text-white rounded-lg hover:shadow-lg hover:from-indigo-700 hover:to-indigo-800 dark:hover:from-indigo-600 dark:hover:to-indigo-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            class="bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 border-0"
             @click="saveIniFile"
           >
             {{
@@ -310,49 +273,30 @@
                   ? 'រក្សាទុក'
                   : 'Save'
             }}
-          </button>
-        </div>
-      </div>
-    </div>
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
 
-    <!-- Extensions Manager Modal -->
-    <div
-      v-if="showExtensionsManager"
-      class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
-      @click.self="closeExtensionsManager"
-    >
-      <div
-        class="bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col"
-      >
-        <div class="flex items-center justify-between p-5 border-b dark:border-gray-700">
-          <h3 class="text-xl font-semibold dark:text-white">
+    <!-- Extensions Manager Dialog -->
+    <Dialog :open="showExtensionsManager" @update:open="(v) => !v && closeExtensionsManager()">
+      <DialogContent class="max-w-4xl">
+        <DialogHeader>
+          <DialogTitle>
             {{ locale === 'km' ? 'គ្រប់គ្រងផ្នែកបន្ថែម PHP' : 'Manage PHP Extensions' }} ({{
               extManagerVersion
             }})
-          </h3>
-          <button
-            class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
-            @click="closeExtensionsManager"
-          >
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          </button>
-        </div>
+          </DialogTitle>
+        </DialogHeader>
 
-        <div class="p-5 flex-1 overflow-auto">
+        <div class="py-2 max-h-[60vh] overflow-y-auto">
           <div v-if="isLoadingExtensions" class="flex items-center justify-center h-64">
             <div class="text-gray-500 dark:text-gray-400">
               {{ locale === 'km' ? 'កំពុងផ្ទុក...' : 'Loading...' }}
             </div>
           </div>
           <div v-else class="space-y-6">
-            <!-- Installed Extensions Section -->
+            <!-- Installed Extensions -->
             <div v-if="installedExtensionsList.length > 0">
               <div class="flex items-center justify-between mb-3">
                 <h4
@@ -395,7 +339,7 @@
               </div>
             </div>
 
-            <!-- Not Installed Extensions Section -->
+            <!-- Not Installed Extensions -->
             <div v-if="notInstalledExtensionsList.length > 0">
               <div class="flex items-center justify-between mb-3">
                 <h4
@@ -415,10 +359,7 @@
                     {{ notInstalledExtensionsList.length }}
                   </span>
                 </h4>
-                <button
-                  class="text-xs text-indigo-600 dark:text-indigo-400 hover:underline font-medium"
-                  @click="toggleCheckAll"
-                >
+                <Button variant="link" size="sm" class="text-xs h-auto p-0" @click="toggleCheckAll">
                   {{
                     isAllChecked
                       ? locale === 'km'
@@ -428,25 +369,25 @@
                         ? 'ជ្រើសរើសទាំងអស់'
                         : 'Check All'
                   }}
-                </button>
+                </Button>
               </div>
               <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div
                   v-for="ext in notInstalledExtensionsList"
                   :key="`not-installed-${ext}`"
-                  class="flex items-center gap-3 p-3 border dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
+                  class="flex items-center gap-3 p-3 border dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors cursor-pointer"
                   :class="
                     selectedExtensions.includes(ext)
                       ? 'bg-indigo-50 dark:bg-indigo-900/20 border-indigo-300 dark:border-indigo-700'
                       : ''
                   "
+                  @click="toggleExtension(ext)"
                 >
-                  <input
+                  <Checkbox
                     :id="`ext-${ext}`"
-                    type="checkbox"
-                    :checked="selectedExtensions.includes(ext)"
-                    class="w-4 h-4 text-indigo-600 rounded focus:ring-indigo-500"
-                    @change="toggleExtension(ext)"
+                    :model-value="selectedExtensions.includes(ext)"
+                    @update:model-value="() => toggleExtension(ext)"
+                    @click.stop
                   />
                   <label
                     :for="`ext-${ext}`"
@@ -478,16 +419,13 @@
           </div>
         </div>
 
-        <div class="flex items-center justify-end gap-3 p-5 border-t dark:border-gray-700">
-          <button
-            class="px-5 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
-            @click="closeExtensionsManager"
-          >
+        <DialogFooter>
+          <Button variant="ghost" @click="closeExtensionsManager">
             {{ locale === 'km' ? 'បិទ' : 'Close' }}
-          </button>
-          <button
+          </Button>
+          <Button
             :disabled="isInstallingExtensions || selectedExtensions.length === 0"
-            class="px-5 py-2 bg-gradient-to-r from-indigo-600 to-indigo-700 dark:from-indigo-500 dark:to-indigo-600 text-white rounded-lg hover:shadow-lg hover:from-indigo-700 hover:to-indigo-800 dark:hover:from-indigo-600 dark:hover:to-indigo-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            class="bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 border-0"
             @click="installSelectedExtensions"
           >
             {{
@@ -499,22 +437,16 @@
                   ? 'ដំឡើង'
                   : 'Install Selected'
             }}
-          </button>
-        </div>
-      </div>
-    </div>
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
 
-    <!-- Installation Log Modal -->
-    <div
-      v-if="showInstallLog"
-      class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
-      @click.self="closeInstallLog"
-    >
-      <div
-        class="bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-3xl max-h-[90vh] flex flex-col"
-      >
-        <div class="flex items-center justify-between p-5 border-b dark:border-gray-700">
-          <h3 class="text-xl font-semibold dark:text-white flex items-center gap-2">
+    <!-- Installation Log Dialog -->
+    <Dialog :open="showInstallLog" @update:open="(v) => !v && closeInstallLog()">
+      <DialogContent class="max-w-3xl">
+        <DialogHeader>
+          <DialogTitle class="flex items-center gap-2">
             <svg
               class="w-6 h-6 text-indigo-600 dark:text-indigo-400 animate-spin"
               fill="none"
@@ -535,24 +467,13 @@
               />
             </svg>
             {{ locale === 'km' ? 'កំពុងដំឡើង PHP' : 'Installing PHP' }} {{ installLogVersion }}
-          </h3>
-          <button
-            class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
-            @click="closeInstallLog"
-          >
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          </button>
-        </div>
+          </DialogTitle>
+        </DialogHeader>
 
-        <div class="p-5 flex-1 overflow-auto bg-gray-900 dark:bg-black">
-          <div class="font-mono text-sm space-y-1">
+        <div class="py-2 space-y-4">
+          <div
+            class="bg-gray-900 dark:bg-black rounded-lg p-4 max-h-64 overflow-y-auto font-mono text-sm space-y-1"
+          >
             <div v-for="(log, index) in installLogs" :key="index" class="text-green-400">
               {{ log }}
             </div>
@@ -560,30 +481,21 @@
               {{ locale === 'km' ? 'កំពុងចាប់ផ្តើម...' : 'Starting...' }}
             </div>
           </div>
-        </div>
 
-        <div class="p-5 border-t dark:border-gray-700">
-          <div class="flex items-center justify-between">
-            <div class="flex-1">
-              <div class="flex items-center justify-between text-sm mb-2">
-                <span class="text-gray-700 dark:text-gray-300 font-medium">
-                  {{ locale === 'km' ? 'វឌ្ឍនភាព' : 'Progress' }}
-                </span>
-                <span class="text-indigo-600 dark:text-indigo-400 font-semibold"
-                  >{{ installProgress }}%</span
-                >
-              </div>
-              <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5 overflow-hidden">
-                <div
-                  class="bg-gradient-to-r from-indigo-600 to-indigo-700 dark:from-indigo-500 dark:to-indigo-600 h-2.5 rounded-full transition-all duration-300 ease-out"
-                  :style="{ width: `${installProgress}%` }"
-                />
-              </div>
+          <div>
+            <div class="flex items-center justify-between text-sm mb-2">
+              <span class="text-gray-700 dark:text-gray-300 font-medium">
+                {{ locale === 'km' ? 'វឌ្ឍនភាព' : 'Progress' }}
+              </span>
+              <span class="text-indigo-600 dark:text-indigo-400 font-semibold">
+                {{ installProgress }}%
+              </span>
             </div>
+            <Progress :model-value="installProgress" class="h-2.5" />
           </div>
         </div>
-      </div>
-    </div>
+      </DialogContent>
+    </Dialog>
 
     <AlertNotification
       :message="status.message.value"
@@ -601,6 +513,18 @@ import { useStatus } from '../../../composables/useStatus'
 import { useTools } from '../../../composables/useTools'
 import AlertNotification from '../../common/AlertNotification.vue'
 import InfoBox from '../../common/InfoBox.vue'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Checkbox } from '@/components/ui/checkbox'
+import { Progress } from '@/components/ui/progress'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from '@/components/ui/dialog'
 
 const { t, locale } = useI18n()
 const status = useStatus()
@@ -652,7 +576,6 @@ const showInstallLog = ref(false)
 const installLogVersion = ref('')
 const installLogs = ref([])
 
-// Computed properties
 const hasInstalledVersions = computed(() => {
   return (
     props.installedTools &&
@@ -664,7 +587,7 @@ const hasInstalledVersions = computed(() => {
 const latestInstalledVersion = computed(() => {
   if (!hasInstalledVersions.value) return null
   const versions = props.installedTools.php.versions
-  return versions[0] // Assuming versions are sorted
+  return versions[0]
 })
 
 const installedExtensionsList = computed(() => {
@@ -695,7 +618,6 @@ async function handleInstallPHP() {
     return
   }
 
-  // Validate version format (e.g., 8.3, 8.2)
   if (!/^\d+\.\d+$/.test(phpInstallVersion.value)) {
     status.showStatus(
       locale.value === 'km'
@@ -711,22 +633,17 @@ async function handleInstallPHP() {
   showInstallLog.value = true
   installLogVersion.value = phpInstallVersion.value
   installLogs.value = []
-
-  // Close install modal and show log modal
   showInstallModal.value = false
 
-  // Add initial log
   installLogs.value.push(
     `[${new Date().toLocaleTimeString()}] Starting PHP ${phpInstallVersion.value} installation...`
   )
   installLogs.value.push(`[${new Date().toLocaleTimeString()}] Adding repository...`)
 
-  // Simulate progress (in real implementation, this would come from IPC events)
   const progressInterval = setInterval(() => {
     if (installProgress.value < 90) {
       installProgress.value += 10
 
-      // Add simulated logs
       const logs = [
         'Updating package lists...',
         'Downloading packages...',
@@ -789,7 +706,6 @@ function closeInstallModal() {
   }
 }
 
-// INI Editor functions
 async function openIniEditor(version, type = 'cli') {
   iniEditorVersion.value = version
   iniEditorType.value = type
@@ -833,7 +749,6 @@ function closeIniEditor() {
   iniFilePath.value = ''
 }
 
-// Extensions Manager functions
 async function openExtensionsManager(version) {
   extManagerVersion.value = version
   showExtensionsManager.value = true
@@ -876,7 +791,6 @@ async function installSelectedExtensions() {
       'success'
     )
 
-    // Refresh installed extensions
     installedExtensions.value = await getInstalledPhpExtensions(extManagerVersion.value)
     selectedExtensions.value = []
   } catch (error) {
@@ -907,10 +821,8 @@ function closeExtensionsManager() {
 
 function toggleCheckAll() {
   if (isAllChecked.value) {
-    // Uncheck all
     selectedExtensions.value = []
   } else {
-    // Check all not installed
     selectedExtensions.value = [...notInstalledExtensionsList.value]
   }
 }

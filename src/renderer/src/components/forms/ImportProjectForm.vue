@@ -13,24 +13,18 @@
       <form class="space-y-6" @submit.prevent="handleImport">
         <!-- Project Folder Selection -->
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            {{ t('selectProjectFolder') }}
-          </label>
+          <Label class="block mb-2">{{ t('selectProjectFolder') }}</Label>
           <div class="flex gap-2">
-            <input
+            <Input
               v-model="projectPath"
               type="text"
               readonly
               :placeholder="t('browseBtn')"
-              class="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white"
+              class="flex-1 bg-gray-50 dark:bg-gray-700"
             />
-            <button
-              type="button"
-              class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors"
-              @click="selectFolder"
-            >
+            <Button type="button" @click="selectFolder">
               {{ t('browseBtn') }}
-            </button>
+            </Button>
           </div>
         </div>
 
@@ -63,88 +57,52 @@
 
         <!-- Project Name -->
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            {{ t('projectName') }}
-          </label>
-          <input
-            v-model="projectName"
-            type="text"
-            :placeholder="t('projectNameLabel')"
-            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
-            required
-          />
+          <Label class="block mb-2">{{ t('projectName') }}</Label>
+          <Input v-model="projectName" type="text" :placeholder="t('projectNameLabel')" required />
         </div>
 
         <!-- Nginx Configuration -->
         <div class="border-t border-gray-200 dark:border-gray-700 pt-6">
           <div class="flex items-center gap-2 mb-4">
-            <input
+            <Checkbox
               id="linkNginx"
-              v-model="linkToNginx"
-              type="checkbox"
-              class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
+              :model-value="linkToNginx"
+              @update:model-value="(val) => (linkToNginx = val)"
             />
-            <label for="linkNginx" class="text-sm font-medium text-gray-700 dark:text-gray-300">
-              {{ t('linkToNginx') }}
-            </label>
+            <Label for="linkNginx">{{ t('linkToNginx') }}</Label>
           </div>
 
           <div v-if="linkToNginx" class="space-y-4 ml-6">
             <div>
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                {{ t('nginxDomain') }}
-              </label>
-              <input
-                v-model="nginxDomain"
-                type="text"
-                :placeholder="t('nginxDomainPlaceholder')"
-                class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
-              />
+              <Label class="block mb-2">{{ t('nginxDomain') }}</Label>
+              <Input v-model="nginxDomain" type="text" :placeholder="t('nginxDomainPlaceholder')" />
             </div>
 
             <div>
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                {{ t('nginxPhpVersionLabel') }}
-              </label>
-              <input
-                v-model="phpVersion"
-                type="text"
-                placeholder="8.3"
-                class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
-              />
+              <Label class="block mb-2">{{ t('nginxPhpVersionLabel') }}</Label>
+              <Input v-model="phpVersion" type="text" placeholder="8.3" />
             </div>
 
             <div class="flex items-center gap-2">
-              <input
+              <Checkbox
                 id="enableSsl"
-                v-model="enableSsl"
-                type="checkbox"
-                class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
+                :model-value="enableSsl"
+                @update:model-value="(val) => (enableSsl = val)"
               />
-              <label for="enableSsl" class="text-sm text-gray-700 dark:text-gray-300">
-                {{ t('enableSSL') }}
-              </label>
+              <Label for="enableSsl">{{ t('enableSSL') }}</Label>
             </div>
           </div>
         </div>
 
         <!-- Actions -->
         <div class="flex items-center justify-end gap-3 pt-4">
-          <button
-            type="button"
-            class="px-6 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
-            @click="$emit('cancel')"
-          >
+          <Button type="button" variant="ghost" @click="$emit('cancel')">
             {{ t('cancel') }}
-          </button>
-          <button
-            type="submit"
-            :disabled="!projectPath || !projectName || isImporting"
-            class="px-6 py-2 bg-blue-500 hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed text-white rounded-lg transition-colors flex items-center gap-2"
-          >
+          </Button>
+          <Button type="submit" :disabled="!projectPath || !projectName || isImporting">
             <svg
               v-if="isImporting"
-              class="animate-spin h-5 w-5"
+              class="animate-spin h-4 w-4 mr-2"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -164,7 +122,7 @@
               />
             </svg>
             {{ isImporting ? t('importing') : t('importBtn') }}
-          </button>
+          </Button>
         </div>
       </form>
     </div>
@@ -178,6 +136,10 @@ import { useProject } from '@/composables/useProject'
 import { useNginx } from '@/composables/useNginx'
 import { useRecentProjects } from '@/composables/useRecentProjects'
 import { useToast } from '@/composables/useToast'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Checkbox } from '@/components/ui/checkbox'
 import laravelIcon from '@/assets/svg/laravel.svg'
 import vuejsIcon from '@/assets/svg/vuejs.svg'
 import nuxtjsIcon from '@/assets/svg/nuxtjs.svg'
@@ -201,7 +163,6 @@ const phpVersion = ref('8.3')
 const enableSsl = ref(false)
 const isImporting = ref(false)
 
-// Cache project icons mapping for better performance
 const projectIcons = {
   laravel: laravelIcon,
   vue: vuejsIcon,
@@ -214,7 +175,6 @@ watch(projectPath, async (newPath) => {
   if (newPath) {
     try {
       detectedProject.value = await detectProject(newPath)
-      // Auto-fill project name from path
       const pathParts = newPath.split('/')
       projectName.value = pathParts[pathParts.length - 1]
       nginxDomain.value = `${projectName.value}.local`
@@ -243,10 +203,9 @@ async function handleImport() {
   isImporting.value = true
 
   try {
-    // Add to recent projects
     addRecentProject({
       name: projectName.value,
-      fullPath: projectPath.value, // Use fullPath since projectPath is already the complete path
+      fullPath: projectPath.value,
       type: detectedProject.value?.type || 'unknown',
       createdAt: new Date().toISOString(),
       config: {
@@ -255,7 +214,6 @@ async function handleImport() {
       },
     })
 
-    // Configure Nginx if requested
     if (linkToNginx.value && nginxDomain.value) {
       await configureNginx({
         domain: nginxDomain.value,

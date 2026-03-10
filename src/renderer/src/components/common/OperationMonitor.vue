@@ -1,6 +1,11 @@
 <template>
   <Teleport to="body">
-    <Transition name="fade">
+    <Transition
+      enter-active-class="transition-opacity duration-300 ease-out"
+      enter-from-class="opacity-0"
+      leave-active-class="transition-opacity duration-300 ease-in"
+      leave-to-class="opacity-0"
+    >
       <div
         v-if="hasActiveOperations && expanded"
         class="fixed inset-0 z-50 flex items-end justify-center bg-black bg-opacity-50 sm:items-center"
@@ -9,7 +14,6 @@
         <div
           class="w-full max-w-[80vw] mx-auto sm:mx-4 bg-white dark:bg-gray-800 rounded-t-lg sm:rounded-lg shadow-2xl overflow-hidden"
         >
-          <!-- Header -->
           <div
             class="bg-gray-50 dark:bg-gray-700 px-6 py-4 flex items-center justify-between border-b border-gray-200 dark:border-gray-600"
           >
@@ -30,7 +34,6 @@
               >
                 {{ t('clearCompleted') }}
               </button>
-
               <button
                 class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
                 @click="expanded = false"
@@ -47,7 +50,6 @@
             </div>
           </div>
 
-          <!-- Operations list -->
           <div class="max-h-[100vh] overflow-y-auto">
             <div
               v-for="[id, operation] in operations.activeOperations.value"
@@ -55,7 +57,6 @@
               class="border-b border-gray-200 dark:border-gray-600 last:border-b-0"
             >
               <div class="p-6">
-                <!-- Operation header -->
                 <div class="flex items-start justify-between mb-2">
                   <div class="flex-1">
                     <div class="flex items-center gap-2 mb-1">
@@ -72,7 +73,6 @@
                         {{ getOperationTitle(operation.type) }}
                       </span>
                     </div>
-
                     <div class="text-xs text-gray-500 dark:text-gray-400">
                       {{ formatDuration(operation) }}
                     </div>
@@ -87,11 +87,10 @@
                   </button>
                 </div>
 
-                <!-- Full output -->
                 <div
                   v-if="operation.output.length > 0"
                   ref="outputContainer"
-                  class="bg-gray-900 text-green-400 text-xs p-3 rounded max-h-[50vh] overflow-y-auto operation-output"
+                  class="bg-gray-900 text-green-400 text-xs p-3 rounded max-h-[50vh] overflow-y-auto font-mono"
                 >
                   <div
                     v-for="(line, index) in operation.output"
@@ -102,12 +101,13 @@
                   </div>
                 </div>
 
-                <!-- Progress indicator -->
                 <div
                   v-if="operation.status === 'running'"
                   class="mt-2 h-1 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden"
                 >
-                  <div class="h-full bg-blue-600 animate-progress" />
+                  <div
+                    class="h-full bg-blue-600 w-1/4 animate-[progress_1.5s_ease-in-out_infinite]"
+                  />
                 </div>
               </div>
             </div>
@@ -129,14 +129,8 @@ const operations = useOperationControl()
 const expanded = ref(true)
 const outputContainer = ref(null)
 
-const hasActiveOperations = computed(() => {
-  return operations.activeOperations.value.size > 0
-})
-
-const operationCount = computed(() => {
-  return operations.activeOperations.value.size
-})
-
+const hasActiveOperations = computed(() => operations.activeOperations.value.size > 0)
+const operationCount = computed(() => operations.activeOperations.value.size)
 const hasCompleted = computed(() => {
   for (const operation of operations.activeOperations.value.values()) {
     if (operation.status !== 'running') return true
@@ -152,13 +146,10 @@ watch(
       await nextTick()
       if (outputContainer.value && outputContainer.value.length > 0) {
         outputContainer.value.forEach((container) => {
-          if (container) {
-            container.scrollTop = container.scrollHeight
-          }
+          if (container) container.scrollTop = container.scrollHeight
         })
       }
     }
-    // Auto-close if any project creation fails
     for (const operation of newOperations.values()) {
       if (operation.type === 'create-project' && operation.status === 'failed') {
         expanded.value = false
@@ -181,55 +172,13 @@ const getOperationTitle = (type) => {
 
 const formatDuration = (operation) => {
   const duration = operation.endTime ? operation.duration : Date.now() - operation.startTime
-
   const seconds = Math.floor(duration / 1000)
   const minutes = Math.floor(seconds / 60)
-
-  if (minutes > 0) {
-    return `${minutes}m ${seconds % 60}s`
-  }
+  if (minutes > 0) return `${minutes}m ${seconds % 60}s`
   return `${seconds}s`
 }
 
 const handleCancel = async (id) => {
-  const success = await operations.cancelOperation(id)
-  if (success) {
-    // Operation cancelled successfully
-  }
+  await operations.cancelOperation(id)
 }
 </script>
-
-<style scoped>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.3s ease;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
-
-.operation-output {
-  font-family: 'Fira Code', 'Consolas', 'Monaco', 'Liberation Mono', 'Courier New', monospace;
-  font-weight: 400;
-  font-variant-ligatures: common-ligatures;
-  font-feature-settings: normal;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-@keyframes progress {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(400%);
-  }
-}
-
-.animate-progress {
-  animation: progress 1.5s ease-in-out infinite;
-  width: 25%;
-}
-</style>

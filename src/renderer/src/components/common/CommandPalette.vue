@@ -1,5 +1,10 @@
 <template>
-  <Transition name="fade">
+  <Transition
+    enter-active-class="transition-opacity duration-200 ease-out"
+    enter-from-class="opacity-0"
+    leave-active-class="transition-opacity duration-200 ease-in"
+    leave-to-class="opacity-0"
+  >
     <div
       v-if="isOpen"
       class="fixed inset-0 z-50 flex items-start justify-center pt-20 px-4 bg-black/50 backdrop-blur-sm"
@@ -25,11 +30,11 @@
                 clip-rule="evenodd"
               />
             </svg>
-            <input
+            <Input
               ref="searchInput"
               v-model="searchQuery"
               type="text"
-              class="w-full pl-10 pr-4 py-3 bg-transparent border-none focus:outline-none text-gray-900 dark:text-white placeholder-gray-400 text-lg"
+              class="pl-10 border-none bg-transparent shadow-none focus-visible:ring-0 text-lg placeholder:text-gray-400"
               :placeholder="locale === 'km' ? 'វាយបញ្ចូលពាក្យបញ្ជា...' : 'Type a command...'"
               @keydown.down="selectNext"
               @keydown.up="selectPrevious"
@@ -132,6 +137,7 @@
 import { ref, computed, watch, nextTick, h } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import { Input } from '@/components/ui/input'
 
 const props = defineProps({
   modelValue: {
@@ -310,15 +316,3 @@ function executeSelected() {
   }
 }
 </script>
-
-<style scoped>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.2s ease;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
-</style>

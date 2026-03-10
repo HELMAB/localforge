@@ -1,50 +1,39 @@
 <template>
-  <div ref="dropdownRef" class="relative">
-    <button
-      type="button"
-      :disabled="disabled"
-      class="w-full px-4 py-2 border dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 flex items-center justify-between disabled:opacity-50 disabled:cursor-not-allowed"
-      @click="toggleDropdown"
-    >
-      <div class="flex items-center gap-2">
-        <img
-          v-if="selectedOption?.icon"
-          :src="selectedOption.icon"
-          :alt="selectedOption.label"
-          class="w-5 h-5"
-        />
-        <span>{{ selectedOption?.label || placeholder }}</span>
-      </div>
-      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-      </svg>
-    </button>
-
-    <div
-      v-if="isOpen"
-      :class="dropdownClasses"
-      class="absolute z-10 w-full bg-white dark:bg-gray-700 border dark:border-gray-600 rounded-lg shadow-lg max-h-60 overflow-auto"
-    >
-      <button
+  <Select
+    :model-value="toSelectValue(modelValue)"
+    :disabled="disabled"
+    @update:model-value="(v) => $emit('update:modelValue', fromSelectValue(v))"
+  >
+    <SelectTrigger class="w-full">
+      <SelectValue :placeholder="placeholder" />
+    </SelectTrigger>
+    <SelectContent>
+      <SelectItem
         v-for="option in options"
         :key="option.value"
-        type="button"
-        class="w-full px-4 py-2 flex items-center gap-2 hover:bg-gray-100 dark:hover:bg-gray-600 text-left text-gray-900 dark:text-white"
-        :class="{ 'bg-blue-50 dark:bg-blue-900': modelValue === option.value }"
-        @click="selectOption(option.value)"
+        :value="toSelectValue(option.value)"
       >
-        <img v-if="option.icon" :src="option.icon" :alt="option.label" class="w-5 h-5" />
-        <span>{{ option.label }}</span>
-      </button>
-    </div>
-  </div>
+        <div class="flex items-center gap-2">
+          <img v-if="option.icon" :src="option.icon" :alt="option.label" class="w-4 h-4" />
+          {{ option.label }}
+        </div>
+      </SelectItem>
+    </SelectContent>
+  </Select>
 </template>
 
 <script setup>
-import { computed } from 'vue'
-import { useDropdown } from '@/composables/useDropdown'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 
-const props = defineProps({
+const EMPTY_VALUE_SENTINEL = '__empty__'
+
+defineProps({
   modelValue: {
     type: [String, Number],
     default: '',
@@ -52,7 +41,6 @@ const props = defineProps({
   options: {
     type: Array,
     required: true,
-    // Array of { value: string|number, label: string, icon?: string }
   },
   placeholder: {
     type: String,
@@ -64,33 +52,14 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['update:modelValue'])
+defineEmits(['update:modelValue'])
 
-const {
-  isOpen,
-  dropdownRef,
-  dropdownClasses: baseDropdownClasses,
-  toggleDropdown: baseToggleDropdown,
-  closeDropdown,
-} = useDropdown(240)
-
-const selectedOption = computed(() => {
-  return props.options.find((opt) => opt.value === props.modelValue)
-})
-
-const dropdownClasses = computed(() => ({
-  'bottom-full mb-1': baseDropdownClasses.value['bottom-full mb-2'],
-  'mt-1': baseDropdownClasses.value['mt-2'],
-}))
-
-function toggleDropdown() {
-  if (!props.disabled) {
-    baseToggleDropdown()
-  }
+function toSelectValue(value) {
+  const str = String(value)
+  return str === '' ? EMPTY_VALUE_SENTINEL : str
 }
 
-function selectOption(value) {
-  emit('update:modelValue', value)
-  closeDropdown()
+function fromSelectValue(value) {
+  return value === EMPTY_VALUE_SENTINEL ? '' : value
 }
 </script>

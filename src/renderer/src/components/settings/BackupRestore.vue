@@ -1,18 +1,23 @@
 <template>
-  <div class="backup-restore">
-    <p class="text-sm text-gray-600 dark:text-gray-300 mb-4">
-      {{ t('settings.backupDesc') }}
-    </p>
+  <div>
+    <p class="text-sm text-gray-600 dark:text-gray-300 mb-4">{{ t('settings.backupDesc') }}</p>
 
     <div
       v-if="message"
-      :class="['alert', messageType === 'error' ? 'alert-error' : 'alert-success', 'mb-4']"
+      class="mb-4 p-3 rounded-md border text-sm"
+      :class="
+        messageType === 'error'
+          ? 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800 text-red-700 dark:text-red-300'
+          : 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800 text-green-700 dark:text-green-300'
+      "
     >
       {{ message }}
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div class="backup-card">
+      <div
+        class="p-5 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700"
+      >
         <div class="flex items-center mb-3">
           <svg
             class="w-6 h-6 mr-2 text-gray-700 dark:text-gray-300"
@@ -27,19 +32,17 @@
               d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
             />
           </svg>
-          <h4 class="font-medium text-gray-900 dark:text-white">
-            {{ t('settings.export') }}
-          </h4>
+          <h4 class="font-medium text-gray-900 dark:text-white">{{ t('settings.export') }}</h4>
         </div>
-        <p class="text-sm text-gray-600 dark:text-gray-300 mb-4">
-          {{ t('settings.exportDesc') }}
-        </p>
-        <button :disabled="exporting" class="btn btn-primary w-full" @click="handleExport">
+        <p class="text-sm text-gray-600 dark:text-gray-300 mb-4">{{ t('settings.exportDesc') }}</p>
+        <Button class="w-full" :disabled="exporting" @click="handleExport">
           {{ exporting ? t('settings.exporting') : t('settings.exportButton') }}
-        </button>
+        </Button>
       </div>
 
-      <div class="backup-card">
+      <div
+        class="p-5 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700"
+      >
         <div class="flex items-center mb-3">
           <svg
             class="w-6 h-6 mr-2 text-gray-700 dark:text-gray-300"
@@ -54,16 +57,12 @@
               d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"
             />
           </svg>
-          <h4 class="font-medium text-gray-900 dark:text-white">
-            {{ t('settings.import') }}
-          </h4>
+          <h4 class="font-medium text-gray-900 dark:text-white">{{ t('settings.import') }}</h4>
         </div>
-        <p class="text-sm text-gray-600 dark:text-gray-300 mb-4">
-          {{ t('settings.importDesc') }}
-        </p>
-        <button :disabled="importing" class="btn btn-secondary w-full" @click="handleImport">
+        <p class="text-sm text-gray-600 dark:text-gray-300 mb-4">{{ t('settings.importDesc') }}</p>
+        <Button variant="secondary" class="w-full" :disabled="importing" @click="handleImport">
           {{ importing ? t('settings.importing') : t('settings.importButton') }}
-        </button>
+        </Button>
       </div>
     </div>
 
@@ -96,6 +95,7 @@
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useBackup } from '@/composables/useBackup'
+import { Button } from '@/components/ui/button'
 
 const { t } = useI18n()
 const { exporting, importing, exportBackup, importBackup } = useBackup()
@@ -108,9 +108,7 @@ const handleExport = async () => {
   message.value = null
   try {
     const result = await exportBackup()
-    if (result.canceled) {
-      return
-    }
+    if (result.canceled) return
     if (result.success) {
       message.value = t('settings.exportSuccess')
       messageType.value = 'success'
@@ -126,15 +124,11 @@ const handleImport = async () => {
   lastBackupInfo.value = null
   try {
     const result = await importBackup()
-    if (result.canceled) {
-      return
-    }
+    if (result.canceled) return
     if (result.success) {
       message.value = t('settings.importSuccess')
       messageType.value = 'success'
-      if (result.metadata) {
-        lastBackupInfo.value = result.metadata
-      }
+      if (result.metadata) lastBackupInfo.value = result.metadata
     }
   } catch (error) {
     message.value = error.message
@@ -142,94 +136,5 @@ const handleImport = async () => {
   }
 }
 
-const formatDate = (dateString) => {
-  return new Date(dateString).toLocaleString()
-}
+const formatDate = (dateString) => new Date(dateString).toLocaleString()
 </script>
-
-<style scoped>
-.backup-card {
-  @apply p-5 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700;
-}
-
-.alert {
-  padding: 0.75rem;
-  border-radius: 6px;
-  border: 1px solid;
-  font-size: 0.875rem;
-}
-
-.alert-success {
-  background: #dcfce7;
-  border-color: #22c55e;
-  color: #166534;
-}
-
-.dark .alert-success {
-  background: #14532d;
-  border-color: #22c55e;
-  color: #dcfce7;
-}
-
-.alert-error {
-  background: #fee2e2;
-  border-color: #ef4444;
-  color: #991b1b;
-}
-
-.dark .alert-error {
-  background: #7f1d1d;
-  border-color: #ef4444;
-  color: #fee2e2;
-}
-
-.btn {
-  padding: 0.625rem 1rem;
-  border-radius: 6px;
-  font-weight: 500;
-  border: none;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.btn-primary {
-  background: #3b82f6;
-  color: white;
-}
-
-.btn-primary:hover:not(:disabled) {
-  background: #2563eb;
-}
-
-.dark .btn-primary {
-  background: #2563eb;
-  color: white;
-}
-
-.dark .btn-primary:hover:not(:disabled) {
-  background: #1d4ed8;
-}
-
-.btn-secondary {
-  background: #6b7280;
-  color: white;
-}
-
-.btn-secondary:hover:not(:disabled) {
-  background: #4b5563;
-}
-
-.dark .btn-secondary {
-  background: #4b5563;
-  color: white;
-}
-
-.dark .btn-secondary:hover:not(:disabled) {
-  background: #374151;
-}
-</style>

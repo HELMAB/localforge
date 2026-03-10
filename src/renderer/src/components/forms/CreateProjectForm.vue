@@ -68,19 +68,15 @@
         <!-- 1-Column Grid Layout -->
         <div class="grid grid-cols-1 gap-3">
           <div>
-            <label class="block text-xs font-medium mb-1.5 dark:text-gray-300">
+            <Label class="block text-xs font-medium mb-1.5 dark:text-gray-300">
               {{ t('projectNameLabel') }} <span class="text-red-500">*</span>
-            </label>
-            <input
+            </Label>
+            <Input
               v-model="projectName"
               type="text"
-              :class="[
-                'w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 text-sm',
-                validationErrors.projectName
-                  ? 'border-red-500 focus:ring-red-500'
-                  : 'border-gray-300 dark:border-gray-600 focus:ring-blue-500',
-                'dark:bg-gray-700 dark:text-white',
-              ]"
+              :class="
+                validationErrors.projectName ? 'border-red-500 focus-visible:ring-red-500' : ''
+              "
               :placeholder="locale === 'km' ? 'ឈ្មោះគម្រោងរបស់អ្នក' : 'my-awesome-project'"
               @blur="validateProjectName"
             />
@@ -107,9 +103,9 @@
           </div>
 
           <div>
-            <label class="block text-xs font-medium mb-1.5 dark:text-gray-300">
+            <Label class="block text-xs font-medium mb-1.5 dark:text-gray-300">
               {{ t('projectPathLabel') }} <span class="text-red-500">*</span>
-            </label>
+            </Label>
             <DirectorySelector v-model="projectPath" />
             <div
               v-if="validationErrors.path"
@@ -134,13 +130,9 @@
           </div>
         </div>
 
-        <button
-          :disabled="isCreating"
-          class="w-full px-4 py-2.5 bg-blue-500 dark:bg-blue-600 text-white rounded-lg hover:bg-blue-600 dark:hover:bg-blue-700 font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm"
-          @click="handleCreateProject"
-        >
+        <Button class="w-full" :disabled="isCreating" @click="handleCreateProject">
           {{ isCreating ? t('checking') : t('createBtn') }}
-        </button>
+        </Button>
 
         <AlertNotification
           :message="status.message.value"
@@ -163,6 +155,9 @@ import { useTools } from '../../composables/useTools'
 import { useRecentProjects } from '../../composables/useRecentProjects'
 import { useToast } from '../../composables/useToast'
 import { projectNameSchema, pathSchema, validateField } from '../../utils/validation'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Button } from '@/components/ui/button'
 import ProjectTypeSelector from './ProjectTypeSelector.vue'
 import LaravelOptions from './LaravelOptions.vue'
 import WordPressOptions from './WordPressOptions.vue'
@@ -207,7 +202,6 @@ const validationErrors = ref({})
 const showPostCreation = ref(false)
 const createdProjectPath = ref('')
 
-// Set Node.js 22 as default for Vue, React, and Nuxt projects
 watch(projectType, (newType) => {
   if (['vue', 'react', 'nuxt'].includes(newType)) {
     const currentMajor = parseInt((nodeVersion.value || '').split('.')[0])
@@ -236,7 +230,6 @@ async function handleCreateProject() {
     delete validationErrors.value.path
   }
 
-  // Validate PHP version is required for Laravel and WordPress
   if (['laravel', 'wordpress'].includes(projectType.value)) {
     const phpVer = projectType.value === 'laravel' ? phpVersion.value : wpPhpVersion.value
     if (!phpVer) {
@@ -247,7 +240,6 @@ async function handleCreateProject() {
     }
   }
 
-  // Validate Node.js version is required for Vue, Nuxt, and React
   if (['vue', 'nuxt', 'react'].includes(projectType.value)) {
     if (!nodeVersion.value) {
       validationErrors.value.nodeVersion =
@@ -259,7 +251,6 @@ async function handleCreateProject() {
     }
   }
 
-  // Validate Node.js version for Node-based projects
   if (['vue', 'nuxt', 'react'].includes(projectType.value) && nodeVersion.value) {
     await checkInstalledTools()
     const availableVersions = installedTools.value.node.versions || []
@@ -274,7 +265,6 @@ async function handleCreateProject() {
     }
   }
 
-  // Validate PHP version for PHP-based projects
   if (['laravel', 'wordpress'].includes(projectType.value)) {
     await checkInstalledTools()
     const phpVer = projectType.value === 'laravel' ? phpVersion.value : wpPhpVersion.value
@@ -321,7 +311,6 @@ async function handleCreateProject() {
       projectData.phpVersion = wpPhpVersion.value
     } else if (projectType.value === 'vue') {
       projectData.nodeVersion = nodeVersion.value
-      // Convert reactive object to plain object for IPC
       projectData.vueOptions = JSON.parse(JSON.stringify(vueOptions.value))
     } else if (projectType.value === 'nuxt') {
       projectData.nodeVersion = nodeVersion.value
@@ -336,14 +325,12 @@ async function handleCreateProject() {
       progress.completeProgress(t('checking') === 'កំពុងពិនិត្យ...' ? 'បានបញ្ចប់!' : 'Completed!')
     }
 
-    // Add to recent projects with full path from result
     const projectDataWithFullPath = {
       ...projectData,
       fullPath: result.path,
     }
     addRecentProject(projectDataWithFullPath)
 
-    // Show post-creation actions
     createdProjectPath.value = result.path
     showPostCreation.value = true
 
@@ -353,7 +340,6 @@ async function handleCreateProject() {
         : `Project created successfully: ${projectName.value}`
     )
 
-    // Reset form except project path
     projectName.value = ''
     projectType.value = 'laravel'
     laravelVersion.value = '12'
@@ -378,7 +364,6 @@ async function handleCreateProject() {
       progress.failProgress(t('checking') === 'កំពុងពិនិត្យ...' ? 'បរាជ័យ' : 'Failed')
     }
 
-    // Show error in modal with detailed information
     if (errorModal) {
       errorModal.showError(error, {
         title:

@@ -16,7 +16,12 @@
       </svg>
     </button>
 
-    <Transition name="fade">
+    <Transition
+      enter-active-class="transition-opacity duration-200 ease-in-out"
+      enter-from-class="opacity-0"
+      leave-active-class="transition-opacity duration-200 ease-in-out"
+      leave-to-class="opacity-0"
+    >
       <div
         v-if="isOpen"
         :class="openUpward ? 'bottom-full mb-2' : 'top-full mt-2'"
@@ -129,10 +134,7 @@ import { useDropdown } from '@/composables/useDropdown'
 const { t } = useI18n()
 
 defineProps({
-  project: {
-    type: Object,
-    required: true,
-  },
+  project: { type: Object, required: true },
 })
 
 const emit = defineEmits([
@@ -155,14 +157,3 @@ function handleOpenInBrowser() {
   isOpen.value = false
 }
 </script>
-
-<style scoped>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.2s ease-in-out;
-}
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
-</style>

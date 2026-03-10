@@ -722,7 +722,14 @@
                     </div>
 
                     <!-- Expandable Site Details -->
-                    <Transition name="expand">
+                    <Transition
+                      enter-active-class="transition-all duration-300 ease-in-out overflow-hidden"
+                      enter-from-class="max-h-0 opacity-0"
+                      enter-to-class="max-h-[500px] opacity-100"
+                      leave-active-class="transition-all duration-300 ease-in-out overflow-hidden"
+                      leave-from-class="max-h-[500px] opacity-100"
+                      leave-to-class="max-h-0 opacity-0"
+                    >
                       <div
                         v-if="expandedSite === config.name"
                         class="border-t border-green-200 dark:border-green-800 bg-green-50/30 dark:bg-green-900/10 p-4"
@@ -1741,24 +1748,3 @@ async function handleConfigureNginx() {
   }
 }
 </script>
-
-<style scoped>
-/* Expand/Collapse Transition */
-.expand-enter-active,
-.expand-leave-active {
-  transition: all 0.3s ease;
-  overflow: hidden;
-}
-
-.expand-enter-from,
-.expand-leave-to {
-  max-height: 0;
-  opacity: 0;
-}
-
-.expand-enter-to,
-.expand-leave-from {
-  max-height: 500px;
-  opacity: 1;
-}
-</style>

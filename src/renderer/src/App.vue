@@ -9,9 +9,15 @@
         <TabNavigation />
 
         <router-view v-slot="{ Component }">
-          <transition name="fade" mode="out-in">
+          <Transition
+            mode="out-in"
+            enter-active-class="transition-opacity duration-300 ease-in-out"
+            enter-from-class="opacity-0"
+            leave-active-class="transition-opacity duration-300 ease-in-out"
+            leave-to-class="opacity-0"
+          >
             <component :is="Component" />
-          </transition>
+          </Transition>
         </router-view>
       </div>
 
@@ -108,15 +114,3 @@ onMounted(() => {
 provide('errorModal', errorModal)
 provide('operations', operations)
 </script>
-
-<style scoped>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.3s ease;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
-</style>

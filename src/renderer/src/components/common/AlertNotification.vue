@@ -1,13 +1,17 @@
 <template>
   <Teleport to="body">
-    <Transition name="slide-fade">
+    <Transition
+      enter-active-class="transition-all duration-300 ease-out"
+      enter-from-class="opacity-0 translate-x-full"
+      leave-active-class="transition-all duration-200 ease-in"
+      leave-to-class="opacity-0 -translate-y-5"
+    >
       <div
         v-if="visible"
         class="fixed top-6 right-6 z-50 max-w-md min-w-80 shadow-2xl rounded-lg border"
         :class="statusClasses[type]"
       >
         <div class="p-4 flex items-start gap-3">
-          <!-- Icon -->
           <div class="flex-shrink-0">
             <svg v-if="type === 'success'" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
               <path
@@ -37,12 +41,8 @@
             </svg>
           </div>
 
-          <!-- Message -->
-          <div class="flex-1 text-sm font-medium" style="white-space: pre-line">
-            {{ message }}
-          </div>
+          <div class="flex-1 text-sm font-medium" style="white-space: pre-line">{{ message }}</div>
 
-          <!-- Close button -->
           <button class="flex-shrink-0 hover:opacity-70 transition-opacity" @click="$emit('close')">
             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
               <path
@@ -60,19 +60,13 @@
 
 <script setup>
 defineProps({
-  message: {
-    type: String,
-    default: '',
-  },
+  message: { type: String, default: '' },
   type: {
     type: String,
     default: 'info',
     validator: (value) => ['success', 'error', 'info'].includes(value),
   },
-  visible: {
-    type: Boolean,
-    default: false,
-  },
+  visible: { type: Boolean, default: false },
 })
 
 defineEmits(['close'])
@@ -85,23 +79,3 @@ const statusClasses = {
   info: 'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-100 border-blue-200 dark:border-blue-700',
 }
 </script>
-
-<style scoped>
-.slide-fade-enter-active {
-  transition: all 0.3s ease-out;
-}
-
-.slide-fade-leave-active {
-  transition: all 0.2s ease-in;
-}
-
-.slide-fade-enter-from {
-  transform: translateX(100%);
-  opacity: 0;
-}
-
-.slide-fade-leave-to {
-  transform: translateY(-20px);
-  opacity: 0;
-}
-</style>
