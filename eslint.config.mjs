@@ -19,6 +19,12 @@ export default [
       // Vue specific rules
       "vue/multi-word-component-names": "off",
       "vue/no-v-html": "warn",
+      // Prettier owns formatting; disable Vue template style rules that conflict with it.
+      "vue/max-attributes-per-line": "off",
+      "vue/html-self-closing": "off",
+      "vue/html-indent": "off",
+      "vue/html-closing-bracket-newline": "off",
+      "vue/singleline-html-element-content-newline": "off",
       
       // JavaScript rules
       "no-console": "warn",
