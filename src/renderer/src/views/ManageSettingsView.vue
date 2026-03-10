@@ -1,29 +1,25 @@
 <template>
-  <div class="p-6">
-    <div class="w-full mx-auto">
-      <div
-        class="mb-6 flex items-center justify-between rounded-xl border border-gray-200/70 bg-white/50 px-6 py-4 shadow-sm dark:border-gray-700/80 dark:bg-gray-800/60"
+  <div class="lg-panel p-4 sm:p-6">
+    <div
+      class="mb-6 flex items-center justify-between rounded-2xl border px-5 py-4 backdrop-blur-xl"
+      :class="['bg-background/35 border-border/60']"
+    >
+      <span class="text-sm font-semibold text-foreground/80">
+        {{ t('peaceBannerControl') }}
+      </span>
+      <button
+        class="px-3.5 py-2 rounded-xl bg-primary text-xs font-semibold text-primary-foreground transition hover:bg-primary/90"
+        @click="toggleBanner"
       >
-        <span class="text-sm font-semibold text-gray-700 dark:text-gray-300">
-          {{ t('peaceBannerControl') }}
-        </span>
-        <button
-          class="px-3 py-1.5 rounded-md bg-blue-600 text-xs font-semibold text-white transition hover:bg-blue-500"
-          @click="toggleBanner"
-        >
-          {{ showBanner ? t('hidePeaceBanner') : t('showPeaceBanner') }}
-        </button>
-      </div>
+        {{ showBanner ? t('hidePeaceBanner') : t('showPeaceBanner') }}
+      </button>
+    </div>
 
-      <div class="space-y-6">
-        <PreferenceSettings />
-
-        <AutoUpdateSettings />
-
-        <BackupRestoreSettings />
-
-        <ApplicationInfoSettings />
-      </div>
+    <div class="space-y-6">
+      <PreferenceSettings />
+      <AutoUpdateSettings />
+      <BackupRestoreSettings />
+      <ApplicationInfoSettings />
     </div>
   </div>
 </template>

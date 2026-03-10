@@ -33,33 +33,36 @@
   </div>
 
   <!-- Main Header -->
-  <div
-    class="relative bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-700 dark:to-indigo-700 shadow-lg p-6 mb-6 overflow-hidden"
-  >
-    <!-- Background Pattern -->
-    <div class="absolute inset-0 opacity-10 bg-plus-pattern" />
+  <div class="relative lg-panel p-5 sm:p-6 mt-6 mb-4 overflow-hidden">
+    <!-- Soft highlight -->
+    <div
+      class="pointer-events-none absolute -top-24 left-10 h-56 w-56 rounded-full blur-3xl"
+      style="
+        background: radial-gradient(circle at 30% 30%, rgba(56 189 248 / 0.35), transparent 60%);
+      "
+    />
 
     <div class="relative flex justify-between items-center">
       <!-- Logo and Title Section -->
       <div class="flex items-center gap-4">
         <!-- Logo -->
         <div
-          class="flex-shrink-0 w-14 h-14 bg-white dark:bg-gray-800 rounded-xl shadow-lg flex items-center justify-center"
+          class="flex-shrink-0 w-14 h-14 rounded-2xl border border-border/60 bg-background/45 backdrop-blur-xl flex items-center justify-center"
         >
-          <Code2 class="w-8 h-8 text-blue-600 dark:text-blue-400" />
+          <Code2 class="w-8 h-8 text-primary" />
         </div>
 
         <!-- Title and Tagline -->
         <div>
-          <h1 class="text-3xl font-bold text-white flex items-center gap-2">
+          <h1 class="text-3xl font-bold text-foreground flex items-center gap-2">
             {{ t('appTitle') }}
             <span
-              class="px-2 py-0.5 text-xs font-semibold bg-white/20 backdrop-blur-sm rounded-full text-white"
+              class="px-2 py-0.5 text-xs font-semibold rounded-full border border-border/60 bg-primary/10 text-primary"
             >
               v1.0
             </span>
           </h1>
-          <p class="text-blue-100 dark:text-blue-200 text-sm mt-0.5">
+          <p class="text-muted-foreground text-sm mt-0.5">
             {{ t('appTagline') }}
           </p>
         </div>
@@ -68,7 +71,7 @@
       <div class="flex items-center gap-2">
         <!-- Dark Mode Toggle -->
         <button
-          class="p-2.5 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 transition-all hover:scale-105"
+          class="p-2.5 rounded-xl bg-background/35 border border-border/60 text-foreground hover:bg-background/55 transition-all hover:scale-[1.03]"
           :title="t('darkModeLabel')"
           @click="toggleDarkMode"
         >
@@ -78,7 +81,7 @@
 
         <!-- Language Selector -->
         <div
-          class="inline-flex items-center bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg p-1 shadow-sm"
+          class="inline-flex items-center bg-background/35 backdrop-blur-xl border border-border/60 rounded-xl p-1 shadow-sm"
         >
           <button :class="languageButtonClass('km')" @click="changeLanguage('km')">ខ្មែរ</button>
           <button :class="languageButtonClass('en')" @click="changeLanguage('en')">English</button>
@@ -104,8 +107,8 @@ function changeLanguage(lang) {
 
 function languageButtonClass(lang) {
   const baseClasses = 'px-3 py-1.5 rounded-md font-medium text-xs transition-all duration-200'
-  const activeClasses = 'bg-white text-blue-600 shadow-sm'
-  const inactiveClasses = 'text-white hover:text-blue-100'
+  const activeClasses = 'bg-background/70 text-primary shadow-sm'
+  const inactiveClasses = 'text-muted-foreground hover:text-foreground'
 
   return locale.value === lang
     ? `${baseClasses} ${activeClasses}`

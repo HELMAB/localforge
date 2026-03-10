@@ -1,5 +1,5 @@
 <template>
-  <div class="text-center text-gray-600 dark:text-gray-400 text-sm transition-colors">
+  <div class="text-center text-muted-foreground text-sm transition-colors">
     <p>{{ t('footer') }} — v{{ version }}</p>
   </div>
 </template>

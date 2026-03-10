@@ -1,50 +1,46 @@
 <template>
-  <div class="p-6">
-    <div
-      class="flex bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700"
-    >
-      <ToolsSidebar :selected-tool="selectedTool" @select="selectedTool = $event" />
+  <div class="flex gap-3">
+    <ToolsSidebar :selected-tool="selectedTool" @select="selectedTool = $event" />
 
-      <div class="flex-1 overflow-y-auto bg-gray-50 dark:bg-gray-800">
-        <PhpSection
-          v-if="selectedTool === 'php'"
-          :installed-tools="installedTools"
-          :on-install-php="installPHP"
-          :on-install-php-extensions="installPHPExtensions"
-        />
+    <div class="flex-1 lg-panel overflow-y-auto min-h-[560px]">
+      <PhpSection
+        v-if="selectedTool === 'php'"
+        :installed-tools="installedTools"
+        :on-install-php="installPHP"
+        :on-install-php-extensions="installPHPExtensions"
+      />
 
-        <ComposerSection
-          v-if="selectedTool === 'composer'"
-          :installed-tools="installedTools"
-          :on-install-composer="installComposer"
-        />
+      <ComposerSection
+        v-if="selectedTool === 'composer'"
+        :installed-tools="installedTools"
+        :on-install-composer="installComposer"
+      />
 
-        <NodeSection
-          v-if="selectedTool === 'node'"
-          :installed-tools="installedTools"
-          :on-install-node="installNode"
-          :on-set-default-node="setDefaultNode"
-          :on-uninstall-node="uninstallNode"
-        />
+      <NodeSection
+        v-if="selectedTool === 'node'"
+        :installed-tools="installedTools"
+        :on-install-node="installNode"
+        :on-set-default-node="setDefaultNode"
+        :on-uninstall-node="uninstallNode"
+      />
 
-        <NginxSection
-          v-if="selectedTool === 'nginx'"
-          :installed-tools="installedTools"
-          :on-install-nginx="installNginx"
-        />
+      <NginxSection
+        v-if="selectedTool === 'nginx'"
+        :installed-tools="installedTools"
+        :on-install-nginx="installNginx"
+      />
 
-        <PostgresqlSection
-          v-if="selectedTool === 'postgresql'"
-          :installed-tools="installedTools"
-          :on-install-postgresql="installPostgreSQL"
-        />
+      <PostgresqlSection
+        v-if="selectedTool === 'postgresql'"
+        :installed-tools="installedTools"
+        :on-install-postgresql="installPostgreSQL"
+      />
 
-        <MysqlSection
-          v-if="selectedTool === 'mysql'"
-          :installed-tools="installedTools"
-          :on-install-mysql="installMySQL"
-        />
-      </div>
+      <MysqlSection
+        v-if="selectedTool === 'mysql'"
+        :installed-tools="installedTools"
+        :on-install-mysql="installMySQL"
+      />
     </div>
   </div>
 </template>

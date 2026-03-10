@@ -1,5 +1,5 @@
 <template>
-  <div class="flex border-b dark:border-gray-700 tab-navigation">
+  <div class="lg-tabbar tab-navigation">
     <router-link
       v-for="(tab, index) in tabs"
       :key="tab.path"
@@ -10,10 +10,12 @@
       <button
         :class="tabButtonClass(isActive)"
         :data-tour="tab.dataTour"
-        class="px-6 py-3 font-semibold border-b-2 transition-colors flex items-center"
+        class="lg-tab"
+        :aria-current="isActive ? 'page' : undefined"
         @click="navigate"
       >
-        {{ t(tab.label) }}
+        <component :is="tab.icon" class="h-4 w-4" />
+        <span class="leading-none">{{ t(tab.label) }}</span>
         <KeyboardHint :hint="`Ctrl+${index + 1}`" />
       </button>
     </router-link>
@@ -22,20 +24,19 @@
 
 <script setup>
 import { useI18n } from 'vue-i18n'
+import { Sparkles, Globe2, Wrench, Settings2 } from 'lucide-vue-next'
 import KeyboardHint from '../common/KeyboardHint.vue'
 
 const { t } = useI18n()
 
 const tabs = [
-  { path: '/projects', label: 'tabCreate', dataTour: 'manage-projects' },
-  { path: '/virtual-hosts', label: 'tabNginx', dataTour: 'manage-virtual-hosts' },
-  { path: '/services', label: 'tabManage', dataTour: 'manage-services' },
-  { path: '/settings', label: 'tabSettings', dataTour: 'manage-settings' },
+  { path: '/projects', label: 'tabCreate', icon: Sparkles, dataTour: 'manage-projects' },
+  { path: '/virtual-hosts', label: 'tabNginx', icon: Globe2, dataTour: 'manage-virtual-hosts' },
+  { path: '/services', label: 'tabManage', icon: Wrench, dataTour: 'manage-services' },
+  { path: '/settings', label: 'tabSettings', icon: Settings2, dataTour: 'manage-settings' },
 ]
 
 function tabButtonClass(isActive) {
-  return isActive
-    ? 'border-blue-500 text-blue-500 dark:border-blue-400 dark:text-blue-400'
-    : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-blue-500 dark:hover:text-blue-400'
+  return isActive ? 'lg-tab--active' : 'lg-tab--inactive'
 }
 </script>

@@ -1,25 +1,19 @@
 <template>
-  <div class="p-6">
-    <div
-      class="flex bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700"
-    >
-      <!-- Sidebar -->
-      <ProjectSidebar v-model:active-view="activeView" />
+  <div class="flex gap-3">
+    <ProjectSidebar v-model:active-view="activeView" />
 
-      <!-- Main Content -->
-      <div class="flex-1 overflow-y-auto bg-gray-50 dark:bg-gray-800 p-6">
-        <ProjectList
-          v-if="activeView === 'recent'"
-          v-model:active-view="activeView"
-          @projects-loaded="handleProjectsLoaded"
-        />
-        <CreateProjectForm v-if="activeView === 'new'" />
-        <ImportProjectForm
-          v-if="activeView === 'import'"
-          @cancel="activeView = 'recent'"
-          @imported="handleProjectImported"
-        />
-      </div>
+    <div class="flex-1 lg-panel p-4 sm:p-6 overflow-y-auto min-h-[560px]">
+      <ProjectList
+        v-if="activeView === 'recent'"
+        v-model:active-view="activeView"
+        @projects-loaded="handleProjectsLoaded"
+      />
+      <CreateProjectForm v-if="activeView === 'new'" />
+      <ImportProjectForm
+        v-if="activeView === 'import'"
+        @cancel="activeView = 'recent'"
+        @imported="handleProjectImported"
+      />
     </div>
   </div>
 </template>

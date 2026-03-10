@@ -1,13 +1,11 @@
 <template>
-  <div
-    class="w-[180px] min-w-[180px] bg-gray-50 dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 py-4 px-3 flex flex-col rounded-l-lg"
-  >
-    <nav class="space-y-2 flex-1 overflow-y-auto">
+  <div class="lg-sidebar flex flex-col">
+    <nav class="space-y-1 flex-1 overflow-y-auto">
       <Button
         v-for="tool in tools"
         :key="tool.id"
         variant="ghost"
-        class="w-full justify-start px-3 py-2.5 h-auto text-sm font-medium gap-3"
+        class="lg-sideitem"
         :class="sidebarButtonClass(tool.id)"
         @click="$emit('select', tool.id)"
       >
@@ -49,8 +47,6 @@ const tools = [
 ]
 
 function sidebarButtonClass(toolId) {
-  return props.selectedTool === toolId
-    ? 'bg-blue-500 dark:bg-blue-600 text-white hover:bg-blue-600 dark:hover:bg-blue-700'
-    : 'hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300'
+  return props.selectedTool === toolId ? 'lg-sideitem--active' : 'lg-sideitem--inactive'
 }
 </script>

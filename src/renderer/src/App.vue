@@ -1,27 +1,29 @@
 <template>
-  <div id="app" class="min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-200">
-    <div>
+  <div id="app" class="min-h-screen app-bg transition-colors duration-200">
+    <div class="mx-auto max-w-[1200px] px-6 pb-10">
       <AppHeader />
 
-      <div
-        class="bg-white dark:bg-gray-800 rounded-lg shadow-md mb-6 transition-colors duration-200 m-6 min-h-screen"
-      >
+      <main class="lg-frame">
         <TabNavigation />
 
-        <router-view v-slot="{ Component }">
-          <Transition
-            mode="out-in"
-            enter-active-class="transition-opacity duration-300 ease-in-out"
-            enter-from-class="opacity-0"
-            leave-active-class="transition-opacity duration-300 ease-in-out"
-            leave-to-class="opacity-0"
-          >
-            <component :is="Component" />
-          </Transition>
-        </router-view>
-      </div>
+        <div class="p-2 sm:p-3">
+          <router-view v-slot="{ Component }">
+            <Transition
+              mode="out-in"
+              enter-active-class="transition-opacity duration-300 ease-in-out"
+              enter-from-class="opacity-0"
+              leave-active-class="transition-opacity duration-300 ease-in-out"
+              leave-to-class="opacity-0"
+            >
+              <component :is="Component" />
+            </Transition>
+          </router-view>
+        </div>
+      </main>
 
-      <AppFooter />
+      <div class="mt-6">
+        <AppFooter />
+      </div>
     </div>
 
     <ErrorModal
