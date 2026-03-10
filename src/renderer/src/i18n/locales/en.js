@@ -386,4 +386,8 @@ export default {
   sortDescending: 'Descending',
   quickSetup: 'New Project',
   selectAnOption: 'Select an option',
+  serviceTools: 'Service tools',
+  hidePeaceBanner: 'Hide peace banner',
+  showPeaceBanner: 'Show peace banner',
+  peaceBannerControl: 'Peace banner',
 }

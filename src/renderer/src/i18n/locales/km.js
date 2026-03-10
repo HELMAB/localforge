@@ -391,4 +391,8 @@ export default {
   sortDescending: 'ចុះ',
   quickSetup: 'គម្រោងថ្មី',
   selectAnOption: 'ជ្រើសរើសជម្រើស',
+  serviceTools: 'ឧបករណ៍សេវាកម្ម',
+  hidePeaceBanner: 'លាក់បដាផ្លូវចិត្ត',
+  showPeaceBanner: 'បង្ហាញបដាផ្លូវចិត្ត',
+  peaceBannerControl: 'បដាផ្លូវចិត្ត',
 }

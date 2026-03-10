@@ -1,6 +1,7 @@
 <template>
   <!-- Peace & Support Banner -->
   <div
+    v-if="showBanner"
     class="sticky top-0 w-full shadow-lg flex-shrink-0 z-50 bg-gradient-to-br from-[#032ea1] via-[#1e40af] to-[#032ea1]"
   >
     <!-- Red top stripe (Cambodian flag inspired) -->
@@ -90,10 +91,12 @@
 <script setup>
 import { useI18n } from 'vue-i18n'
 import { useDarkMode } from '../../composables/useDarkMode'
+import { usePeaceBanner } from '../../composables/usePeaceBanner'
 import { Code2, Moon, Sun } from 'lucide-vue-next'
 
 const { t, locale } = useI18n()
 const { isDark, toggleDarkMode } = useDarkMode()
+const { showBanner } = usePeaceBanner()
 
 function changeLanguage(lang) {
   locale.value = lang
