@@ -1,9 +1,9 @@
 <template>
   <div class="space-y-4">
     <div>
-      <label class="block text-sm font-medium mb-2 dark:text-gray-300">{{
+      <Label class="block text-sm font-medium mb-2 dark:text-gray-300">{{
         t('laravelVersionLabel')
-      }}</label>
+      }}</Label>
       <CustomSelect
         :model-value="laravelVersion"
         :options="laravelVersionOptions"
@@ -12,9 +12,9 @@
     </div>
 
     <div>
-      <label class="block text-sm font-medium mb-2 dark:text-gray-300">
+      <Label class="block text-sm font-medium mb-2 dark:text-gray-300">
         {{ t('phpVersionLabel') }} <span class="text-red-500">*</span>
-      </label>
+      </Label>
       <CustomSelect
         :model-value="phpVersion"
         :options="phpVersionOptions"
@@ -52,9 +52,9 @@
     </div>
 
     <div>
-      <label class="block text-sm font-medium mb-2 dark:text-gray-300">{{
+      <Label class="block text-sm font-medium mb-2 dark:text-gray-300">{{
         t('laravelStarterLabel')
-      }}</label>
+      }}</Label>
       <CustomSelect
         :model-value="laravelStarter"
         :options="laravelStarterOptions"
@@ -69,6 +69,7 @@ import { computed, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useTools } from '../../composables/useTools'
 import CustomSelect from '../common/CustomSelect.vue'
+import { Label } from '@/components/ui/label'
 import phpIcon from '@/assets/svg/php.svg'
 import laravelIcon from '@/assets/svg/laravel.svg'
 

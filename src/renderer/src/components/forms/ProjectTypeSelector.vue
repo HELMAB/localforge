@@ -1,6 +1,6 @@
 <template>
   <div>
-    <label class="block text-sm font-medium mb-3 dark:text-gray-300 flex items-center gap-2">
+    <Label class="block text-sm font-medium mb-3 dark:text-gray-300 flex items-center gap-2">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         class="h-4 w-4"
@@ -14,16 +14,17 @@
         />
       </svg>
       {{ t('projectTypeLabel') }}
-    </label>
+    </Label>
     <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
-      <button
+      <Button
         v-for="framework in frameworks"
         :key="framework.value"
         type="button"
+        variant="outline"
         :class="[
-          'group relative p-4 rounded-lg border-2 transition-all duration-200 hover:scale-105',
+          'group relative p-4 h-auto rounded-lg border-2 transition-all duration-200 hover:scale-105',
           modelValue === framework.value
-            ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20 shadow-md'
+            ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20 shadow-md hover:bg-blue-50 dark:hover:bg-blue-900/20'
             : 'border-gray-200 dark:border-gray-600 hover:border-blue-300 dark:hover:border-blue-600 bg-white dark:bg-gray-700',
         ]"
         @click="$emit('update:modelValue', framework.value)"
@@ -67,13 +68,15 @@
             />
           </svg>
         </div>
-      </button>
+      </Button>
     </div>
   </div>
 </template>
 
 <script setup>
 import { useI18n } from 'vue-i18n'
+import { Button } from '@/components/ui/button'
+import { Label } from '@/components/ui/label'
 import laravelIcon from '@/assets/svg/laravel.svg'
 import vuejsIcon from '@/assets/svg/vuejs.svg'
 import nuxtjsIcon from '@/assets/svg/nuxtjs.svg'

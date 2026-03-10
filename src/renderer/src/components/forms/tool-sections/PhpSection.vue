@@ -389,12 +389,12 @@
                     @update:model-value="() => toggleExtension(ext)"
                     @click.stop
                   />
-                  <label
+                  <Label
                     :for="`ext-${ext}`"
                     class="flex-1 text-sm font-medium dark:text-gray-300 cursor-pointer"
                   >
                     {{ ext }}
-                  </label>
+                  </Label>
                 </div>
               </div>
             </div>

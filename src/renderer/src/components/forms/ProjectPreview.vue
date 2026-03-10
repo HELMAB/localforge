@@ -124,8 +124,9 @@
 
     <!-- Command Preview (collapsible) -->
     <div v-if="command" class="mt-3">
-      <button
-        class="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1"
+      <Button
+        variant="link"
+        class="text-xs text-blue-600 dark:text-blue-400 h-auto p-0 flex items-center gap-1"
         @click="showCommand = !showCommand"
       >
         <svg
@@ -142,13 +143,15 @@
           />
         </svg>
         {{ showCommand ? t('hideTerminalOutput') : t('showTerminalOutput') }}
-      </button>
+      </Button>
       <div
         v-if="showCommand"
         class="mt-2 bg-gray-900 text-green-400 p-3 rounded font-mono text-xs overflow-x-auto relative"
       >
-        <button
-          class="absolute top-2 right-2 p-1 bg-gray-800 hover:bg-gray-700 rounded transition-colors"
+        <Button
+          variant="ghost"
+          size="icon"
+          class="absolute top-2 right-2 h-6 w-6 bg-gray-800 hover:bg-gray-700 text-gray-400 hover:text-white"
           :title="t('copyCommand')"
           @click="copyCommand"
         >
@@ -163,7 +166,7 @@
               d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z"
             />
           </svg>
-        </button>
+        </Button>
         <pre class="whitespace-pre-wrap break-all">{{ command }}</pre>
       </div>
     </div>
@@ -174,6 +177,7 @@
 import { ref, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useStatus } from '../../composables/useStatus'
+import { Button } from '@/components/ui/button'
 
 const { t } = useI18n()
 const status = useStatus()

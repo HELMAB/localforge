@@ -37,23 +37,17 @@
       </h4>
       <div class="space-y-3">
         <div>
-          <label class="block text-sm font-medium text-blue-800 dark:text-blue-300 mb-2">{{
+          <Label class="block text-sm font-medium text-blue-800 dark:text-blue-300 mb-2">{{
             t('postgresLabel')
-          }}</label>
-          <input
-            v-model="postgresVersion"
-            type="text"
-            placeholder="16"
-            class="w-full px-3 py-2 border border-blue-300 dark:border-blue-700 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-600 focus:border-transparent transition-all"
-          />
+          }}</Label>
+          <Input v-model="postgresVersion" type="text" placeholder="16" />
         </div>
-        <button
+        <Button
           :disabled="installedTools && installedTools.postgresql.installed"
-          class="px-6 py-2 bg-blue-600 dark:bg-blue-700 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-800 font-medium disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           @click="handleInstallPostgreSQL"
         >
           {{ t('postgresBtn') }}
-        </button>
+        </Button>
       </div>
     </div>
 
@@ -71,6 +65,9 @@ import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useStatus } from '../../../composables/useStatus'
 import AlertNotification from '../../common/AlertNotification.vue'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 
 const { t, locale } = useI18n()
 const status = useStatus()

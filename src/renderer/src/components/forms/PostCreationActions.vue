@@ -34,10 +34,11 @@
         {{ t('nextSteps') }}:
       </h4>
       <div class="space-y-2">
-        <button
+        <Button
           v-for="(action, index) in availableActions"
           :key="index"
-          class="w-full flex items-center justify-between p-3 rounded-lg border border-gray-200 dark:border-gray-600 hover:border-green-300 dark:hover:border-green-600 hover:bg-white dark:hover:bg-gray-800 transition-all group"
+          variant="outline"
+          class="w-full flex items-center justify-between p-3 h-auto hover:border-green-300 dark:hover:border-green-600 hover:bg-white dark:hover:bg-gray-800 group"
           @click="action.handler"
         >
           <div class="flex items-center gap-3">
@@ -68,16 +69,13 @@
               clip-rule="evenodd"
             />
           </svg>
-        </button>
+        </Button>
       </div>
     </div>
 
-    <button
-      class="w-full px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition-colors"
-      @click="$emit('close')"
-    >
+    <Button class="w-full" @click="$emit('close')">
       {{ t('createBtn') }}
-    </button>
+    </Button>
   </div>
 </template>
 
@@ -85,6 +83,7 @@
 import { computed, h } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
+import { Button } from '@/components/ui/button'
 
 const { t } = useI18n()
 const router = useRouter()

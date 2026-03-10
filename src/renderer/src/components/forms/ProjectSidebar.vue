@@ -4,12 +4,13 @@
     style="width: 200px; min-width: 200px"
   >
     <nav class="space-y-2 flex-1 overflow-y-auto">
-      <button
-        class="w-full px-3 py-2.5 rounded-lg text-sm font-medium transition-colors flex items-center gap-3"
+      <Button
+        variant="ghost"
+        class="w-full justify-start px-3 py-2.5 h-auto text-sm font-medium gap-3"
         :class="[
           activeView === 'recent'
-            ? 'bg-blue-500 dark:bg-blue-600 text-white hover:bg-blue-600 dark:hover:bg-blue-700'
-            : 'hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300',
+            ? 'bg-blue-500 dark:bg-blue-600 text-white hover:bg-blue-600 dark:hover:bg-blue-700 hover:text-white'
+            : 'text-gray-700 dark:text-gray-300',
         ]"
         @click="$emit('update:activeView', 'recent')"
       >
@@ -24,13 +25,14 @@
           />
         </svg>
         <span>{{ t('projects') }}</span>
-      </button>
-      <button
-        class="w-full px-3 py-2.5 rounded-lg text-sm font-medium transition-colors flex items-center gap-3"
+      </Button>
+      <Button
+        variant="ghost"
+        class="w-full justify-start px-3 py-2.5 h-auto text-sm font-medium gap-3"
         :class="[
           activeView === 'new'
-            ? 'bg-blue-500 dark:bg-blue-600 text-white hover:bg-blue-600 dark:hover:bg-blue-700'
-            : 'hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300',
+            ? 'bg-blue-500 dark:bg-blue-600 text-white hover:bg-blue-600 dark:hover:bg-blue-700 hover:text-white'
+            : 'text-gray-700 dark:text-gray-300',
         ]"
         @click="$emit('update:activeView', 'new')"
       >
@@ -47,13 +49,14 @@
           />
         </svg>
         <span>{{ t('quickSetup') }}</span>
-      </button>
-      <button
-        class="w-full px-3 py-2.5 rounded-lg text-sm font-medium transition-colors flex items-center gap-3"
+      </Button>
+      <Button
+        variant="ghost"
+        class="w-full justify-start px-3 py-2.5 h-auto text-sm font-medium gap-3"
         :class="[
           activeView === 'import'
-            ? 'bg-blue-500 dark:bg-blue-600 text-white hover:bg-blue-600 dark:hover:bg-blue-700'
-            : 'hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300',
+            ? 'bg-blue-500 dark:bg-blue-600 text-white hover:bg-blue-600 dark:hover:bg-blue-700 hover:text-white'
+            : 'text-gray-700 dark:text-gray-300',
         ]"
         @click="$emit('update:activeView', 'import')"
       >
@@ -70,13 +73,14 @@
           />
         </svg>
         <span>{{ t('importProject') }}</span>
-      </button>
+      </Button>
     </nav>
   </div>
 </template>
 
 <script setup>
 import { useI18n } from 'vue-i18n'
+import { Button } from '@/components/ui/button'
 
 const { t } = useI18n()
 

@@ -1,9 +1,9 @@
 <template>
   <div class="space-y-4">
     <div>
-      <label class="block text-sm font-medium mb-2 dark:text-gray-300">
+      <Label class="block text-sm font-medium mb-2 dark:text-gray-300">
         {{ t('wpPhpVersionLabel') }} <span class="text-red-500">*</span>
-      </label>
+      </Label>
       <CustomSelect
         :model-value="phpVersion"
         :options="phpVersionOptions"
@@ -44,6 +44,7 @@ import { computed, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useTools } from '../../composables/useTools'
 import CustomSelect from '../common/CustomSelect.vue'
+import { Label } from '@/components/ui/label'
 import phpIcon from '@/assets/svg/php.svg'
 
 const { t } = useI18n()

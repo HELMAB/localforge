@@ -6,10 +6,9 @@
         <img src="@/assets/svg/nodejs.svg" alt="Node.js" class="w-8 h-8" />
         <span>{{ t('sectionNodeTitle') }}</span>
       </h3>
-      <button
-        class="px-4 py-2 bg-green-500 dark:bg-green-600 text-white rounded-lg hover:bg-green-600 dark:hover:bg-green-700 font-medium transition-colors flex items-center gap-2"
+      <Button
+        class="flex items-center gap-2"
         :disabled="isInstalling"
-        :class="{ 'opacity-50 cursor-not-allowed': isInstalling }"
         @click="showInstallModal = true"
       >
         <svg
@@ -42,7 +41,7 @@
           />
         </svg>
         {{ isInstalling ? t('nodeInstallBtn') + '...' : t('nodeInstallBtn') }}
-      </button>
+      </Button>
     </div>
 
     <!-- Progress Bar -->
@@ -214,6 +213,7 @@ import InstallNodeModal from '../../common/InstallNodeModal.vue'
 import OutputLogModal from '../../common/OutputLogModal.vue'
 import DropdownMenu from '../../common/DropdownMenu.vue'
 import DropdownMenuItem from '../../common/DropdownMenuItem.vue'
+import { Button } from '@/components/ui/button'
 
 const { ipcRenderer } = window.require('electron')
 

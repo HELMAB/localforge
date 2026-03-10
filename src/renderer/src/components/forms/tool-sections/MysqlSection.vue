@@ -38,13 +38,12 @@
       <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">
         {{ t('mysqlInstallDesc') }}
       </p>
-      <button
+      <Button
         :disabled="installedTools && installedTools.mysql.installed"
-        class="px-6 py-2 bg-sky-600 dark:bg-sky-700 text-white rounded-lg hover:bg-sky-700 dark:hover:bg-sky-800 font-medium disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         @click="handleInstallMySQL"
       >
         {{ t('mysqlBtn') }}
-      </button>
+      </Button>
     </div>
 
     <AlertNotification
@@ -60,6 +59,7 @@
 import { useI18n } from 'vue-i18n'
 import { useStatus } from '../../../composables/useStatus'
 import AlertNotification from '../../common/AlertNotification.vue'
+import { Button } from '@/components/ui/button'
 
 const { t, locale } = useI18n()
 const status = useStatus()

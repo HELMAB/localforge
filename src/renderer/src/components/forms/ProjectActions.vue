@@ -1,9 +1,6 @@
 <template>
   <div ref="dropdownRef" class="relative">
-    <button
-      class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700"
-      @click="toggleDropdown"
-    >
+    <Button variant="ghost" size="icon" class="rounded-full h-8 w-8" @click="toggleDropdown">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         class="h-5 w-5 text-gray-500 dark:text-gray-400"
@@ -14,7 +11,7 @@
           d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"
         />
       </svg>
-    </button>
+    </Button>
 
     <Transition
       enter-active-class="transition-opacity duration-200 ease-in-out"
@@ -130,6 +127,7 @@
 <script setup>
 import { useI18n } from 'vue-i18n'
 import { useDropdown } from '@/composables/useDropdown'
+import { Button } from '@/components/ui/button'
 
 const { t } = useI18n()
 

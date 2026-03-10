@@ -1,26 +1,17 @@
 <template>
   <div class="space-y-4">
     <div>
-      <label class="block text-sm font-medium mb-2 dark:text-gray-300">
+      <Label class="block text-sm font-medium mb-2 dark:text-gray-300">
         {{ t('sslDomainLabel') }} <span class="text-red-500">*</span>
-      </label>
-      <input
-        v-model="domain"
-        type="text"
-        class="w-full px-4 py-2 border dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-        placeholder="example.local"
-      />
+      </Label>
+      <Input v-model="domain" type="text" placeholder="example.local" />
     </div>
 
     <InfoBox :title="t('sslNote')" :message="t('sslNote')" type="warning" />
 
-    <button
-      :disabled="isGenerating"
-      class="w-full px-6 py-3 bg-blue-500 dark:bg-blue-600 text-white rounded-lg hover:bg-blue-600 dark:hover:bg-blue-700 font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-      @click="handleGenerateSSL"
-    >
+    <Button class="w-full" :disabled="isGenerating" @click="handleGenerateSSL">
       {{ isGenerating ? t('checking') : t('generateBtn') }}
-    </button>
+    </Button>
 
     <AlertNotification
       :message="status.message.value"
@@ -38,6 +29,9 @@ import { useSsl } from '../../composables/useSsl'
 import { useStatus } from '../../composables/useStatus'
 import InfoBox from '../common/InfoBox.vue'
 import AlertNotification from '../common/AlertNotification.vue'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Button } from '@/components/ui/button'
 
 const { t, locale } = useI18n()
 const { generateSSL, isGenerating } = useSsl()

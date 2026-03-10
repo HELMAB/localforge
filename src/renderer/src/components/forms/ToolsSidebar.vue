@@ -4,24 +4,24 @@
     style="width: 180px; min-width: 180px"
   >
     <nav class="space-y-2 flex-1 overflow-y-auto">
-      <button
+      <Button
         v-for="tool in tools"
         :key="tool.id"
+        variant="ghost"
+        class="w-full justify-start px-3 py-2.5 h-auto text-sm font-medium gap-3"
         :class="sidebarButtonClass(tool.id)"
-        class="w-full px-3 py-2.5 rounded-lg text-sm font-medium transition-colors"
         @click="$emit('select', tool.id)"
       >
-        <div class="flex items-center gap-3">
-          <img :src="tool.icon" :alt="tool.id" class="w-5 h-5" />
-          <span class="text-sm">{{ t(tool.label) }}</span>
-        </div>
-      </button>
+        <img :src="tool.icon" :alt="tool.id" class="w-5 h-5" />
+        <span class="text-sm">{{ t(tool.label) }}</span>
+      </Button>
     </nav>
   </div>
 </template>
 
 <script setup>
 import { useI18n } from 'vue-i18n'
+import { Button } from '@/components/ui/button'
 import phpIcon from '@/assets/svg/php.svg'
 import composerIcon from '@/assets/svg/composer.svg'
 import nodejsIcon from '@/assets/svg/nodejs.svg'
