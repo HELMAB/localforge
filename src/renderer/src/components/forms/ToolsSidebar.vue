@@ -1,7 +1,6 @@
 <template>
   <div
-    class="bg-gray-50 dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 py-4 px-3 flex flex-col rounded-l-lg"
-    style="width: 180px; min-width: 180px"
+    class="w-[180px] min-w-[180px] bg-gray-50 dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 py-4 px-3 flex flex-col rounded-l-lg"
   >
     <nav class="space-y-2 flex-1 overflow-y-auto">
       <Button

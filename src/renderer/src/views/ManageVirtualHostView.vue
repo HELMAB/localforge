@@ -7,7 +7,6 @@
       <VirtualHostSidebar
         :active-menu="activeMenu"
         :configs="configs"
-        :t="t"
         @update:active-menu="(menu) => (activeMenu = menu)"
       />
 
