@@ -1,4 +1,5 @@
 ## Codebase Patterns
+- When deleting composables/components, always grep for all usages across the codebase before deleting
 - Main process uses CommonJS (`require`), renderer uses ES modules (`import`)
 - ESLint enforces no unused variables (must prefix with `_` if intentionally unused)
 - Menu module uses `Menu.buildFromTemplate()` and `Menu.setApplicationMenu()`
@@ -45,4 +46,19 @@
   - `ipcRenderer.on` callback receives `(_event, data)` — prefix unused event param with `_`
   - The `isDark` ref from `useDarkMode` is module-level (shared), so destructuring it works for reading current state
   - When menu-toggle-dark-mode fires, it calls the same toggleDarkMode which also sends dark-mode-changed back — this keeps menu checkbox in sync
+---
+
+## 2026-03-11 - US-004
+- Removed `<AppHeader />` and `<TabNavigation />` from App.vue template
+- Removed imports for AppHeader, TabNavigation, and useKeyboardShortcuts from App.vue
+- Removed `useKeyboardShortcuts()` call from App.vue
+- Removed `window.addEventListener('toggle-dark-mode', ...)` and `window.addEventListener('toggle-language', ...)` from App.vue (replaced by IPC)
+- Adjusted layout styling: removed `mb-6` from content wrapper, changed `m-6` to `m-4`
+- Deleted files: AppHeader.vue, TabNavigation.vue, usePeaceBanner.js, useKeyboardShortcuts.js
+- Cleaned up ManageSettingsView.vue: removed peace banner toggle UI and usePeaceBanner import (orphaned after header removal)
+- Files changed: App.vue, ManageSettingsView.vue, 4 files deleted
+- **Learnings for future iterations:**
+  - When deleting a composable, grep for all usages — usePeaceBanner was also used in ManageSettingsView.vue
+  - Removing a component's template usage may leave unused imports (`useI18n`, `t`) that lint will catch
+  - The `.chief` tooling may add `inProgress` fields to prd.json — handle gracefully when updating `passes`
 ---

@@ -71,8 +71,7 @@
         "`npm run lint` passes"
       ],
       "priority": 4,
-      "passes": false,
-      "inProgress": true
+      "passes": true
     }
   ]
 }
