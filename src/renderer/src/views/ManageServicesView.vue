@@ -46,8 +46,9 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import { useTools } from '../composables/useTools'
+import { useMenuNavigation } from '../composables/useMenuNavigation'
 import ToolsSidebar from '../components/forms/ToolsSidebar.vue'
 import PhpSection from '../components/forms/tool-sections/PhpSection.vue'
 import ComposerSection from '../components/forms/tool-sections/ComposerSection.vue'
@@ -70,9 +71,21 @@ const {
   installMySQL,
 } = useTools()
 
+const { menuActiveView, clearMenuActiveView } = useMenuNavigation()
 const selectedTool = ref('php')
+
+watch(menuActiveView, (newView) => {
+  if (['php', 'composer', 'node', 'nginx', 'postgresql', 'mysql'].includes(newView)) {
+    selectedTool.value = newView === 'node' ? 'node' : newView
+    clearMenuActiveView()
+  }
+})
 
 onMounted(() => {
   checkInstalledTools()
+  if (menuActiveView.value) {
+    selectedTool.value = menuActiveView.value === 'node' ? 'node' : menuActiveView.value
+    clearMenuActiveView()
+  }
 })
 </script>

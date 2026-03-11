@@ -19,14 +19,30 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 import ProjectSidebar from '../components/forms/ProjectSidebar.vue'
 import CreateProjectForm from '../components/forms/CreateProjectForm.vue'
 import ProjectList from '../components/forms/ProjectList.vue'
 import ImportProjectForm from '../components/forms/ImportProjectForm.vue'
+import { useMenuNavigation } from '../composables/useMenuNavigation'
 
+const { menuActiveView, clearMenuActiveView } = useMenuNavigation()
 const activeView = ref('recent')
 const hasProjects = ref(false)
+
+watch(menuActiveView, (newView) => {
+  if (newView && (newView === 'recent' || newView === 'new' || newView === 'import')) {
+    activeView.value = newView
+    clearMenuActiveView()
+  }
+})
+
+onMounted(() => {
+  if (menuActiveView.value) {
+    activeView.value = menuActiveView.value
+    clearMenuActiveView()
+  }
+})
 
 function handleProjectsLoaded(count) {
   hasProjects.value = count > 0

@@ -795,7 +795,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onBeforeUnmount, inject, nextTick } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount, inject, nextTick, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import {
   AlertCircle,
@@ -821,6 +821,7 @@ import { useNginx } from '../composables/useNginx'
 import { useStatus } from '../composables/useStatus'
 import { useTools } from '../composables/useTools'
 import { useFavorites } from '../composables/useFavorites'
+import { useMenuNavigation } from '../composables/useMenuNavigation'
 import { domainSchema, pathSchema, validateField } from '../utils/validation'
 import DirectorySelector from '../components/common/DirectorySelector.vue'
 import AlertNotification from '../components/common/AlertNotification.vue'
@@ -860,6 +861,28 @@ const port = ref(80)
 const enableSSL = ref(false)
 const configs = ref([])
 const activeMenu = ref('sites')
+const { menuActiveView, clearMenuActiveView } = useMenuNavigation()
+
+watch(menuActiveView, (newView) => {
+  if (newView === 'new') {
+    activeMenu.value = 'new-site'
+    clearMenuActiveView()
+  } else if (newView === 'manage') {
+    activeMenu.value = 'sites'
+    clearMenuActiveView()
+  }
+})
+
+onMounted(() => {
+  if (menuActiveView.value === 'new') {
+    activeMenu.value = 'new-site'
+    clearMenuActiveView()
+  } else if (menuActiveView.value === 'manage') {
+    activeMenu.value = 'sites'
+    clearMenuActiveView()
+  }
+})
+
 const openDropdown = ref(null)
 const dropdownRefs = ref({})
 const dropdownPositions = ref({})

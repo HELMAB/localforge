@@ -68,10 +68,6 @@ app.whenReady().then(() => {
   buildMenu(mainWindow)
   setupAutoUpdater()
 
-  ipcMain.on('dark-mode-changed', (_event, newIsDark) => {
-    rebuildMenu(mainWindow, { isDark: newIsDark })
-  })
-
   ipcMain.on('language-changed', (_event, newLanguage) => {
     rebuildMenu(mainWindow, { language: newLanguage })
   })

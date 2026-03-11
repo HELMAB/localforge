@@ -57,27 +57,22 @@ import WelcomeDialog from './components/common/WelcomeDialog.vue'
 import OnboardingTour from './components/common/OnboardingTour.vue'
 import OperationMonitor from './components/common/OperationMonitor.vue'
 import { Toaster } from './components/ui/toast'
-import { useDarkMode } from './composables/useDarkMode'
 import { useSettings } from './composables/useSettings'
 import { useErrorModal } from './composables/useErrorModal'
 import { useOnboarding } from './composables/useOnboarding'
 import { useOperationControl } from './composables/useOperationControl'
+import { useMenuNavigation } from './composables/useMenuNavigation'
 
 const { ipcRenderer } = window.require('electron')
 const router = useRouter()
 const { locale } = useI18n()
-const { isDark, toggleDarkMode: toggle } = useDarkMode()
 const { settings } = useSettings()
 const errorModal = useErrorModal()
 const onboarding = useOnboarding()
 const operations = useOperationControl()
+const { setMenuActiveView } = useMenuNavigation()
 const showCommandPalette = ref(false)
 const showWelcome = ref(false)
-
-const toggleDarkMode = () => {
-  toggle()
-  ipcRenderer.send('dark-mode-changed', isDark.value)
-}
 
 const handleStartTour = () => {
   onboarding.start()
@@ -95,21 +90,15 @@ watch(locale, (newLocale) => {
 onMounted(() => {
   locale.value = settings.value.language || 'km'
 
-  // Sync initial state to main process for menu checkmarks/radios
-  ipcRenderer.send('dark-mode-changed', isDark.value)
+  // Sync initial state to main process for menu labels
   ipcRenderer.send('language-changed', locale.value)
 
   // Listen for native menu IPC events
-  ipcRenderer.on('navigate', (_event, path) => {
+  ipcRenderer.on('navigate', (_event, path, subView) => {
     router.push(path)
-  })
-
-  ipcRenderer.on('menu-toggle-dark-mode', () => {
-    toggleDarkMode()
-  })
-
-  ipcRenderer.on('menu-set-language', (_event, lang) => {
-    locale.value = lang
+    if (subView) {
+      setMenuActiveView(subView)
+    }
   })
 
   // Show welcome dialog for first-time users
