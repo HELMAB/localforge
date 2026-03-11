@@ -1,6 +1,9 @@
 export default {
   appTitle: 'LocalForge',
   appTagline: 'Local Web Development Made Easy',
+  about: {
+    version: 'Version',
+  },
   tabCreate: 'New Project',
   tabNginx: 'Manage Virtual Host',
   tabManage: 'Manage Services',

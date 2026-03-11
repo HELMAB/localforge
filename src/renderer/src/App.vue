@@ -34,6 +34,14 @@
       @close="errorModal.hideError"
     />
 
+    <AboutModal
+      :visible="showAbout"
+      app-name="LocalForge"
+      version="1.0.4"
+      :description="t('appTagline')"
+      @close="showAbout = false"
+    />
+
     <CommandPalette v-model="showCommandPalette" />
 
     <WelcomeDialog v-if="showWelcome" @start-tour="handleStartTour" @skip="handleSkipTour" />
@@ -52,6 +60,7 @@ import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import AppFooter from './components/layout/AppFooter.vue'
 import ErrorModal from './components/common/ErrorModal.vue'
+import AboutModal from './components/common/AboutModal.vue'
 import CommandPalette from './components/common/CommandPalette.vue'
 import WelcomeDialog from './components/common/WelcomeDialog.vue'
 import OnboardingTour from './components/common/OnboardingTour.vue'
@@ -73,6 +82,7 @@ const operations = useOperationControl()
 const { setMenuActiveView } = useMenuNavigation()
 const showCommandPalette = ref(false)
 const showWelcome = ref(false)
+const showAbout = ref(false)
 
 const handleStartTour = () => {
   onboarding.start()
@@ -99,6 +109,10 @@ onMounted(() => {
     if (subView) {
       setMenuActiveView(subView)
     }
+  })
+
+  ipcRenderer.on('show-about', () => {
+    showAbout.value = true
   })
 
   // Show welcome dialog for first-time users
