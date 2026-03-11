@@ -71,15 +71,17 @@ import { useErrorModal } from './composables/useErrorModal'
 import { useOnboarding } from './composables/useOnboarding'
 import { useOperationControl } from './composables/useOperationControl'
 import { useMenuNavigation } from './composables/useMenuNavigation'
+import { useToast } from './composables/useToast'
 
 const { ipcRenderer } = window.require('electron')
 const router = useRouter()
-const { locale } = useI18n()
+const { locale, t } = useI18n()
 const { settings } = useSettings()
 const errorModal = useErrorModal()
 const onboarding = useOnboarding()
 const operations = useOperationControl()
 const { setMenuActiveView } = useMenuNavigation()
+const toast = useToast()
 const showCommandPalette = ref(false)
 const showWelcome = ref(false)
 const showAbout = ref(false)
@@ -113,6 +115,23 @@ onMounted(() => {
 
   ipcRenderer.on('show-about', () => {
     showAbout.value = true
+  })
+
+  ipcRenderer.on('restart-app', () => {
+    ipcRenderer.invoke('restart-app')
+  })
+
+  ipcRenderer.on('check-updates', async () => {
+    try {
+      const result = await ipcRenderer.invoke('check-for-updates')
+      if (result && result.updateInfo) {
+        toast.info(`${t('updateAvailable')}: v${result.updateInfo.version}`)
+      } else {
+        toast.info(t('noUpdates'))
+      }
+    } catch (error) {
+      toast.info(t('noUpdates'))
+    }
   })
 
   // Show welcome dialog for first-time users

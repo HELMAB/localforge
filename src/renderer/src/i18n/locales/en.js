@@ -1,6 +1,8 @@
 export default {
   appTitle: 'LocalForge',
   appTagline: 'Local Web Development Made Easy',
+  updateAvailable: 'Update available',
+  noUpdates: 'No updates available',
   about: {
     version: 'Version',
   },

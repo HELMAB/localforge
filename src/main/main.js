@@ -72,6 +72,23 @@ app.whenReady().then(() => {
     rebuildMenu(mainWindow, { language: newLanguage })
   })
 
+  ipcMain.handle('restart-app', () => {
+    app.relaunch()
+    app.exit(0)
+  })
+
+  ipcMain.handle('check-for-updates', async () => {
+    try {
+      if (process.env.NODE_ENV === 'development') {
+        return { updateAvailable: false, message: 'Updates not checked in development mode' }
+      }
+      const result = await autoUpdater.checkForUpdates()
+      return result
+    } catch (error) {
+      return { updateAvailable: false, message: error.message }
+    }
+  })
+
   registerProjectHandlers(mainWindow)
   registerNginxHandlers()
   registerToolsHandlers()

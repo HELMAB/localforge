@@ -1,6 +1,8 @@
 export default {
   appTitle: 'LocalForge',
   appTagline: 'ឧបករណ៍អភិវឌ្ឍន៍គេហទំព័រក្នុងតំបន់',
+  updateAvailable: 'មានការធ្វើបច្ចុប្បន្នភាព',
+  noUpdates: 'គ្នាមិនមានការធ្វើបច្ចុប្បន្នភាពទេ',
   about: {
     version: 'កំណែ',
   },
