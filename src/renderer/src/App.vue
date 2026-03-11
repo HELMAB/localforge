@@ -1,13 +1,9 @@
 <template>
   <div id="app" class="min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-200">
     <div>
-      <AppHeader />
-
       <div
-        class="bg-white dark:bg-gray-800 rounded-lg shadow-md mb-6 transition-colors duration-200 m-6 min-h-screen"
+        class="bg-white dark:bg-gray-800 rounded-lg shadow-md transition-colors duration-200 m-4 min-h-screen"
       >
-        <TabNavigation />
-
         <router-view v-slot="{ Component }">
           <Transition
             mode="out-in"
@@ -52,8 +48,6 @@
 import { ref, watch, onMounted, provide } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
-import AppHeader from './components/layout/AppHeader.vue'
-import TabNavigation from './components/layout/TabNavigation.vue'
 import AppFooter from './components/layout/AppFooter.vue'
 import ErrorModal from './components/common/ErrorModal.vue'
 import CommandPalette from './components/common/CommandPalette.vue'
@@ -63,7 +57,6 @@ import OperationMonitor from './components/common/OperationMonitor.vue'
 import { Toaster } from './components/ui/toast'
 import { useDarkMode } from './composables/useDarkMode'
 import { useSettings } from './composables/useSettings'
-import { useKeyboardShortcuts } from './composables/useKeyboardShortcuts'
 import { useErrorModal } from './composables/useErrorModal'
 import { useOnboarding } from './composables/useOnboarding'
 import { useOperationControl } from './composables/useOperationControl'
@@ -78,8 +71,6 @@ const onboarding = useOnboarding()
 const operations = useOperationControl()
 const showCommandPalette = ref(false)
 const showWelcome = ref(false)
-
-useKeyboardShortcuts()
 
 const toggleDarkMode = () => {
   toggle()
@@ -125,11 +116,6 @@ onMounted(() => {
       showWelcome.value = true
     }
   }, 500)
-
-  window.addEventListener('toggle-dark-mode', toggleDarkMode)
-  window.addEventListener('toggle-language', () => {
-    locale.value = locale.value === 'km' ? 'en' : 'km'
-  })
 
   // Command Palette shortcut (Cmd/Ctrl+K)
   window.addEventListener('keydown', (e) => {

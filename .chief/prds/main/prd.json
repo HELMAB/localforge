@@ -1,0 +1,78 @@
+{
+  "project": "Replace Header \u0026 Tabs with Native Electron Menu",
+  "description": "Remove the in-app Vue header (logo, dark mode toggle, language selector, peace banner) and tab navigation bar, replacing them with Electron's native window menu. This gives the app a cleaner, more native desktop feel while preserving all navigation and preference controls.",
+  "userStories": [
+    {
+      "id": "US-001",
+      "title": "Create Native Menu Module",
+      "description": "As a developer, I need a reusable menu builder module in the main process so that the native Electron menu can be constructed and rebuilt when state changes.",
+      "acceptanceCriteria": [
+        "New file `src/main/menu.js` created using CommonJS (matching main process convention)",
+        "Exports `buildMenu(mainWindow)` that creates and sets the application menu",
+        "Exports `rebuildMenu(mainWindow, state)` that updates checked/radio state and re-applies the menu",
+        "Module-level variables track current `isDark` (boolean) and `language` ('km'|'en') state",
+        "Menu includes: File (Quit), Navigation (4 items), View (dark mode checkbox + language radio submenu), Edit (role-based), Window (Reload, DevTools, Minimize)",
+        "Navigation items send IPC `'navigate'` with route path to renderer (e.g., `/projects`)",
+        "Dark mode item sends IPC `'menu-toggle-dark-mode'` to renderer",
+        "Language items send IPC `'menu-set-language'` with `'km'` or `'en'` to renderer",
+        "`npm run lint` passes"
+      ],
+      "priority": 1,
+      "passes": true
+    },
+    {
+      "id": "US-002",
+      "title": "Integrate Menu into Main Process",
+      "description": "As a developer, I need the main process to initialize the native menu and handle state sync IPC from the renderer so that menu state stays accurate.",
+      "acceptanceCriteria": [
+        "`ipcMain` added to the `require('electron')` destructure in `src/main/main.js`",
+        "`buildMenu` and `rebuildMenu` imported from `./menu`",
+        "`autoHideMenuBar: true` removed from BrowserWindow options",
+        "`buildMenu(mainWindow)` called after window creation in `app.whenReady()`",
+        "IPC listener `'dark-mode-changed'` calls `rebuildMenu` with updated `isDark`",
+        "IPC listener `'language-changed'` calls `rebuildMenu` with updated `language`",
+        "`npm run lint` passes"
+      ],
+      "priority": 2,
+      "passes": true
+    },
+    {
+      "id": "US-003",
+      "title": "Wire Renderer to Native Menu IPC",
+      "description": "As a user, I want menu clicks to navigate views and toggle preferences so that the native menu fully replaces the old in-app controls.",
+      "acceptanceCriteria": [
+        "`App.vue` imports `ipcRenderer` from electron and `useRouter` from vue-router",
+        "IPC listener `'navigate'` calls `router.push(path)` to switch views",
+        "IPC listener `'menu-toggle-dark-mode'` calls the existing `toggleDarkMode` function",
+        "IPC listener `'menu-set-language'` sets `locale.value` to the received language",
+        "On mount, renderer sends `'dark-mode-changed'` and `'language-changed'` with initial state to sync menu",
+        "A Vue `watch` on `locale` sends `'language-changed'` to main process on every change",
+        "After `toggleDarkMode`, sends `'dark-mode-changed'` with new `isDark` value to main process",
+        "`npm run lint` passes"
+      ],
+      "priority": 3,
+      "passes": true
+    },
+    {
+      "id": "US-004",
+      "title": "Remove Header, Tabs, and Unused Code",
+      "description": "As a developer, I want to clean up the removed UI components and unused composables so the codebase stays lean.",
+      "acceptanceCriteria": [
+        "`\u003cAppHeader /\u003e` removed from `App.vue` template",
+        "`\u003cTabNavigation /\u003e` removed from `App.vue` template",
+        "`AppHeader` and `TabNavigation` imports removed from `App.vue` script",
+        "`window.addEventListener('toggle-dark-mode', ...)` and `window.addEventListener('toggle-language', ...)` removed from `App.vue` (replaced by IPC)",
+        "File deleted: `src/renderer/src/components/layout/AppHeader.vue`",
+        "File deleted: `src/renderer/src/components/layout/TabNavigation.vue`",
+        "File deleted: `src/renderer/src/composables/usePeaceBanner.js`",
+        "File deleted: `src/renderer/src/composables/useKeyboardShortcuts.js`",
+        "`useKeyboardShortcuts` import and call removed from `App.vue`",
+        "Layout styling in `App.vue` adjusted (remove header-related spacing like `mb-6` on outer wrapper)",
+        "`npm run lint` passes"
+      ],
+      "priority": 4,
+      "passes": false,
+      "inProgress": true
+    }
+  ]
+}
