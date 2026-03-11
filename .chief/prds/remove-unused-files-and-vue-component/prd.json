@@ -1,0 +1,63 @@
+{
+  "project": "Remove Unused Files Detection",
+  "description": "Add functionality to detect and report unused/unreferenced files in development projects managed by LocalForge. Users can manually trigger a scan to identify files that are not imported or referenced anywhere in the project codebase. This helps developers clean up their project directories and reduce clutter.",
+  "userStories": [
+    {
+      "id": "US-001",
+      "title": "Add UI for unused files detection",
+      "description": "As a user, I want a dedicated UI to trigger unused file scanning so I can see what files are not being used in my project.",
+      "acceptanceCriteria": [
+        "New tab/route added to LocalForge for \"Clean Files\" functionality",
+        "User can select a project directory to scan",
+        "Scan button triggers the detection process",
+        "Loading indicator shown during scan",
+        "Typecheck passes"
+      ],
+      "priority": 1,
+      "passes": false
+    },
+    {
+      "id": "US-002",
+      "title": "Implement file reference detection logic",
+      "description": "As a developer, I need backend logic to scan files and detect which ones are not imported or referenced anywhere.",
+      "acceptanceCriteria": [
+        "Parse all source files (js, ts, vue, php, jsx, tsx) for import statements",
+        "Build a set of referenced file paths",
+        "Compare against all files in the project directory",
+        "Return list of unreferenced files with their paths",
+        "Typecheck passes"
+      ],
+      "priority": 2,
+      "passes": false
+    },
+    {
+      "id": "US-003",
+      "title": "Display detected unused files in UI",
+      "description": "As a user, I want to see a list of unused files with their details so I can decide what to clean up.",
+      "acceptanceCriteria": [
+        "Display list of unused files in a table/list format",
+        "Show file path relative to project root",
+        "Show file size for each item",
+        "Show file type/extension",
+        "Typecheck passes"
+      ],
+      "priority": 3,
+      "passes": false
+    },
+    {
+      "id": "US-004",
+      "title": "Add file deletion functionality",
+      "description": "As a user, I want to select and delete unused files directly from the UI so I can clean up my project.",
+      "acceptanceCriteria": [
+        "Checkbox/selection mechanism for each file",
+        "\"Select All\" option",
+        "Delete button to remove selected files",
+        "Confirmation dialog before deletion",
+        "Success message after deletion",
+        "Typecheck passes"
+      ],
+      "priority": 4,
+      "passes": false
+    }
+  ]
+}

@@ -1,0 +1,98 @@
+{
+  "project": "Refactor Native Menu \u0026 Remove Sidebars",
+  "description": "Refactor the Electron native menu to simplify the menu structure and remove sidebars from the main views. Currently, the app has separate File, Edit, Navigation, View, and Window menus with scattered functionality. This refactor consolidates all primary navigation and actions into a single File menu, adds a Help menu, and removes the sidebar navigation from all views.",
+  "userStories": [
+    {
+      "id": "US-001",
+      "title": "Restructure File menu with submenus",
+      "description": "As a user, I want all primary actions accessible from a single File menu so the menu is easier to navigate.",
+      "acceptanceCriteria": [
+        "File menu contains: Projects (submenu), Virtual Hosts (submenu), Services (submenu), Preferences",
+        "Projects submenu has: New Project, List Projects, Import Project",
+        "Virtual Hosts submenu has: New Virtual Host, Manage Sites",
+        "Services submenu has: PHP, Composer, Node.js, Nginx, PostgreSQL, MySQL",
+        "Preferences opens Settings view",
+        "Menu labels update when app language changes"
+      ],
+      "priority": 1,
+      "passes": true
+    },
+    {
+      "id": "US-002",
+      "title": "Remove Edit, Navigation, View menus",
+      "description": "As a user, I want a cleaner menu bar without redundant menus.",
+      "acceptanceCriteria": [
+        "Edit menu (role-based) is removed",
+        "Navigation menu is removed",
+        "View menu (Dark Mode toggle, Language selector) is removed",
+        "Dark Mode toggle available elsewhere (e.g., in Settings/Preferences)",
+        "Language selector available elsewhere (e.g., in Settings/Preferences)"
+      ],
+      "priority": 2,
+      "passes": true
+    },
+    {
+      "id": "US-003",
+      "title": "Add Window menu items",
+      "description": "As a user, I want access to window management and app info from the Window menu.",
+      "acceptanceCriteria": [
+        "Window menu contains: Minimize (existing), About (new)",
+        "About opens a modal or navigates to About page"
+      ],
+      "priority": 3,
+      "passes": true
+    },
+    {
+      "id": "US-004",
+      "title": "Add Help menu with App actions",
+      "description": "As a user, I want access to app actions and help from a Help menu.",
+      "acceptanceCriteria": [
+        "Help menu is added to menu bar",
+        "Help menu contains: Restart App, Check for Updates",
+        "Restart App restarts the Electron application",
+        "Check for Updates shows available updates (or \"No updates\" message)"
+      ],
+      "priority": 4,
+      "passes": true
+    },
+    {
+      "id": "US-005",
+      "title": "Localize menu labels",
+      "description": "As a Khmer-speaking user, I want menu labels displayed in my language when the app is set to Khmer.",
+      "acceptanceCriteria": [
+        "When app language is Khmer, File menu shows \"ឯកសារ\" (File)",
+        "When app language is Khmer, submenu labels appear in Khmer",
+        "Menu labels update dynamically when user changes language",
+        "All menu text is translatable via i18n system"
+      ],
+      "priority": 5,
+      "passes": true
+    },
+    {
+      "id": "US-006",
+      "title": "Create About page",
+      "description": "As a user, I want to see basic app information when clicking About.",
+      "acceptanceCriteria": [
+        "About page displays: App name, Version, Description",
+        "About page accessible via Window > About or Help > About",
+        "About page is a simple modal or dedicated view"
+      ],
+      "priority": 6,
+      "passes": true
+    },
+    {
+      "id": "US-007",
+      "title": "Remove sidebars from main views",
+      "description": "As a user, I want a cleaner UI without sidebars in the main views.",
+      "acceptanceCriteria": [
+        "Projects view has no sidebar (full-width content)",
+        "Virtual Hosts view has no sidebar (full-width content)",
+        "Services view has no sidebar (full-width content)",
+        "Settings view has no sidebar (full-width content)",
+        "Navigation happens via File menu or other UI elements"
+      ],
+      "priority": 7,
+      "passes": true
+    }
+  ]
+}
