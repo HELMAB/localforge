@@ -30,7 +30,7 @@ describe('useTools', () => {
 
   beforeEach(async () => {
     vi.resetModules()
-    const module = await import('./useTools')
+    const module = await import('@/composables/useTools')
     useTools = module.useTools
   })
 

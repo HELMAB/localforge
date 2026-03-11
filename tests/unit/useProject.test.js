@@ -28,7 +28,7 @@ describe('useProject', () => {
 
   beforeEach(async () => {
     vi.resetModules()
-    const module = await import('./useProject')
+    const module = await import('@/composables/useProject')
     useProject = module.useProject
   })
 

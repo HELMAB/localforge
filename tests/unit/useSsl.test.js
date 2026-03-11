@@ -22,7 +22,7 @@ describe('useSsl', () => {
 
   beforeEach(async () => {
     vi.resetModules()
-    const module = await import('./useSsl')
+    const module = await import('@/composables/useSsl')
     useSsl = module.useSsl
   })
 

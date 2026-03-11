@@ -20,7 +20,7 @@ describe('useIpc', () => {
 
   beforeEach(async () => {
     vi.resetModules()
-    const module = await import('./useIpc')
+    const module = await import('@/composables/useIpc')
     useIpc = module.useIpc
   })
 
@@ -128,7 +128,7 @@ describe('useIpc error handling', () => {
     delete window.require
 
     expect(() => {
-      const { useIpc } = require('./useIpc')
+      const { useIpc } = require('../../src/renderer/src/composables/useIpc')
       useIpc()
     }).toThrow('Electron IPC not available')
   })
@@ -138,7 +138,7 @@ describe('useIpc error handling', () => {
     window.require = vi.fn(() => null)
 
     expect(() => {
-      const { useIpc } = require('./useIpc')
+      const { useIpc } = require('../../src/renderer/src/composables/useIpc')
       useIpc()
     }).toThrow()
   })
@@ -148,7 +148,7 @@ describe('useIpc error handling', () => {
     window.require = vi.fn(() => ({}))
 
     expect(() => {
-      const { useIpc } = require('./useIpc')
+      const { useIpc } = require('../../src/renderer/src/composables/useIpc')
       useIpc()
     }).toThrow('Electron IPC not available')
   })
@@ -161,7 +161,7 @@ describe('useIpc error handling', () => {
       },
     }))
 
-    const { useIpc } = require('./useIpc')
+    const { useIpc } = require('../../src/renderer/src/composables/useIpc')
     const { invoke } = useIpc()
 
     await expect(invoke('test-channel')).rejects.toThrow(TypeError)

@@ -22,7 +22,7 @@ describe('useNginx', () => {
 
   beforeEach(async () => {
     vi.resetModules()
-    const module = await import('./useNginx')
+    const module = await import('@/composables/useNginx')
     useNginx = module.useNginx
   })
 

@@ -49,7 +49,7 @@ describe('useSettings', () => {
 
   beforeEach(async () => {
     vi.resetModules()
-    const module = await import('./useSettings')
+    const module = await import('@/composables/useSettings')
     useSettings = module.useSettings
   })
 

@@ -28,7 +28,7 @@ describe('useOperationControl', () => {
 
   beforeEach(async () => {
     vi.resetModules()
-    const module = await import('./useOperationControl')
+    const module = await import('@/composables/useOperationControl')
     useOperationControl = module.useOperationControl
   })
 
