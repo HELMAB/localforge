@@ -1,24 +1,27 @@
 <template>
   <div id="app" class="min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-200">
-    <div>
-      <div
-        class="bg-white dark:bg-gray-800 rounded-lg shadow-md transition-colors duration-200 m-4 min-h-screen"
-      >
-        <router-view v-slot="{ Component }">
-          <Transition
-            mode="out-in"
-            enter-active-class="transition-opacity duration-300 ease-in-out"
-            enter-from-class="opacity-0"
-            leave-active-class="transition-opacity duration-300 ease-in-out"
-            leave-to-class="opacity-0"
-          >
-            <component :is="Component" />
-          </Transition>
-        </router-view>
-      </div>
+    <div class="flex gap-4 p-4 min-h-screen">
+      <AppSidebar />
+      <div class="flex-1 min-w-0">
+        <div
+          class="bg-white dark:bg-gray-800 rounded-lg shadow-md transition-colors duration-200 min-h-full"
+        >
+          <router-view v-slot="{ Component }">
+            <Transition
+              mode="out-in"
+              enter-active-class="transition-opacity duration-300 ease-in-out"
+              enter-from-class="opacity-0"
+              leave-active-class="transition-opacity duration-300 ease-in-out"
+              leave-to-class="opacity-0"
+            >
+              <component :is="Component" />
+            </Transition>
+          </router-view>
+        </div>
 
-      <div class="mt-6">
-        <AppFooter />
+        <div class="mt-4">
+          <AppFooter />
+        </div>
       </div>
     </div>
 
@@ -59,6 +62,7 @@ import { ref, watch, onMounted, provide } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import AppFooter from './components/layout/AppFooter.vue'
+import AppSidebar from './components/layout/AppSidebar.vue'
 import ErrorModal from './components/common/ErrorModal.vue'
 import AboutModal from './components/common/AboutModal.vue'
 import CommandPalette from './components/common/CommandPalette.vue'
