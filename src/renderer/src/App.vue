@@ -1,25 +1,21 @@
 <template>
-  <div id="app" class="min-h-screen app-bg transition-colors duration-200">
-    <div class="mx-auto max-w-[1200px] px-6 pb-10">
-      <AppHeader />
-
-      <main class="lg-frame">
-        <TabNavigation />
-
-        <div class="p-2 sm:p-3">
-          <router-view v-slot="{ Component }">
-            <Transition
-              mode="out-in"
-              enter-active-class="transition-opacity duration-300 ease-in-out"
-              enter-from-class="opacity-0"
-              leave-active-class="transition-opacity duration-300 ease-in-out"
-              leave-to-class="opacity-0"
-            >
-              <component :is="Component" />
-            </Transition>
-          </router-view>
-        </div>
-      </main>
+  <div id="app" class="min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-200">
+    <div>
+      <div
+        class="bg-white dark:bg-gray-800 rounded-lg shadow-md transition-colors duration-200 m-4 min-h-screen"
+      >
+        <router-view v-slot="{ Component }">
+          <Transition
+            mode="out-in"
+            enter-active-class="transition-opacity duration-300 ease-in-out"
+            enter-from-class="opacity-0"
+            leave-active-class="transition-opacity duration-300 ease-in-out"
+            leave-to-class="opacity-0"
+          >
+            <component :is="Component" />
+          </Transition>
+        </router-view>
+      </div>
 
       <div class="mt-6">
         <AppFooter />
@@ -51,10 +47,9 @@
 </template>
 
 <script setup>
-import { ref, onMounted, provide } from 'vue'
+import { ref, watch, onMounted, provide } from 'vue'
 import { useI18n } from 'vue-i18n'
-import AppHeader from './components/layout/AppHeader.vue'
-import TabNavigation from './components/layout/TabNavigation.vue'
+import { useRouter } from 'vue-router'
 import AppFooter from './components/layout/AppFooter.vue'
 import ErrorModal from './components/common/ErrorModal.vue'
 import CommandPalette from './components/common/CommandPalette.vue'
@@ -64,13 +59,14 @@ import OperationMonitor from './components/common/OperationMonitor.vue'
 import { Toaster } from './components/ui/toast'
 import { useDarkMode } from './composables/useDarkMode'
 import { useSettings } from './composables/useSettings'
-import { useKeyboardShortcuts } from './composables/useKeyboardShortcuts'
 import { useErrorModal } from './composables/useErrorModal'
 import { useOnboarding } from './composables/useOnboarding'
 import { useOperationControl } from './composables/useOperationControl'
 
+const { ipcRenderer } = window.require('electron')
+const router = useRouter()
 const { locale } = useI18n()
-const { toggleDarkMode: toggle } = useDarkMode()
+const { isDark, toggleDarkMode: toggle } = useDarkMode()
 const { settings } = useSettings()
 const errorModal = useErrorModal()
 const onboarding = useOnboarding()
@@ -78,10 +74,9 @@ const operations = useOperationControl()
 const showCommandPalette = ref(false)
 const showWelcome = ref(false)
 
-useKeyboardShortcuts()
-
 const toggleDarkMode = () => {
   toggle()
+  ipcRenderer.send('dark-mode-changed', isDark.value)
 }
 
 const handleStartTour = () => {
@@ -92,8 +87,30 @@ const handleSkipTour = () => {
   onboarding.complete()
 }
 
+// Watch locale changes and sync to main process
+watch(locale, (newLocale) => {
+  ipcRenderer.send('language-changed', newLocale)
+})
+
 onMounted(() => {
   locale.value = settings.value.language || 'km'
+
+  // Sync initial state to main process for menu checkmarks/radios
+  ipcRenderer.send('dark-mode-changed', isDark.value)
+  ipcRenderer.send('language-changed', locale.value)
+
+  // Listen for native menu IPC events
+  ipcRenderer.on('navigate', (_event, path) => {
+    router.push(path)
+  })
+
+  ipcRenderer.on('menu-toggle-dark-mode', () => {
+    toggleDarkMode()
+  })
+
+  ipcRenderer.on('menu-set-language', (_event, lang) => {
+    locale.value = lang
+  })
 
   // Show welcome dialog for first-time users
   setTimeout(() => {
@@ -101,11 +118,6 @@ onMounted(() => {
       showWelcome.value = true
     }
   }, 500)
-
-  window.addEventListener('toggle-dark-mode', toggleDarkMode)
-  window.addEventListener('toggle-language', () => {
-    locale.value = locale.value === 'km' ? 'en' : 'km'
-  })
 
   // Command Palette shortcut (Cmd/Ctrl+K)
   window.addEventListener('keydown', (e) => {

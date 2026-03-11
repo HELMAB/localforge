@@ -1,11 +1,12 @@
 /* eslint-disable no-console */
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('path')
 const { autoUpdater } = require('electron-updater')
 const { registerProjectHandlers } = require('./handlers/projectHandlers')
 const { registerNginxHandlers } = require('./handlers/nginxHandlers')
 const { registerToolsHandlers } = require('./handlers/toolsHandlers')
 const { registerSystemHandlers } = require('./handlers/systemHandlers')
+const { buildMenu, rebuildMenu } = require('./menu')
 
 let mainWindow
 
@@ -19,7 +20,6 @@ function createWindow() {
       contextIsolation: false,
       // devTools: false,
     },
-    autoHideMenuBar: true,
     fullscreen: false,
     resizable: false,
     maximizable: false,
@@ -65,7 +65,16 @@ function setupAutoUpdater() {
 
 app.whenReady().then(() => {
   createWindow()
+  buildMenu(mainWindow)
   setupAutoUpdater()
+
+  ipcMain.on('dark-mode-changed', (_event, newIsDark) => {
+    rebuildMenu(mainWindow, { isDark: newIsDark })
+  })
+
+  ipcMain.on('language-changed', (_event, newLanguage) => {
+    rebuildMenu(mainWindow, { language: newLanguage })
+  })
 
   registerProjectHandlers(mainWindow)
   registerNginxHandlers()
