@@ -27,6 +27,8 @@ export default {
   noPhpVersionsInstalled: 'No PHP versions found. Install PHP in the Manage Services tab.',
   projectNameLabel: 'Project Name',
   projectPathLabel: 'Project Location',
+  frameworkSection: 'Framework',
+  projectInfoSection: 'Project Info',
   browseBtn: 'Browse',
   createBtn: 'Create Project',
   laravelInfoTitle: 'Laravel Project',

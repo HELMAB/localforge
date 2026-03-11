@@ -27,6 +27,8 @@ export default {
   noPhpVersionsInstalled: 'រកមិនឃើញកំណែ PHP។ ដំឡើង PHP នៅក្នុងផ្ទាំងគ្រប់គ្រងសេវាកម្ម។',
   projectNameLabel: 'ឈ្មោះគម្រោង',
   projectPathLabel: 'ទីតាំងគម្រោង',
+  frameworkSection: 'ក្របខ័ណ្ឌ',
+  projectInfoSection: 'ព័ត៌មានគម្រោង',
   browseBtn: 'រកមើល',
   createBtn: 'បង្កើតគម្រោង',
   laravelInfoTitle: 'គម្រោង Laravel',

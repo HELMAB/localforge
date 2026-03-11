@@ -1,5 +1,5 @@
 <template>
-  <div class="space-y-3">
+  <div class="space-y-6">
     <!-- Post Creation Success -->
     <PostCreationActions
       v-if="showPostCreation"
@@ -12,103 +12,126 @@
     <!-- Project Form -->
     <div
       v-else
-      class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4"
+      class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6"
     >
-      <div class="space-y-3">
-        <ProjectTypeSelector v-model="projectType" />
+      <!-- Section: Framework -->
+      <div class="mb-8">
+        <h3
+          class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4 flex items-center gap-2"
+        >
+          <LayoutGrid class="h-5 w-5 text-primary" />
+          {{ t('frameworkSection') }}
+        </h3>
+        <div class="space-y-4">
+          <ProjectTypeSelector v-model="projectType" />
 
-        <LaravelOptions
-          v-if="projectType === 'laravel'"
-          v-model:laravel-version="laravelVersion"
-          v-model:php-version="phpVersion"
-          v-model:laravel-starter="laravelStarter"
-          :validation-error="validationErrors.phpVersion"
-        />
+          <LaravelOptions
+            v-if="projectType === 'laravel'"
+            v-model:laravel-version="laravelVersion"
+            v-model:php-version="phpVersion"
+            v-model:laravel-starter="laravelStarter"
+            :validation-error="validationErrors.phpVersion"
+          />
 
-        <WordPressOptions
-          v-if="projectType === 'wordpress'"
-          v-model:php-version="wpPhpVersion"
-          :validation-error="validationErrors.phpVersion"
-        />
+          <WordPressOptions
+            v-if="projectType === 'wordpress'"
+            v-model:php-version="wpPhpVersion"
+            :validation-error="validationErrors.phpVersion"
+          />
 
-        <VueOptions
-          v-if="projectType === 'vue'"
-          v-model:typescript="vueOptions.typescript"
-          v-model:jsx="vueOptions.jsx"
-          v-model:router="vueOptions.router"
-          v-model:pinia="vueOptions.pinia"
-          v-model:vitest="vueOptions.vitest"
-          v-model:playwright="vueOptions.playwright"
-          v-model:eslint="vueOptions.eslint"
-          v-model:prettier="vueOptions.prettier"
-        />
+          <VueOptions
+            v-if="projectType === 'vue'"
+            v-model:typescript="vueOptions.typescript"
+            v-model:jsx="vueOptions.jsx"
+            v-model:router="vueOptions.router"
+            v-model:pinia="vueOptions.pinia"
+            v-model:vitest="vueOptions.vitest"
+            v-model:playwright="vueOptions.playwright"
+            v-model:eslint="vueOptions.eslint"
+            v-model:prettier="vueOptions.prettier"
+          />
 
-        <NuxtOptions v-if="projectType === 'nuxt'" v-model:nuxt-template="nuxtTemplate" />
+          <NuxtOptions v-if="projectType === 'nuxt'" v-model:nuxt-template="nuxtTemplate" />
 
-        <NodeOptions
-          v-if="['vue', 'nuxt', 'react'].includes(projectType)"
-          v-model:node-version="nodeVersion"
-          :project-type="projectType"
-          :validation-error="validationErrors.nodeVersion"
-        />
+          <NodeOptions
+            v-if="['vue', 'nuxt', 'react'].includes(projectType)"
+            v-model:node-version="nodeVersion"
+            :project-type="projectType"
+            :validation-error="validationErrors.nodeVersion"
+          />
+        </div>
+      </div>
 
-        <!-- Project Preview -->
-        <ProjectPreview
-          v-if="projectName && projectPath"
-          :project-type="projectType"
-          :project-name="projectName"
-          :php-version="projectType === 'laravel' ? phpVersion : wpPhpVersion"
-          :node-version="nodeVersion"
-          :laravel-version="laravelVersion"
-          :laravel-starter="laravelStarter"
-          :nuxt-template="nuxtTemplate"
-          :vue-options="vueOptions"
-        />
+      <!-- Section: Project Info -->
+      <div class="mb-8">
+        <h3
+          class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4 flex items-center gap-2"
+        >
+          <FolderKanban class="h-5 w-5 text-primary" />
+          {{ t('projectInfoSection') }}
+        </h3>
+        <div class="space-y-4">
+          <!-- Project Preview -->
+          <ProjectPreview
+            v-if="projectName && projectPath"
+            :project-type="projectType"
+            :project-name="projectName"
+            :php-version="projectType === 'laravel' ? phpVersion : wpPhpVersion"
+            :node-version="nodeVersion"
+            :laravel-version="laravelVersion"
+            :laravel-starter="laravelStarter"
+            :nuxt-template="nuxtTemplate"
+            :vue-options="vueOptions"
+          />
 
-        <!-- 1-Column Grid Layout -->
-        <div class="grid grid-cols-1 gap-3">
-          <div>
-            <Label class="block text-xs font-medium mb-1.5 dark:text-gray-300">
-              {{ t('projectNameLabel') }} <span class="text-red-500">*</span>
-            </Label>
-            <Input
-              v-model="projectName"
-              type="text"
-              :class="
-                validationErrors.projectName ? 'border-red-500 focus-visible:ring-red-500' : ''
-              "
-              :placeholder="locale === 'km' ? 'ឈ្មោះគម្រោងរបស់អ្នក' : 'my-awesome-project'"
-              @blur="validateProjectName"
-            />
-            <div
-              v-if="validationErrors.projectName"
-              class="flex items-start gap-1.5 mt-1.5 p-2 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md"
-            >
-              <AlertCircle class="h-4 w-4 text-red-500 dark:text-red-400 flex-shrink-0 mt-0.5" />
-              <p class="text-red-700 dark:text-red-300 text-xs leading-tight">
-                {{ validationErrors.projectName }}
-              </p>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <Label class="block text-sm font-medium mb-2 dark:text-gray-300">
+                {{ t('projectNameLabel') }} <span class="text-red-500">*</span>
+              </Label>
+              <Input
+                v-model="projectName"
+                type="text"
+                :class="[
+                  'w-full',
+                  validationErrors.projectName ? 'border-red-500 focus-visible:ring-red-500' : '',
+                ]"
+                :placeholder="locale === 'km' ? 'ឈ្មោះគម្រោងរបស់អ្នក' : 'my-awesome-project'"
+                @blur="validateProjectName"
+              />
+              <div
+                v-if="validationErrors.projectName"
+                class="flex items-start gap-1.5 mt-1.5 p-2 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md"
+              >
+                <AlertCircle class="h-4 w-4 text-red-500 dark:text-red-400 flex-shrink-0 mt-0.5" />
+                <p class="text-red-700 dark:text-red-300 text-xs leading-tight">
+                  {{ validationErrors.projectName }}
+                </p>
+              </div>
             </div>
-          </div>
 
-          <div>
-            <Label class="block text-xs font-medium mb-1.5 dark:text-gray-300">
-              {{ t('projectPathLabel') }} <span class="text-red-500">*</span>
-            </Label>
-            <DirectorySelector v-model="projectPath" />
-            <div
-              v-if="validationErrors.path"
-              class="flex items-start gap-1.5 mt-1.5 p-2 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md"
-            >
-              <AlertCircle class="h-4 w-4 text-red-500 dark:text-red-400 flex-shrink-0 mt-0.5" />
-              <p class="text-red-700 dark:text-red-300 text-xs leading-tight">
-                {{ validationErrors.path }}
-              </p>
+            <div>
+              <Label class="block text-sm font-medium mb-2 dark:text-gray-300">
+                {{ t('projectPathLabel') }} <span class="text-red-500">*</span>
+              </Label>
+              <DirectorySelector v-model="projectPath" />
+              <div
+                v-if="validationErrors.path"
+                class="flex items-start gap-1.5 mt-1.5 p-2 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md"
+              >
+                <AlertCircle class="h-4 w-4 text-red-500 dark:text-red-400 flex-shrink-0 mt-0.5" />
+                <p class="text-red-700 dark:text-red-300 text-xs leading-tight">
+                  {{ validationErrors.path }}
+                </p>
+              </div>
             </div>
           </div>
         </div>
+      </div>
 
-        <Button class="w-full" :disabled="isCreating" @click="handleCreateProject">
+      <!-- Submit Button -->
+      <div class="flex items-center gap-4">
+        <Button class="flex-1" size="lg" :disabled="isCreating" @click="handleCreateProject">
           {{ isCreating ? t('checking') : t('createBtn') }}
         </Button>
 
@@ -126,7 +149,7 @@
 <script setup>
 import { ref, inject, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { AlertCircle } from 'lucide-vue-next'
+import { AlertCircle, LayoutGrid, FolderKanban } from 'lucide-vue-next'
 import { useProject } from '../../composables/useProject'
 import { useStatus } from '../../composables/useStatus'
 import { useSettings } from '../../composables/useSettings'
