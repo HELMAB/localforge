@@ -49,8 +49,9 @@
 </template>
 
 <script setup>
-import { ref, onMounted, provide } from 'vue'
+import { ref, watch, onMounted, provide } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useRouter } from 'vue-router'
 import AppHeader from './components/layout/AppHeader.vue'
 import TabNavigation from './components/layout/TabNavigation.vue'
 import AppFooter from './components/layout/AppFooter.vue'
@@ -67,8 +68,10 @@ import { useErrorModal } from './composables/useErrorModal'
 import { useOnboarding } from './composables/useOnboarding'
 import { useOperationControl } from './composables/useOperationControl'
 
+const { ipcRenderer } = window.require('electron')
+const router = useRouter()
 const { locale } = useI18n()
-const { toggleDarkMode: toggle } = useDarkMode()
+const { isDark, toggleDarkMode: toggle } = useDarkMode()
 const { settings } = useSettings()
 const errorModal = useErrorModal()
 const onboarding = useOnboarding()
@@ -80,6 +83,7 @@ useKeyboardShortcuts()
 
 const toggleDarkMode = () => {
   toggle()
+  ipcRenderer.send('dark-mode-changed', isDark.value)
 }
 
 const handleStartTour = () => {
@@ -90,8 +94,30 @@ const handleSkipTour = () => {
   onboarding.complete()
 }
 
+// Watch locale changes and sync to main process
+watch(locale, (newLocale) => {
+  ipcRenderer.send('language-changed', newLocale)
+})
+
 onMounted(() => {
   locale.value = settings.value.language || 'km'
+
+  // Sync initial state to main process for menu checkmarks/radios
+  ipcRenderer.send('dark-mode-changed', isDark.value)
+  ipcRenderer.send('language-changed', locale.value)
+
+  // Listen for native menu IPC events
+  ipcRenderer.on('navigate', (_event, path) => {
+    router.push(path)
+  })
+
+  ipcRenderer.on('menu-toggle-dark-mode', () => {
+    toggleDarkMode()
+  })
+
+  ipcRenderer.on('menu-set-language', (_event, lang) => {
+    locale.value = lang
+  })
 
   // Show welcome dialog for first-time users
   setTimeout(() => {
