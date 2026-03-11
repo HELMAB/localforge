@@ -40,22 +40,22 @@ defineProps({
 })
 
 const boxClasses = {
-  info: 'bg-blue-50 dark:bg-blue-900/30 border-blue-500 dark:border-blue-600',
-  warning: 'bg-yellow-50 dark:bg-yellow-900/30 border-yellow-500 dark:border-yellow-600',
+  info: 'bg-info/10 dark:bg-info/20 border-info dark:border-info',
+  warning: 'bg-warning/10 dark:bg-warning/20 border-warning dark:border-warning',
 }
 
 const iconClasses = {
-  info: 'text-blue-600 dark:text-blue-400',
-  warning: 'text-yellow-600 dark:text-yellow-400',
+  info: 'text-info dark:text-info',
+  warning: 'text-warning dark:text-warning',
 }
 
 const titleClasses = {
-  info: 'text-blue-900 dark:text-blue-100',
-  warning: 'text-yellow-900 dark:text-yellow-100',
+  info: 'text-info dark:text-info',
+  warning: 'text-warning dark:text-warning',
 }
 
 const messageClasses = {
-  info: 'text-blue-800 dark:text-blue-200',
-  warning: 'text-yellow-800 dark:text-yellow-200',
+  info: 'text-foreground/80 dark:text-foreground/80',
+  warning: 'text-foreground/80 dark:text-foreground/80',
 }
 </script>

@@ -16,13 +16,13 @@ const state = useToastState()
 function toastClasses(variant) {
   switch (variant) {
     case 'success':
-      return 'border-emerald-200 bg-emerald-50 text-emerald-950 dark:border-emerald-900/40 dark:bg-emerald-950/40 dark:text-emerald-50'
+      return 'border-success/30 bg-success/10 text-success dark:border-success/40 dark:bg-success/20 dark:text-success-foreground'
     case 'error':
-      return 'border-red-200 bg-red-50 text-red-950 dark:border-red-900/40 dark:bg-red-950/40 dark:text-red-50'
+      return 'border-destructive/30 bg-destructive/10 text-destructive dark:border-destructive/40 dark:bg-destructive/20 dark:text-destructive-foreground'
     case 'warning':
-      return 'border-amber-200 bg-amber-50 text-amber-950 dark:border-amber-900/40 dark:bg-amber-950/40 dark:text-amber-50'
+      return 'border-warning/30 bg-warning/10 text-warning dark:border-warning/40 dark:bg-warning/20 dark:text-warning-foreground'
     case 'info':
-      return 'border-blue-200 bg-blue-50 text-blue-950 dark:border-blue-900/40 dark:bg-blue-950/40 dark:text-blue-50'
+      return 'border-info/30 bg-info/10 text-info dark:border-info/40 dark:bg-info/20 dark:text-info-foreground'
     default:
       return 'border-border bg-background text-foreground'
   }

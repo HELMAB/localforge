@@ -46,9 +46,9 @@ defineEmits(['close'])
 
 const statusClasses = {
   success:
-    'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-100 border-green-200 dark:border-green-700',
+    'bg-success/10 dark:bg-success/20 text-success dark:text-success border-success/30 dark:border-success/40',
   error:
-    'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-100 border-red-200 dark:border-red-700',
-  info: 'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-100 border-blue-200 dark:border-blue-700',
+    'bg-destructive/10 dark:bg-destructive/20 text-destructive dark:text-destructive border-destructive/30 dark:border-destructive/40',
+  info: 'bg-info/10 dark:bg-info/20 text-info dark:text-info border-info/30 dark:border-info/40',
 }
 </script>

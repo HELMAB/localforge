@@ -50,36 +50,36 @@ defineEmits(['close', 'confirm'])
 const titleClass = computed(
   () =>
     ({
-      danger: 'text-red-600 dark:text-red-400',
-      warning: 'text-yellow-600 dark:text-yellow-400',
-      info: 'text-blue-600 dark:text-blue-400',
+      danger: 'text-destructive dark:text-destructive',
+      warning: 'text-warning dark:text-warning',
+      info: 'text-info dark:text-info',
     })[props.level]
 )
 
 const iconBgClass = computed(
   () =>
     ({
-      danger: 'bg-red-100 dark:bg-red-900',
-      warning: 'bg-yellow-100 dark:bg-yellow-900',
-      info: 'bg-blue-100 dark:bg-blue-900',
+      danger: 'bg-destructive/10 dark:bg-destructive/20',
+      warning: 'bg-warning/10 dark:bg-warning/20',
+      info: 'bg-info/10 dark:bg-info/20',
     })[props.level]
 )
 
 const iconColorClass = computed(
   () =>
     ({
-      danger: 'text-red-600 dark:text-red-400',
-      warning: 'text-yellow-600 dark:text-yellow-400',
-      info: 'text-blue-600 dark:text-blue-400',
+      danger: 'text-destructive dark:text-destructive',
+      warning: 'text-warning dark:text-warning',
+      info: 'text-info dark:text-info',
     })[props.level]
 )
 
 const confirmButtonClass = computed(
   () =>
     ({
-      danger: 'bg-red-600 hover:bg-red-700 text-white',
-      warning: 'bg-yellow-500 hover:bg-yellow-600 text-white',
-      info: 'bg-blue-600 hover:bg-blue-700 text-white',
+      danger: 'bg-destructive hover:bg-destructive/90 text-destructive-foreground',
+      warning: 'bg-warning hover:bg-warning/90 text-warning-foreground',
+      info: 'bg-info hover:bg-info/90 text-info-foreground',
     })[props.level]
 )
 </script>
