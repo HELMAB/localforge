@@ -43,113 +43,226 @@
           <CustomSelect v-model="projectType" :options="projectTypeOptions" />
         </div>
 
-        <!-- Domain Name -->
-        <div>
-          <label class="block text-sm font-medium mb-2 dark:text-gray-300">
-            {{ t('domainLabel') }} <span class="text-red-500">*</span>
-          </label>
-          <input
-            v-model="domain"
-            type="text"
-            :placeholder="locale === 'km' ? 'myapp.local' : 'myapp.local'"
-            :class="[
-              'w-full px-4 py-2 border rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 transition-colors',
-              validationErrors.domain
-                ? 'border-red-500 focus:ring-red-500'
-                : 'border-gray-300 dark:border-gray-600 focus:ring-blue-500',
-            ]"
-            @blur="validateDomain"
-          />
-          <div
-            v-if="validationErrors.domain"
-            class="flex items-start gap-1.5 mt-1.5 p-2 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md"
+        <!-- Section: Basic Settings -->
+        <div class="mb-8">
+          <h3
+            class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4 flex items-center gap-2"
           >
-            <AlertCircle class="h-4 w-4 text-red-500 dark:text-red-400 flex-shrink-0 mt-0.5" />
-            <p class="text-red-700 dark:text-red-300 text-xs leading-tight">
-              {{ validationErrors.domain }}
-            </p>
-          </div>
-        </div>
-
-        <!-- Project Path -->
-        <div>
-          <label class="block text-sm font-medium mb-2 dark:text-gray-300">
-            {{ t('nginxPathLabel') }} <span class="text-red-500">*</span>
-          </label>
-          <DirectorySelector v-model="nginxProjectPath" @update:model-value="validatePath" />
-          <div
-            v-if="validationErrors.path"
-            class="flex items-start gap-1.5 mt-1.5 p-2 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md"
-          >
-            <AlertCircle class="h-4 w-4 text-red-500 dark:text-red-400 flex-shrink-0 mt-0.5" />
-            <p class="text-red-700 dark:text-red-300 text-xs leading-tight">
-              {{ validationErrors.path }}
-            </p>
-          </div>
-        </div>
-
-        <!-- PHP Version (only for PHP, Laravel, and WordPress projects) -->
-        <div v-if="['php', 'laravel', 'wordpress'].includes(projectType)">
-          <label class="block text-sm font-medium mb-2 dark:text-gray-300">{{
-            t('nginxPhpVersionLabel')
-          }}</label>
-          <CustomSelect
-            v-model="phpVersion"
-            :options="phpVersionOptions"
-            placeholder="Auto-detect (ស្វ័យប្រវត្តិ)"
-          />
-          <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">
-            {{
-              locale === 'km'
-                ? 'ប្រព័ន្ធនឹងស្វែងរក PHP-FPM socket ដែលមាននៅក្នុងថត /run/php/ ដោយស្វ័យប្រវត្តិ។'
-                : 'The system will automatically search for available PHP-FPM sockets in /run/php/.'
-            }}
-          </p>
-        </div>
-
-        <!-- Port -->
-        <div>
-          <label class="block text-sm font-medium mb-2 dark:text-gray-300">{{
-            t('portLabel')
-          }}</label>
-          <input
-            v-model.number="port"
-            type="number"
-            placeholder="3000"
-            class="w-full px-4 py-2 border dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
-
-        <!-- Enable SSL Toggle -->
-        <div>
-          <div
-            class="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-900 transition-all hover:border-blue-300 dark:hover:border-blue-600"
-          >
-            <div class="flex-1">
-              <label
-                class="flex items-center gap-2 text-sm font-medium text-gray-900 dark:text-gray-100 cursor-pointer"
-              >
-                <Lock class="h-5 w-5 text-green-600 dark:text-green-400" />
-                {{ t('enableSSL') }}
+            <Settings class="h-5 w-5 text-primary" />
+            {{ t('nginxBasicSettings') }}
+          </h3>
+          <div class="space-y-4">
+            <!-- Domain Name -->
+            <div>
+              <label class="block text-sm font-medium mb-2 dark:text-gray-300">
+                {{ t('domainLabel') }} <span class="text-red-500">*</span>
               </label>
-              <p class="text-xs text-gray-600 dark:text-gray-400 mt-1 ml-7">
-                {{ t('enableSSLDesc') }}
+              <div class="relative">
+                <input
+                  v-model="domain"
+                  type="text"
+                  :placeholder="locale === 'km' ? 'myapp.local' : 'myapp.local'"
+                  :class="[
+                    'w-full px-4 py-2 pr-10 border rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 transition-colors',
+                    validationErrors.domain
+                      ? 'border-red-500 focus:ring-red-500'
+                      : 'border-gray-300 dark:border-gray-600 focus:ring-blue-500',
+                  ]"
+                  @blur="validateDomain"
+                />
+                <CheckCircle2
+                  v-if="domain && !validationErrors.domain"
+                  class="h-5 w-5 text-green-500 absolute right-3 top-1/2 -translate-y-1/2"
+                />
+              </div>
+              <div
+                v-if="validationErrors.domain"
+                class="flex items-start gap-1.5 mt-1.5 p-2 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md"
+              >
+                <AlertCircle class="h-4 w-4 text-red-500 dark:text-red-400 flex-shrink-0 mt-0.5" />
+                <p class="text-red-700 dark:text-red-300 text-xs leading-tight">
+                  {{ validationErrors.domain }}
+                </p>
+              </div>
+            </div>
+
+            <!-- Port with conflict detection -->
+            <div>
+              <label class="block text-sm font-medium mb-2 dark:text-gray-300">{{
+                t('portLabel')
+              }}</label>
+              <input
+                v-model.number="port"
+                type="number"
+                placeholder="80"
+                :class="[
+                  'w-full px-4 py-2 border rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 transition-colors',
+                  portConflict
+                    ? 'border-orange-500 focus:ring-orange-500'
+                    : 'border-gray-300 dark:border-gray-600 focus:ring-blue-500',
+                ]"
+                @blur="checkPortConflict"
+              />
+              <div
+                v-if="portConflict"
+                class="flex items-start gap-1.5 mt-1.5 p-2 bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-md"
+              >
+                <AlertCircle
+                  class="h-4 w-4 text-orange-500 dark:text-orange-400 flex-shrink-0 mt-0.5"
+                />
+                <p class="text-orange-700 dark:text-orange-300 text-xs leading-tight">
+                  {{ t('portConflictWarning', { port: port }) }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section: Paths -->
+        <div class="mb-8">
+          <h3
+            class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4 flex items-center gap-2"
+          >
+            <FolderKanban class="h-5 w-5 text-primary" />
+            {{ t('nginxPaths') }}
+          </h3>
+          <div class="space-y-4">
+            <!-- Project Dropdown -->
+            <div>
+              <label class="block text-sm font-medium mb-2 dark:text-gray-300">
+                {{ t('nginxProjectSelect') }}
+              </label>
+              <CustomSelect
+                v-model="selectedProjectPath"
+                :options="projectDropdownOptions"
+                :placeholder="t('nginxProjectSelectPlaceholder')"
+                @update:model-value="handleProjectSelect"
+              />
+              <p
+                v-if="recentProjects.length === 0"
+                class="text-xs text-gray-500 dark:text-gray-400 mt-2"
+              >
+                {{ t('nginxNoProjectsFound') }}
               </p>
             </div>
-            <label class="relative inline-flex items-center cursor-pointer">
-              <input v-model="enableSSL" type="checkbox" class="sr-only peer" />
-              <div
-                class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"
+
+            <!-- Custom Path Toggle -->
+            <div class="flex items-center gap-2">
+              <input
+                id="customPathToggle"
+                v-model="useCustomPath"
+                type="checkbox"
+                class="w-4 h-4 text-primary bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 rounded focus:ring-primary"
               />
-            </label>
+              <label for="customPathToggle" class="text-sm text-gray-700 dark:text-gray-300">
+                {{ t('nginxCustomPath') }}
+              </label>
+            </div>
+
+            <!-- Project Path (shown when custom path is enabled) -->
+            <div v-if="useCustomPath">
+              <label class="block text-sm font-medium mb-2 dark:text-gray-300">
+                {{ t('nginxPathLabel') }} <span class="text-red-500">*</span>
+              </label>
+              <DirectorySelector v-model="nginxProjectPath" @update:model-value="validatePath" />
+              <div
+                v-if="validationErrors.path"
+                class="flex items-start gap-1.5 mt-1.5 p-2 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md"
+              >
+                <AlertCircle class="h-4 w-4 text-red-500 dark:text-red-400 flex-shrink-0 mt-0.5" />
+                <p class="text-red-700 dark:text-red-300 text-xs leading-tight">
+                  {{ validationErrors.path }}
+                </p>
+              </div>
+            </div>
           </div>
-          <p v-if="enableSSL" class="text-xs text-orange-600 dark:text-orange-400 mt-2">
-            {{
-              locale === 'km'
-                ? 'ត្រូវការ mkcert។ ប្រសិនបើមិនទាន់បានដំឡើង៖ sudo apt install mkcert'
-                : 'Requires mkcert. If not installed: sudo apt install mkcert'
-            }}
-          </p>
+        </div>
+
+        <!-- Section: Options -->
+        <div class="mb-8">
+          <h3
+            class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4 flex items-center gap-2"
+          >
+            <Sliders class="h-5 w-5 text-primary" />
+            {{ t('nginxOptions') }}
+          </h3>
+          <div class="space-y-4">
+            <!-- PHP Version (only for PHP, Laravel, and WordPress projects) -->
+            <div v-if="['php', 'laravel', 'wordpress'].includes(projectType)">
+              <label class="block text-sm font-medium mb-2 dark:text-gray-300">{{
+                t('nginxPhpVersionLabel')
+              }}</label>
+              <CustomSelect
+                v-model="phpVersion"
+                :options="phpVersionOptions"
+                placeholder="Auto-detect (ស្វ័យប្រវត្តិ)"
+              />
+              <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">
+                {{
+                  locale === 'km'
+                    ? 'ប្រព័ន្ធនឹងស្វែងរក PHP-FPM socket ដែលមាននៅក្នុងថត /run/php/ ដោយស្វ័យប្រវត្តិ។'
+                    : 'The system will automatically search for available PHP-FPM sockets in /run/php/.'
+                }}
+              </p>
+            </div>
+
+            <!-- Enable SSL Toggle -->
+            <div>
+              <div
+                class="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-900 transition-all hover:border-blue-300 dark:hover:border-blue-600"
+              >
+                <div class="flex-1">
+                  <label
+                    class="flex items-center gap-2 text-sm font-medium text-gray-900 dark:text-gray-100 cursor-pointer"
+                  >
+                    <Lock class="h-5 w-5 text-green-600 dark:text-green-400" />
+                    {{ t('enableSSL') }}
+                  </label>
+                  <p class="text-xs text-gray-600 dark:text-gray-400 mt-1 ml-7">
+                    {{ t('enableSSLDesc') }}
+                  </p>
+                </div>
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input v-model="enableSSL" type="checkbox" class="sr-only peer" />
+                  <div
+                    class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"
+                  />
+                </label>
+              </div>
+              <p v-if="enableSSL" class="text-xs text-orange-600 dark:text-orange-400 mt-2">
+                {{
+                  locale === 'km'
+                    ? 'ត្រូវការ mkcert។ ប្រសិនបើមិនទាន់បានដំឡើង៖ sudo apt install mkcert'
+                    : 'Requires mkcert. If not installed: sudo apt install mkcert'
+                }}
+              </p>
+            </div>
+
+            <!-- Enable PHP-FPM Toggle (for static sites) -->
+            <div v-if="!['php', 'laravel', 'wordpress'].includes(projectType)">
+              <div
+                class="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-900 transition-all hover:border-blue-300 dark:hover:border-blue-600"
+              >
+                <div class="flex-1">
+                  <label
+                    class="flex items-center gap-2 text-sm font-medium text-gray-900 dark:text-gray-100 cursor-pointer"
+                  >
+                    <Zap class="h-5 w-5 text-purple-600 dark:text-purple-400" />
+                    {{ t('enablePHPFPM') }}
+                  </label>
+                  <p class="text-xs text-gray-600 dark:text-gray-400 mt-1 ml-7">
+                    {{ t('enablePHPFPMDesc') }}
+                  </p>
+                </div>
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input v-model="enablePHPFPM" type="checkbox" class="sr-only peer" />
+                  <div
+                    class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"
+                  />
+                </label>
+              </div>
+            </div>
+          </div>
         </div>
 
         <button
@@ -789,6 +902,7 @@ import {
   Code2,
   FileText,
   Folder,
+  FolderKanban,
   Link,
   Lock,
   LockOpen,
@@ -797,14 +911,18 @@ import {
   RefreshCw,
   Search,
   SearchX,
+  Settings,
+  Sliders,
   Star,
   Trash2,
+  Zap,
 } from 'lucide-vue-next'
 import { useNginx } from '../composables/useNginx'
 import { useStatus } from '../composables/useStatus'
 import { useTools } from '../composables/useTools'
 import { useFavorites } from '../composables/useFavorites'
 import { useMenuNavigation } from '../composables/useMenuNavigation'
+import { useRecentProjects } from '../composables/useRecentProjects'
 import { domainSchema, pathSchema, validateField } from '../utils/validation'
 import DirectorySelector from '../components/common/DirectorySelector.vue'
 import AlertNotification from '../components/common/AlertNotification.vue'
@@ -834,6 +952,7 @@ const status = useStatus()
 const { installedTools, checkInstalledTools } = useTools()
 const { toggleFavorite, isFavorite } = useFavorites()
 const errorModal = inject('errorModal', null)
+const { recentProjects, loadRecentProjects } = useRecentProjects()
 
 const projectType = ref('php')
 const domain = ref('')
@@ -841,9 +960,56 @@ const nginxProjectPath = ref('')
 const phpVersion = ref('')
 const port = ref(80)
 const enableSSL = ref(false)
+const enablePHPFPM = ref(false)
+const selectedProjectPath = ref('')
+const useCustomPath = ref(false)
+const portConflict = ref(false)
 const configs = ref([])
 const activeMenu = ref('sites')
 const { menuActiveView, clearMenuActiveView } = useMenuNavigation()
+
+// Project dropdown options from recent projects
+const projectDropdownOptions = computed(() => {
+  return recentProjects.value.map((project) => ({
+    value: project.path,
+    label: `${project.name} (${project.type})`,
+  }))
+})
+
+// Handle project selection from dropdown
+function handleProjectSelect(path) {
+  const project = recentProjects.value.find((p) => p.path === path)
+  if (project) {
+    nginxProjectPath.value = project.path
+    // Set project type based on project
+    if (project.type === 'laravel') {
+      projectType.value = 'laravel'
+    } else if (project.type === 'wordpress') {
+      projectType.value = 'wordpress'
+    } else if (project.type === 'vue') {
+      projectType.value = 'vue'
+    } else if (project.type === 'nuxt') {
+      projectType.value = 'nuxt'
+    } else if (project.type === 'react') {
+      projectType.value = 'react'
+    } else if (project.type === 'static-html') {
+      projectType.value = 'static-html'
+    } else {
+      projectType.value = 'php'
+    }
+  }
+}
+
+// Check for port conflicts
+function checkPortConflict() {
+  if (!port.value) {
+    portConflict.value = false
+    return
+  }
+  // Check if port is in use by existing configs
+  const portInUse = configs.value.some((config) => config.enabled && config.port === port.value)
+  portConflict.value = portInUse
+}
 
 watch(menuActiveView, (newView) => {
   if (newView === 'new') {
@@ -913,6 +1079,7 @@ const inactiveSites = computed(() => filteredConfigs.value.filter((config) => !c
 
 onMounted(async () => {
   await checkInstalledTools()
+  await loadRecentProjects()
   loadCachedConfigs()
   await loadConfigs()
   document.addEventListener('click', handleClickOutside)
@@ -959,19 +1126,18 @@ async function loadConfigForEdit(configName) {
   try {
     const details = await getNginxConfigDetails(configName)
 
-    // Populate form with existing values
     domain.value = details.domain || ''
     nginxProjectPath.value = details.projectPath || ''
+    selectedProjectPath.value = ''
+    useCustomPath.value = true
     projectType.value = details.projectType || 'php'
     port.value = details.port || 80
     phpVersion.value = details.phpVersion || ''
     enableSSL.value = details.hasSSL || false
+    enablePHPFPM.value = details.phpFpmEnabled || false
 
-    // Set edit mode
     editMode.value = true
     editingConfigName.value = configName
-
-    // Switch to new-site menu
     activeMenu.value = 'new-site'
   } catch (error) {
     status.showStatus(
@@ -984,16 +1150,18 @@ async function loadConfigForEdit(configName) {
 }
 
 function cancelEdit() {
-  // Reset form
   domain.value = ''
   nginxProjectPath.value = ''
   projectType.value = 'php'
   port.value = 80
   phpVersion.value = ''
   enableSSL.value = false
+  enablePHPFPM.value = false
+  selectedProjectPath.value = ''
+  useCustomPath.value = false
+  portConflict.value = false
   validationErrors.value = {}
 
-  // Exit edit mode
   editMode.value = false
   editingConfigName.value = null
 }
@@ -1234,7 +1402,11 @@ function clearFilters() {
 async function handleConfigureNginx() {
   // Validate form fields
   validateDomain()
-  validatePath()
+
+  // Validate path if custom path is enabled
+  if (useCustomPath.value) {
+    validatePath()
+  }
 
   // Check if there are validation errors
   if (Object.keys(validationErrors.value).length > 0) {
@@ -1245,13 +1417,36 @@ async function handleConfigureNginx() {
     return
   }
 
-  if (!domain.value || !nginxProjectPath.value) {
+  // Check if path is provided (either from custom path or project dropdown)
+  if (!domain.value) {
     status.showStatus(
       locale.value === 'km' ? 'សូមបំពេញព័ត៌មានទាំងអស់' : 'Please fill all fields',
       'error'
     )
     return
   }
+
+  // If custom path is enabled, validate nginxProjectPath
+  if (useCustomPath.value && !nginxProjectPath.value) {
+    status.showStatus(locale.value === 'km' ? 'សូមជ្រើសរើសផ្លូវ' : 'Please select a path', 'error')
+    return
+  }
+
+  // If not using custom path, need a selected project
+  if (!useCustomPath.value && !selectedProjectPath.value && !nginxProjectPath.value) {
+    status.showStatus(
+      locale.value === 'km'
+        ? 'សូមជ្រើសរើសគម្រោង ឬ ប្រើផ្លូវផ្សេង'
+        : 'Please select a project or use custom path',
+      'error'
+    )
+    return
+  }
+
+  // Determine the project path to use
+  const projectPath = useCustomPath.value
+    ? nginxProjectPath.value
+    : selectedProjectPath.value || nginxProjectPath.value
 
   // If in edit mode, delete the old config first
   if (editMode.value && editingConfigName.value) {
@@ -1278,7 +1473,7 @@ async function handleConfigureNginx() {
   try {
     const result = await configureNginx({
       domain: domain.value,
-      projectPath: nginxProjectPath.value,
+      projectPath: projectPath,
       port: port.value,
       projectType: projectType.value,
       phpVersion: phpVersion.value || null,
