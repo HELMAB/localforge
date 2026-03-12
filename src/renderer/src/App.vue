@@ -1,8 +1,11 @@
 <template>
-  <div id="app" class="min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-200">
-    <div class="flex gap-4 p-4 min-h-screen">
+  <div
+    id="app"
+    class="min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-200 overflow-x-hidden"
+  >
+    <div class="flex gap-4 p-4 min-h-screen overflow-x-hidden max-w-full">
       <AppSidebar />
-      <div class="flex-1 min-w-0 flex flex-col gap-4">
+      <div class="flex-1 min-w-0 flex flex-col gap-4 max-w-full">
         <AppHeader />
         <div
           class="bg-white dark:bg-gray-800 rounded-lg shadow-md transition-colors duration-200 min-h-0 flex-1"

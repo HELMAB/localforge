@@ -14,6 +14,8 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,
+    minWidth: 800,
+    minHeight: 600,
     icon: path.join(__dirname, '../renderer/src/assets/icons/icon.png'),
     webPreferences: {
       nodeIntegration: true,
@@ -21,9 +23,9 @@ function createWindow() {
       // devTools: false,
     },
     fullscreen: false,
-    resizable: false,
-    maximizable: false,
-    fullscreenable: false,
+    resizable: true,
+    maximizable: true,
+    fullscreenable: true,
   })
 
   if (process.env.NODE_ENV === 'development') {
