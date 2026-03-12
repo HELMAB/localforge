@@ -20,9 +20,21 @@
 
           <div class="flex-1 text-sm font-medium whitespace-pre-line">{{ message }}</div>
 
-          <button class="flex-shrink-0 hover:opacity-70 transition-opacity" @click="$emit('close')">
-            <X class="w-5 h-5" />
-          </button>
+          <div class="flex flex-col items-end gap-2">
+            <button
+              v-if="actionLabel"
+              class="text-xs font-medium underline hover:opacity-70 transition-opacity"
+              @click="$emit('action')"
+            >
+              {{ actionLabel }}
+            </button>
+            <button
+              class="flex-shrink-0 hover:opacity-70 transition-opacity"
+              @click="$emit('close')"
+            >
+              <X class="w-5 h-5" />
+            </button>
+          </div>
         </div>
       </div>
     </Transition>
@@ -40,9 +52,10 @@ defineProps({
     validator: (value) => ['success', 'error', 'info'].includes(value),
   },
   visible: { type: Boolean, default: false },
+  actionLabel: { type: String, default: null },
 })
 
-defineEmits(['close'])
+defineEmits(['close', 'action'])
 
 const statusClasses = {
   success:

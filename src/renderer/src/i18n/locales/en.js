@@ -212,6 +212,19 @@ export default {
   shortcutDarkMode: 'Toggle Dark Mode',
   shortcutLanguage: 'Toggle Language',
   shortcutSettings: 'Open Settings',
+  // SSL Certificate
+  sslDomainLabel: 'Domain Name',
+  sslProjectLabel: 'Associated Project',
+  sslProjectPlaceholder: 'Select a project (optional)',
+  sslNote:
+    'Make sure you have configured the domain in Nginx first. The certificate will be generated for the specified domain.',
+  sslGenerating: 'Generating SSL certificate...',
+  sslGenerateSuccess: 'SSL certificate generated successfully',
+  sslGenerateError: 'Failed to generate SSL certificate',
+  sslCertificatePath: 'Certificate saved to',
+  sslDomainInvalid: 'Invalid domain format (e.g., example.local)',
+  sslSelectProject: 'Select from recent projects',
+  generateBtn: 'Generate Certificate',
   // New Project improvements
   recentProjects: 'Recent Projects',
   noRecentProjects: 'No recent projects',

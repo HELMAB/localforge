@@ -210,6 +210,19 @@ export default {
   shortcutDarkMode: 'បិទបើកម៉ូតងងឹត',
   shortcutLanguage: 'ប្តូរភាសា',
   shortcutSettings: 'បើកការកំណត់',
+  // SSL Certificate
+  sslDomainLabel: 'ឈ្មោះដែន',
+  sslProjectLabel: 'គម្រោងដែលទាក់ទង',
+  sslProjectPlaceholder: 'ជ្រើសរើសគម្រោង (មិនទាប់ចាំបាច់)',
+  sslNote:
+    'ត្រូវប្រាកដថាអ្នកបានកំណត់រចនាសម្ព័ន្ធ domain ក្នុង Nginx រួចហើយ។ វិញ្ញាបនប័ត្រនឹងត្រូវបានបង្កើតសម្រាប់domain ដែលបានបញ្ជាក់។',
+  sslGenerating: 'កំពុងបង្កើតវិញ្ញាបនប័ត្រ SSL...',
+  sslGenerateSuccess: 'វិញ្ញាបនប័ត្រ SSL បានបង្កើតជោគជ័យ',
+  sslGenerateError: 'មិនអាចបង្កើតវិញ្ញាបនប័ត្រ SSL បានទេ',
+  sslCertificatePath: 'វិញ្ញាបនប័ត្របានរក្សាទុកនៅ',
+  sslDomainInvalid: 'ទម្រង់ domain មិនត្រឹមត្រូវ (ឧ. example.local)',
+  sslSelectProject: 'ជ្រើសរើសពីគម្រោងថ្មីៗ',
+  generateBtn: 'បង្កើតវិញ្ញាបនប័ត្រ',
   // New Project improvements
   recentProjects: 'គម្រោងថ្មីៗ',
   noRecentProjects: 'មិនមានគម្រោងថ្មីៗ',
