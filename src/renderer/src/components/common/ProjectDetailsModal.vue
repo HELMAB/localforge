@@ -96,7 +96,7 @@ import nuxtjsIcon from '@/assets/svg/nuxtjs.svg'
 import reactIcon from '@/assets/svg/react.svg'
 import wordpressIcon from '@/assets/svg/wordpress.svg'
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 
 const props = defineProps({
   visible: { type: Boolean, default: false },
@@ -135,7 +135,7 @@ function getProjectTypeLabel(type) {
 
 function formatDate(dateString) {
   if (!dateString) return 'N/A'
-  return new Date(dateString).toLocaleDateString(undefined, {
+  return new Date(dateString).toLocaleDateString(locale.value === 'km' ? 'km-KH' : 'en-US', {
     year: 'numeric',
     month: 'long',
     day: 'numeric',

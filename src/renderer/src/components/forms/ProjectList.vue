@@ -330,7 +330,7 @@ import nuxtjsIcon from '@/assets/svg/nuxtjs.svg'
 import reactIcon from '@/assets/svg/react.svg'
 import wordpressIcon from '@/assets/svg/wordpress.svg'
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 const { recentProjects, removeProjectWithConfigs, loadRecentProjects } = useRecentProjects()
 const { openInEditor, openInFileManager, openInBrowser } = useProject()
 const toast = useToast()
@@ -532,11 +532,11 @@ function formatDate(dateString) {
   const diff = now - date
   const days = Math.floor(diff / (1000 * 60 * 60 * 24))
 
-  if (days === 0) return 'Today'
-  if (days === 1) return 'Yesterday'
-  if (days < 7) return `${days} days ago`
+  if (days === 0) return locale.value === 'km' ? 'ថ្ងៃនេះ' : 'Today'
+  if (days === 1) return locale.value === 'km' ? 'ម្សិលមិញ' : 'Yesterday'
+  if (days < 7) return locale.value === 'km' ? `${days} ថ្ងៃមុន` : `${days} days ago`
 
-  return date.toLocaleDateString()
+  return date.toLocaleDateString(locale.value === 'km' ? 'km-KH' : 'en-US')
 }
 
 async function openInIDE(path) {

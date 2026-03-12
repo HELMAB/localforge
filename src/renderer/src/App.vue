@@ -2,9 +2,10 @@
   <div id="app" class="min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-200">
     <div class="flex gap-4 p-4 min-h-screen">
       <AppSidebar />
-      <div class="flex-1 min-w-0">
+      <div class="flex-1 min-w-0 flex flex-col gap-4">
+        <AppHeader />
         <div
-          class="bg-white dark:bg-gray-800 rounded-lg shadow-md transition-colors duration-200 min-h-full"
+          class="bg-white dark:bg-gray-800 rounded-lg shadow-md transition-colors duration-200 min-h-0 flex-1"
         >
           <router-view v-slot="{ Component }">
             <Transition
@@ -19,7 +20,7 @@
           </router-view>
         </div>
 
-        <div class="mt-4">
+        <div>
           <AppFooter />
         </div>
       </div>
@@ -62,6 +63,7 @@ import { ref, watch, onMounted, provide } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import AppFooter from './components/layout/AppFooter.vue'
+import AppHeader from './components/layout/AppHeader.vue'
 import AppSidebar from './components/layout/AppSidebar.vue'
 import ErrorModal from './components/common/ErrorModal.vue'
 import AboutModal from './components/common/AboutModal.vue'

@@ -74,7 +74,7 @@ import { Download, Upload } from 'lucide-vue-next'
 import { useBackup } from '@/composables/useBackup'
 import { Button } from '@/components/ui/button'
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 const { exporting, importing, exportBackup, importBackup } = useBackup()
 
 const message = ref(null)
@@ -113,5 +113,6 @@ const handleImport = async () => {
   }
 }
 
-const formatDate = (dateString) => new Date(dateString).toLocaleString()
+const formatDate = (dateString) =>
+  new Date(dateString).toLocaleString(locale.value === 'km' ? 'km-KH' : 'en-US')
 </script>

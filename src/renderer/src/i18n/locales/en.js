@@ -426,4 +426,5 @@ export default {
   hidePeaceBanner: 'Hide peace banner',
   showPeaceBanner: 'Show peace banner',
   peaceBannerControl: 'Peace banner',
+  switchLanguage: 'Switch Language',
 }

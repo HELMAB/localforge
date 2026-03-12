@@ -432,4 +432,5 @@ export default {
   hidePeaceBanner: 'លាក់បដាផ្លូវចិត្ត',
   showPeaceBanner: 'បង្ហាញបដាផ្លូវចិត្ត',
   peaceBannerControl: 'បដាផ្លូវចិត្ត',
+  switchLanguage: 'ប្តូរភាសា',
 }
