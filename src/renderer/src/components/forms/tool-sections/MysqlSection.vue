@@ -1,50 +1,22 @@
 <template>
-  <div class="p-6">
+  <div class="p-6 space-y-6">
     <h3 class="text-2xl font-bold mb-6 flex items-center gap-2 text-gray-900 dark:text-white">
       <img src="@/assets/svg/mysql.svg" alt="MySQL" class="w-8 h-8" />
       <span>{{ t('sectionMysqlTitle') }}</span>
     </h3>
 
-    <div
-      class="mb-6 bg-sky-50 dark:bg-sky-900/20 border border-sky-200 dark:border-sky-700 rounded-lg p-4"
-    >
-      <h4 class="font-semibold text-sky-800 dark:text-sky-300 mb-3">
-        {{ t('mysqlInstalledTitle') }}
-      </h4>
-      <div v-if="installedTools && installedTools.mysql.installed">
-        <div
-          class="flex items-center justify-between bg-white dark:bg-gray-800 p-3 rounded border border-sky-300 dark:border-sky-700"
-        >
-          <span class="font-medium text-sky-700 dark:text-sky-400"
-            >MySQL {{ installedTools.mysql.version || '' }}</span
-          >
-          <span
-            class="text-xs px-2 py-1 bg-sky-100 dark:bg-sky-900/50 text-sky-700 dark:text-sky-300 rounded"
-            >{{ t('installed') }}</span
-          >
-        </div>
-      </div>
-      <p v-else class="text-sm text-gray-600 dark:text-gray-400">
-        {{ t('notInstalled') }}
-      </p>
-    </div>
-
-    <div
-      class="bg-sky-50 dark:bg-gray-800 border border-sky-200 dark:border-sky-700 rounded-lg p-4"
-    >
-      <h4 class="font-semibold text-sky-800 dark:text-sky-300 mb-3">
-        {{ t('mysqlInstallTitle') }}
-      </h4>
-      <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">
-        {{ t('mysqlInstallDesc') }}
-      </p>
-      <Button
-        :disabled="installedTools && installedTools.mysql.installed"
-        @click="handleInstallMySQL"
-      >
-        {{ t('mysqlBtn') }}
-      </Button>
-    </div>
+    <ToolCard
+      name="MySQL"
+      :icon="mysqlIcon"
+      :version="installedTools?.mysql?.version"
+      :is-installed="installedTools?.mysql?.installed"
+      :description="t('mysqlDescription')"
+      color="sky"
+      :is-loading="isInstalling"
+      :loading-type="loadingType"
+      :locale="locale"
+      @install="handleInstallMySQL"
+    />
 
     <AlertNotification
       :message="status.message.value"
@@ -56,13 +28,16 @@
 </template>
 
 <script setup>
+import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useStatus } from '../../../composables/useStatus'
+import ToolCard from '../../common/ToolCard.vue'
 import AlertNotification from '../../common/AlertNotification.vue'
-import { Button } from '@/components/ui/button'
 
 const { t, locale } = useI18n()
 const status = useStatus()
+
+const mysqlIcon = new URL('../../../assets/svg/mysql.svg', import.meta.url).href
 
 const props = defineProps({
   installedTools: {
@@ -75,7 +50,12 @@ const props = defineProps({
   },
 })
 
+const isInstalling = ref(false)
+const loadingType = ref('')
+
 async function handleInstallMySQL() {
+  loadingType.value = 'install'
+  isInstalling.value = true
   status.showStatus(locale.value === 'km' ? 'កំពុងដំឡើង MySQL...' : 'Installing MySQL...', 'info')
 
   try {
@@ -89,6 +69,9 @@ async function handleInstallMySQL() {
       locale.value === 'km' ? `កំហុស: ${error.message}` : `Error: ${error.message}`,
       'error'
     )
+  } finally {
+    isInstalling.value = false
+    loadingType.value = ''
   }
 }
 </script>

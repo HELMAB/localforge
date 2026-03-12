@@ -1,50 +1,22 @@
 <template>
-  <div class="p-6">
+  <div class="p-6 space-y-6">
     <h3 class="text-2xl font-bold mb-6 flex items-center gap-2 text-gray-900 dark:text-white">
       <img src="@/assets/svg/nginx.svg" alt="Nginx" class="w-8 h-8" />
       <span>{{ t('sectionNginxTitle') }}</span>
     </h3>
 
-    <div
-      class="mb-6 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700 rounded-lg p-4"
-    >
-      <h4 class="font-semibold text-green-800 dark:text-green-300 mb-3">
-        {{ t('nginxInstalledTitle') }}
-      </h4>
-      <div v-if="installedTools && installedTools.nginx.installed">
-        <div
-          class="flex items-center justify-between bg-white dark:bg-gray-800 p-3 rounded border border-green-300 dark:border-green-700"
-        >
-          <span class="font-medium text-green-700 dark:text-green-400"
-            >Nginx {{ installedTools.nginx.version || '' }}</span
-          >
-          <span
-            class="text-xs px-2 py-1 bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 rounded"
-            >{{ t('installed') }}</span
-          >
-        </div>
-      </div>
-      <p v-else class="text-sm text-gray-600 dark:text-gray-400">
-        {{ t('notInstalled') }}
-      </p>
-    </div>
-
-    <div
-      class="bg-green-50 dark:bg-gray-800 border border-green-200 dark:border-green-700 rounded-lg p-4"
-    >
-      <h4 class="font-semibold text-green-800 dark:text-green-300 mb-3">
-        {{ t('nginxInstallTitle') }}
-      </h4>
-      <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">
-        {{ t('nginxInstallDesc') }}
-      </p>
-      <Button
-        :disabled="installedTools && installedTools.nginx.installed"
-        @click="handleInstallNginx"
-      >
-        {{ t('nginxInstallBtn') }}
-      </Button>
-    </div>
+    <ToolCard
+      name="Nginx"
+      :icon="nginxIcon"
+      :version="installedTools?.nginx?.version"
+      :is-installed="installedTools?.nginx?.installed"
+      :description="t('nginxDescription')"
+      color="green"
+      :is-loading="isInstalling"
+      :loading-type="loadingType"
+      :locale="locale"
+      @install="handleInstallNginx"
+    />
 
     <AlertNotification
       :message="status.message.value"
@@ -56,13 +28,16 @@
 </template>
 
 <script setup>
+import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useStatus } from '../../../composables/useStatus'
+import ToolCard from '../../common/ToolCard.vue'
 import AlertNotification from '../../common/AlertNotification.vue'
-import { Button } from '@/components/ui/button'
 
 const { t, locale } = useI18n()
 const status = useStatus()
+
+const nginxIcon = new URL('../../../assets/svg/nginx.svg', import.meta.url).href
 
 const props = defineProps({
   installedTools: {
@@ -75,7 +50,12 @@ const props = defineProps({
   },
 })
 
+const isInstalling = ref(false)
+const loadingType = ref('')
+
 async function handleInstallNginx() {
+  loadingType.value = 'install'
+  isInstalling.value = true
   status.showStatus(locale.value === 'km' ? 'កំពុងដំឡើង Nginx...' : 'Installing Nginx...', 'info')
 
   try {
@@ -89,6 +69,9 @@ async function handleInstallNginx() {
       locale.value === 'km' ? `កំហុស: ${error.message}` : `Error: ${error.message}`,
       'error'
     )
+  } finally {
+    isInstalling.value = false
+    loadingType.value = ''
   }
 }
 </script>

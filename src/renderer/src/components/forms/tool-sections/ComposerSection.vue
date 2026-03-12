@@ -1,52 +1,22 @@
 <template>
-  <div class="p-6">
+  <div class="p-6 space-y-6">
     <h3 class="text-2xl font-bold mb-6 flex items-center gap-2 text-gray-900 dark:text-white">
       <img src="@/assets/svg/composer.svg" alt="Composer" class="w-8 h-8" />
       <span>{{ t('sectionComposerTitle') }}</span>
     </h3>
 
-    <!-- Installed Composer -->
-    <div
-      class="mb-6 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700 rounded-lg p-4"
-    >
-      <h4 class="font-semibold text-amber-800 dark:text-amber-300 mb-3">
-        {{ t('composerInstalledTitle') }}
-      </h4>
-      <div v-if="installedTools && installedTools.composer.installed">
-        <div
-          class="flex items-center justify-between bg-white dark:bg-gray-800 p-3 rounded border border-amber-300 dark:border-amber-700"
-        >
-          <span class="font-medium text-amber-700 dark:text-amber-400"
-            >Composer {{ installedTools.composer.version || '' }}</span
-          >
-          <span
-            class="text-xs px-2 py-1 bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-300 rounded"
-            >{{ t('installed') }}</span
-          >
-        </div>
-      </div>
-      <p v-else class="text-sm text-gray-600 dark:text-gray-400">
-        {{ t('notInstalled') }}
-      </p>
-    </div>
-
-    <!-- Install Composer -->
-    <div
-      class="bg-amber-50 dark:bg-gray-800 border border-amber-200 dark:border-amber-700 rounded-lg p-4"
-    >
-      <h4 class="font-semibold text-amber-800 dark:text-amber-300 mb-3">
-        {{ t('composerInstallTitle') }}
-      </h4>
-      <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">
-        {{ t('composerInstallDesc') }}
-      </p>
-      <Button
-        :disabled="installedTools && installedTools.composer.installed"
-        @click="handleInstallComposer"
-      >
-        {{ t('composerInstallBtn') }}
-      </Button>
-    </div>
+    <ToolCard
+      name="Composer"
+      :icon="composerIcon"
+      :version="installedTools?.composer?.version"
+      :is-installed="installedTools?.composer?.installed"
+      :description="t('composerDescription')"
+      color="amber"
+      :is-loading="isInstalling"
+      :loading-type="loadingType"
+      :locale="locale"
+      @install="handleInstallComposer"
+    />
 
     <AlertNotification
       :message="status.message.value"
@@ -58,13 +28,16 @@
 </template>
 
 <script setup>
+import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useStatus } from '../../../composables/useStatus'
+import ToolCard from '../../common/ToolCard.vue'
 import AlertNotification from '../../common/AlertNotification.vue'
-import { Button } from '@/components/ui/button'
 
 const { t, locale } = useI18n()
 const status = useStatus()
+
+const composerIcon = new URL('../../../assets/svg/composer.svg', import.meta.url).href
 
 const props = defineProps({
   installedTools: {
@@ -77,7 +50,12 @@ const props = defineProps({
   },
 })
 
+const isInstalling = ref(false)
+const loadingType = ref('')
+
 async function handleInstallComposer() {
+  loadingType.value = 'install'
+  isInstalling.value = true
   status.showStatus(
     locale.value === 'km' ? 'កំពុងដំឡើង Composer...' : 'Installing Composer...',
     'info'
@@ -94,6 +72,9 @@ async function handleInstallComposer() {
       locale.value === 'km' ? `កំហុស: ${error.message}` : `Error: ${error.message}`,
       'error'
     )
+  } finally {
+    isInstalling.value = false
+    loadingType.value = ''
   }
 }
 </script>
