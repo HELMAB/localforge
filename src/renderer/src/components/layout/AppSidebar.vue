@@ -5,12 +5,12 @@
       collapsed ? 'w-16 min-w-16' : 'w-56 min-w-56',
     ]"
   >
-    <div class="flex items-center justify-between mb-4 px-2">
+    <div class="flex items-center justify-between mb-4 px-2 [app-region:drag]">
       <span v-if="!collapsed" class="text-sm font-bold text-foreground">
         {{ t('appTitle') }}
       </span>
       <button
-        class="p-1.5 rounded-lg hover:bg-background/50 text-muted-foreground transition-colors"
+        class="p-1.5 rounded-lg hover:bg-background/50 text-muted-foreground transition-colors [app-region:no-drag]"
         :title="collapsed ? t('expandSidebar') : t('collapseSidebar')"
         @click="collapsed = !collapsed"
       >

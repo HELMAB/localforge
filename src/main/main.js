@@ -23,6 +23,7 @@ function createWindow() {
       contextIsolation: false,
       // devTools: false,
     },
+    frame: false,
     fullscreen: false,
     resizable: true,
     maximizable: true,
