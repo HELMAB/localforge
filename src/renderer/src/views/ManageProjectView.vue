@@ -21,21 +21,30 @@ import ProjectList from '../components/forms/ProjectList.vue'
 import ImportProjectForm from '../components/forms/ImportProjectForm.vue'
 import { useMenuNavigation } from '../composables/useMenuNavigation'
 
-const { menuActiveView, clearMenuActiveView } = useMenuNavigation()
+const { menuActiveView, setMenuActiveView } = useMenuNavigation()
 const activeView = ref('recent')
 const hasProjects = ref(false)
 
+// Apply sidebar navigation to local view
 watch(menuActiveView, (newView) => {
-  if (newView && (newView === 'recent' || newView === 'new' || newView === 'import')) {
+  if (newView === 'new' || newView === 'import') {
     activeView.value = newView
-    clearMenuActiveView()
+  } else if (newView === null || newView === '') {
+    activeView.value = 'recent'
+  }
+})
+
+// Sync local activeView back to menuActiveView for sidebar highlighting
+watch(activeView, (newView) => {
+  const target = newView === 'new' || newView === 'import' ? newView : null
+  if (menuActiveView.value !== target) {
+    setMenuActiveView(target)
   }
 })
 
 onMounted(() => {
-  if (menuActiveView.value) {
+  if (menuActiveView.value === 'new' || menuActiveView.value === 'import') {
     activeView.value = menuActiveView.value
-    clearMenuActiveView()
   }
 })
 
