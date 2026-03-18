@@ -65,15 +65,17 @@
       </Button>
     </div>
 
-    <!-- Status Notification -->
-    <AlertNotification
-      :message="status.message.value"
-      :type="status.type.value"
-      :visible="status.visible.value"
-      :action-label="status.type.value === 'success' ? t('openInFileManager') : undefined"
-      @close="status.hideStatus"
-      @action="handleStatusAction"
-    />
+    <!-- Success Action -->
+    <div
+      v-if="certificatePath"
+      class="flex items-center gap-2 p-3 bg-success/10 dark:bg-success/20 border border-success/30 dark:border-success/40 rounded-lg"
+    >
+      <CheckCircle2 class="h-5 w-5 text-success flex-shrink-0" />
+      <span class="text-sm text-success flex-1">{{ t('sslGenerateSuccess') }}</span>
+      <Button variant="outline" size="sm" @click="handleOpenInFileManager">
+        {{ t('openInFileManager') }}
+      </Button>
+    </div>
   </div>
 </template>
 
@@ -81,12 +83,11 @@
 import { ref, computed, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useSsl } from '../../composables/useSsl'
-import { useStatus } from '../../composables/useStatus'
+import { useToast } from '../../composables/useToast'
 import { useRecentProjects } from '../../composables/useRecentProjects'
 import { validateField } from '../../utils/validation'
 import { domainSchema } from '../../utils/validation'
 import InfoBox from '../common/InfoBox.vue'
-import AlertNotification from '../common/AlertNotification.vue'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
@@ -95,7 +96,7 @@ import { CheckCircle2, AlertCircle, Loader2 } from 'lucide-vue-next'
 
 const { t, locale } = useI18n()
 const { generateSSL, isGenerating } = useSsl()
-const status = useStatus()
+const toast = useToast()
 const { recentProjects, loadRecentProjects } = useRecentProjects()
 
 const domain = ref('')
@@ -144,8 +145,8 @@ function autoDetectProject() {
   }
 }
 
-function handleStatusAction() {
-  if (status.type.value === 'success' && certificatePath.value) {
+function handleOpenInFileManager() {
+  if (certificatePath.value) {
     const { invoke } = useSsl()
     invoke('open-directory', { path: certificatePath.value })
   }
@@ -164,17 +165,17 @@ async function handleGenerateSSL() {
   }
 
   certificatePath.value = ''
-  status.showStatus(t('sslGenerating'), 'info')
+  toast.info(t('sslGenerating'))
 
   try {
     const result = await generateSSL(domain.value)
     certificatePath.value = result.path || ''
 
     const successMessage = result.message || t('sslGenerateSuccess')
-    status.showStatus(successMessage, 'success')
+    toast.success(successMessage)
   } catch (error) {
     const errorMessage = error.message || t('sslGenerateError')
-    status.showStatus(errorMessage, 'error')
+    toast.error(errorMessage)
   }
 }
 

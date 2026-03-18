@@ -276,13 +276,6 @@
           }}</span>
           <span v-else>{{ t('configureBtn') }}</span>
         </button>
-
-        <AlertNotification
-          :message="status.message.value"
-          :type="status.type.value"
-          :visible="status.visible.value"
-          @close="status.hideStatus"
-        />
       </div>
     </div>
 
@@ -918,14 +911,13 @@ import {
   Zap,
 } from 'lucide-vue-next'
 import { useNginx } from '../composables/useNginx'
-import { useStatus } from '../composables/useStatus'
+import { useToast } from '../composables/useToast'
 import { useTools } from '../composables/useTools'
 import { useFavorites } from '../composables/useFavorites'
 import { useMenuNavigation } from '../composables/useMenuNavigation'
 import { useRecentProjects } from '../composables/useRecentProjects'
 import { domainSchema, pathSchema, validateField } from '../utils/validation'
 import DirectorySelector from '../components/common/DirectorySelector.vue'
-import AlertNotification from '../components/common/AlertNotification.vue'
 import CustomSelect from '../components/common/CustomSelect.vue'
 import phpIcon from '@/assets/svg/php.svg'
 import laravelIcon from '@/assets/svg/laravel.svg'
@@ -948,7 +940,7 @@ const {
   getNginxConfigDetails,
   isLoading,
 } = useNginx()
-const status = useStatus()
+const toast = useToast()
 const { installedTools, checkInstalledTools } = useTools()
 const { toggleFavorite, isFavorite } = useFavorites()
 const errorModal = inject('errorModal', null)
@@ -1140,11 +1132,10 @@ async function loadConfigForEdit(configName) {
     editingConfigName.value = configName
     activeMenu.value = 'new-site'
   } catch (error) {
-    status.showStatus(
+    toast.error(
       locale.value === 'km'
         ? `កំហុសក្នុងការផ្ទុកការកំណត់: ${error.message}`
-        : `Error loading config: ${error.message}`,
-      'error'
+        : `Error loading config: ${error.message}`
     )
   }
 }
@@ -1252,17 +1243,15 @@ async function handleDeleteConfig(configName) {
 
   try {
     await deleteNginxConfig(configName)
-    status.showStatus(
-      locale.value === 'km' ? `បានលុប ${configName} ជោគជ័យ` : `Successfully deleted ${configName}`,
-      'success'
+    toast.success(
+      locale.value === 'km' ? `បានលុប ${configName} ជោគជ័យ` : `Successfully deleted ${configName}`
     )
     await loadConfigs()
   } catch (error) {
-    status.showStatus(
+    toast.error(
       locale.value === 'km'
         ? `កំហុសក្នុងការលុប: ${error.message}`
-        : `Error deleting: ${error.message}`,
-      'error'
+        : `Error deleting: ${error.message}`
     )
   }
 }
@@ -1271,19 +1260,17 @@ async function handleEnableConfig(configName) {
   closeDropdown()
   try {
     await enableNginxConfig(configName)
-    status.showStatus(
+    toast.success(
       locale.value === 'km'
         ? `បានបើកដំណើរការ ${configName} ជោគជ័យ`
-        : `Successfully enabled ${configName}`,
-      'success'
+        : `Successfully enabled ${configName}`
     )
     await loadConfigs()
   } catch (error) {
-    status.showStatus(
+    toast.error(
       locale.value === 'km'
         ? `កំហុសក្នុងការបើកដំណើរការ: ${error.message}`
-        : `Error enabling: ${error.message}`,
-      'error'
+        : `Error enabling: ${error.message}`
     )
   }
 }
@@ -1292,19 +1279,17 @@ async function handleDisableConfig(configName) {
   closeDropdown()
   try {
     await disableNginxConfig(configName)
-    status.showStatus(
+    toast.success(
       locale.value === 'km'
         ? `បានបិទដំណើរការ ${configName} ជោគជ័យ`
-        : `Successfully disabled ${configName}`,
-      'success'
+        : `Successfully disabled ${configName}`
     )
     await loadConfigs()
   } catch (error) {
-    status.showStatus(
+    toast.error(
       locale.value === 'km'
         ? `កំហុសក្នុងការបិទដំណើរការ: ${error.message}`
-        : `Error disabling: ${error.message}`,
-      'error'
+        : `Error disabling: ${error.message}`
     )
   }
 }
@@ -1312,26 +1297,23 @@ async function handleDisableConfig(configName) {
 async function handleAddSsl(configName) {
   closeDropdown()
   try {
-    status.showStatus(
+    toast.info(
       locale.value === 'km'
         ? 'កំពុងបង្កើត SSL... (អ្នកប្រហែលជាត្រូវបញ្ចូលពាក្យសម្ងាត់)'
-        : 'Adding SSL... (You may need to enter your password)',
-      'info'
+        : 'Adding SSL... (You may need to enter your password)'
     )
     await addSslToConfig(configName)
-    status.showStatus(
+    toast.success(
       locale.value === 'km'
         ? `បានបន្ថែម HTTPS ទៅ ${configName} ជោគជ័យ`
-        : `Successfully added HTTPS to ${configName}`,
-      'success'
+        : `Successfully added HTTPS to ${configName}`
     )
     await loadConfigs()
   } catch (error) {
-    status.showStatus(
+    toast.error(
       locale.value === 'km'
         ? `កំហុសក្នុងការបន្ថែម HTTPS: ${error.message}`
-        : `Error adding HTTPS: ${error.message}`,
-      'error'
+        : `Error adding HTTPS: ${error.message}`
     )
   }
 }
@@ -1349,19 +1331,17 @@ async function handleRemoveSsl(configName) {
 
   try {
     await removeSslFromConfig(configName)
-    status.showStatus(
+    toast.success(
       locale.value === 'km'
         ? `បានដក HTTPS ពី ${configName} ជោគជ័យ`
-        : `Successfully removed HTTPS from ${configName}`,
-      'success'
+        : `Successfully removed HTTPS from ${configName}`
     )
     await loadConfigs()
   } catch (error) {
-    status.showStatus(
+    toast.error(
       locale.value === 'km'
         ? `កំហុសក្នុងការដក HTTPS: ${error.message}`
-        : `Error removing HTTPS: ${error.message}`,
-      'error'
+        : `Error removing HTTPS: ${error.message}`
     )
   }
 }
@@ -1410,35 +1390,30 @@ async function handleConfigureNginx() {
 
   // Check if there are validation errors
   if (Object.keys(validationErrors.value).length > 0) {
-    status.showStatus(
-      locale.value === 'km' ? 'សូមពិនិត្យកំហុសនៅក្នុងទម្រង់' : 'Please fix validation errors',
-      'error'
+    toast.error(
+      locale.value === 'km' ? 'សូមពិនិត្យកំហុសនៅក្នុងទម្រង់' : 'Please fix validation errors'
     )
     return
   }
 
   // Check if path is provided (either from custom path or project dropdown)
   if (!domain.value) {
-    status.showStatus(
-      locale.value === 'km' ? 'សូមបំពេញព័ត៌មានទាំងអស់' : 'Please fill all fields',
-      'error'
-    )
+    toast.error(locale.value === 'km' ? 'សូមបំពេញព័ត៌មានទាំងអស់' : 'Please fill all fields')
     return
   }
 
   // If custom path is enabled, validate nginxProjectPath
   if (useCustomPath.value && !nginxProjectPath.value) {
-    status.showStatus(locale.value === 'km' ? 'សូមជ្រើសរើសផ្លូវ' : 'Please select a path', 'error')
+    toast.error(locale.value === 'km' ? 'សូមជ្រើសរើសផ្លូវ' : 'Please select a path')
     return
   }
 
   // If not using custom path, need a selected project
   if (!useCustomPath.value && !selectedProjectPath.value && !nginxProjectPath.value) {
-    status.showStatus(
+    toast.error(
       locale.value === 'km'
         ? 'សូមជ្រើសរើសគម្រោង ឬ ប្រើផ្លូវផ្សេង'
-        : 'Please select a project or use custom path',
-      'error'
+        : 'Please select a project or use custom path'
     )
     return
   }
@@ -1453,21 +1428,19 @@ async function handleConfigureNginx() {
     try {
       await deleteNginxConfig(editingConfigName.value)
     } catch (error) {
-      status.showStatus(
+      toast.error(
         locale.value === 'km'
           ? `កំហុសក្នុងការលុបការកំណត់ចាស់: ${error.message}`
-          : `Error deleting old config: ${error.message}`,
-        'error'
+          : `Error deleting old config: ${error.message}`
       )
       return
     }
   }
 
-  status.showStatus(
+  toast.info(
     locale.value === 'km'
       ? 'កំពុងកំណត់រចនាសម្ព័ន្ធ... (អ្នកប្រហែលជាត្រូវបញ្ចូលពាក្យសម្ងាត់)'
-      : 'Configuring... (You may need to enter your password)',
-    'info'
+      : 'Configuring... (You may need to enter your password)'
   )
 
   try {
@@ -1492,11 +1465,10 @@ async function handleConfigureNginx() {
         ? 'បានកំណត់រចនាសម្ព័ន្ធ'
         : 'configured'
 
-    status.showStatus(
+    toast.success(
       locale.value === 'km'
         ? `Nginx ${actionText}ជោគជ័យ!${phpInfo}${sslInfo}${hostsInfo}\n\nអ្នកអាចចូលប្រើគេហទំព័ររបស់អ្នកតាមរយៈ៖\nhttp://${domain.value}`
-        : `Nginx ${actionText} successfully!${phpInfo}${sslInfo}${hostsInfo}\n\nYou can now access your site at:\nhttp://${domain.value}`,
-      'success'
+        : `Nginx ${actionText} successfully!${phpInfo}${sslInfo}${hostsInfo}\n\nYou can now access your site at:\nhttp://${domain.value}`
     )
 
     // Reset form and exit edit mode
