@@ -1,12 +1,13 @@
 /* eslint-disable no-console */
-const { app, BrowserWindow, ipcMain } = require('electron')
+const { app, BrowserWindow, ipcMain, Menu } = require('electron')
 const path = require('path')
 const { autoUpdater } = require('electron-updater')
 const { registerProjectHandlers } = require('./handlers/projectHandlers')
 const { registerNginxHandlers } = require('./handlers/nginxHandlers')
 const { registerToolsHandlers } = require('./handlers/toolsHandlers')
 const { registerSystemHandlers } = require('./handlers/systemHandlers')
-const { buildMenu, rebuildMenu } = require('./menu')
+
+Menu.setApplicationMenu(null)
 
 let mainWindow
 
@@ -67,12 +68,7 @@ function setupAutoUpdater() {
 
 app.whenReady().then(() => {
   createWindow()
-  buildMenu(mainWindow)
   setupAutoUpdater()
-
-  ipcMain.on('language-changed', (_event, newLanguage) => {
-    rebuildMenu(mainWindow, { language: newLanguage })
-  })
 
   ipcMain.handle('restart-app', () => {
     app.relaunch()
