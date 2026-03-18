@@ -1,6 +1,20 @@
 <template>
   <aside class="w-52 min-w-52 bg-gray-900 h-screen flex flex-col [app-region:drag]">
     <div class="px-4 py-5 mb-2">
+      <div class="flex items-center gap-1.5 mb-3 [app-region:no-drag]">
+        <button
+          class="w-3 h-3 rounded-full bg-red-500 hover:bg-red-400 focus:outline-none"
+          @click="closeWindow"
+        />
+        <button
+          class="w-3 h-3 rounded-full bg-yellow-400 hover:bg-yellow-300 focus:outline-none"
+          @click="minimizeWindow"
+        />
+        <button
+          class="w-3 h-3 rounded-full bg-green-500 hover:bg-green-400 focus:outline-none"
+          @click="maximizeWindow"
+        />
+      </div>
       <span class="text-sm font-bold text-white">{{ t('appTitle') }}</span>
     </div>
 
@@ -50,8 +64,21 @@
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { Plus, Globe, Lock, Wrench, Settings } from 'lucide-vue-next'
+const { ipcRenderer } = window.require('electron')
 
 const { t } = useI18n()
+
+function closeWindow() {
+  ipcRenderer.send('window-close')
+}
+
+function minimizeWindow() {
+  ipcRenderer.send('window-minimize')
+}
+
+function maximizeWindow() {
+  ipcRenderer.send('window-maximize')
+}
 
 const navItems = computed(() => [
   { path: '/projects', label: t('tabCreate'), icon: Plus },
