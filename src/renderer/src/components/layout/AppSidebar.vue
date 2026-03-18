@@ -52,7 +52,7 @@
         @click="showAbout = true"
       >
         <Info class="h-5 w-5 flex-shrink-0" />
-        <span class="truncate">About</span>
+        <span class="truncate">{{ t('sidebarAbout') }}</span>
       </button>
     </div>
   </aside>
@@ -116,19 +116,19 @@ const navItems = computed(() => [
   {
     key: 'general',
     path: '/settings',
-    label: 'General',
+    label: t('sidebarGeneral'),
     icon: Settings,
   },
   {
     key: 'sites',
     path: '/projects',
-    label: 'Sites',
+    label: t('sidebarSites'),
     icon: Globe,
   },
   {
     key: 'php',
     path: '/services',
-    label: 'PHP',
+    label: t('sidebarPHP'),
     icon: Code,
     isActive: () => route.path === '/services' && false,
     onNavigate: (navigate) => navigateToSubView(navigate, 'php'),
@@ -136,7 +136,7 @@ const navItems = computed(() => [
   {
     key: 'node',
     path: '/services',
-    label: 'Node',
+    label: t('sidebarNode'),
     icon: Server,
     isActive: () => route.path === '/services' && false,
     onNavigate: (navigate) => navigateToSubView(navigate, 'node'),
@@ -144,49 +144,49 @@ const navItems = computed(() => [
   {
     key: 'expose',
     path: '/expose',
-    label: 'Expose',
+    label: t('sidebarExpose'),
     icon: Share2,
   },
   {
     key: 'services',
     path: '/services',
-    label: 'Services',
+    label: t('sidebarServices'),
     icon: Wrench,
   },
   {
     key: 'mail',
     path: '/mail',
-    label: 'Mail',
+    label: t('sidebarMail'),
     icon: Mail,
   },
   {
     key: 'dumps',
     path: '/dumps',
-    label: 'Dumps',
+    label: t('sidebarDumps'),
     icon: Database,
   },
   {
     key: 'debugger',
     path: '/debugger',
-    label: 'Debugger',
+    label: t('sidebarDebugger'),
     icon: Bug,
   },
   {
     key: 'herd-pro',
     path: '/herd-pro',
-    label: 'Herd Pro',
+    label: t('sidebarHerdPro'),
     icon: Star,
   },
   {
     key: 'shortcuts',
     path: '/shortcuts',
-    label: 'Shortcuts',
+    label: t('sidebarShortcuts'),
     icon: Keyboard,
   },
   {
     key: 'integrations',
     path: '/integrations',
-    label: 'Integrations',
+    label: t('sidebarIntegrations'),
     icon: Plug,
   },
 ])
