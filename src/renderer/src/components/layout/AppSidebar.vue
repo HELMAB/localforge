@@ -19,54 +19,63 @@
     </div>
 
     <nav class="flex-1 overflow-y-auto px-2 space-y-1">
-      <router-link
-        v-for="item in navItems"
-        :key="item.path + item.label"
-        v-slot="{ isActive, navigate }"
-        :to="item.path"
-        custom
-      >
+      <template v-for="item in navItems" :key="item.key">
         <button
+          v-if="item.action"
           class="w-full flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors [app-region:no-drag]"
-          :class="
-            isActive
-              ? 'bg-blue-600 text-white'
-              : 'text-gray-400 hover:bg-gray-800 hover:text-white'
-          "
-          @click="navigate"
+          :class="'text-gray-400 hover:bg-gray-800 hover:text-white'"
+          @click="item.action()"
         >
           <component :is="item.icon" class="h-5 w-5 flex-shrink-0" />
           <span class="truncate">{{ item.label }}</span>
         </button>
-      </router-link>
-    </nav>
 
-    <div class="px-2 py-4 border-t border-gray-700">
-      <router-link v-slot="{ isActive, navigate }" to="/settings" custom>
-        <button
-          class="w-full flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors [app-region:no-drag]"
-          :class="
-            isActive
-              ? 'bg-blue-600 text-white'
-              : 'text-gray-400 hover:bg-gray-800 hover:text-white'
-          "
-          @click="navigate"
-        >
-          <Settings class="h-5 w-5 flex-shrink-0" />
-          <span class="truncate">{{ t('settings') }}</span>
-        </button>
-      </router-link>
-    </div>
+        <router-link v-else v-slot="{ isActive, navigate }" :to="item.path" custom>
+          <button
+            class="w-full flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors [app-region:no-drag]"
+            :class="
+              isActive || item.isActive?.()
+                ? 'bg-blue-600 text-white'
+                : 'text-gray-400 hover:bg-gray-800 hover:text-white'
+            "
+            @click="item.onNavigate ? item.onNavigate(navigate) : navigate()"
+          >
+            <component :is="item.icon" class="h-5 w-5 flex-shrink-0" />
+            <span class="truncate">{{ item.label }}</span>
+          </button>
+        </router-link>
+      </template>
+    </nav>
   </aside>
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { ref, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { Plus, Globe, Lock, Wrench, Settings } from 'lucide-vue-next'
-const { ipcRenderer } = window.require('electron')
+import { useRoute } from 'vue-router'
+import {
+  Settings,
+  Globe,
+  Code,
+  Server,
+  Share2,
+  Wrench,
+  Mail,
+  Database,
+  Bug,
+  Star,
+  Keyboard,
+  Plug,
+  Info,
+} from 'lucide-vue-next'
+import { useMenuNavigation } from '@/composables/useMenuNavigation'
 
+const { ipcRenderer } = window.require('electron')
 const { t } = useI18n()
+const route = useRoute()
+const { setMenuActiveView } = useMenuNavigation()
+
+const showAbout = ref(false)
 
 function closeWindow() {
   ipcRenderer.send('window-close')
@@ -80,10 +89,95 @@ function maximizeWindow() {
   ipcRenderer.send('window-maximize')
 }
 
+function navigateToSubView(navigate, subView) {
+  setMenuActiveView(subView)
+  navigate()
+}
+
 const navItems = computed(() => [
-  { path: '/projects', label: t('tabCreate'), icon: Plus },
-  { path: '/virtual-hosts', label: t('tabNginx'), icon: Globe },
-  { path: '/ssl', label: t('sslTab'), icon: Lock },
-  { path: '/services', label: t('tabManage'), icon: Wrench },
+  {
+    key: 'general',
+    path: '/settings',
+    label: 'General',
+    icon: Settings,
+  },
+  {
+    key: 'sites',
+    path: '/projects',
+    label: 'Sites',
+    icon: Globe,
+  },
+  {
+    key: 'php',
+    path: '/services',
+    label: 'PHP',
+    icon: Code,
+    isActive: () => route.path === '/services' && false,
+    onNavigate: (navigate) => navigateToSubView(navigate, 'php'),
+  },
+  {
+    key: 'node',
+    path: '/services',
+    label: 'Node',
+    icon: Server,
+    isActive: () => route.path === '/services' && false,
+    onNavigate: (navigate) => navigateToSubView(navigate, 'node'),
+  },
+  {
+    key: 'expose',
+    path: '/expose',
+    label: 'Expose',
+    icon: Share2,
+  },
+  {
+    key: 'services',
+    path: '/services',
+    label: 'Services',
+    icon: Wrench,
+  },
+  {
+    key: 'mail',
+    path: '/mail',
+    label: 'Mail',
+    icon: Mail,
+  },
+  {
+    key: 'dumps',
+    path: '/dumps',
+    label: 'Dumps',
+    icon: Database,
+  },
+  {
+    key: 'debugger',
+    path: '/debugger',
+    label: 'Debugger',
+    icon: Bug,
+  },
+  {
+    key: 'herd-pro',
+    path: '/herd-pro',
+    label: 'Herd Pro',
+    icon: Star,
+  },
+  {
+    key: 'shortcuts',
+    path: '/shortcuts',
+    label: 'Shortcuts',
+    icon: Keyboard,
+  },
+  {
+    key: 'integrations',
+    path: '/integrations',
+    label: 'Integrations',
+    icon: Plug,
+  },
+  {
+    key: 'about',
+    label: 'About',
+    icon: Info,
+    action: () => {
+      showAbout.value = true
+    },
+  },
 ])
 </script>
