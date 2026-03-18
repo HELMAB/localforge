@@ -57,6 +57,12 @@
 
     <OperationMonitor />
 
+    <ProgressBar
+      :is-loading="progress.isLoading.value"
+      :progress="Math.round(progress.progress.value)"
+      :message="progress.message.value"
+    />
+
     <Toaster />
   </div>
 </template>
@@ -74,6 +80,7 @@ import CommandPalette from './components/common/CommandPalette.vue'
 import WelcomeDialog from './components/common/WelcomeDialog.vue'
 import OnboardingTour from './components/common/OnboardingTour.vue'
 import OperationMonitor from './components/common/OperationMonitor.vue'
+import ProgressBar from './components/common/ProgressBar.vue'
 import { Toaster } from './components/ui/toast'
 import { useSettings } from './composables/useSettings'
 import { useErrorModal } from './composables/useErrorModal'
@@ -81,6 +88,7 @@ import { useOnboarding } from './composables/useOnboarding'
 import { useOperationControl } from './composables/useOperationControl'
 import { useMenuNavigation } from './composables/useMenuNavigation'
 import { useToast } from './composables/useToast'
+import { useProgress } from './composables/useProgress'
 
 const { ipcRenderer } = window.require('electron')
 const router = useRouter()
@@ -91,6 +99,7 @@ const onboarding = useOnboarding()
 const operations = useOperationControl()
 const { setMenuActiveView } = useMenuNavigation()
 const toast = useToast()
+const progress = useProgress()
 const showCommandPalette = ref(false)
 const showWelcome = ref(false)
 const showAbout = ref(false)
@@ -161,4 +170,5 @@ onMounted(() => {
 
 provide('errorModal', errorModal)
 provide('operations', operations)
+provide('progress', progress)
 </script>

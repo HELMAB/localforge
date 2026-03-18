@@ -17,25 +17,17 @@
       :locale="locale"
       @install="handleInstallMySQL"
     />
-
-    <AlertNotification
-      :message="status.message.value"
-      :type="status.type.value"
-      :visible="status.visible.value"
-      @close="status.hideStatus"
-    />
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useStatus } from '../../../composables/useStatus'
+import { useToast } from '../../../composables/useToast'
 import ToolCard from '../../common/ToolCard.vue'
-import AlertNotification from '../../common/AlertNotification.vue'
 
 const { t, locale } = useI18n()
-const status = useStatus()
+const toast = useToast()
 
 const mysqlIcon = new URL('../../../assets/svg/mysql.svg', import.meta.url).href
 
@@ -56,19 +48,21 @@ const loadingType = ref('')
 async function handleInstallMySQL() {
   loadingType.value = 'install'
   isInstalling.value = true
-  status.showStatus(locale.value === 'km' ? 'កំពុងដំឡើង MySQL...' : 'Installing MySQL...', 'info')
+  toast.info(locale.value === 'km' ? 'កំពុងដំឡើង MySQL...' : 'Installing MySQL...')
 
   try {
     await props.onInstallMysql()
-    status.showStatus(
-      locale.value === 'km' ? 'MySQL បានដំឡើងជោគជ័យ' : 'MySQL installed successfully',
-      'success'
+    toast.success(
+      locale.value === 'km' ? 'MySQL បានដំឡើងជោគជ័យ' : 'MySQL installed successfully'
     )
   } catch (error) {
-    status.showStatus(
-      locale.value === 'km' ? `កំហុស: ${error.message}` : `Error: ${error.message}`,
-      'error'
-    )
+    const tip =
+      locale.value === 'km'
+        ? 'ពិនិត្យ sudo access និងប្រាកដថា port 3306 ទំនេរ'
+        : 'Check sudo access and ensure port 3306 is available'
+    toast.error(`${error.message} — ${tip}`, {
+      title: locale.value === 'km' ? 'បរាជ័យក្នុងការដំឡើង MySQL' : 'MySQL Installation Failed',
+    })
   } finally {
     isInstalling.value = false
     loadingType.value = ''

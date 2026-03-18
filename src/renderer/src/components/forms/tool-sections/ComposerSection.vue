@@ -17,25 +17,17 @@
       :locale="locale"
       @install="handleInstallComposer"
     />
-
-    <AlertNotification
-      :message="status.message.value"
-      :type="status.type.value"
-      :visible="status.visible.value"
-      @close="status.hideStatus"
-    />
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useStatus } from '../../../composables/useStatus'
+import { useToast } from '../../../composables/useToast'
 import ToolCard from '../../common/ToolCard.vue'
-import AlertNotification from '../../common/AlertNotification.vue'
 
 const { t, locale } = useI18n()
-const status = useStatus()
+const toast = useToast()
 
 const composerIcon = new URL('../../../assets/svg/composer.svg', import.meta.url).href
 
@@ -56,22 +48,22 @@ const loadingType = ref('')
 async function handleInstallComposer() {
   loadingType.value = 'install'
   isInstalling.value = true
-  status.showStatus(
-    locale.value === 'km' ? 'កំពុងដំឡើង Composer...' : 'Installing Composer...',
-    'info'
-  )
+  toast.info(locale.value === 'km' ? 'កំពុងដំឡើង Composer...' : 'Installing Composer...')
 
   try {
     await props.onInstallComposer()
-    status.showStatus(
-      locale.value === 'km' ? 'Composer បានដំឡើងជោគជ័យ' : 'Composer installed successfully',
-      'success'
+    toast.success(
+      locale.value === 'km' ? 'Composer បានដំឡើងជោគជ័យ' : 'Composer installed successfully'
     )
   } catch (error) {
-    status.showStatus(
-      locale.value === 'km' ? `កំហុស: ${error.message}` : `Error: ${error.message}`,
-      'error'
-    )
+    const tip =
+      locale.value === 'km'
+        ? 'ត្រូវប្រាកដថា PHP បានដំឡើង និងមានការតភ្ជាប់អ៊ីនធឺណិត'
+        : 'Ensure PHP is installed and internet connection is available'
+    toast.error(`${error.message} — ${tip}`, {
+      title:
+        locale.value === 'km' ? 'បរាជ័យក្នុងការដំឡើង Composer' : 'Composer Installation Failed',
+    })
   } finally {
     isInstalling.value = false
     loadingType.value = ''
