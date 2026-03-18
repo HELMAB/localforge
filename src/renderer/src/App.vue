@@ -1,31 +1,22 @@
 <template>
-  <div
-    id="app"
-    class="min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-200 overflow-x-hidden"
-  >
-    <div class="flex min-h-screen overflow-x-hidden max-w-full">
-      <AppSidebar />
-      <div class="flex-1 min-w-0 flex flex-col gap-4 p-4 max-w-full">
-        <div
-          class="bg-white dark:bg-gray-800 rounded-lg shadow-md transition-colors duration-200 min-h-0 flex-1"
-        >
-          <router-view v-slot="{ Component }">
-            <Transition
-              mode="out-in"
-              enter-active-class="transition-opacity duration-300 ease-in-out"
-              enter-from-class="opacity-0"
-              leave-active-class="transition-opacity duration-300 ease-in-out"
-              leave-to-class="opacity-0"
-            >
-              <component :is="Component" />
-            </Transition>
-          </router-view>
-        </div>
-
-        <div>
-          <AppFooter />
-        </div>
+  <div id="app" class="flex h-screen overflow-hidden">
+    <AppSidebar />
+    <div class="flex-1 flex flex-col overflow-hidden">
+      <div class="flex-1 overflow-y-auto">
+        <router-view v-slot="{ Component }">
+          <Transition
+            mode="out-in"
+            enter-active-class="transition-opacity duration-300 ease-in-out"
+            enter-from-class="opacity-0"
+            leave-active-class="transition-opacity duration-300 ease-in-out"
+            leave-to-class="opacity-0"
+          >
+            <component :is="Component" />
+          </Transition>
+        </router-view>
       </div>
+
+      <AppFooter />
     </div>
 
     <ErrorModal
