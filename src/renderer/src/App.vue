@@ -6,7 +6,6 @@
     <div class="flex min-h-screen overflow-x-hidden max-w-full">
       <AppSidebar />
       <div class="flex-1 min-w-0 flex flex-col gap-4 p-4 max-w-full">
-        <AppHeader />
         <div
           class="bg-white dark:bg-gray-800 rounded-lg shadow-md transition-colors duration-200 min-h-0 flex-1"
         >
@@ -72,7 +71,6 @@ import { ref, watch, onMounted, provide } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import AppFooter from './components/layout/AppFooter.vue'
-import AppHeader from './components/layout/AppHeader.vue'
 import AppSidebar from './components/layout/AppSidebar.vue'
 import ErrorModal from './components/common/ErrorModal.vue'
 import AboutModal from './components/common/AboutModal.vue'

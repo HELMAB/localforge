@@ -20,17 +20,7 @@
 
     <nav class="flex-1 overflow-y-auto px-2 space-y-1">
       <template v-for="item in navItems" :key="item.key">
-        <button
-          v-if="item.action"
-          class="w-full flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors [app-region:no-drag]"
-          :class="'text-gray-400 hover:bg-gray-800 hover:text-white'"
-          @click="item.action()"
-        >
-          <component :is="item.icon" class="h-5 w-5 flex-shrink-0" />
-          <span class="truncate">{{ item.label }}</span>
-        </button>
-
-        <router-link v-else v-slot="{ isActive, navigate }" :to="item.path" custom>
+        <router-link v-slot="{ isActive, navigate }" :to="item.path" custom>
           <button
             class="w-full flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors [app-region:no-drag]"
             :class="
@@ -46,6 +36,25 @@
         </router-link>
       </template>
     </nav>
+
+    <div class="px-2 py-2 border-t border-gray-700 space-y-1">
+      <button
+        class="w-full flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors [app-region:no-drag] text-gray-400 hover:bg-gray-800 hover:text-white"
+        :title="t('switchLanguage')"
+        @click="toggleLanguage"
+      >
+        <Languages class="h-5 w-5 flex-shrink-0" />
+        <span>{{ locale === 'km' ? 'EN' : 'ខ្មែ' }}</span>
+      </button>
+
+      <button
+        class="w-full flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors [app-region:no-drag] text-gray-400 hover:bg-gray-800 hover:text-white"
+        @click="showAbout = true"
+      >
+        <Info class="h-5 w-5 flex-shrink-0" />
+        <span class="truncate">About</span>
+      </button>
+    </div>
   </aside>
 </template>
 
@@ -67,13 +76,22 @@ import {
   Keyboard,
   Plug,
   Info,
+  Languages,
 } from 'lucide-vue-next'
 import { useMenuNavigation } from '@/composables/useMenuNavigation'
+import { useSettings } from '@/composables/useSettings'
 
 const { ipcRenderer } = window.require('electron')
-const { t } = useI18n()
+const { t, locale } = useI18n()
 const route = useRoute()
 const { setMenuActiveView } = useMenuNavigation()
+const { updateSetting } = useSettings()
+
+function toggleLanguage() {
+  const newLocale = locale.value === 'km' ? 'en' : 'km'
+  locale.value = newLocale
+  updateSetting('language', newLocale)
+}
 
 const showAbout = ref(false)
 
@@ -170,14 +188,6 @@ const navItems = computed(() => [
     path: '/integrations',
     label: 'Integrations',
     icon: Plug,
-  },
-  {
-    key: 'about',
-    label: 'About',
-    icon: Info,
-    action: () => {
-      showAbout.value = true
-    },
   },
 ])
 </script>
