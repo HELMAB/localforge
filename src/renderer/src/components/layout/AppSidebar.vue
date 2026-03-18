@@ -20,7 +20,14 @@
 
     <nav class="flex-1 overflow-y-auto px-2 space-y-1">
       <template v-for="item in navItems" :key="item.key">
-        <router-link v-slot="{ isActive, navigate }" :to="item.path" custom>
+        <div
+          v-if="item.isSection"
+          class="flex items-center gap-3 px-3 py-1.5 mt-2 text-xs font-semibold uppercase tracking-wider text-gray-500"
+        >
+          <component :is="item.icon" class="h-4 w-4 flex-shrink-0" />
+          <span class="truncate">{{ item.label }}</span>
+        </div>
+        <router-link v-else v-slot="{ isActive, navigate }" :to="item.path" custom>
           <button
             class="w-full flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors [app-region:no-drag]"
             :class="
@@ -47,6 +54,19 @@
         <span>{{ locale === 'km' ? 'EN' : 'ខ្មែ' }}</span>
       </button>
 
+      <router-link v-slot="{ isActive, navigate }" to="/settings" custom>
+        <button
+          class="w-full flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors [app-region:no-drag]"
+          :class="
+            isActive ? 'bg-blue-600 text-white' : 'text-gray-400 hover:bg-gray-800 hover:text-white'
+          "
+          @click="navigate()"
+        >
+          <Settings class="h-5 w-5 flex-shrink-0" />
+          <span class="truncate">{{ t('sidebarSettings') }}</span>
+        </button>
+      </router-link>
+
       <button
         class="w-full flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors [app-region:no-drag] text-gray-400 hover:bg-gray-800 hover:text-white"
         @click="showAbout = true"
@@ -62,7 +82,20 @@
 import { computed, inject } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
-import { Settings, Globe, Code, Server, Wrench, Info, Languages } from 'lucide-vue-next'
+import {
+  Settings,
+  Globe,
+  Code,
+  Server,
+  Wrench,
+  Info,
+  Languages,
+  Plus,
+  FolderInput,
+  PackageOpen,
+  Network,
+  Database,
+} from 'lucide-vue-next'
 import { useMenuNavigation } from '@/composables/useMenuNavigation'
 import { useSettings } from '@/composables/useSettings'
 
@@ -98,16 +131,35 @@ function navigateToSubView(navigate, subView) {
 
 const navItems = computed(() => [
   {
-    key: 'general',
-    path: '/settings',
-    label: t('sidebarGeneral'),
-    icon: Settings,
-  },
-  {
     key: 'sites',
     path: '/projects',
     label: t('sidebarSites'),
     icon: Globe,
+    isActive: () => route.path === '/projects' && !menuActiveView.value,
+    onNavigate: (navigate) => navigateToSubView(navigate, ''),
+  },
+  {
+    key: 'new-project',
+    path: '/projects',
+    label: t('sidebarNewProject'),
+    icon: Plus,
+    isActive: () => route.path === '/projects' && menuActiveView.value === 'new',
+    onNavigate: (navigate) => navigateToSubView(navigate, 'new'),
+  },
+  {
+    key: 'import-project',
+    path: '/projects',
+    label: t('sidebarImportProject'),
+    icon: FolderInput,
+    isActive: () => route.path === '/projects' && menuActiveView.value === 'import',
+    onNavigate: (navigate) => navigateToSubView(navigate, 'import'),
+  },
+  {
+    key: 'services',
+    path: '/services',
+    label: t('sidebarServices'),
+    icon: Wrench,
+    isSection: true,
   },
   {
     key: 'php',
@@ -118,6 +170,14 @@ const navItems = computed(() => [
     onNavigate: (navigate) => navigateToSubView(navigate, 'php'),
   },
   {
+    key: 'composer',
+    path: '/services',
+    label: t('sidebarComposer'),
+    icon: PackageOpen,
+    isActive: () => route.path === '/services' && menuActiveView.value === 'composer',
+    onNavigate: (navigate) => navigateToSubView(navigate, 'composer'),
+  },
+  {
     key: 'node',
     path: '/services',
     label: t('sidebarNode'),
@@ -126,11 +186,34 @@ const navItems = computed(() => [
     onNavigate: (navigate) => navigateToSubView(navigate, 'node'),
   },
   {
-    key: 'services',
+    key: 'nginx',
     path: '/services',
-    label: t('sidebarServices'),
-    icon: Wrench,
-    isActive: () => route.path === '/services' && !menuActiveView.value,
+    label: t('sidebarNginx'),
+    icon: Network,
+    isActive: () => route.path === '/services' && menuActiveView.value === 'nginx',
+    onNavigate: (navigate) => navigateToSubView(navigate, 'nginx'),
+  },
+  {
+    key: 'postgresql',
+    path: '/services',
+    label: t('sidebarPostgreSQL'),
+    icon: Database,
+    isActive: () => route.path === '/services' && menuActiveView.value === 'postgresql',
+    onNavigate: (navigate) => navigateToSubView(navigate, 'postgresql'),
+  },
+  {
+    key: 'mysql',
+    path: '/services',
+    label: t('sidebarMySQL'),
+    icon: Database,
+    isActive: () => route.path === '/services' && menuActiveView.value === 'mysql',
+    onNavigate: (navigate) => navigateToSubView(navigate, 'mysql'),
+  },
+  {
+    key: 'virtual-hosts',
+    path: '/virtual-hosts',
+    label: t('sidebarVirtualHosts'),
+    icon: Globe,
   },
 ])
 </script>
