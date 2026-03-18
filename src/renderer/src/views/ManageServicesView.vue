@@ -66,21 +66,31 @@ const {
   installMySQL,
 } = useTools()
 
-const { menuActiveView, clearMenuActiveView } = useMenuNavigation()
+const { menuActiveView, setMenuActiveView } = useMenuNavigation()
 const selectedTool = ref('php')
 
+const validServices = ['php', 'composer', 'node', 'nginx', 'postgresql', 'mysql']
+
+// Apply sidebar navigation to local selectedTool
 watch(menuActiveView, (newView) => {
-  if (['php', 'composer', 'node', 'nginx', 'postgresql', 'mysql'].includes(newView)) {
-    selectedTool.value = newView === 'node' ? 'node' : newView
-    clearMenuActiveView()
+  if (validServices.includes(newView)) {
+    selectedTool.value = newView
+  }
+})
+
+// Sync local selectedTool back to menuActiveView for sidebar highlighting
+watch(selectedTool, (newTool) => {
+  if (menuActiveView.value !== newTool) {
+    setMenuActiveView(newTool)
   }
 })
 
 onMounted(() => {
   checkInstalledTools()
-  if (menuActiveView.value) {
-    selectedTool.value = menuActiveView.value === 'node' ? 'node' : menuActiveView.value
-    clearMenuActiveView()
+  if (validServices.includes(menuActiveView.value)) {
+    selectedTool.value = menuActiveView.value
+  } else {
+    setMenuActiveView(selectedTool.value)
   }
 })
 </script>
