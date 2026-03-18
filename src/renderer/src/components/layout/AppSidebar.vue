@@ -24,7 +24,7 @@
           <button
             class="w-full flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors [app-region:no-drag]"
             :class="
-              isActive || item.isActive?.()
+              (item.isActive ? item.isActive() : isActive)
                 ? 'bg-blue-600 text-white'
                 : 'text-gray-400 hover:bg-gray-800 hover:text-white'
             "
@@ -59,7 +59,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { computed, inject } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 import {
@@ -84,16 +84,15 @@ import { useSettings } from '@/composables/useSettings'
 const { ipcRenderer } = window.require('electron')
 const { t, locale } = useI18n()
 const route = useRoute()
-const { setMenuActiveView } = useMenuNavigation()
+const { setMenuActiveView, menuActiveView } = useMenuNavigation()
 const { updateSetting } = useSettings()
+const showAbout = inject('showAbout')
 
 function toggleLanguage() {
   const newLocale = locale.value === 'km' ? 'en' : 'km'
   locale.value = newLocale
   updateSetting('language', newLocale)
 }
-
-const showAbout = ref(false)
 
 function closeWindow() {
   ipcRenderer.send('window-close')
@@ -130,7 +129,7 @@ const navItems = computed(() => [
     path: '/services',
     label: t('sidebarPHP'),
     icon: Code,
-    isActive: () => route.path === '/services' && false,
+    isActive: () => route.path === '/services' && menuActiveView.value === 'php',
     onNavigate: (navigate) => navigateToSubView(navigate, 'php'),
   },
   {
@@ -138,7 +137,7 @@ const navItems = computed(() => [
     path: '/services',
     label: t('sidebarNode'),
     icon: Server,
-    isActive: () => route.path === '/services' && false,
+    isActive: () => route.path === '/services' && menuActiveView.value === 'node',
     onNavigate: (navigate) => navigateToSubView(navigate, 'node'),
   },
   {
@@ -152,6 +151,7 @@ const navItems = computed(() => [
     path: '/services',
     label: t('sidebarServices'),
     icon: Wrench,
+    isActive: () => route.path === '/services' && !menuActiveView.value,
   },
   {
     key: 'mail',

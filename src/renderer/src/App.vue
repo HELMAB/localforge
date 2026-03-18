@@ -160,4 +160,5 @@ onMounted(() => {
 provide('errorModal', errorModal)
 provide('operations', operations)
 provide('progress', progress)
+provide('showAbout', showAbout)
 </script>
