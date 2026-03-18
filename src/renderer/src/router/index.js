@@ -25,48 +25,6 @@ const routes = [
     name: 'settings',
     component: () => import('../views/ManageSettingsView.vue'),
   },
-  {
-    path: '/expose',
-    name: 'expose',
-    component: () => import('../views/PlaceholderView.vue'),
-    props: { title: 'Expose' },
-  },
-  {
-    path: '/mail',
-    name: 'mail',
-    component: () => import('../views/PlaceholderView.vue'),
-    props: { title: 'Mail' },
-  },
-  {
-    path: '/dumps',
-    name: 'dumps',
-    component: () => import('../views/PlaceholderView.vue'),
-    props: { title: 'Dumps' },
-  },
-  {
-    path: '/debugger',
-    name: 'debugger',
-    component: () => import('../views/PlaceholderView.vue'),
-    props: { title: 'Debugger' },
-  },
-  {
-    path: '/herd-pro',
-    name: 'herd-pro',
-    component: () => import('../views/PlaceholderView.vue'),
-    props: { title: 'Herd Pro' },
-  },
-  {
-    path: '/shortcuts',
-    name: 'shortcuts',
-    component: () => import('../views/PlaceholderView.vue'),
-    props: { title: 'Shortcuts' },
-  },
-  {
-    path: '/integrations',
-    name: 'integrations',
-    component: () => import('../views/PlaceholderView.vue'),
-    props: { title: 'Integrations' },
-  },
 ]
 
 export default createRouter({

@@ -62,22 +62,7 @@
 import { computed, inject } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
-import {
-  Settings,
-  Globe,
-  Code,
-  Server,
-  Share2,
-  Wrench,
-  Mail,
-  Database,
-  Bug,
-  Star,
-  Keyboard,
-  Plug,
-  Info,
-  Languages,
-} from 'lucide-vue-next'
+import { Settings, Globe, Code, Server, Wrench, Info, Languages } from 'lucide-vue-next'
 import { useMenuNavigation } from '@/composables/useMenuNavigation'
 import { useSettings } from '@/composables/useSettings'
 
@@ -141,53 +126,11 @@ const navItems = computed(() => [
     onNavigate: (navigate) => navigateToSubView(navigate, 'node'),
   },
   {
-    key: 'expose',
-    path: '/expose',
-    label: t('sidebarExpose'),
-    icon: Share2,
-  },
-  {
     key: 'services',
     path: '/services',
     label: t('sidebarServices'),
     icon: Wrench,
     isActive: () => route.path === '/services' && !menuActiveView.value,
-  },
-  {
-    key: 'mail',
-    path: '/mail',
-    label: t('sidebarMail'),
-    icon: Mail,
-  },
-  {
-    key: 'dumps',
-    path: '/dumps',
-    label: t('sidebarDumps'),
-    icon: Database,
-  },
-  {
-    key: 'debugger',
-    path: '/debugger',
-    label: t('sidebarDebugger'),
-    icon: Bug,
-  },
-  {
-    key: 'herd-pro',
-    path: '/herd-pro',
-    label: t('sidebarHerdPro'),
-    icon: Star,
-  },
-  {
-    key: 'shortcuts',
-    path: '/shortcuts',
-    label: t('sidebarShortcuts'),
-    icon: Keyboard,
-  },
-  {
-    key: 'integrations',
-    path: '/integrations',
-    label: t('sidebarIntegrations'),
-    icon: Plug,
   },
 ])
 </script>
