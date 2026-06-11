@@ -95,7 +95,7 @@ Add technology icons to `/assets/tech/`:
 
 Search and replace the following placeholder URLs:
 - `https://github.com/HELMAB/localforge` → Your GitHub repo
-- `https://localforge.dev` → Your actual domain
+- `https://localforge.netlify.app` → Your actual domain
 - Social media links in footer
 
 ### Colors
@@ -192,6 +192,6 @@ This website is part of the LocalForge project. Check the main project license.
 
 ## 🆘 Support
 
-- Documentation: https://localforge.dev/docs.html
+- Documentation: https://localforge.netlify.app/docs.html
 - Issues: https://github.com/HELMAB/localforge/issues
 - Email: mabhelitc@gmail.com
